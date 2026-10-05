@@ -578,6 +578,49 @@ body {
 .shock-vis .cb3 { width: 18px; height: 18px; }
 .shock-vis .cb4 { width: 12px; height: 12px; }
 
+/* Abacus Visual */
+.abacus-vis .abacus-frame {
+  width: 140px;
+  height: 90px;
+  border: 4px solid #b8860b;
+  border-radius: 6px;
+  position: relative;
+  background: #1a0e0a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+.abacus-vis .abacus-beam {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #4a2818;
+  border-top: 1px solid #b8860b;
+  border-bottom: 1px solid #b8860b;
+}
+.abacus-vis .abacus-rod {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #a89f91;
+}
+.abacus-vis .r1 { left: 30px; }
+.abacus-vis .r2 { left: 69px; }
+.abacus-vis .r3 { left: 108px; }
+.abacus-vis .abacus-bead {
+  position: absolute;
+  width: 20px;
+  height: 10px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #e07a5f, #b84224);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.abacus-vis .u1 { left: 21px; top: 18px; }
+.abacus-vis .u2 { left: 60px; top: 4px; }
+.abacus-vis .d1 { left: 21px; top: 38px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
+.abacus-vis .d2 { left: 99px; top: 68px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
+
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
    ========================================================================== */
