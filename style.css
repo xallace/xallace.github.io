@@ -805,6 +805,46 @@ body {
   to { transform: scale(1.15); filter: drop-shadow(0 0 24px rgba(0, 210, 211, 0.9)); }
 }
 
+/* Cosmic Card Studio Visual */
+.cosmic-card-vis {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #1e1630 0%, #090712 100%);
+}
+.cosmic-card-vis .vis-holo-card {
+  width: 70px;
+  height: 98px;
+  border-radius: 8px;
+  border: 2px solid #2ecc71;
+  background: #111524;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(46, 204, 113, 0.4);
+  transform: rotate(-6deg);
+  transition: transform 0.3s ease;
+}
+.project-card:hover .cosmic-card-vis .vis-holo-card {
+  transform: rotate(0deg) scale(1.08);
+  box-shadow: 0 12px 30px rgba(0, 210, 211, 0.5), 0 0 25px rgba(155, 89, 182, 0.6);
+  border-color: #00d2d3;
+}
+.cosmic-card-vis .vis-holo-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(135deg, transparent 20%, rgba(0, 255, 255, 0.3) 50%, rgba(255, 0, 128, 0.3) 80%, transparent 100%);
+  mix-blend-mode: color-dodge;
+}
+.cosmic-card-vis .vis-holo-icon {
+  font-size: 2rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 10px rgba(0, 210, 211, 0.6));
+}
+
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
    ========================================================================== */
