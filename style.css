@@ -339,6 +339,94 @@ body {
 }
 
 /* ==========================================================================
+   Embedded Live Simulator Showcase
+   ========================================================================== */
+.embedded-showcase {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 25px var(--border-glow);
+}
+
+.embed-topbar {
+  background: #060a12;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.85rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.embed-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.embed-links {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.embed-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-cyan);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.embed-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.embed-btn:hover {
+  background: var(--accent-cyan);
+  color: #030712;
+}
+
+.embed-frame-wrapper {
+  width: 100%;
+  height: 600px;
+  background: #0b0f19;
+  position: relative;
+}
+
+.abacus-embed-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .embed-frame-wrapper {
+    height: 720px;
+  }
+}
+
+/* ==========================================================================
    Project Grid & Cards
    ========================================================================== */
 .projects-grid {
