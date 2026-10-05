@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walter (@xallace) — Mechanical & Computational Systems Engineer</title>
+  <meta name="description" content="Portfolio von Walter (@xallace) – Mechanical & Computational Systems Engineer, Automation, Kinematik & interaktive Simulationen.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Canvas for subtle kinematic grid / particle effect -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo">
+        <span class="logo-symbol">⚙</span>
+        <span class="logo-text">xallace<span class="accent-dot">.</span>engineering</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#simulations" class="nav-link">Simulationen</a>
+        <a href="#automation" class="nav-link">Automation & Software</a>
+        <a href="#publications" class="nav-link">Publikationen</a>
+        <a href="#stack" class="nav-link">Tech-Stack</a>
+        <a href="#contact" class="nav-btn">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="pulse-indicator"></span>
+          <span>Baden-Württemberg, Germany · Mechanical & Computational Systems</span>
+        </div>
+        
+        <h1 class="hero-title">
+          Präzision in Mechanik,<br>
+          <span class="gradient-text">Simulation & Code.</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+          Ich bin <strong>Walter</strong> (<span class="code-tag">@xallace</span>). Als Ingenieur an der Schnittstelle von 
+          <strong>mechanischer Konstruktion (CAD/CAE)</strong>, <strong>nichtlinearer Kinematik</strong> 
+          und <strong>industrieller Python-Automatisierung</strong> entwickle ich physikalisch fundierte Simulationssysteme 
+          und performante Software-Pipelines.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#simulations" class="btn btn-primary">
+            <span>Interaktive Demos erkunden</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://github.com/xallace" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub (@xallace)</span>
+          </a>
+        </div>
+
+        <!-- Quick Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-val">100%</span>
+            <span class="metric-label">Physik-basierte Kinematik</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">&lt; 200 ms</span>
+            <span class="metric-label">Algorithmen-Laufzeit (PyMuPDF)</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">GPS & CAE</span>
+            <span class="metric-label">ASME Y14.5 / ISO 1101 & LS-DYNA</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val">Web Native</span>
+            <span class="metric-label">Three.js / Canvas / Web Audio</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Simulations Section -->
+    <section id="simulations" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Interaktive Modelle & Simulatoren</div>
+          <h2 class="section-title">Physikalische Simulation im Browser</h2>
+          <p class="section-desc">Echtzeit-Kinematik, Rotationsdynamik und mathematische Visualisierungen ohne Plug-ins.</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project 1: Lever Simulation -->
+          <article class="project-card featured">
+            <div class="project-media">
+              <div class="preview-overlay">
+                <span class="preview-badge">Live Demo</span>
+              </div>
+              <div class="schematic-vis lever-vis">
+                <div class="vis-beam"></div>
+                <div class="vis-fulcrum"></div>
+                <div class="vis-force-l"></div>
+                <div class="vis-force-r"></div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-tags">
+                <span class="tag">HTML5 Canvas</span>
+                <span class="tag">Web Audio API</span>
+                <span class="tag">Rigid-Body Kinematics</span>
+              </div>
+              <h3 class="card-title">Archimedisches Hebelgesetz & Drehmomentdynamik</h3>
+              <p class="card-text">
+                Interaktive Starrkörper-Rotationskinematik mit Trägheitsmoment ($\alpha = \tau / I$). 
+                Verschiebbarer Angelpunkt (Hebelklasse 1, 2 und 3), dynamische Vektorpfeile für Drehmomente und 
+                prozedurale Audio-Rückkopplung beim Aufprall.
+              </p>
+              <div class="card-actions">
+                <a href="https://xallace.github.io/lever-simulation/" target="_blank" class="card-btn primary">
+                  <span>Live-Simulator öffnen</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+                <a href="https://github.com/xallace/lever-simulation" target="_blank" class="card-btn secondary">
+                  <span>Source Code</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Number Pyramid -->
+          <article class="project-card">
+            <div class="project-media">
+              <div class="schematic-vis pyramid-vis">
+                <div class="brick b-top">10</div>
+                <div class="brick b-m1">4</div><div class="brick b-m2">6</div>
+                <div class="brick b-b1">1</div><div class="brick b-b2">3</div><div class="brick b-b3">3</div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-tags">
+                <span class="tag">DOM Architecture</span>
+                <span class="tag">Pascal Kombinatorik</span>
+                <span class="tag">Constraint Solver</span>
+              </div>
+              <h3 class="card-title">Zahlenmauer & Pascal-Kombinatorik Lab</h3>
+              <p class="card-text">
+                Interaktives Rechenmauer-Labor mit In-Place-Eingabe, algebraischem Gleichungslöser, 
+                Binomialkoeffizienten-Expansion ($\binom{n}{k}$) und modernisierter Didaktik.
+              </p>
+              <div class="card-actions">
+                <a href="https://xallace.github.io/number-pyramid/" target="_blank" class="card-btn primary">
+                  <span>Live-Lab öffnen</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+                <a href="https://github.com/xallace/number-pyramid" target="_blank" class="card-btn secondary">
+                  <span>Source Code</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: 3D Kettenkarussell -->
+          <article class="project-card">
+            <div class="project-media">
+              <div class="schematic-vis carousel-vis">
+                <div class="axis"></div>
+                <div class="arm arm-left"></div>
+                <div class="arm arm-right"></div>
+                <div class="gondola g-left"></div>
+                <div class="gondola g-right"></div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-tags">
+                <span class="tag">Three.js</span>
+                <span class="tag">WebGL</span>
+                <span class="tag">Zentripetalkraft</span>
+              </div>
+              <h3 class="card-title">3D-Kettenkarussell & Zentripetalkraft-Simulator</h3>
+              <p class="card-text">
+                Echtzeit-Kinematik zur Kreisbewegung in 3D: Modellierung von Seilspannung, Zentripetalkraft, 
+                Winkelgeschwindigkeit ($\omega$) und Schräglagenwinkel ($\theta = \arctan(\omega^2 r / g)$).
+              </p>
+              <div class="card-actions">
+                <a href="https://github.com/xallace" target="_blank" class="card-btn secondary">
+                  <span>Repo & Dokumentation</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Metamaterial Shock Lab -->
+          <article class="project-card">
+            <div class="project-media">
+              <div class="schematic-vis shock-vis">
+                <div class="chain-bead cb1"></div>
+                <div class="chain-bead cb2"></div>
+                <div class="chain-bead cb3"></div>
+                <div class="chain-bead cb4"></div>
+                <div class="shock-wave"></div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-tags">
+                <span class="tag">Hertzsche Mechanik</span>
+                <span class="tag">Solitonen</span>
+                <span class="tag">Impulsdämpfung</span>
+              </div>
+              <h3 class="card-title">Granular Metamaterial Shock Lab</h3>
+              <p class="card-text">
+                Berechnung und Veranschaulichung nichtlinearer Wellenausbreitung in verjüngten Granularketten. 
+                Simulation von akustischer Diodenwirkung und Schockwellenabsorption.
+              </p>
+              <div class="card-actions">
+                <a href="https://github.com/xallace" target="_blank" class="card-btn secondary">
+                  <span>Modell & Details</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engineering Automation & Software -->
+    <section id="automation" class="section bg-elevated">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Python & Data Pipelines</div>
+          <h2 class="section-title">Automatisierung & Software-Architektur</h2>
+          <p class="section-desc">Robuste Industrie-Tools für Dokumentenanalyse, Geometrie-Metadaten und Datenverarbeitung.</p>
+        </div>
+
+        <div class="wide-feature-card">
+          <div class="wide-feature-content">
+            <div class="card-tags">
+              <span class="tag">Python 3.12+</span>
+              <span class="tag">PyMuPDF (fitz)</span>
+              <span class="tag">CLI Engine</span>
+              <span class="tag">Zero-Config</span>
+            </div>
+            <h3 class="feature-title">pdf-toc-injector — Heuristische Inhaltsverzeichnis-Erkennung & Bookmark Injection</h3>
+            <p class="feature-description">
+              Eine hochperformante Python-Engine zur automatischen Erkennung gedruckter Inhaltsverzeichnisse in 
+              mehrsprachigen technischen Monographien (Deutsch, Englisch, Französisch, Russisch).
+            </p>
+            <ul class="feature-checklist">
+              <li><strong>Mathematische Kalibrierung:</strong> Mehrpunkt-Regression für exakten Druck-zu-PDF-Offset ($\text{PDF} = \text{Printed} + \Delta$).</li>
+              <li><strong>Hierarchie-Validierung:</strong> Regex- und Schriftgrößen-Parsing für tief gestaffelte Gliederungen (Kapitel, Unterkapitel, Abschnitte).</li>
+              <li><strong>Verlustfreie Injektion:</strong> Direkte Manipulation der PDF-DOM-Outline ohne Neukompilierung des Dokuments in &lt; 0,5 s.</li>
+            </ul>
+            <div class="card-actions">
+              <a href="https://github.com/xallace/pdf-toc-injector" target="_blank" class="card-btn primary">
+                <span>Auf GitHub ansehen</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+              <span class="badge-pill">pip installable / standalone</span>
+            </div>
+          </div>
+          <div class="wide-feature-terminal">
+            <div class="terminal-bar">
+              <span class="t-dot red"></span>
+              <span class="t-dot yellow"></span>
+              <span class="t-dot green"></span>
+              <span class="t-title">pdf_toc_injector — CLI Execution</span>
+            </div>
+            <pre class="terminal-body"><code><span class="term-dim">$</span> python -m pdf_toc_injector --scan "mechanisms_vol4.pdf"
+
+<span class="term-cyan">[INFO]</span> Scanning pages 1-20 for outline anchors...
+<span class="term-green">[FOUND]</span> Table of Contents on pages [7, 8, 9, 10]
+<span class="term-cyan">[CALC]</span> Page offset resolved: PDF_Page = Printed_Page + 14
+<span class="term-cyan">[PARSE]</span> Discovered 48 Level-1 and 164 Level-2 nodes
+<span class="term-green">[SUCCESS]</span> Injected 212 bookmarks in 0.38s (0 bytes loss)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publications & Engineering Dossiers -->
+    <section id="publications" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Publikationen & Kompendien</div>
+          <h2 class="section-title">Ingenieurwissenschaftliche Dossiers</h2>
+          <p class="section-desc">Kuratierte Bildanthologien zur Getriebetechnik und Raumfahrthistorie.</p>
+        </div>
+
+        <div class="dossier-grid">
+          <div class="dossier-card">
+            <div class="dossier-icon">⚙️</div>
+            <h4 class="dossier-title">Meilensteine der Kinematik</h4>
+            <p class="dossier-subtitle">Kuratierte Getriebe und Mechanismen der klassischen Ingenieurskunst</p>
+            <p class="dossier-desc">
+              Systematische Aufbereitung historischer Koppelgetriebe, Peaucellier-Inversoren, Klinken- 
+              und Reibradsysteme nach I. I. Artobolewski mit geometrischen Konstruktionsanalysen.
+            </p>
+            <div class="dossier-meta">
+              <span>Monographie · 2026</span>
+              <span class="tag-sm">Kinematik & CAD</span>
+            </div>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🚀</div>
+            <h4 class="dossier-title">Pioniere der Raumfahrt & Frühe Raketentechnik</h4>
+            <p class="dossier-subtitle">Theoretische Grundlagen (1903–1945)</p>
+            <p class="dossier-desc">
+              Analytische Aufarbeitung der Ziolkowski-Gleichung, Stufenraketen-Konzepte, Goddard-Flüssigkeitsmotoren, 
+              Hohmann-Transferbahnen und experimenteller GIRD-Antriebe.
+            </p>
+            <div class="dossier-meta">
+              <span>Band I · 2026</span>
+              <span class="tag-sm">Thermodynamik & Flugmechanik</span>
+            </div>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🛰️</div>
+            <h4 class="dossier-title">Das Tor zum Kosmos</h4>
+            <p class="dossier-subtitle">Trägerraketen & Erste Raumflüge (1945–1961)</p>
+            <p class="dossier-desc">
+              Ingenieurmäßige Analyse der R-7 Semjorka Bündelarchitektur, Valentin Gluschkos Mehrkammer-Triebwerke 
+              (RD-107/RD-108) und Absicherung der Wostok-1 Flugprofile.
+            </p>
+            <div class="dossier-meta">
+              <span>Band II · 2026</span>
+              <span class="tag-sm">Antriebs- & Strukturtechnik</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack & Engineering Competencies -->
+    <section id="stack" class="section bg-elevated">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Kompetenzmatrix</div>
+          <h2 class="section-title">Core Engineering & Tech Stack</h2>
+          <p class="section-desc">Industriebewährte Werkzeuge, Modellierungsmethoden und Programmiersprachen.</p>
+        </div>
+
+        <div class="skills-matrix">
+          <div class="skill-category">
+            <div class="cat-header">
+              <span class="cat-icon">📐</span>
+              <h3>Konstruktion & CAE</h3>
+            </div>
+            <ul class="skill-list">
+              <li><span class="skill-name">CAD Parametrik</span> <span class="skill-spec">Autodesk Inventor, SolidWorks</span></li>
+              <li><span class="skill-name">Geometrische Produktspezifikation</span> <span class="skill-spec">ISO GPS (ISO 1101) / ASME Y14.5</span></li>
+              <li><span class="skill-name">Strukturanalyse & FEA</span> <span class="skill-spec">LS-DYNA, Kontaktmechanik</span></li>
+              <li><span class="skill-name">Fertigungsgerechte Konstruktion</span> <span class="skill-spec">Blech, Schweißbaugruppen, Zerspanung</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category">
+            <div class="cat-header">
+              <span class="cat-icon">🐍</span>
+              <h3>Automatisierung & Software</h3>
+            </div>
+            <ul class="skill-list">
+              <li><span class="skill-name">Python Core & Tooling</span> <span class="skill-spec">NumPy, SciPy, PyMuPDF, Multiprocessing</span></li>
+              <li><span class="skill-name">Daten & Datenbanken</span> <span class="skill-spec">SQLite, Relationale Schemas, Heuristiken</span></li>
+              <li><span class="skill-name">Systemsprachen</span> <span class="skill-spec">C / C++, Performance-kritische Module</span></li>
+              <li><span class="skill-name">Scripting & DevOps</span> <span class="skill-spec">Git, Bash, PowerShell, GitHub Actions</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category">
+            <div class="cat-header">
+              <span class="cat-icon">🔬</span>
+              <h3>Interaktive Systeme & Web</h3>
+            </div>
+            <ul class="skill-list">
+              <li><span class="skill-name">3D & Grafik</span> <span class="skill-spec">Three.js, WebGL, Shader-Grundlagen</span></li>
+              <li><span class="skill-name">Physik-Rendering</span> <span class="skill-spec">HTML5 2D Canvas, Vektorgrafik</span></li>
+              <li><span class="skill-name">Audio & Interaktion</span> <span class="skill-spec">Web Audio API (Synthese & Impulsakustik)</span></li>
+              <li><span class="skill-name">Frontend Architecture</span> <span class="skill-spec">Vanilla JS (ES6+), Modern Semantic CSS</span></li>
+            </ul>
+          </div>
+
+          <div class="skill-category">
+            <div class="cat-header">
+              <span class="cat-icon">🚗</span>
+              <h3>Versuch & Erprobung</h3>
+            </div>
+            <ul class="skill-list">
+              <li><span class="skill-name">Fahrversuch & Dauerlauf</span> <span class="skill-spec">ADAS-Absicherung, OEM-Prüfprotokolle</span></li>
+              <li><span class="skill-name">Messtechnik & Datalogging</span> <span class="skill-spec">CAN-Signalanalyse, Sensordatenerfassung</span></li>
+              <li><span class="skill-name">Fehleranalyse & Reporting</span> <span class="skill-spec">Systematisches Debugging mechatronischer Systeme</span></li>
+              <li><span class="skill-name">Fahrdynamik</span> <span class="skill-spec">Fahrwerksgeometrie, Kinematik & Telemetrie</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <section id="contact" class="section">
+      <div class="container contact-container">
+        <div class="contact-box">
+          <div class="section-tag">Vernetzung & Kontakt</div>
+          <h2 class="contact-title">Lass uns zusammenarbeiten.</h2>
+          <p class="contact-text">
+            Ob anspruchsvolle CAD-Konstruktionsprojekte, kinematisches Systemdesign, 
+            robuste Python-Automatisierung oder technischer Fahrversuch: Ich freue mich über fachlichen Austausch.
+          </p>
+
+          <div class="contact-links">
+            <a href="https://github.com/xallace" target="_blank" rel="noopener noreferrer" class="contact-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span>github.com/xallace</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              <span>LinkedIn Profil</span>
+            </a>
+          </div>
+
+          <div class="footer-meta">
+            <p>Designed with clean semantic HTML & CSS · Hosted on GitHub Pages · Walter (@xallace)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
