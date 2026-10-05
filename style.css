@@ -736,6 +736,34 @@ body {
   box-shadow: 0 0 8px rgba(45, 212, 191, 0.5);
 }
 
+/* CAD Studio Visual */
+.cad-vis {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #1e2430 0%, #0d0f14 100%);
+}
+.cad-vis .vis-cad-grid {
+  position: absolute;
+  inset: 16px;
+  background-image: linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border-radius: 6px;
+  border: 1px dashed rgba(56, 189, 248, 0.2);
+}
+.cad-vis .vis-cad-icon {
+  font-size: 2.8rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.5));
+  animation: cadSpin 16s linear infinite;
+}
+@keyframes cadSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
    ========================================================================== */
