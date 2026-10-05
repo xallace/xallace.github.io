@@ -709,6 +709,33 @@ body {
 .abacus-vis .d1 { left: 21px; top: 38px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
 .abacus-vis .d2 { left: 99px; top: 68px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
 
+/* Cycloid / Wankel Visual */
+.cycloid-vis {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.cycloid-vis .vis-wankel-housing {
+  width: 96px;
+  height: 68px;
+  border: 3px solid #38bdf8;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+.cycloid-vis .vis-wankel-rotor {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #2dd4bf;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  transform: rotate(25deg);
+  background: rgba(45, 212, 191, 0.15);
+  box-shadow: 0 0 8px rgba(45, 212, 191, 0.5);
+}
+
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
    ========================================================================== */
