@@ -845,6 +845,60 @@ body {
   filter: drop-shadow(0 0 10px rgba(0, 210, 211, 0.6));
 }
 
+/* Google, Page Two Visual */
+.pagetwo-vis {
+  flex-direction: column;
+  gap: 12px;
+  background: radial-gradient(circle at 50% 40%, #24121d 0%, #0a070c 100%);
+}
+.pagetwo-vis .vis-pt-search {
+  width: 60%;
+  padding: 4px 10px;
+  border: 1.5px solid rgba(240, 106, 162, 0.55);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #f06aa2;
+}
+.pagetwo-vis .vis-pt-results {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pagetwo-vis .vis-pt-line {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.25);
+}
+.pagetwo-vis .vis-pt-line:nth-child(2) { width: 78%; }
+.pagetwo-vis .vis-pt-line:nth-child(3) { width: 88%; }
+.pagetwo-vis .vis-pt-pages {
+  display: flex;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.pagetwo-vis .vis-pt-pages span {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+.pagetwo-vis .vis-pt-pages .on {
+  background: #f06aa2;
+  color: #1b0b13;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(240, 106, 162, 0.55);
+  transition: transform 0.3s ease;
+}
+.project-card:hover .pagetwo-vis .vis-pt-pages .on {
+  transform: scale(1.25);
+}
+
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
    ========================================================================== */
