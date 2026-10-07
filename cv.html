@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Walter Lehn — Technischer Produktdesigner (IHK) · CV & Profil</title>
-  <meta name="description" content="Curriculum Vitae und technisches Profil von Walter Lehn (@xallace) – Technischer Produktdesigner (IHK), CAD-Konstruktion, Kinematik & Computational Engineering.">
+  <meta name="description" content="Curriculum Vitae und technisches Profil von Walter Lehn (@xallace) – Technischer Produktdesigner (IHK), Maschinen- & Anlagenkonstruktion, TGA-Planung, 3D-Laserscan & Computational Engineering.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   <style>
     /* Dedicated CV Styles & Layout */
     .cv-page-wrapper {
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 6rem 1.5rem 4rem;
     }
@@ -33,13 +33,14 @@
       display: flex;
       gap: 0.75rem;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .cv-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 2.5rem;
+      padding: 2.75rem;
       margin-bottom: 2rem;
       backdrop-filter: blur(16px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
@@ -75,14 +76,14 @@
       gap: 0.35rem;
       font-size: 0.8rem;
       font-weight: 700;
-      padding: 0.25rem 0.65rem;
+      padding: 0.3rem 0.75rem;
       border-radius: var(--radius-sm);
       background: rgba(45, 212, 191, 0.15);
       border: 1px solid var(--accent-teal);
       color: var(--accent-teal);
       font-family: var(--font-mono);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
     .cv-meta-grid {
@@ -115,7 +116,7 @@
     }
 
     .cv-section {
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.75rem;
     }
 
     .cv-section:last-child {
@@ -141,7 +142,7 @@
     .cv-summary-text {
       color: var(--text-secondary);
       font-size: 1rem;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     /* Timeline */
@@ -197,7 +198,7 @@
     }
 
     .timeline-role {
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       font-weight: 700;
       color: var(--text-primary);
     }
@@ -214,14 +215,15 @@
     .timeline-company {
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-secondary);
+      color: var(--accent-teal);
       margin-bottom: 0.75rem;
     }
 
     .timeline-desc {
-      color: var(--text-muted);
-      font-size: 0.92rem;
+      color: var(--text-secondary);
+      font-size: 0.93rem;
       line-height: 1.6;
+      margin-bottom: 0.5rem;
     }
 
     .timeline-bullets {
@@ -233,9 +235,10 @@
     .timeline-bullets li {
       position: relative;
       padding-left: 1.25rem;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.45rem;
       color: var(--text-secondary);
       font-size: 0.92rem;
+      line-height: 1.55;
     }
 
     .timeline-bullets li::before {
@@ -248,7 +251,7 @@
     /* Skills Grid */
     .skills-matrix {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 1.25rem;
     }
 
@@ -256,14 +259,14 @@
       background: rgba(13, 21, 37, 0.6);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 1.25rem;
+      padding: 1.35rem;
     }
 
     .skill-category-name {
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--accent-cyan);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
       display: flex;
       align-items: center;
       gap: 0.4rem;
@@ -280,29 +283,71 @@
       font-family: var(--font-mono);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-subtle);
-      padding: 0.2rem 0.55rem;
+      padding: 0.25rem 0.6rem;
       border-radius: var(--radius-sm);
       color: var(--text-secondary);
     }
 
     .skill-pill.strong {
       color: var(--text-primary);
-      border-color: rgba(56, 189, 248, 0.3);
-      background: rgba(56, 189, 248, 0.08);
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .skill-pill.teal {
+      color: #ccfbf1;
+      border-color: rgba(45, 212, 191, 0.35);
+      background: rgba(45, 212, 191, 0.1);
+    }
+
+    /* Certifications Grid */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .cert-item {
+      background: rgba(13, 21, 37, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .cert-badge {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cert-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .cert-issuer {
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
     /* Projects Showcase Mini */
     .showcase-grid-compact {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.15rem;
     }
 
     .showcase-item-compact {
       background: rgba(13, 21, 37, 0.6);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 1.15rem;
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -315,17 +360,17 @@
     }
 
     .showcase-compact-title {
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
     }
 
     .showcase-compact-desc {
-      font-size: 0.84rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 0.75rem;
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
     }
 
     .showcase-compact-link {
@@ -353,7 +398,6 @@
       .site-header,
       .cv-action-bar,
       #contact,
-      .embed-badge,
       .hero-actions,
       .pulse-indicator {
         display: none !important;
@@ -403,9 +447,12 @@
 
       .cv-summary-text,
       .timeline-bullets li,
-      .timeline-desc,
-      .timeline-company {
+      .timeline-desc {
         color: #334155 !important;
+      }
+
+      .timeline-company {
+        color: #0f766e !important;
       }
 
       .timeline::before {
@@ -433,12 +480,14 @@
       }
 
       .skill-category-card,
+      .cert-item,
       .showcase-item-compact {
         background: #f8fafc !important;
         border: 1px solid #e2e8f0 !important;
       }
 
       .skill-category-name,
+      .cert-title,
       .showcase-compact-title {
         color: #0f172a !important;
       }
@@ -455,7 +504,14 @@
         color: #1e3a8a !important;
       }
 
-      .showcase-compact-desc {
+      .skill-pill.teal {
+        border-color: #99f6e4 !important;
+        background: #f0fdfa !important;
+        color: #115e59 !important;
+      }
+
+      .showcase-compact-desc,
+      .cert-issuer {
         color: #64748b !important;
       }
 
@@ -518,8 +574,10 @@
       <header class="cv-header-block">
         <h1 class="cv-name">Walter Lehn</h1>
         <div class="cv-title">
-          <span>Technischer Produktdesigner (IHK) · Mechanical & Computational Systems</span>
-          <span class="cv-badge-honors">★ IHK Kammerbeste-Ehrung 2026</span>
+          <span>Technischer Produktdesigner (IHK) · Maschinen- & Anlagenkonstruktion · TGA-Planung</span>
+        </div>
+        <div style="margin-bottom: 1.25rem;">
+          <span class="cv-badge-honors">★ IHK Gesamtergebnis: Sehr Gut (92 Pkt.) · Technische Dokumente: 93 Pkt. (Prüfungsprodukt: 98 Pkt.)</span>
         </div>
 
         <div class="cv-meta-grid">
@@ -549,11 +607,12 @@
           <span>Profil & Ausrichtung</span>
         </h2>
         <p class="cv-summary-text">
-          Technischer Produktdesigner mit fundiertem ingenieurwissenschaftlichem Fundament in der <strong>Fahrzeugtechnik (HS Esslingen)</strong> und 
-          frischem Spitzenabschluss der IHK Region Stuttgart. Ich verbinde <strong>handwerkliche CAD-Präzision</strong> 
-          (parametrische Modellierung, ISO GPS Tolerierung, Blechbearbeitung und fertigungsgerechte Detaillierung) 
-          mit <strong>moderner Rechenpower und Softwareautomatisierung</strong> (Python-Pipelines, algorithmische Kinematik, 
-          vektorbasierter DXF-Export und WebGL-Echtzeitsimulationen). Zielstrebig, analytisch und mit hohem Anspruch an funktionale Eleganz.
+          Technischer Produktdesigner der Fachrichtung <strong>Maschinen- und Anlagenkonstruktion</strong> mit IHK-Abschluss vom Juli 2026 
+          mit dem Gesamtergebnis <strong>Sehr Gut (92 Punkte)</strong> und <strong>93 Punkten</strong> im Prüfungsteil „Technische Dokumente“ (Prüfungsprodukt: 98 Punkte). 
+          Schwerpunkt auf der Konstruktion und Detaillierung von Bauteilen und Baugruppen im 3D-CAD sowie der norm- und fertigungsgerechten 
+          Zeichnungsableitung nach <strong>DIN EN ISO (GPS)</strong>. Sechs Monate Industrie- und Planungspraxis in einem Ingenieurbüro für verfahrenstechnische 
+          Anlagenplanung: CAD-Rohrleitungsmodelle und Schemata für TGA, Prozess- und Versorgungstechnik sowie As-built-Aufmaß vor Ort per <strong>3D-Laserscan (Leica RTC360)</strong> 
+          und Punktwolkenverarbeitung in <strong>Register360 PLUS</strong>. Fundiertes ingenieurwissenschaftliches Vorstudium der Fahrzeugtechnik (HS Esslingen).
         </p>
       </section>
 
@@ -561,61 +620,62 @@
       <section class="cv-section">
         <h2 class="cv-section-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-          <span>Fachkompetenzen & Methoden</span>
+          <span>Kernkompetenzen & Software-Stack</span>
         </h2>
         <div class="skills-matrix">
           
           <div class="skill-category-card">
-            <div class="skill-category-name">📐 CAD, Konstruktion & Normung</div>
+            <div class="skill-category-name">📐 3D-CAD & Maschinenbau</div>
             <div class="skill-tags">
               <span class="skill-pill strong">Autodesk Inventor</span>
+              <span class="skill-pill strong">Siemens NX</span>
               <span class="skill-pill strong">SolidWorks</span>
-              <span class="skill-pill strong">CATIA V5</span>
-              <span class="skill-pill">Siemens NX (Basis)</span>
-              <span class="skill-pill strong">ISO GPS (ISO 1101)</span>
-              <span class="skill-pill">ASME Y14.5</span>
-              <span class="skill-pill strong">Blechabwicklung & Biegeradien</span>
-              <span class="skill-pill">Spritzgussgerechte Gestaltung</span>
+              <span class="skill-pill strong">Onshape (Certified)</span>
+              <span class="skill-pill">CATIA V5</span>
+              <span class="skill-pill">Parametrische Modellierung</span>
+              <span class="skill-pill">Baugruppenstrukturierung</span>
+              <span class="skill-pill">Variantenkonstruktion</span>
+            </div>
+          </div>
+
+          <div class="skill-category-card">
+            <div class="skill-category-name">🏢 TGA, Anlagenbau & 3D-Scan</div>
+            <div class="skill-tags">
+              <span class="skill-pill teal">Bentley Microstation CONNECT</span>
+              <span class="skill-pill teal">CARF-TGA</span>
+              <span class="skill-pill teal">AutoCAD (2D/3D)</span>
+              <span class="skill-pill teal">CAD-Rohrleitungsmodelle</span>
+              <span class="skill-pill strong">Leica RTC360 (3D-Laserscan)</span>
+              <span class="skill-pill strong">Register360 PLUS (Punktwolke)</span>
+              <span class="skill-pill">As-built-Dokumentation</span>
+              <span class="skill-pill">Anlagenlayouts & Schemata</span>
+            </div>
+          </div>
+
+          <div class="skill-category-card">
+            <div class="skill-category-name">📏 Normung & Fertigungsgerechte Konstruktion</div>
+            <div class="skill-tags">
+              <span class="skill-pill strong">ISO GPS (DIN EN ISO 1101)</span>
+              <span class="skill-pill strong">Form- & Lagetoleranzen</span>
+              <span class="skill-pill">Toleranzketten & Passungen</span>
+              <span class="skill-pill">ISO 128 (Zeichnungsnormen)</span>
+              <span class="skill-pill strong">Blech- & Schweißbaugruppen</span>
               <span class="skill-pill">Zerspanungsgerechte Konstruktion</span>
-              <span class="skill-pill">Baugruppen & Kinematik</span>
+              <span class="skill-pill">Kunststoffbauteile & Additive Fertigung</span>
+              <span class="skill-pill">Stücklisten & PDM-Ablage</span>
             </div>
           </div>
 
           <div class="skill-category-card">
-            <div class="skill-category-name">⚡ Berechnung, Kinematik & CAE</div>
+            <div class="skill-category-name">💻 Daten, Skripte & Sprachen</div>
             <div class="skill-tags">
-              <span class="skill-pill strong">Starrkörperkinematik</span>
-              <span class="skill-pill strong">Epitrochoiden & Zykloidgetriebe</span>
-              <span class="skill-pill">FEM-Grundlagen (MEDINA)</span>
-              <span class="skill-pill">LS-DYNA Simulations-Workflows</span>
-              <span class="skill-pill strong">Hertzsche Kontaktmechanik</span>
-              <span class="skill-pill">Schwingungs- & Stoßdämpfung</span>
-              <span class="skill-pill">3D WebGL (Three.js)</span>
-            </div>
-          </div>
-
-          <div class="skill-category-card">
-            <div class="skill-category-name">💻 Software, Automation & Skripte</div>
-            <div class="skill-tags">
-              <span class="skill-pill strong">Python (NumPy, SciPy, PyMuPDF)</span>
-              <span class="skill-pill strong">Parametrische CAD/DXF Generierung</span>
-              <span class="skill-pill">JavaScript / TypeScript</span>
-              <span class="skill-pill">C++ Grundlagen</span>
-              <span class="skill-pill">MATLAB & Maple</span>
-              <span class="skill-pill strong">Git & GitHub Projects</span>
-              <span class="skill-pill">Relational SQL & SQLite</span>
-              <span class="skill-pill">VBScript & Shell Automation</span>
-            </div>
-          </div>
-
-          <div class="skill-category-card">
-            <div class="skill-category-name">🌐 Sprachen & Kommunikation</div>
-            <div class="skill-tags">
-              <span class="skill-pill strong">Deutsch (Muttersprachniveau / C2)</span>
-              <span class="skill-pill strong">Russisch (Muttersprache / C2)</span>
-              <span class="skill-pill strong">Englisch (Verhandlungssicher / C1)</span>
-              <span class="skill-pill">Präzise technische Dokumentation</span>
-              <span class="skill-pill">Führerschein Klasse B</span>
+              <span class="skill-pill strong">Python (NumPy, SciPy, Automatisierung)</span>
+              <span class="skill-pill">SQL & Tableau</span>
+              <span class="skill-pill">VBScript Testautomatisierung</span>
+              <span class="skill-pill strong">Deutsch (Muttersprache)</span>
+              <span class="skill-pill strong">Englisch (B2–C1, fließend)</span>
+              <span class="skill-pill">Russisch (B2)</span>
+              <span class="skill-pill">Git & GitHub Projects</span>
             </div>
           </div>
 
@@ -626,27 +686,74 @@
       <section class="cv-section">
         <h2 class="cv-section-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-          <span>Beruflicher Werdegang & Praxis</span>
+          <span>Beruflicher Werdegang & Industriepraxis</span>
         </h2>
         
         <div class="timeline">
           
-          <!-- Umschulung / Ausbildung -->
+          <!-- Umschulung IB Stuttgart -->
           <div class="timeline-item">
             <div class="timeline-marker highlight"></div>
             <div class="timeline-header">
               <span class="timeline-role">Umschulung zum Technischen Produktdesigner (IHK)</span>
-              <span class="timeline-date">2024 – 2026</span>
+              <span class="timeline-date">Mär 2024 – Jul 2026</span>
             </div>
-            <div class="timeline-company">Fachrichtung: Produktgestaltung und -konstruktion · IHK Region Stuttgart</div>
+            <div class="timeline-company">Internationaler Bund (IB), Stuttgart · Fachrichtung Maschinen- und Anlagenkonstruktion</div>
             <p class="timeline-desc">
-              Geförderte Vollzeit-Umschulung mit vertieftem Fokus auf methodische Konstruktionslehre, 
-              CAD-Systeme und Fertigungstechnik. Abschluss mit <strong>herausragendem Prüfungsergebnis</strong> (Kammer-/Besten-Ehrung der IHK Region Stuttgart).
+              Konstruktionsprojekte im Maschinen-, Werkzeug- und Vorrichtungsbau (u. a. Spindelpressen, Exzentertriebe, Membranpumpen).
             </p>
             <ul class="timeline-bullets">
-              <li><strong>Praxisphase & Konstruktion (Burkhardt GmbH):</strong> Detaillierung komplexer mechanischer Baugruppen, Ableitung normgerechter 2D-Fertigungszeichnungen nach ISO GPS (ISO 1101, ISO 2768, ISO 1302).</li>
-              <li>Parametrische CAD-Modellierung, Variantenkonstruktion, Toleranzkettenanalysen und Bauraumkollisionsprüfungen.</li>
-              <li>Fertigungsgerechte Konstruktion für Blechbiegebauteile, Zerspanung und Schweißkonstruktionen samt Stücklistenpflege.</li>
+              <li>Eigenständige Auskonstruktion vorgegebener Entwürfe zu Einzelteilen und Baugruppen in <strong>Autodesk Inventor</strong> (Prüfungsschwerpunkt), <strong>Siemens NX</strong> und <strong>AutoCAD</strong>.</li>
+              <li>Ableitung vollständiger normgerechter Fertigungsunterlagen aus 3D-Modellen: Einzelteil- und Baugruppenzeichnungen, Stücklisten und Tolerierung nach DIN EN ISO (GPS).</li>
+              <li><strong>IHK-Abschlussprüfung mit Gesamtergebnis Sehr Gut (92 Punkte)</strong>; Teil 1 „Technische Dokumente“ 93 Punkte (darin Prüfungsprodukt 98 Punkte).</li>
+            </ul>
+          </div>
+
+          <!-- Burkhardt GmbH -->
+          <div class="timeline-item">
+            <div class="timeline-marker highlight"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Praktikum: Anlagenplanung TGA, Prozess- & Versorgungstechnik</span>
+              <span class="timeline-date">Okt 2025 – Mär 2026</span>
+            </div>
+            <div class="timeline-company">Burkhardt GmbH & Co. KG, Esslingen (Ingenieurbüro für verfahrenstechnische Anlagenplanung & CAD-Dienstleistungen)</div>
+            <p class="timeline-desc">
+              Praxisphase im Rahmen der Umschulung. Selbstständige Mitarbeit an anspruchsvollen Planungsprojekten.
+            </p>
+            <ul class="timeline-bullets">
+              <li>Erstellen und Bearbeiten von <strong>CAD-Rohrleitungsmodellen und Plänen</strong> in den Gewerken der Technischen Gebäudeausrüstung (TGA) sowie Prozess- und Versorgungstechnik.</li>
+              <li>Ausarbeitung von Anlagenlayouts und Schemata zur Unterstützung von Planungspartnern und Kunden.</li>
+              <li><strong>As-built-Erfassung vor Ort beim Kunden:</strong> Maßaufnahme realisierter Rohrleitungsbau-Umfänge per <strong>3D-Laserscan (Leica RTC360)</strong> und Aufbereitung der Punktwolken in <strong>Leica Register360 PLUS</strong>.</li>
+              <li>Einsatz von <strong>Bentley Microstation CONNECT Edition</strong> und <strong>CARF-TGA</strong>: Laut Zeugnis in sehr kurzer Zeit eingearbeitet bei überdurchschnittlicher Arbeitsqualität und hoher Sorgfalt.</li>
+            </ul>
+          </div>
+
+          <!-- 229sport GmbH Content Manager -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Content Manager, Foto- und Videoproduktion</span>
+              <span class="timeline-date">Sep 2018 – Sep 2023</span>
+            </div>
+            <div class="timeline-company">229sport GmbH · Region Stuttgart</div>
+            <ul class="timeline-bullets">
+              <li>Eigenverantwortliche Steuerung von Produktionsabläufen, Ressourcen und Terminplänen unter engen Deadlines.</li>
+              <li>Schnittstellenkoordination zwischen internen Teams, technischen Partnern und externen Dienstleistern.</li>
+              <li>Aufbau und methodische Pflege strukturierter Datei- und Versionsablagen für umfangreiche Projektbestände.</li>
+            </ul>
+          </div>
+
+          <!-- 229sport GmbH Datenanalyst -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Datenanalyst Fahrdynamik</span>
+              <span class="timeline-date">Aug 2017 – Aug 2018</span>
+            </div>
+            <div class="timeline-company">229sport GmbH · Region Stuttgart</div>
+            <ul class="timeline-bullets">
+              <li>Erfassung, Bereinigung, Plausibilisierung und Auswertung dynamischer Fahrzeug- und Fahrwerksdaten.</li>
+              <li>Überführung technischer Messreihen und Sensordaten in konkrete Optimierungsempfehlungen für Engineering und Mechanik.</li>
             </ul>
           </div>
 
@@ -654,86 +761,134 @@
           <div class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-header">
-              <span class="timeline-role">Entwicklungsmitarbeiter</span>
-              <span class="timeline-date">10/2012 – 05/2014</span>
+              <span class="timeline-role">Laborassistent Prototypenbau & F&E</span>
+              <span class="timeline-date">Mai 2012 – Jun 2014</span>
             </div>
             <div class="timeline-company">TAO Technologies GmbH · Stuttgart</div>
-            <p class="timeline-desc">
-              Mitarbeit in der Forschungs- und Entwicklungsabteilung für innovative Energiespeicher- und Prototypensysteme.
-            </p>
             <ul class="timeline-bullets">
-              <li>Konstruktion und CAD-Detaillierung mechanischer Versuchsaufbauten mit <strong>SolidWorks</strong>.</li>
-              <li>Handwerklicher Prototypenbau, Montage von Zellmodulen und mechanische Integration von Batteriepacks.</li>
-              <li>Aufbau, automatisierte Protokollierung und messtechnische Auswertung von Batterieprüfständen via VBScript-Automatisierung.</li>
+              <li>3D-CAD-Konstruktion mit <strong>SolidWorks</strong> von Bauteilen, Montagevorrichtungen und Baugruppen für Batterie- und Energiespeicherprototypen.</li>
+              <li>Aufbau, Montage und Erprobung experimenteller Prototypen in enger Abstimmung mit Werkstatt und Elektronikentwicklung.</li>
+              <li>Automatisierung von Dauerlauf-Testabläufen und automatisierte Messwerterfassung mittels <strong>VBScript</strong>.</li>
             </ul>
           </div>
 
-          <!-- Bertrandt Technikum -->
+          <!-- HS Esslingen Werkstofftechnik -->
           <div class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-header">
-              <span class="timeline-role">Praktikant Konstruktion & Entwicklung Rohbau</span>
-              <span class="timeline-date">09/2008 – 01/2009</span>
+              <span class="timeline-role">F&E-Mitarbeiter (Labor für Werkstoff- und Fügetechnik)</span>
+              <span class="timeline-date">Mär 2011 – Aug 2011</span>
             </div>
-            <div class="timeline-company">Bertrandt Technikum GmbH · Ehningen</div>
+            <div class="timeline-company">Hochschule Esslingen</div>
             <ul class="timeline-bullets">
-              <li>Konstruktionsmitarbeit im Bereich automobiler Rohbau (Team Struktur PKW / Nutzfahrzeuge).</li>
-              <li>CAD-Konstruktion in CATIA V5, Bauraumuntersuchungen, Konzeptvarianten und Detaillierung von Strukturknoten.</li>
-              <li>Einarbeitung in Zusammenbau- und Schweißfolgepläne sowie Fügetechniken im Karosseriebau.</li>
+              <li>Auslegung, 3D-CAD-Konstruktion und Fertigungsvorbereitung experimenteller Prüfvorrichtungen für Fügeversuche.</li>
+              <li>Durchführung werkstofftechnischer Versuchsreihen sowie Auswertung, statistische Aufbereitung und Dokumentation von Messdaten.</li>
             </ul>
           </div>
 
-          <!-- Porsche AG -->
+          <!-- Bertrandt Group -->
           <div class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-header">
-              <span class="timeline-role">Praktikant Karosserieentwicklung & Passive Sicherheit</span>
-              <span class="timeline-date">09/2007 – 02/2008</span>
+              <span class="timeline-role">Praktikant Fahrzeugtechnik / CAD</span>
+              <span class="timeline-date">Sep 2008 – Jan 2009</span>
+            </div>
+            <div class="timeline-company">Bertrandt Group · Ehningen</div>
+            <ul class="timeline-bullets">
+              <li>3D-CAD-Konstruktion im automobilen Rohbau (Rahmenstrukturen, Fahrwerks- und Karosseriekomponenten für PKW/NFZ).</li>
+              <li>Strukturierte Arbeit in versionierten PDM-Datenbeständen; Abgleich und Pflege komplexer Konstruktionsstände.</li>
+            </ul>
+          </div>
+
+          <!-- Dr. Ing. h.c. F. Porsche AG -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Praktikant Fahrzeugdesign / CAD</span>
+              <span class="timeline-date">Sep 2007 – Feb 2008</span>
             </div>
             <div class="timeline-company">Dr. Ing. h.c. F. Porsche AG · Hemmingen</div>
             <ul class="timeline-bullets">
-              <li>Mitarbeit in der Serienentwicklung Karosserie mit Schwerpunkt Front- und Heckend-Strukturen sowie Insassenschutz.</li>
-              <li>Konstruktive Bauteiluntersuchungen in CATIA V5 bezüglich Lastpfaden, Energieaufnahme und Verformungsverhalten.</li>
-              <li>Vorbereitung, Durchführung und messtechnische Dokumentation von Crashversuchen und Bauteilprüfungen.</li>
+              <li>CAD-Gestaltung und Bauraumanpassung von Interieur- und Exterieurkomponenten in der Serien- und Vorentwicklung.</li>
+              <li>Aufbau und Pflege einer internen Produktmanagement-Datenbank für Karosserieumfänge.</li>
             </ul>
           </div>
 
         </div>
       </section>
 
-      <!-- Bildungsweg -->
+      <!-- Zertifizierungen & Weiterbildung -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+          <span>Zertifizierungen & Weiterbildung</span>
+        </h2>
+        
+        <div class="certs-grid">
+          
+          <div class="cert-item">
+            <span class="cert-badge">PTC / Onshape</span>
+            <div class="cert-title">Onshape Certified Learning Paths</div>
+            <div class="cert-issuer">CAD Fundamentals · Detailed Drawings · Document & Data Management</div>
+          </div>
+
+          <div class="cert-item">
+            <span class="cert-badge">Project Management Institute (PMI)</span>
+            <div class="cert-title">Disciplined Agile® Scrum Master (DASM)</div>
+            <div class="cert-issuer">Agile Vorgehensmodelle, Lean & Wertstromoptimierung (2022)</div>
+          </div>
+
+          <div class="cert-item">
+            <span class="cert-badge">Coursera Professional Certificate</span>
+            <div class="cert-title">Google Data Analytics</div>
+            <div class="cert-issuer">Datenbereinigung, SQL, R, Datenvisualisierung & Reporting (2023)</div>
+          </div>
+
+          <div class="cert-item">
+            <span class="cert-badge">DataCamp Career Track</span>
+            <div class="cert-title">Associate Data Scientist</div>
+            <div class="cert-issuer">Statistische Analyse, Python, Datenmodellierung & ML-Grundlagen (2023)</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Ausbildung & Studium -->
       <section class="cv-section">
         <h2 class="cv-section-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-          <span>Studium & Schulbildung</span>
+          <span>Ausbildung & Studium</span>
         </h2>
         
         <div class="timeline">
+          
           <div class="timeline-item">
-            <div class="timeline-marker"></div>
+            <div class="timeline-marker highlight"></div>
             <div class="timeline-header">
-              <span class="timeline-role">Studium der Fahrzeugtechnik (Schwerpunkt: Karosserie)</span>
-              <span class="timeline-date">2005 – 2012</span>
+              <span class="timeline-role">Umschulung zum Technischen Produktdesigner (IHK)</span>
+              <span class="timeline-date">Mär 2024 – Jul 2026</span>
             </div>
-            <div class="timeline-company">Hochschule Esslingen · Esslingen am Neckar</div>
+            <div class="timeline-company">Fachrichtung Maschinen- und Anlagenkonstruktion · Internationaler Bund (IB), Stuttgart</div>
             <p class="timeline-desc">
-              Fundierte ingenieurwissenschaftliche Fachausbildung in: Technische Mechanik (Statik, Dynamik, Kinetik), 
-              Festigkeitslehre, Maschinenelemente, Werkstoffkunde, Fügetechnik, Thermodynamik, CAD-Konstruktionsmethodik (CATIA V5) 
-              und Finite-Elemente-Methode (FEM).
+              IHK-Prüfungszeugnis der IHK Region Stuttgart vom 01.07.2026: <strong>Gesamtergebnis Sehr Gut (92 Punkte)</strong>; 
+              Prüfungsteil Technische Dokumente: 93 Punkte (Teil 1 vom März 2025 mit Prüfungsprodukt <strong>98 Punkte</strong>).
             </p>
           </div>
 
           <div class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-header">
-              <span class="timeline-role">Allgemeine Hochschulreife (Abitur)</span>
-              <span class="timeline-date">2002 – 2005</span>
+              <span class="timeline-role">Studium Fahrzeugtechnik / Karosseriekonstruktion (B.Eng.)</span>
+              <span class="timeline-date">Sep 2005 – Aug 2008</span>
             </div>
-            <div class="timeline-company">Gewerbliche Schule Göppingen · Technisches Gymnasium</div>
+            <div class="timeline-company">Hochschule Esslingen – University of Applied Sciences (ohne formalen Abschluss)</div>
             <p class="timeline-desc">
-              Leistungsschwerpunkt: Technik, Angewandte Mathematik und Physik.
+              <strong>Bachelor-Vorprüfung erfolgreich bestanden.</strong> Fundierte ingenieurwissenschaftliche Notenleistungen, u. a. 
+              <strong>Wärme- und Strömungslehre (Note 1,0)</strong>, Technische Mechanik, Festigkeitslehre, Technisches Zeichnen, 
+              Konstruktionslehre, Maschinenelemente und 3D-CAD mit CATIA V5.
             </p>
           </div>
+
         </div>
       </section>
 
@@ -741,7 +896,7 @@
       <section class="cv-section">
         <h2 class="cv-section-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-          <span>Ausgewählte technische Werkschau & Live-Projekte</span>
+          <span>Interaktive Werkschau & Live-Projekte</span>
         </h2>
         
         <div class="showcase-grid-compact">
@@ -750,7 +905,7 @@
             <div>
               <div class="showcase-compact-title">Zykloidgetriebe & CAD-Export</div>
               <div class="showcase-compact-desc">
-                Epitrochoidale Kurvenscheiben-Kinematik (Wankel & Nabtesco-Prinzip) mit algorithmischem 1-Klick <strong>AutoCAD DXF-Export</strong> zum direkten Import in Autodesk Inventor & SolidWorks.
+                Epitrochoidale Kurvenscheiben-Kinematik (Wankel- & Nabtesco-Prinzip) mit prozeduralem 1-Klick <strong>AutoCAD DXF-Export</strong> zum direkten Importieren als Skizze in Autodesk Inventor & SolidWorks.
               </div>
             </div>
             <a href="https://xallace.github.io/cycloid-simulation/" target="_blank" class="showcase-compact-link">
@@ -762,7 +917,7 @@
             <div>
               <div class="showcase-compact-title">3D-Kettenkarussell & Dynamik</div>
               <div class="showcase-compact-desc">
-                Three.js WebGL Starrkörperdynamik mit variablem Gravitationsfeld und analytischer Lösung der transzendenten Bewegungsgleichung in Labor- vs. Rotationskoordinaten.
+                Three.js WebGL Starrkörperkinematik mit variablen Gravitationsfeldern und analytischer Lösung der transzendenten Gleichung in Labor- vs. rotierenden Koordinaten.
               </div>
             </div>
             <a href="https://xallace.github.io/carousel-simulation/" target="_blank" class="showcase-compact-link">
@@ -772,9 +927,9 @@
 
           <div class="showcase-item-compact">
             <div>
-              <div class="showcase-compact-title">Abakus & Soroban Labor</div>
+              <div class="showcase-compact-title">Soroban & Abakus Labor</div>
               <div class="showcase-compact-desc">
-                Interaktiver Soroban-Rechner (4+1 & 5+2) mit physikalischem Web Audio, 3D-Bead-Visualisierung und Römischer Zahlenkonvertierung.
+                Historische Rechensysteme (Soroban 4+1, Suanpan 5+2, Schoty) mit physikalischem Web Audio, 3D-Diamantperlen und Römischer Zahlenkonvertierung.
               </div>
             </div>
             <a href="https://xallace.github.io/abacus/" target="_blank" class="showcase-compact-link">
@@ -786,7 +941,7 @@
             <div>
               <div class="showcase-compact-title">Lehrbuch Wirtschaftsinformatik</div>
               <div class="showcase-compact-desc">
-                250-seitiges Fachkompendium (Stand 2026) über Rechnerarchitektur, ERP/PPS, Datenbankmodelle und aktuelle EU-Regulatorik (EU AI Act, NIS-2).
+                250-seitiges Lehrwerk (Stand 2026) über Systemarchitektur, PPS/ERP, relationale Datenmodelle und aktuelle EU-Regularien (EU AI Act, NIS-2).
               </div>
             </div>
             <a href="index.html#publications" class="showcase-compact-link">
