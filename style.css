@@ -764,6 +764,58 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* PLA-100 Linear Axis Visual */
+.pla100-vis {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #0d1e33 0%, #060a12 100%);
+}
+.pla100-vis .vis-pla-base {
+  width: 170px;
+  height: 24px;
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 4px;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+  position: relative;
+}
+.pla100-vis .vis-pla-screw {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(90deg, #94a3b8, #94a3b8 3px, #475569 3px, #475569 6px);
+  border-radius: 2px;
+}
+.pla100-vis .vis-pla-carriage {
+  position: absolute;
+  top: -8px;
+  left: 58px;
+  width: 54px;
+  height: 40px;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  border: 1px solid #38bdf8;
+  border-radius: 4px;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  animation: carriageSlide 3s ease-in-out infinite alternate;
+}
+@keyframes carriageSlide {
+  0% { transform: translateX(-40px); }
+  100% { transform: translateX(40px); }
+}
+
+
 /* SpeedCAD Visual */
 .speedcad-vis {
   position: relative;

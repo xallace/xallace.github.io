@@ -24,6 +24,7 @@
       </a>
       <nav class="nav-menu">
         <a href="#simulations" class="nav-link">Simulationen</a>
+        <a href="pla-100.html" class="nav-link" style="color: var(--accent-cyan); font-weight: 700;">3D CAD Labor</a>
         <a href="#automation" class="nav-link">Automation & Software</a>
         <a href="#publications" class="nav-link">Publikationen</a>
         <a href="#stack" class="nav-link">Tech-Stack</a>
@@ -59,6 +60,10 @@
           <a href="cv.html" class="btn btn-primary" style="background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); border: none; color: #041019; font-weight: 700;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             <span>CV / Technisches Profil</span>
+          </a>
+          <a href="pla-100.html" class="btn btn-secondary" style="border-color: rgba(56, 189, 248, 0.45); background: rgba(56, 189, 248, 0.08); color: var(--accent-cyan); font-weight: 600;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <span>3D-CAD Labor: PLA-100</span>
           </a>
           <a href="#simulations" class="btn btn-secondary">
             <span>Demos erkunden</span>
@@ -105,6 +110,30 @@
           <p class="section-desc">Echtzeit-Kinematik, Rotationsdynamik und mathematische Visualisierungen ohne Plug-ins.</p>
         </div>
 
+        <!-- Live Embedded PLA-100 3D CAD Showcase -->
+        <div class="embedded-showcase" style="border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.18); margin-bottom: 2rem;">
+          <div class="embed-topbar">
+            <div class="embed-status">
+              <span class="pulse-indicator"></span>
+              <span class="embed-title"><strong>3D CAD-Labor:</strong> PLA-100 Modulare Linearachse (Echtzeit Hub-Kinematik &amp; Baugruppen-Inspektor)</span>
+            </div>
+            <div class="embed-links">
+              <span class="embed-badge">Three.js WebGL · Parametrisches B-Rep · ISO GPS</span>
+              <a href="pla-100.html" class="embed-btn" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border-color: rgba(56, 189, 248, 0.4);">
+                <span>Vollbild 3D-Inspektor</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+              <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download class="embed-btn">
+                <span>STEP Download (455 KB)</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+          <div class="embed-frame-wrapper" style="height: 560px;">
+            <iframe id="pla100-embed-frame" src="pla-100.html?embed=1" style="width: 100%; height: 100%; border: none; display: block;" title="PLA-100 3D CAD Inspection Viewer"></iframe>
+          </div>
+        </div>
+
         <!-- Live Embedded Abacus Simulator -->
         <div class="embedded-showcase">
           <div class="embed-topbar">
@@ -126,8 +155,47 @@
         </div>
 
         <div class="projects-grid">
-          <!-- Project 1: Lever Simulation -->
+          <!-- Featured Project: PLA-100 Linearachse -->
           <article class="project-card featured">
+            <div class="project-media">
+              <div class="preview-overlay">
+                <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">3D CAD Baugruppe</span>
+              </div>
+              <div class="schematic-vis pla100-vis">
+                <div class="vis-pla-base">
+                  <div class="vis-pla-screw"></div>
+                  <div class="vis-pla-carriage">PLA-100</div>
+                </div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-tags">
+                <span class="tag">FreeCAD / NX / Onshape</span>
+                <span class="tag">Three.js WebGL</span>
+                <span class="tag">ISO GPS &amp; DIN 7168</span>
+                <span class="tag">STEP AP214</span>
+              </div>
+              <h3 class="card-title">PLA-100 · Modulare Präzisions-Linearachse</h3>
+              <p class="card-text">
+                Vollständig parametrisch generierte Industriemechanik-Baugruppe: 14 Einzelkörper, Kugelgewindetrieb (Ø12x4), 
+                zweifache Linearführung MGN12H (Spur 55 mm), angestellte Schrägkugellagerung (7001-B O-Anordnung) 
+                und normgerechte NEMA-23-Antriebsschnittstelle mit interaktiver Hub-Kinematik ($0\dots 100\text{ mm}$).
+              </p>
+              <div class="card-actions">
+                <a href="pla-100.html" class="card-btn primary">
+                  <span>3D-Inspektor öffnen</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+                <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download class="card-btn secondary">
+                  <span>STEP (455 KB)</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 1: Lever Simulation -->
+          <article class="project-card">
             <div class="project-media">
               <div class="preview-overlay">
                 <span class="preview-badge">Live Demo</span>
