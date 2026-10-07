@@ -347,9 +347,10 @@
       <div class="viewer-title-text">
         <h1>
           <span>PLA-100 · Modulare Präzisions-Linearachse</span>
+          <span class="embed-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">🚧 Work in Progress</span>
           <span class="embed-badge" style="background: rgba(56,189,248,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">FreeCAD / NX / Onshape</span>
         </h1>
-        <p>Hub: 100 mm · KGT Ø12x4 · 2x MGN12H · NEMA 23 Schnittstelle</p>
+        <p>Hub: 100 mm · KGT Ø12x4 · 2x MGN12H · NEMA 23 · <em>Hinweis: Linearantrieb befindet sich aktiv in Konstruktion &amp; Detaillierung (WIP)</em></p>
       </div>
     </div>
 
@@ -371,10 +372,14 @@
 
     <!-- Specs HUD (Top Right) -->
     <div class="cad-specs-overlay">
-      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <span>Konstruktionsdaten</span>
+      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Konstruktionsdaten</span>
+        </div>
+        <span style="font-size: 0.68rem; color: #f59e0b; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 3px; font-weight: 600;">WIP</span>
       </div>
+      <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b; font-weight: 600;">In Konstruktion (WIP)</span></div>
       <div class="specs-row"><span class="specs-label">Nutzhub:</span> <span class="specs-val">100,0 mm</span></div>
       <div class="specs-row"><span class="specs-label">Führung:</span> <span class="specs-val">2x MGN12 (Spur 55 mm)</span></div>
       <div class="specs-row"><span class="specs-label">Antrieb:</span> <span class="specs-val">KGT Ø12 x 4 mm</span></div>
@@ -387,7 +392,7 @@
     <!-- Interactive HUD (Bottom Left) -->
     <div class="cad-hud">
       <div class="hud-title">
-        <span>Kinematik & Hub-Steuerung</span>
+        <span>Kinematik & Hub-Steuerung <span style="font-size: 0.68rem; color: #f59e0b; font-weight: 600; background: rgba(245, 158, 11, 0.12); padding: 1px 5px; border-radius: 3px; border: 1px solid rgba(245, 158, 11, 0.3);">WIP</span></span>
         <span id="pos-display" style="font-family: var(--font-mono); color: var(--text-primary);">X = 75.0 mm</span>
       </div>
 
