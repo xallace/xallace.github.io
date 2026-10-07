@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walter Lehn — Technischer Produktdesigner (IHK) · CV & Profil</title>
+  <meta name="description" content="Curriculum Vitae und technisches Profil von Walter Lehn (@xallace) – Technischer Produktdesigner (IHK), CAD-Konstruktion, Kinematik & Computational Engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Dedicated CV Styles & Layout */
+    .cv-page-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
+    }
+
+    .cv-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(12px);
+    }
+
+    .cv-action-group {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .cv-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .cv-header-block {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .cv-name {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .cv-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cv-badge-honors {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      background: rgba(45, 212, 191, 0.15);
+      border: 1px solid var(--accent-teal);
+      color: var(--accent-teal);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cv-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.85rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .cv-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cv-meta-item svg {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .cv-meta-item a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .cv-meta-item a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .cv-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .cv-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .cv-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .cv-section-title svg {
+      color: var(--accent-cyan);
+    }
+
+    .cv-summary-text {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: var(--border-subtle);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0.5rem;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -1.5rem;
+      top: 0.35rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bg-root);
+      border: 2px solid var(--accent-cyan);
+      transform: translateX(-4px);
+    }
+
+    .timeline-marker.highlight {
+      border-color: var(--accent-teal);
+      background: var(--accent-teal);
+      box-shadow: 0 0 10px rgba(45, 212, 191, 0.6);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-role {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .timeline-date {
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .timeline-company {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .timeline-bullets {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+    }
+
+    .timeline-bullets li {
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    .timeline-bullets li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+    }
+
+    /* Skills Grid */
+    .skills-matrix {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .skill-category-card {
+      background: rgba(13, 21, 37, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .skill-category-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .skill-pill {
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+    }
+
+    .skill-pill.strong {
+      color: var(--text-primary);
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    /* Projects Showcase Mini */
+    .showcase-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .showcase-item-compact {
+      background: rgba(13, 21, 37, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .showcase-item-compact:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .showcase-compact-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .showcase-compact-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .showcase-compact-link {
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .showcase-compact-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Print Optimization (@media print) */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #0f172a !important;
+      }
+
+      #bg-canvas,
+      .site-header,
+      .cv-action-bar,
+      #contact,
+      .embed-badge,
+      .hero-actions,
+      .pulse-indicator {
+        display: none !important;
+      }
+
+      .cv-page-wrapper {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .cv-card {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        backdrop-filter: none !important;
+      }
+
+      .cv-name {
+        color: #0f172a !important;
+      }
+
+      .cv-title {
+        color: #0284c7 !important;
+      }
+
+      .cv-badge-honors {
+        border: 1px solid #0f766e !important;
+        color: #0f766e !important;
+        background: #f0fdfa !important;
+      }
+
+      .cv-meta-item,
+      .cv-meta-item a {
+        color: #475569 !important;
+      }
+
+      .cv-meta-item svg,
+      .cv-section-title svg {
+        color: #0284c7 !important;
+      }
+
+      .cv-section-title {
+        color: #0f172a !important;
+        border-bottom: 1.5px solid #cbd5e1 !important;
+      }
+
+      .cv-summary-text,
+      .timeline-bullets li,
+      .timeline-desc,
+      .timeline-company {
+        color: #334155 !important;
+      }
+
+      .timeline::before {
+        background: #cbd5e1 !important;
+      }
+
+      .timeline-marker {
+        border-color: #0284c7 !important;
+        background: #ffffff !important;
+      }
+
+      .timeline-marker.highlight {
+        border-color: #0d9488 !important;
+        background: #0d9488 !important;
+      }
+
+      .timeline-role {
+        color: #0f172a !important;
+      }
+
+      .timeline-date {
+        color: #0369a1 !important;
+        background: #e0f2fe !important;
+        border: 1px solid #bae6fd !important;
+      }
+
+      .skill-category-card,
+      .showcase-item-compact {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      .skill-category-name,
+      .showcase-compact-title {
+        color: #0f172a !important;
+      }
+
+      .skill-pill {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #334155 !important;
+      }
+
+      .skill-pill.strong {
+        border-color: #93c5fd !important;
+        background: #eff6ff !important;
+        color: #1e3a8a !important;
+      }
+
+      .showcase-compact-desc {
+        color: #64748b !important;
+      }
+
+      .showcase-compact-link {
+        color: #0284c7 !important;
+      }
+
+      .timeline-item,
+      .cv-section {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-symbol">⚙</span>
+        <span class="logo-text">xallace<span class="accent-dot">.</span>engineering</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html#simulations" class="nav-link">Simulationen</a>
+        <a href="index.html#automation" class="nav-link">Automation & Software</a>
+        <a href="index.html#publications" class="nav-link">Publikationen</a>
+        <a href="cv.html" class="nav-link active" style="color: var(--accent-cyan); font-weight: 700;">CV / Profil</a>
+        <a href="https://github.com/users/xallace/projects/1" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-cyan); font-weight: 600;">Roadmap ↗</a>
+        <a href="index.html#contact" class="nav-btn">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="cv-page-wrapper">
+
+    <!-- Action Bar (Web view only) -->
+    <div class="cv-action-bar">
+      <div class="cv-action-group">
+        <a href="index.html" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Portfolio Übersicht</span>
+        </a>
+      </div>
+      <div class="cv-action-group">
+        <button onclick="window.print()" class="btn btn-primary" style="padding: 0.5rem 1.15rem; font-size: 0.85rem; cursor: pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>Drucken / Als PDF speichern</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main CV Card -->
+    <article class="cv-card">
+      
+      <!-- Header Block -->
+      <header class="cv-header-block">
+        <h1 class="cv-name">Walter Lehn</h1>
+        <div class="cv-title">
+          <span>Technischer Produktdesigner (IHK) · Mechanical & Computational Systems</span>
+          <span class="cv-badge-honors">★ IHK Kammerbeste-Ehrung 2026</span>
+        </div>
+
+        <div class="cv-meta-grid">
+          <div class="cv-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Region Stuttgart / Göppingen, Deutschland</span>
+          </div>
+          <div class="cv-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <a href="mailto:walter.lehn@gmail.com">walter.lehn@gmail.com</a>
+          </div>
+          <div class="cv-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <a href="https://github.com/xallace" target="_blank" rel="noopener noreferrer">github.com/xallace</a>
+          </div>
+          <div class="cv-meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <a href="https://xallace.github.io" target="_blank">xallace.github.io</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Profil & Kurzüberblick -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Profil & Ausrichtung</span>
+        </h2>
+        <p class="cv-summary-text">
+          Technischer Produktdesigner mit fundiertem ingenieurwissenschaftlichem Fundament in der <strong>Fahrzeugtechnik (HS Esslingen)</strong> und 
+          frischem Spitzenabschluss der IHK Region Stuttgart. Ich verbinde <strong>handwerkliche CAD-Präzision</strong> 
+          (parametrische Modellierung, ISO GPS Tolerierung, Blechbearbeitung und fertigungsgerechte Detaillierung) 
+          mit <strong>moderner Rechenpower und Softwareautomatisierung</strong> (Python-Pipelines, algorithmische Kinematik, 
+          vektorbasierter DXF-Export und WebGL-Echtzeitsimulationen). Zielstrebig, analytisch und mit hohem Anspruch an funktionale Eleganz.
+        </p>
+      </section>
+
+      <!-- Kernkompetenzen / Skills Matrix -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span>Fachkompetenzen & Methoden</span>
+        </h2>
+        <div class="skills-matrix">
+          
+          <div class="skill-category-card">
+            <div class="skill-category-name">📐 CAD, Konstruktion & Normung</div>
+            <div class="skill-tags">
+              <span class="skill-pill strong">Autodesk Inventor</span>
+              <span class="skill-pill strong">SolidWorks</span>
+              <span class="skill-pill strong">CATIA V5</span>
+              <span class="skill-pill">Siemens NX (Basis)</span>
+              <span class="skill-pill strong">ISO GPS (ISO 1101)</span>
+              <span class="skill-pill">ASME Y14.5</span>
+              <span class="skill-pill strong">Blechabwicklung & Biegeradien</span>
+              <span class="skill-pill">Spritzgussgerechte Gestaltung</span>
+              <span class="skill-pill">Zerspanungsgerechte Konstruktion</span>
+              <span class="skill-pill">Baugruppen & Kinematik</span>
+            </div>
+          </div>
+
+          <div class="skill-category-card">
+            <div class="skill-category-name">⚡ Berechnung, Kinematik & CAE</div>
+            <div class="skill-tags">
+              <span class="skill-pill strong">Starrkörperkinematik</span>
+              <span class="skill-pill strong">Epitrochoiden & Zykloidgetriebe</span>
+              <span class="skill-pill">FEM-Grundlagen (MEDINA)</span>
+              <span class="skill-pill">LS-DYNA Simulations-Workflows</span>
+              <span class="skill-pill strong">Hertzsche Kontaktmechanik</span>
+              <span class="skill-pill">Schwingungs- & Stoßdämpfung</span>
+              <span class="skill-pill">3D WebGL (Three.js)</span>
+            </div>
+          </div>
+
+          <div class="skill-category-card">
+            <div class="skill-category-name">💻 Software, Automation & Skripte</div>
+            <div class="skill-tags">
+              <span class="skill-pill strong">Python (NumPy, SciPy, PyMuPDF)</span>
+              <span class="skill-pill strong">Parametrische CAD/DXF Generierung</span>
+              <span class="skill-pill">JavaScript / TypeScript</span>
+              <span class="skill-pill">C++ Grundlagen</span>
+              <span class="skill-pill">MATLAB & Maple</span>
+              <span class="skill-pill strong">Git & GitHub Projects</span>
+              <span class="skill-pill">Relational SQL & SQLite</span>
+              <span class="skill-pill">VBScript & Shell Automation</span>
+            </div>
+          </div>
+
+          <div class="skill-category-card">
+            <div class="skill-category-name">🌐 Sprachen & Kommunikation</div>
+            <div class="skill-tags">
+              <span class="skill-pill strong">Deutsch (Muttersprachniveau / C2)</span>
+              <span class="skill-pill strong">Russisch (Muttersprache / C2)</span>
+              <span class="skill-pill strong">Englisch (Verhandlungssicher / C1)</span>
+              <span class="skill-pill">Präzise technische Dokumentation</span>
+              <span class="skill-pill">Führerschein Klasse B</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Beruflicher Werdegang -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <span>Beruflicher Werdegang & Praxis</span>
+        </h2>
+        
+        <div class="timeline">
+          
+          <!-- Umschulung / Ausbildung -->
+          <div class="timeline-item">
+            <div class="timeline-marker highlight"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Umschulung zum Technischen Produktdesigner (IHK)</span>
+              <span class="timeline-date">2024 – 2026</span>
+            </div>
+            <div class="timeline-company">Fachrichtung: Produktgestaltung und -konstruktion · IHK Region Stuttgart</div>
+            <p class="timeline-desc">
+              Geförderte Vollzeit-Umschulung mit vertieftem Fokus auf methodische Konstruktionslehre, 
+              CAD-Systeme und Fertigungstechnik. Abschluss mit <strong>herausragendem Prüfungsergebnis</strong> (Kammer-/Besten-Ehrung der IHK Region Stuttgart).
+            </p>
+            <ul class="timeline-bullets">
+              <li><strong>Praxisphase & Konstruktion (Burkhardt GmbH):</strong> Detaillierung komplexer mechanischer Baugruppen, Ableitung normgerechter 2D-Fertigungszeichnungen nach ISO GPS (ISO 1101, ISO 2768, ISO 1302).</li>
+              <li>Parametrische CAD-Modellierung, Variantenkonstruktion, Toleranzkettenanalysen und Bauraumkollisionsprüfungen.</li>
+              <li>Fertigungsgerechte Konstruktion für Blechbiegebauteile, Zerspanung und Schweißkonstruktionen samt Stücklistenpflege.</li>
+            </ul>
+          </div>
+
+          <!-- TAO Technologies -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Entwicklungsmitarbeiter</span>
+              <span class="timeline-date">10/2012 – 05/2014</span>
+            </div>
+            <div class="timeline-company">TAO Technologies GmbH · Stuttgart</div>
+            <p class="timeline-desc">
+              Mitarbeit in der Forschungs- und Entwicklungsabteilung für innovative Energiespeicher- und Prototypensysteme.
+            </p>
+            <ul class="timeline-bullets">
+              <li>Konstruktion und CAD-Detaillierung mechanischer Versuchsaufbauten mit <strong>SolidWorks</strong>.</li>
+              <li>Handwerklicher Prototypenbau, Montage von Zellmodulen und mechanische Integration von Batteriepacks.</li>
+              <li>Aufbau, automatisierte Protokollierung und messtechnische Auswertung von Batterieprüfständen via VBScript-Automatisierung.</li>
+            </ul>
+          </div>
+
+          <!-- Bertrandt Technikum -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Praktikant Konstruktion & Entwicklung Rohbau</span>
+              <span class="timeline-date">09/2008 – 01/2009</span>
+            </div>
+            <div class="timeline-company">Bertrandt Technikum GmbH · Ehningen</div>
+            <ul class="timeline-bullets">
+              <li>Konstruktionsmitarbeit im Bereich automobiler Rohbau (Team Struktur PKW / Nutzfahrzeuge).</li>
+              <li>CAD-Konstruktion in CATIA V5, Bauraumuntersuchungen, Konzeptvarianten und Detaillierung von Strukturknoten.</li>
+              <li>Einarbeitung in Zusammenbau- und Schweißfolgepläne sowie Fügetechniken im Karosseriebau.</li>
+            </ul>
+          </div>
+
+          <!-- Porsche AG -->
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Praktikant Karosserieentwicklung & Passive Sicherheit</span>
+              <span class="timeline-date">09/2007 – 02/2008</span>
+            </div>
+            <div class="timeline-company">Dr. Ing. h.c. F. Porsche AG · Hemmingen</div>
+            <ul class="timeline-bullets">
+              <li>Mitarbeit in der Serienentwicklung Karosserie mit Schwerpunkt Front- und Heckend-Strukturen sowie Insassenschutz.</li>
+              <li>Konstruktive Bauteiluntersuchungen in CATIA V5 bezüglich Lastpfaden, Energieaufnahme und Verformungsverhalten.</li>
+              <li>Vorbereitung, Durchführung und messtechnische Dokumentation von Crashversuchen und Bauteilprüfungen.</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Bildungsweg -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          <span>Studium & Schulbildung</span>
+        </h2>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Studium der Fahrzeugtechnik (Schwerpunkt: Karosserie)</span>
+              <span class="timeline-date">2005 – 2012</span>
+            </div>
+            <div class="timeline-company">Hochschule Esslingen · Esslingen am Neckar</div>
+            <p class="timeline-desc">
+              Fundierte ingenieurwissenschaftliche Fachausbildung in: Technische Mechanik (Statik, Dynamik, Kinetik), 
+              Festigkeitslehre, Maschinenelemente, Werkstoffkunde, Fügetechnik, Thermodynamik, CAD-Konstruktionsmethodik (CATIA V5) 
+              und Finite-Elemente-Methode (FEM).
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-header">
+              <span class="timeline-role">Allgemeine Hochschulreife (Abitur)</span>
+              <span class="timeline-date">2002 – 2005</span>
+            </div>
+            <div class="timeline-company">Gewerbliche Schule Göppingen · Technisches Gymnasium</div>
+            <p class="timeline-desc">
+              Leistungsschwerpunkt: Technik, Angewandte Mathematik und Physik.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ausgewählte Arbeiten & Live-Demos -->
+      <section class="cv-section">
+        <h2 class="cv-section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+          <span>Ausgewählte technische Werkschau & Live-Projekte</span>
+        </h2>
+        
+        <div class="showcase-grid-compact">
+          
+          <div class="showcase-item-compact">
+            <div>
+              <div class="showcase-compact-title">Zykloidgetriebe & CAD-Export</div>
+              <div class="showcase-compact-desc">
+                Epitrochoidale Kurvenscheiben-Kinematik (Wankel & Nabtesco-Prinzip) mit algorithmischem 1-Klick <strong>AutoCAD DXF-Export</strong> zum direkten Import in Autodesk Inventor & SolidWorks.
+              </div>
+            </div>
+            <a href="https://xallace.github.io/cycloid-simulation/" target="_blank" class="showcase-compact-link">
+              <span>Live Simulation öffnen ↗</span>
+            </a>
+          </div>
+
+          <div class="showcase-item-compact">
+            <div>
+              <div class="showcase-compact-title">3D-Kettenkarussell & Dynamik</div>
+              <div class="showcase-compact-desc">
+                Three.js WebGL Starrkörperdynamik mit variablem Gravitationsfeld und analytischer Lösung der transzendenten Bewegungsgleichung in Labor- vs. Rotationskoordinaten.
+              </div>
+            </div>
+            <a href="https://xallace.github.io/carousel-simulation/" target="_blank" class="showcase-compact-link">
+              <span>Live 3D-Labor öffnen ↗</span>
+            </a>
+          </div>
+
+          <div class="showcase-item-compact">
+            <div>
+              <div class="showcase-compact-title">Abakus & Soroban Labor</div>
+              <div class="showcase-compact-desc">
+                Interaktiver Soroban-Rechner (4+1 & 5+2) mit physikalischem Web Audio, 3D-Bead-Visualisierung und Römischer Zahlenkonvertierung.
+              </div>
+            </div>
+            <a href="https://xallace.github.io/abacus/" target="_blank" class="showcase-compact-link">
+              <span>Live Soroban öffnen ↗</span>
+            </a>
+          </div>
+
+          <div class="showcase-item-compact">
+            <div>
+              <div class="showcase-compact-title">Lehrbuch Wirtschaftsinformatik</div>
+              <div class="showcase-compact-desc">
+                250-seitiges Fachkompendium (Stand 2026) über Rechnerarchitektur, ERP/PPS, Datenbankmodelle und aktuelle EU-Regulatorik (EU AI Act, NIS-2).
+              </div>
+            </div>
+            <a href="index.html#publications" class="showcase-compact-link">
+              <span>Publikation ansehen ↗</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+    </article>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
