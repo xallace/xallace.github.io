@@ -23,7 +23,7 @@ With a single tap on the canvas or via the control drawer, the camera smoothly g
 
 - **Seamless 3D $\leftrightarrow$ QR Morphing:**
   - Smooth cubic-bezier camera interpolation between perspective fly-around and top-down scanning position.
-  - Dynamic footprint expansion: Buildings occupy 82% footprint in 3D mode (leaving streets and avenues visible) and morph to 100% in QR mode to create unbroken, solid finder patterns and data blocks.
+  - Dynamic footprint expansion: Buildings occupy 66–94% of a module in 3D mode, depending on the style (leaving streets and avenues visible) and morph to 100% in QR mode to create unbroken, solid finder patterns and data blocks.
   - Rooftop elevation leveling: Dynamic skyscraper heights collapse into a unified focal plane ($y = 0.35$), eliminating perspective parallax and shadow interference.
 
 - **Monumental Finder Pattern Citadels:**
@@ -35,7 +35,6 @@ With a single tap on the canvas or via the control drawer, the camera smoothly g
 - **100% Real Scannability:**
   - Kazuhiko Arase QR engine with **Level H Error Correction (30% data recovery)**.
   - High-contrast module surfaces and anti-glare flat material switching during scan mode.
-  - Tested across iOS Camera, Android Google Lens, and standard barcode readers.
 
 - **5 Architectural Styles:**
   1. **Metropolis:** Glass and steel towers with lit office windows, accent spire antennas, and rooftop helipads.
