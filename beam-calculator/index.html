@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeamLab · Simply Supported Beam with UDL (StructX 001 Modernized)</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-group">
+        <a href="../xallace.github.io/index.html" class="back-link" title="Return to Engineering Portfolio">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Portfolio</span>
+        </a>
+        <div class="brand-title">
+          <h1>
+            <span>BeamLab · Simply Supported Beam</span>
+            <span class="badge-tag badge-cyan">StructX 001 Modern</span>
+            <span class="badge-tag badge-amber">Euler-Bernoulli</span>
+          </h1>
+          <p class="brand-desc">
+            Einfeldträger mit Gleichstreckenlast (UDL) · Real-Time Statics, Diagrams (SFD / BMD), Deflection &amp; Cross-Section Modeler
+          </p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Units Toggle -->
+        <div class="unit-switch">
+          <button id="btn-unit-metric" class="unit-btn active" onclick="setUnit('metric')">Metric (SI)</button>
+          <button id="btn-unit-imperial" class="unit-btn" onclick="setUnit('imperial')">Imperial (US)</button>
+        </div>
+
+        <!-- Moment Convention Toggle -->
+        <button id="btn-moment-toggle" class="action-btn" onclick="toggleMomentConvention()" title="Toggle Moment Plot Convention (Eurocode Tension Side vs Math Plot)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+          <span id="moment-convention-label">BMD: Tension Down (EC)</span>
+        </button>
+
+        <!-- Copy / Export -->
+        <button class="action-btn" onclick="copyReport()" title="Copy calculation summary to clipboard">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span>Copy Report</span>
+        </button>
+
+        <button class="action-btn" onclick="window.print()" title="Print or save as PDF">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>PDF / Print</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="app-grid">
+      <!-- Left Sidebar: Controls -->
+      <aside class="sidebar-column">
+        <div class="panel-card sticky">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Parameter Control</span>
+            </h2>
+            <span class="badge-tag badge-cyan">Live Sync</span>
+          </div>
+
+          <!-- Beam Length L -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="inp-L">Span Length (L):</label>
+              <span id="disp-L" class="form-val-display">6.00 m</span>
+            </div>
+            <div class="input-slider-wrap">
+              <input type="range" id="slider-L" class="range-slider" min="0.5" max="25" step="0.1" value="6.0">
+              <input type="number" id="inp-L" class="text-input" min="0.1" max="100" step="0.1" value="6.0">
+              <span class="unit-tag" id="unit-L">m</span>
+            </div>
+            <div class="preset-row">
+              <button class="preset-pill" onclick="setPreset('L', 2.0)">2 m</button>
+              <button class="preset-pill" onclick="setPreset('L', 4.0)">4 m</button>
+              <button class="preset-pill" onclick="setPreset('L', 6.0)">6 m</button>
+              <button class="preset-pill" onclick="setPreset('L', 8.0)">8 m</button>
+              <button class="preset-pill" onclick="setPreset('L', 12.0)">12 m</button>
+            </div>
+          </div>
+
+          <!-- Distributed Load w -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="inp-w">Uniform Load (w):</label>
+              <span id="disp-w" class="form-val-display">15.00 kN/m</span>
+            </div>
+            <div class="input-slider-wrap">
+              <input type="range" id="slider-w" class="range-slider" min="0.5" max="100" step="0.5" value="15.0">
+              <input type="number" id="inp-w" class="text-input" min="0.01" max="1000" step="0.1" value="15.0">
+              <span class="unit-tag" id="unit-w">kN/m</span>
+            </div>
+            <div class="preset-row">
+              <button class="preset-pill" onclick="setPreset('w', 2.5)">2.5</button>
+              <button class="preset-pill" onclick="setPreset('w', 5.0)">5.0</button>
+              <button class="preset-pill" onclick="setPreset('w', 15.0)">15.0</button>
+              <button class="preset-pill" onclick="setPreset('w', 30.0)">30.0</button>
+              <button class="preset-pill" onclick="setPreset('w', 60.0)">60.0</button>
+            </div>
+          </div>
+
+          <!-- Evaluation Position x -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="inp-x">Probe Position (x):</label>
+              <span id="disp-x" class="form-val-display">3.00 m (L/2)</span>
+            </div>
+            <div class="input-slider-wrap">
+              <input type="range" id="slider-x" class="range-slider" min="0" max="6.0" step="0.05" value="3.0">
+              <input type="number" id="inp-x" class="text-input" min="0" max="6.0" step="0.05" value="3.0">
+              <span class="unit-tag" id="unit-x">m</span>
+            </div>
+            <div class="preset-row">
+              <button class="preset-pill" onclick="setProbePreset(0)">0 (A)</button>
+              <button class="preset-pill" onclick="setProbePreset(0.25)">L / 4</button>
+              <button class="preset-pill" onclick="setProbePreset(0.50)">L / 2 (Mid)</button>
+              <button class="preset-pill" onclick="setProbePreset(0.75)">3L / 4</button>
+              <button class="preset-pill" onclick="setProbePreset(1.0)">L (B)</button>
+            </div>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 1.25rem 0;">
+
+          <!-- Material Selection -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label">Material (Young's Modulus E):</label>
+              <span id="disp-E" class="form-val-display">210 GPa</span>
+            </div>
+            <select id="sel-material" class="select-input" onchange="onMaterialChange()">
+              <option value="steel_s235" selected>Structural Steel (S235 / A36) — 210 GPa</option>
+              <option value="steel_s355">High-Strength Steel (S355 / A572) — 210 GPa</option>
+              <option value="stainless_304">Stainless Steel (1.4301 / 304) — 195 GPa</option>
+              <option value="aluminum_6082">Aluminium (EN AW-6082 T6) — 70 GPa</option>
+              <option value="timber_c24">Structural Timber (C24 Softwood) — 11 GPa</option>
+              <option value="concrete_c25">Reinforced Concrete (C25/30) — 31 GPa</option>
+              <option value="custom">Custom Material...</option>
+            </select>
+            <div id="custom-E-wrap" class="input-slider-wrap" style="display: none; margin-top: 0.5rem;">
+              <input type="number" id="inp-custom-E" class="text-input" style="width: 100%; text-align: left;" value="210" oninput="onCustomEChange()">
+              <span class="unit-tag" id="unit-E">GPa</span>
+            </div>
+          </div>
+
+          <!-- Cross-Section Model -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label">Cross-Section (Moment of Inertia I):</label>
+              <span id="disp-I" class="form-val-display">1940 cm⁴</span>
+            </div>
+            <select id="sel-section-type" class="select-input" onchange="onSectionTypeChange()">
+              <option value="standard" selected>Standard Steel Beam (IPE / HEB)</option>
+              <option value="rect">Rectangular Solid (b × h)</option>
+              <option value="i_beam">Custom I-Beam / Flange</option>
+              <option value="hollow_rect">Hollow Box (RHS / SHS)</option>
+              <option value="round_solid">Solid Round Bar (Ø d)</option>
+              <option value="round_tube">Circular Tube / Pipe (Ø D × t)</option>
+              <option value="custom">Direct Input (Custom I)</option>
+            </select>
+
+            <!-- Standard IPE/HEB profiles -->
+            <div id="cs-standard-wrap" style="margin-top: 0.6rem;">
+              <select id="sel-standard-profile" class="select-input" onchange="onStandardProfileChange()">
+                <option value="IPE100">IPE 100 (Iy = 171 cm⁴, Wy = 34.2 cm³)</option>
+                <option value="IPE160">IPE 160 (Iy = 869 cm⁴, Wy = 109 cm³)</option>
+                <option value="IPE200" selected>IPE 200 (Iy = 1,940 cm⁴, Wy = 194 cm³)</option>
+                <option value="IPE240">IPE 240 (Iy = 3,890 cm⁴, Wy = 324 cm³)</option>
+                <option value="HEB100">HEB 100 (Iy = 450 cm⁴, Wy = 89.9 cm³)</option>
+                <option value="HEB160">HEB 160 (Iy = 2,490 cm⁴, Wy = 311 cm³)</option>
+                <option value="HEB200">HEB 200 (Iy = 5,700 cm⁴, Wy = 570 cm³)</option>
+              </select>
+            </div>
+
+            <!-- Parametric Dimension Inputs for Custom Shapes -->
+            <div id="cs-params-wrap" class="cs-grid" style="display: none;"></div>
+
+            <!-- Section Properties Summary Badge -->
+            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 0.5rem; font-family: var(--font-mono);">
+              <span>W_y: <strong id="disp-W" style="color: var(--text-secondary);">194.0 cm³</strong></span>
+              <span>Area: <strong id="disp-A" style="color: var(--text-secondary);">28.5 cm²</strong></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Results Dashboard & Interactive Diagrams -->
+      <main class="main-column">
+        <!-- KPI Dashboard -->
+        <div class="kpi-grid">
+          <!-- Reactions -->
+          <div class="kpi-card emerald">
+            <div class="kpi-header">
+              <span>Reaction Forces</span>
+              <span class="kpi-formula-badge">R_A = R_B = wL/2</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-R">45.00</span>
+              <span class="kpi-unit" id="kpi-unit-R">kN</span>
+            </div>
+            <div class="kpi-sub">
+              <span>Total Load: <strong id="kpi-W-total">90.00 kN</strong></span>
+              <span>Symmetric</span>
+            </div>
+          </div>
+
+          <!-- Maximum Shear -->
+          <div class="kpi-card highlight">
+            <div class="kpi-header">
+              <span>Maximum Shear Force</span>
+              <span class="kpi-formula-badge">V_max = R_A</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-Vmax">45.00</span>
+              <span class="kpi-unit" id="kpi-unit-V">kN</span>
+            </div>
+            <div class="kpi-sub">
+              <span>At probe x: <strong id="kpi-Vx" style="color: var(--accent-amber);">0.00 kN</strong></span>
+              <span>Zero at L/2</span>
+            </div>
+          </div>
+
+          <!-- Maximum Moment -->
+          <div class="kpi-card highlight">
+            <div class="kpi-header">
+              <span>Maximum Bending Moment</span>
+              <span class="kpi-formula-badge">M_max = wL²/8</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-Mmax">67.50</span>
+              <span class="kpi-unit" id="kpi-unit-M">kNm</span>
+            </div>
+            <div class="kpi-sub">
+              <span>At probe x: <strong id="kpi-Mx" style="color: var(--accent-amber);">67.50 kNm</strong></span>
+              <span>Peak at Midspan</span>
+            </div>
+          </div>
+
+          <!-- Maximum Deflection -->
+          <div class="kpi-card purple">
+            <div class="kpi-header">
+              <span>Max Deflection (Euler)</span>
+              <span class="kpi-formula-badge">5wL⁴ / 384EI</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-dmax">16.51</span>
+              <span class="kpi-unit" id="kpi-unit-delta">mm</span>
+            </div>
+            <div class="kpi-sub">
+              <span>Ratio: <strong id="kpi-ratio">L / 363</strong></span>
+              <span>At probe x: <strong id="kpi-dx" style="color: var(--accent-amber);">16.51 mm</strong></span>
+            </div>
+          </div>
+
+          <!-- Bending Stress -->
+          <div class="kpi-card warning">
+            <div class="kpi-header">
+              <span>Max Bending Stress</span>
+              <span class="kpi-formula-badge">σ = M / W</span>
+            </div>
+            <div class="kpi-value">
+              <span id="kpi-sigma">347.9</span>
+              <span class="kpi-unit" id="kpi-unit-sigma">MPa</span>
+            </div>
+            <div class="kpi-sub">
+              <span>Yield Check: <strong id="kpi-yield-check" style="color: var(--accent-rose);">Yield Exceeded</strong></span>
+              <span>Slope: <strong id="kpi-theta">0.63°</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagrams Stack -->
+        <div class="diagrams-column">
+          <!-- 1. FBD Diagram -->
+          <div class="diagram-card">
+            <div class="diagram-header">
+              <div class="diagram-title-group">
+                <span class="diagram-title">1. Free Body &amp; Loading Diagram (FBD)</span>
+                <span class="diagram-badge">Systemskizze · Auflagerreaktionen &amp; UDL</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Hover / Drag cursor to evaluate x</span>
+            </div>
+            <div id="viewport-fbd" class="diagram-viewport"></div>
+          </div>
+
+          <!-- 2. SFD Diagram -->
+          <div class="diagram-card">
+            <div class="diagram-header">
+              <div class="diagram-title-group">
+                <span class="diagram-title">2. Shear Force Diagram (SFD)</span>
+                <span class="diagram-badge">V(x) = w · (L/2 - x)</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">V_max = ±R</span>
+            </div>
+            <div id="viewport-sfd" class="diagram-viewport"></div>
+          </div>
+
+          <!-- 3. BMD Diagram -->
+          <div class="diagram-card">
+            <div class="diagram-header">
+              <div class="diagram-title-group">
+                <span class="diagram-title">3. Bending Moment Diagram (BMD)</span>
+                <span class="diagram-badge">M(x) = (w · x / 2) · (L - x)</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">M_max = wL²/8</span>
+            </div>
+            <div id="viewport-bmd" class="diagram-viewport"></div>
+          </div>
+
+          <!-- 4. Deflection Diagram -->
+          <div class="diagram-card">
+            <div class="diagram-header">
+              <div class="diagram-title-group">
+                <span class="diagram-title">4. Deflection Curve (Biegelinie)</span>
+                <span class="diagram-badge">δ(x) = (w·x / 24EI) · (L³ - 2Lx² + x³)</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">δ_max = 5wL⁴ / 384EI</span>
+            </div>
+            <div id="viewport-deflection" class="diagram-viewport"></div>
+          </div>
+        </div>
+
+        <!-- Theory, Equations & Derivation Section -->
+        <section class="theory-card">
+          <h2 class="theory-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>Mathematical Formulation &amp; Step-by-Step Derivation</span>
+          </h2>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+            A simply supported beam under a uniformly distributed load (UDL) is statically determinate. The equations are derived using classical Newtonian static equilibrium and the Euler-Bernoulli beam theory:
+          </p>
+
+          <div class="formula-grid">
+            <div class="formula-box">
+              <div class="formula-name">1. Support Reaction Forces (Auflagerkräfte)</div>
+              <div class="math-display">R_A = R_B = \frac{w \cdot L}{2}</div>
+              <div class="math-sub">Derived from vertical equilibrium \(\sum F_z = 0\) and moment equilibrium \(\sum M_A = 0\).</div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-name">2. Shear Force Equation (Querkraftfunktion)</div>
+              <div class="math-display">V(x) = w \cdot \left(\frac{L}{2} - x\right)</div>
+              <div class="math-sub">Linear gradient with maximum \(V_{\max} = \frac{wL}{2}\) at supports and zero crossing at \(x = L/2\).</div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-name">3. Bending Moment Equation (Biegemoment)</div>
+              <div class="math-display">M(x) = \frac{w \cdot x}{2} \cdot (L - x)</div>
+              <div class="math-sub">Quadratic parabola. Peak at \(x = L/2\): \(M_{\max} = \frac{w \cdot L^2}{8}\).</div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-name">4. Elastic Deflection (Euler-Bernoulli)</div>
+              <div class="math-display">\delta(x) = \frac{w \cdot x}{24 E I} \left(L^3 - 2 L x^2 + x^3\right)</div>
+              <div class="math-sub">Peak deflection at midspan: \(\delta_{\max} = \frac{5 \cdot w \cdot L^4}{384 \cdot E \cdot I}\).</div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-name">5. Support Rotation Angle (Verdrehwinkel)</div>
+              <div class="math-display">\theta_A = \theta_B = \frac{w \cdot L^3}{24 \cdot E \cdot I}</div>
+              <div class="math-sub">Slope of the elastic curve at bearings in radians.</div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-name">6. Maximum Bending Stress (Biegespannung)</div>
+              <div class="math-display">\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max} \cdot (h / 2)}{I_y}</div>
+              <div class="math-sub">Extreme fiber tensile &amp; compressive stress in outer fibers.</div>
+            </div>
+          </div>
+
+          <!-- Live Dynamic Value Substitution -->
+          <div class="substitution-box">
+            <div style="font-weight: 700; color: var(--accent-amber); margin-bottom: 0.6rem; font-size: 0.9rem;">
+              ⚡ Live Step-by-Step Calculation (Substituted with Current Parameters):
+            </div>
+            <div id="subst-step1" class="substitution-step"></div>
+            <div id="subst-step2" class="substitution-step"></div>
+            <div id="subst-step3" class="substitution-step"></div>
+            <div id="subst-step4" class="substitution-step"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>
+        <strong>BeamLab</strong> · Modernized recreation of StructX Beam Formulas 001 · Built with Vanilla ES6 &amp; SVG Vector Graphics.
+      </p>
+      <p style="margin-top: 0.35rem; color: var(--text-muted); font-size: 0.78rem;">
+        Developed by <a href="https://github.com/xallace" target="_blank">Walter Lehn (@xallace)</a> · Mechanical &amp; Computational Systems
+      </p>
+    </footer>
+  </div>
+
+  <!-- App Script (ES Module) -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
