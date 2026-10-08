@@ -217,6 +217,34 @@
       font-weight: 700;
     }
 
+    .hud-presets {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.25rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .hud-preset-btn {
+      background: rgba(30, 41, 59, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      padding: 0.35rem 0.1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .hud-preset-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+
     .hud-actions-row {
       display: flex;
       gap: 0.5rem;
@@ -380,10 +408,12 @@
         <span style="font-size: 0.68rem; color: #f59e0b; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 3px; font-weight: 600;">WIP</span>
       </div>
       <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b; font-weight: 600;">In Konstruktion (WIP)</span></div>
-      <div class="specs-row"><span class="specs-label">Nutzhub:</span> <span class="specs-val">100,0 mm</span></div>
+      <div class="specs-row"><span class="specs-label">Nutzhub:</span> <span class="specs-val">100,0 mm (X: 70...170 mm)</span></div>
+      <div class="specs-row"><span class="specs-label">Max. Freihub:</span> <span class="specs-val">144,0 mm (X: 48...192 mm)</span></div>
       <div class="specs-row"><span class="specs-label">Führung:</span> <span class="specs-val">2x MGN12 (Spur 55 mm)</span></div>
       <div class="specs-row"><span class="specs-label">Antrieb:</span> <span class="specs-val">KGT Ø12 x 4 mm</span></div>
       <div class="specs-row"><span class="specs-label">Festlager:</span> <span class="specs-val">2x 7001-B (O-Anordn.)</span></div>
+      <div class="specs-row"><span class="specs-label">Loslager:</span> <span class="specs-val">1x 6001 (Axialspiel)</span></div>
       <div class="specs-row"><span class="specs-label">Motorflansch:</span> <span class="specs-val">NEMA 23 (□57 mm)</span></div>
       <div class="specs-row"><span class="specs-label">Bauteile:</span> <span class="specs-val">14 Einzelsolids</span></div>
       <div class="specs-row"><span class="specs-label">Systemmasse:</span> <span class="specs-val">ca. 2,15 kg</span></div>
@@ -392,16 +422,29 @@
     <!-- Interactive HUD (Bottom Left) -->
     <div class="cad-hud">
       <div class="hud-title">
-        <span>Kinematik & Hub-Steuerung <span style="font-size: 0.68rem; color: #f59e0b; font-weight: 600; background: rgba(245, 158, 11, 0.12); padding: 1px 5px; border-radius: 3px; border: 1px solid rgba(245, 158, 11, 0.3);">WIP</span></span>
-        <span id="pos-display" style="font-family: var(--font-mono); color: var(--text-primary);">X = 75.0 mm</span>
+        <span>Kinematik &amp; Hub-Steuerung <span style="font-size: 0.68rem; color: #f59e0b; font-weight: 600; background: rgba(245, 158, 11, 0.12); padding: 1px 5px; border-radius: 3px; border: 1px solid rgba(245, 158, 11, 0.3);">WIP</span></span>
+        <span id="pos-display" style="font-family: var(--font-mono); color: var(--text-primary);">X = 120.0 mm</span>
       </div>
 
       <div class="hud-slider-group">
         <div class="hud-slider-header">
-          <span>0 mm (Endlage Vorn)</span>
-          <span>100 mm (Endlage Heck)</span>
+          <span>48.0 mm (Anschlag Vorn)</span>
+          <span>192.0 mm (Anschlag Heck)</span>
         </div>
-        <input type="range" id="stroke-slider" class="hud-slider" min="0" max="100" step="0.5" value="75">
+        <input type="range" id="stroke-slider" class="hud-slider" min="48" max="192" step="0.5" value="120">
+        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; font-family: var(--font-mono);">
+          <span id="hub-display">Relativer Hub: 72.0 mm / 144.0 mm</span>
+          <span>Mitte: X = 120.0 mm</span>
+        </div>
+      </div>
+
+      <!-- Schnell-Positionierung / Anschläge & Arbeitsbereich -->
+      <div class="hud-presets">
+        <button class="hud-preset-btn" onclick="goToPosition(48.0)" title="Mechanischer Anschlag Front (Festlager)">48 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Stop Vorn</small></button>
+        <button class="hud-preset-btn" onclick="goToPosition(70.0)" title="Start 100 mm Nutzhub">70 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Nutz-Min</small></button>
+        <button class="hud-preset-btn" onclick="goToPosition(120.0)" title="Symmetrische Mittelhubstellung">120 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Mitte</small></button>
+        <button class="hud-preset-btn" onclick="goToPosition(170.0)" title="Ende 100 mm Nutzhub">170 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Nutz-Max</small></button>
+        <button class="hud-preset-btn" onclick="goToPosition(192.0)" title="Mechanischer Anschlag Heck (Loslager)">192 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Stop Heck</small></button>
       </div>
 
       <div class="hud-btn-grid">
@@ -441,9 +484,9 @@
     let isWireframe = false;
 
     // Kinematic constraints
-    const MIN_STROKE = 0.0;
-    const MAX_STROKE = 100.0;
-    let currentStroke = 75.0; // Start at mid-stroke (default in model)
+    const MIN_STROKE = 48.0;   // Mechanischer Anschlag Front (Festlagerbock X=0)
+    const MAX_STROKE = 192.0;  // Mechanischer Anschlag Heck (Loslagerbock X=240)
+    let currentStroke = 120.0; // Symmetrische Mittelhubstellung (Mitte Grundkörper)
 
     const container = document.getElementById('viewport-container');
     const canvas = document.getElementById('cad-canvas');
@@ -581,6 +624,17 @@
       }
       slider.value = currentStroke;
       posDisplay.textContent = `X = ${currentStroke.toFixed(1)} mm`;
+      const hubDisplay = document.getElementById('hub-display');
+      if (hubDisplay) {
+        const relHub = currentStroke - MIN_STROKE;
+        hubDisplay.textContent = `Relativer Hub: ${relHub.toFixed(1)} mm / 144.0 mm`;
+      }
+    }
+
+    function goToPosition(pos) {
+      autoCycle = false;
+      updateCycleButtonState();
+      setStrokePosition(pos);
     }
 
     function toggleAutoCycle() {
@@ -635,7 +689,7 @@
 
     function resetCamera() {
       setCameraView('iso');
-      setStrokePosition(75.0);
+      setStrokePosition(120.0);
       autoCycle = false;
       updateCycleButtonState();
     }
