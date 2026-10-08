@@ -1,6 +1,6 @@
 # City QR (Metro QR) — 3D Procedural Metropolis QR Code Generator
 
-> **Inspired by [Bubbbly Bloom](https://www.bubbbly.com/bloom)**: Reimagining the interactive 3D flower bouquet QR morph into a thriving, procedural 3D metropolis skyline that seamlessly transforms into a 100% scannable QR code.
+> **Inspired by [Bubbbly Bloom](https://www.bubbbly.com/bloom)**: Reimagining the interactive 3D flower bouquet QR morph as a procedural 3D city skyline that transforms into a scannable QR code.
 
 [![Three.js](https://img.shields.io/badge/Three.js-r128-black?logo=three.js)](https://threejs.org/)
 [![WebGL](https://img.shields.io/badge/WebGL-2.0-red?logo=webgl)](https://www.khronos.org/webgl/)
@@ -11,30 +11,29 @@
 
 ## 🌆 Overview
 
-**City QR** is an interactive WebGL experience built with Three.js. Rather than generating a conventional flat barcode, it procedurally constructs an entire 3D city skyline where each skyscraper represents a dark module of a QR code.
+**City QR** is an interactive WebGL experience built with Three.js. Rather than generating a conventional flat barcode, it procedurally constructs an entire 3D city skyline where each building represents a dark module of a QR code and each street a light module.
 
-When viewed at an angle, the scene appears as a dynamic architectural model with varied building heights, glowing skyscraper windows, illuminated street grids, corner citadels, and moving vehicle headlights. 
+When viewed at an angle, the scene appears as an architectural model with varied building heights, lit windows, landmark towers on the three corner markers, and cars driving along the grid lines.
 
-With a single tap on the canvas or via the control drawer, the camera smoothly glides into an orthogonal top-down perspective, building rooftops flatten into uniform planes, and module footprints expand seamlessly to close street avenues — snapping into a **crystal-clear, 100% scannable QR code** that any modern smartphone camera can immediately read.
+With a tap on the canvas or the button in the control panel, the camera glides into a straight top-down view, the buildings flatten into one roof plane, and their footprints expand to close the streets between neighbouring modules, turning the skyline into a scannable QR code.
 
 ---
 
 ## ✨ Features
 
 - **Seamless 3D $\leftrightarrow$ QR Morphing:**
-  - Smooth cubic-bezier camera interpolation between perspective fly-around and top-down scanning position.
+  - Cubic ease-in-out camera glide on a sphere around the look-at point, ending upright in the top-down scanning view.
   - Dynamic footprint expansion: Buildings occupy 66–94% of a module in 3D mode, depending on the style (leaving streets and avenues visible) and morph to 100% in QR mode to create unbroken, solid finder patterns and data blocks.
-  - Rooftop elevation leveling: Dynamic skyscraper heights collapse into a unified focal plane ($y = 0.35$), eliminating perspective parallax and shadow interference.
+  - Rooftop leveling: All building heights collapse into one roof plane ($y = 0.35$); a top-down fill light takes over from the sun, so shadows barely register.
 
-- **Monumental Finder Pattern Citadels:**
-  - The three essential $7 \times 7$ corner QR position detection patterns are translated into monumental architectural citadels:
-    - Central monolith tower with glowing helipad beacon.
-    - Tiered defensive courtyard walls.
-    - Perimeter street moat isolating the finder pattern for instant optical scanning.
+- **Landmark Finder Patterns:**
+  - The three $7 \times 7$ corner position markers are built as rings of uniform height around a $3 \times 3$ cluster of landmark towers. In the Sci-Fi style, energy conduits link the three landmarks.
 
-- **100% Real Scannability:**
+- **Scannability:**
   - Kazuhiko Arase QR engine with **Level H Error Correction (30% data recovery)**.
-  - High-contrast module surfaces and anti-glare flat material switching during scan mode.
+  - In QR mode, all building surfaces turn dark and matte, glow and fog fade out, and the top-down light cannot glare off the roofs.
+  - The code is framed with the 4-module quiet zone into the part of the screen not covered by the header, hint bar and control panel, in landscape and portrait.
+  - Verified by decoding rendered screenshots with OpenCV across all styles and palettes.
 
 - **5 Architectural Styles:**
   1. **Metropolis:** Glass and steel towers with lit office windows, accent spire antennas, and rooftop helipads.
@@ -44,31 +43,30 @@ With a single tap on the canvas or via the control drawer, the camera smoothly g
   5. **Sci-Fi Megacity:** Podium arcologies with slender towers, glass domes, halo rings, glowing hull strips, and energy conduits between the landmark towers.
   - Every style collapses into the same flat, dark, matte module plane in QR mode, so scannability does not depend on the style.
 
-- **6 Atmospheric Lighting Palettes:**
-  - **Midnight Neon:** Deep obsidian pavement, bright cyan and magenta window glows, dark night fog.
-  - **Sunset Gold:** Warm amber directional rays, golden hour roof reflections, dusk purple shadows.
-  - **Daylight Clean:** Crisp high-key architectural render with soft directional sunlight and realistic ambient occlusion.
-  - **Matrix Cyber:** Terminal phosphor green luminescence over digital dark gridlines.
-  - **Synthwave 80s:** Retro sunset gradient, hot pink neon towers, and vibrant grid glow.
-  - **Blueprint CAD:** Technical monochrome indigo blueprints with wireframe highlights.
+- **6 Lighting Palettes:**
+  - **Midnight:** Near-black sky and fog, cyan window light and accents.
+  - **Sunset:** Orange sunlight, amber windows, dusky purple sky and ambient light.
+  - **Daylight:** Light grey sky, white sunlight, pale blue windows.
+  - **Matrix:** Black-green sky, phosphor-green windows and accents.
+  - **Synthwave:** Deep violet sky, magenta accents, hot pink windows.
+  - **Blueprint:** Navy sky, blue-tinted buildings, sky-blue accents.
 
-- **Interactive Procedural Web Audio:**
-  - Built-in polyphonic synthesizer generating mechanical camera glide whooshes, digital scan confirmation chimes, and ambient city hums without external audio assets.
+- **Procedural Web Audio:**
+  - Short sounds synthesized with oscillators, no audio files: a click for buttons, a rising sweep for the 3D $\leftrightarrow$ QR transition, and a chime for the PNG export.
 
-- **Full Export & Sharing Tools:**
-  - High-res 2x supersampled PNG canvas capture (`engine.capture()`).
-  - Shareable URL serialization (`?u=...&style=...&palette=...&mode=...`).
-  - Pre-configured quick presets (Portfolio, GitHub, Wikipedia, TypingMind).
-  - 100% self-contained: offline vendor bundle (`three.min.js`, `OrbitControls.js`, `qrcode.min.js`).
+- **Export & Sharing Tools:**
+  - PNG export at twice the on-screen resolution (`engine.capture(2)`).
+  - Shareable URL parameters (`?u=...&style=...&palette=...`).
+  - Quick presets (Portfolio, GitHub, Wikipedia, TypingMind).
+  - Libraries bundled locally (`three.min.js`, `OrbitControls.js`, `qrcode.min.js`); only the web fonts load from Google Fonts.
 
 ---
 
 ## 🚀 Getting Started
 
-Simply open `index.html` in any modern web browser supporting WebGL:
+`app.js` is an ES module, and browsers do not load modules from `file://` URLs, so serve the folder over HTTP:
 
 ```bash
-# Optional local HTTP server (or open index.html directly)
 python -m http.server 8080
 # Open http://localhost:8080
 ```
@@ -80,23 +78,25 @@ python -m http.server 8080
 | Interaction | Action |
 | :--- | :--- |
 | **Canvas Tap / Click** | Toggle between **3D City Skyline** and **2D Scannable QR Code** |
-| **Left Click + Drag** | Orbit camera around city (in 3D mode) |
+| **Hint Bar (Bottom)** | Same toggle |
+| **Left Click + Drag** | Orbit camera around the city |
 | **Right Click + Drag** | Pan camera |
 | **Scroll Wheel / Pinch** | Zoom in / out |
-| **Control Drawer (Top-Right)** | Customize URL, Style, Palette, Day/Night, and Scan Mode |
-| **Snapshot Button** | Export ultra-crisp PNG capture |
-| **Share Link** | Copy permalink with customized parameters to clipboard |
+| **Control Panel (Top Right; gear button on phones)** | Link to encode, presets, style, palette, QR toggle |
+| **Enter in the Link Field** | Encode the link and switch to the QR view |
+| **Download PNG** | Save the current view as PNG |
+| **Copy Link** | Copy the page URL with the current link, style and palette to the clipboard |
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-demos/city-qr/
-├── index.html          # Web app container, glassmorphic HUD & drawer
+city-qr/
+├── index.html          # Web app container, glassmorphic HUD & control panel
 ├── style.css           # Glassmorphism design, scanner HUD reticle, responsive layout
-├── app.js              # State manager, URL debounce, presets, Web Audio synth
-├── city-engine.js      # Three.js procedural city generator, QR builder, morph engine
+├── app.js              # State manager, URL debounce, presets, Web Audio synth, QR framing insets
+├── city-engine.js      # Three.js procedural city generator, style kits, QR builder, morph engine
 ├── vendor/
 │   ├── three.min.js      # Three.js r128
 │   ├── OrbitControls.js  # Camera navigation
@@ -109,25 +109,26 @@ demos/city-qr/
 ## 🔬 Technical Implementation Highlights
 
 ### 1. Unified Grid to Barcode Topology
-Every QR code module is assigned a coordinate $(r, c)$ in the matrix. Dark modules instantiate a building group containing a primary tower, random architectural add-ons (helipads, setback tiers, antennas), and custom window textures.
+Every QR code module is assigned a coordinate $(r, c)$ in the matrix. Each dark module gets a building whose body box becomes the QR module; the active style adds setback tiers, antennas, domes and other decor, which collapse or shrink away during the morph.
 
 ```javascript
-// Dynamic footprint expansion for flawless scanner detection
-const footprint = isQRMode ? 1.0 : 0.82;
-mesh.scale.set(footprint, currentHeight, footprint);
+// t = 0: 3D skyline, t = 1: QR code
+const footprint = THREE.MathUtils.lerp(this.footprint3D, 1.0, t);
+const h = THREE.MathUtils.lerp(b.bodyHeight, QR_ROOF_HEIGHT, t);
+b.bodyMesh.scale.set(footprint, h, footprint);
 ```
 
-### 2. Camera Bezier Glide
-The camera position and target vector are smoothly interpolated via cubic Hermite easing between the 3D perspective angle $(r=45, \theta=45^\circ, \phi=55^\circ)$ and the top-down scanning position $(0, 52, 0)$ looking straight down at $(0, 0, 0)$.
+### 2. Camera Glide
+The camera moves on a sphere around a look-at point that itself moves in a straight line: radius, polar angle and azimuth are interpolated with cubic ease-in-out. The 3D view sits at $(26, 32, 26)$ looking at $(0, 1.5, 0)$, about $r \approx 48$, azimuth $45^\circ$, polar angle $\approx 50^\circ$. The top-down distance is computed so that the symbol plus quiet zone fills the free screen area, and the look-at point shifts sideways when the control panel covers part of the screen. Interpolating the azimuth avoids the rotation snap that a straight Cartesian move produces when the camera arrives directly overhead.
 
 ### 3. Tap vs. Drag Disambiguation
 To enable effortless tap-to-morph interaction without conflicting with Three.js `OrbitControls` rotation, pointer start/end positions and timestamps are measured:
 
 ```javascript
-const dist = Math.hypot(endX - startX, endY - startY);
-const elapsed = endTime - startTime;
-if (dist < 8 && elapsed < 400) {
-  toggleMode(); // Smooth morph
+const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+const time = performance.now() - pointerDownTime;
+if (dist < 8 && time < 400) {
+  engine.toggleViewMode(); // Smooth morph
 }
 ```
 
