@@ -41,8 +41,18 @@ window.addEventListener('DOMContentLoaded', () => {
   restoreStateFromURL();
   renderSectionParamInputs();
   updateUIUnits();
-  recalculate();
   bindInputEvents();
+
+  ensureKaTeXReady(() => {
+    renderStaticFormulas();
+    recalculate();
+  });
+});
+
+window.addEventListener('load', () => {
+  ensureKaTeXReady(() => {
+    renderStaticFormulas();
+  });
 });
 
 function initDiagramRenderer() {
@@ -403,35 +413,209 @@ function recalculate() {
   }
 
   // 7. Update Live Substitution Box
-  updateLiveSubstitution(solution, modE, secProp);
+  updateLiveSubstitution(solution, modE, secProp, yieldVal);
 
   // 8. Update URL hash
   updateURLHash();
 }
 
-function updateLiveSubstitution(sol, modE, secProp) {
+/**
+ * Render dynamic mathematical step-by-step substitution using KaTeX.
+ */
+function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
   const isMetric = sol.unit === 'metric';
-  const uW = isMetric ? 'kN/m' : 'lbf/ft';
-  const uL = isMetric ? 'm' : 'ft';
-  const uR = isMetric ? 'kN' : 'lbf';
-  const uM = isMetric ? 'kNm' : 'lbf·ft';
-  const uDef = isMetric ? 'mm' : 'in';
+  const uW = isMetric ? '\\text{kN/m}' : '\\text{lbf/ft}';
+  const uL = isMetric ? '\\text{m}' : '\\text{ft}';
+  const uR = isMetric ? '\\text{kN}' : '\\text{lbf}';
+  const uM = isMetric ? '\\text{kNm}' : '\\text{lbf}\\!\\cdot\\!\\text{ft}';
+  const uDef = isMetric ? '\\text{mm}' : '\\text{in}';
+  const uSig = isMetric ? '\\text{MPa}' : '\\text{ksi}';
+  const uIy = isMetric ? '\\text{cm}^4' : '\\text{in}^4';
+  const uWy = isMetric ? '\\text{cm}^3' : '\\text{in}^3';
+  const uE = isMetric ? '\\text{GPa}' : '\\text{ksi}';
 
-  document.getElementById('subst-step1').innerHTML = `
-    <strong>1. Reaction Forces:</strong> R_A = R_B = (${sol.w.toFixed(2)} ${uW} × ${sol.L.toFixed(2)} ${uL}) / 2 = <strong>${sol.R_A.toFixed(2)} ${uR}</strong>
-  `;
+  // Step 1: Support Reaction Forces
+  const step1El = document.getElementById('subst-step1');
+  if (step1El) {
+    step1El.innerHTML = `
+      <div class="subst-step-label">
+        <span class="step-num">1</span>
+        <strong>Support Reaction Forces (Auflagerkräfte):</strong>
+      </div>
+      <div class="subst-step-eq" id="subst-eq-1"></div>
+      <div class="subst-step-sub">Symmetrie bedingt: Gleichmäßige Lastaufteilung auf beide Lager A und B (\(R_A + R_B = W_{\\text{total}} = ${(sol.w * sol.L).toFixed(2)}\\text{ ${isMetric ? 'kN' : 'lbf'}}\)).</div>
+    `;
+    const latex1 = `R_A = R_B = \\frac{w \\cdot L}{2} = \\frac{${sol.w.toFixed(2)} \\cdot ${sol.L.toFixed(2)}}{2} = \\mathbf{${sol.R_A.toFixed(2)} \\text{ ${uR}}}`;
+    renderLatex(document.getElementById('subst-eq-1'), latex1, true);
+    renderMath(step1El.querySelector('.subst-step-sub'));
+  }
 
-  document.getElementById('subst-step2').innerHTML = `
-    <strong>2. Maximum Bending Moment:</strong> M_max = (${sol.w.toFixed(2)} × ${sol.L.toFixed(2)}²) / 8 = (${sol.w.toFixed(2)} × ${(sol.L * sol.L).toFixed(2)}) / 8 = <strong>${sol.M_max.toFixed(2)} ${uM}</strong>
-  `;
+  // Step 2: Maximum Bending Moment
+  const step2El = document.getElementById('subst-step2');
+  if (step2El) {
+    step2El.innerHTML = `
+      <div class="subst-step-label">
+        <span class="step-num">2</span>
+        <strong>Maximum Bending Moment (Maximales Biegemoment bei x = L/2):</strong>
+      </div>
+      <div class="subst-step-eq" id="subst-eq-2"></div>
+      <div class="subst-step-sub">Parabolischer Verlauf mit Scheitelpunkt in Trägermitte bei Feldmitte \(x = ${(sol.L / 2).toFixed(2)}\\text{ ${isMetric ? 'm' : 'ft'}}\).</div>
+    `;
+    const latex2 = `M_{\\max} = \\frac{w \\cdot L^2}{8} = \\frac{${sol.w.toFixed(2)} \\cdot (${sol.L.toFixed(2)})^2}{8} = \\frac{${sol.w.toFixed(2)} \\cdot ${(sol.L * sol.L).toFixed(2)}}{8} = \\mathbf{${sol.M_max.toFixed(2)} \\text{ ${uM}}}`;
+    renderLatex(document.getElementById('subst-eq-2'), latex2, true);
+    renderMath(step2El.querySelector('.subst-step-sub'));
+  }
 
-  document.getElementById('subst-step3').innerHTML = `
-    <strong>3. Max Deflection (Euler-Bernoulli):</strong> δ_max = (5 × ${sol.w.toFixed(2)} × ${sol.L.toFixed(2)}⁴) / (384 × ${modE} × ${secProp.Iy.toFixed(0)}) = <strong>${sol.delta_max.toFixed(3)} ${uDef}</strong> (L / ${sol.ratio_max})
-  `;
+  // Step 3: Elastic Deflection (Euler-Bernoulli)
+  const step3El = document.getElementById('subst-step3');
+  if (step3El) {
+    step3El.innerHTML = `
+      <div class="subst-step-label">
+        <span class="step-num">3</span>
+        <strong>Max Elastic Deflection (Biegelinie nach Euler-Bernoulli bei x = L/2):</strong>
+      </div>
+      <div class="subst-step-eq" id="subst-eq-3"></div>
+      <div class="subst-step-sub">Biegesteifigkeit: \(E = ${modE}\\text{ ${isMetric ? 'GPa' : 'ksi'}}\), \(I_y = ${secProp.Iy.toLocaleString(undefined, { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm⁴' : 'in⁴'}}\). Verhältnis: \(L / ${sol.ratio_max}\).</div>
+    `;
+    const latex3 = `\\delta_{\\max} = \\frac{5 \\cdot w \\cdot L^4}{384 \\cdot E \\cdot I_y} = \\mathbf{${sol.delta_max.toFixed(3)} \\text{ ${uDef}}} \\quad \\left[\\text{Gebrauchstauglichkeit: } \\frac{L}{${sol.ratio_max}}\\right]`;
+    renderLatex(document.getElementById('subst-eq-3'), latex3, true);
+    renderMath(step3El.querySelector('.subst-step-sub'));
+  }
 
-  document.getElementById('subst-step4').innerHTML = `
-    <strong>4. Point of Interest x = ${sol.x.toFixed(2)} ${uL}:</strong> V(x) = <strong>${sol.V_x.toFixed(2)} ${uR}</strong> | M(x) = <strong>${sol.M_x.toFixed(2)} ${uM}</strong> | δ(x) = <strong>${sol.delta_x.toFixed(3)} ${uDef}</strong>
-  `;
+  // Step 4: Point of Interest Evaluation at Probe x
+  const step4El = document.getElementById('subst-step4');
+  if (step4El) {
+    step4El.innerHTML = `
+      <div class="subst-step-label">
+        <span class="step-num">4</span>
+        <strong>Internal Forces at Evaluation Point (Schnittgrößen bei x = ${sol.x.toFixed(2)} ${isMetric ? 'm' : 'ft'}):</strong>
+      </div>
+      <div class="subst-step-eq" id="subst-eq-4"></div>
+      <div class="subst-step-sub">Lokale Querkraft \(V(x)\), Biegemoment \(M(x)\) und elastische Absenkung \(\\delta(x)\) am Tastpunkt.</div>
+    `;
+    const latex4 = `x = ${sol.x.toFixed(2)} \\text{ ${uL}} \\implies \\begin{cases} V(x) = w \\cdot \\left(\\frac{L}{2} - x\\right) = \\mathbf{${sol.V_x.toFixed(2)} \\text{ ${uR}}} \\\\[4pt] M(x) = \\frac{w \\cdot x}{2} \\cdot (L - x) = \\mathbf{${sol.M_x.toFixed(2)} \\text{ ${uM}}} \\\\[4pt] \\delta(x) = \\frac{w \\cdot x}{24 E I_y} \\left(L^3 - 2Lx^2 + x^3\\right) = \\mathbf{${sol.delta_x.toFixed(3)} \\text{ ${uDef}}} \\end{cases}`;
+    renderLatex(document.getElementById('subst-eq-4'), latex4, true);
+    renderMath(step4El.querySelector('.subst-step-sub'));
+  }
+
+  // Step 5: Bending Stress Verification
+  const step5El = document.getElementById('subst-step5');
+  if (step5El) {
+    const utilization = (sol.sigma_max / yieldVal) * 100;
+    const ok = utilization <= 100;
+    const statusText = ok ? `\\text{OK } (${utilization.toFixed(0)}\\% \\le f_y)` : `\\text{Yield Exceeded } (${utilization.toFixed(0)}\\% > f_y)`;
+    step5El.innerHTML = `
+      <div class="subst-step-label">
+        <span class="step-num">5</span>
+        <strong>Maximum Bending Stress &amp; Section Modulus (Biegespannungsnachweis):</strong>
+      </div>
+      <div class="subst-step-eq" id="subst-eq-5"></div>
+      <div class="subst-step-sub">Widerstandsmoment: \(W_y = ${secProp.Wy.toLocaleString(undefined, { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm³' : 'in³'}}\), Fließgrenze: \(f_y = ${yieldVal}\\text{ ${isMetric ? 'MPa' : 'ksi'}}\).</div>
+    `;
+    const latex5 = `\\sigma_{\\max} = \\frac{M_{\\max}}{W_y} = \\frac{${sol.M_max.toFixed(2)} \\text{ ${uM}}}{${secProp.Wy.toFixed(1)} \\text{ ${uWy}}} = \\mathbf{${sol.sigma_max.toFixed(1)} \\text{ ${uSig}}} \\quad \\left[\\mathbf{${statusText}}\\right]`;
+    renderLatex(document.getElementById('subst-eq-5'), latex5, true);
+    renderMath(step5El.querySelector('.subst-step-sub'));
+  }
+}
+
+/**
+ * Render a specific LaTeX string into a target DOM element using KaTeX.
+ */
+export function renderLatex(el, latex, displayMode = true) {
+  if (!el) return;
+  if (typeof window.katex !== 'undefined') {
+    try {
+      window.katex.render(latex, el, {
+        displayMode: displayMode,
+        throwOnError: false
+      });
+      return;
+    } catch (err) {
+      console.warn('KaTeX render error:', err);
+    }
+  }
+  el.textContent = latex;
+}
+
+/**
+ * Auto-render math delimiters in a DOM subtree ($$...$$, \(...\), etc.)
+ */
+export function renderMath(rootEl = document.body) {
+  if (!rootEl) return;
+  if (typeof window.renderMathInElement === 'function') {
+    try {
+      window.renderMathInElement(rootEl, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\[', right: '\\]', display: true },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '$', right: '$', display: false }
+        ],
+        ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option', 'input', 'select'],
+        throwOnError: false
+      });
+    } catch (err) {
+      console.warn('KaTeX auto-render error:', err);
+    }
+  }
+}
+
+/**
+ * Renders all static formulas and formula badges across the page.
+ */
+function renderStaticFormulas() {
+  const theoryGrid = document.querySelector('.formula-grid');
+  if (theoryGrid) {
+    renderMath(theoryGrid);
+  }
+  const badges = document.querySelectorAll('.kpi-formula-badge, .diagram-badge');
+  badges.forEach(b => renderMath(b));
+}
+
+/**
+ * Ensures KaTeX and auto-render are ready before executing callback.
+ * Includes dynamic CDN fallback if local vendor fails to load.
+ */
+function ensureKaTeXReady(callback) {
+  if (typeof window.katex !== 'undefined' && typeof window.renderMathInElement === 'function') {
+    callback();
+    return;
+  }
+  let attempts = 0;
+  const poll = setInterval(() => {
+    attempts++;
+    if (typeof window.katex !== 'undefined' && typeof window.renderMathInElement === 'function') {
+      clearInterval(poll);
+      callback();
+    } else if (attempts > 30) {
+      clearInterval(poll);
+      console.warn('KaTeX local vendor not responding; loading from CDN fallback...');
+      loadKaTeXFromCDN(callback);
+    }
+  }, 50);
+}
+
+function loadKaTeXFromCDN(callback) {
+  if (typeof window.katex !== 'undefined' && typeof window.renderMathInElement === 'function') {
+    if (callback) callback();
+    return;
+  }
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+  document.head.appendChild(link);
+
+  const s1 = document.createElement('script');
+  s1.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+  s1.onload = () => {
+    const s2 = document.createElement('script');
+    s2.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+    s2.onload = () => {
+      if (callback) callback();
+    };
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s1);
 }
 
 function updateURLHash() {

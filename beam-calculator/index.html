@@ -9,6 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for High-Precision Mathematical Typesetting (Local Vendor with CDN fallback) -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';">
+  <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';"></script>
+  <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';"></script>
 </head>
 <body>
 
@@ -16,7 +21,7 @@
     <!-- Header -->
     <header class="app-header">
       <div class="brand-group">
-        <a href="../xallace.github.io/index.html" class="back-link" title="Return to Engineering Portfolio">
+        <a href="../index.html" class="back-link" title="Return to Engineering Portfolio">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           <span>Portfolio</span>
         </a>
@@ -203,7 +208,7 @@
           <div class="kpi-card emerald">
             <div class="kpi-header">
               <span>Reaction Forces</span>
-              <span class="kpi-formula-badge">R_A = R_B = wL/2</span>
+              <span class="kpi-formula-badge">\(R = \frac{wL}{2}\)</span>
             </div>
             <div class="kpi-value">
               <span id="kpi-R">45.00</span>
@@ -219,7 +224,7 @@
           <div class="kpi-card highlight">
             <div class="kpi-header">
               <span>Maximum Shear Force</span>
-              <span class="kpi-formula-badge">V_max = R_A</span>
+              <span class="kpi-formula-badge">\(V_{\max} = R_A\)</span>
             </div>
             <div class="kpi-value">
               <span id="kpi-Vmax">45.00</span>
@@ -235,7 +240,7 @@
           <div class="kpi-card highlight">
             <div class="kpi-header">
               <span>Maximum Bending Moment</span>
-              <span class="kpi-formula-badge">M_max = wL²/8</span>
+              <span class="kpi-formula-badge">\(M_{\max} = \frac{wL^2}{8}\)</span>
             </div>
             <div class="kpi-value">
               <span id="kpi-Mmax">67.50</span>
@@ -251,7 +256,7 @@
           <div class="kpi-card purple">
             <div class="kpi-header">
               <span>Max Deflection (Euler)</span>
-              <span class="kpi-formula-badge">5wL⁴ / 384EI</span>
+              <span class="kpi-formula-badge">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
             </div>
             <div class="kpi-value">
               <span id="kpi-dmax">16.51</span>
@@ -267,7 +272,7 @@
           <div class="kpi-card warning">
             <div class="kpi-header">
               <span>Max Bending Stress</span>
-              <span class="kpi-formula-badge">σ = M / W</span>
+              <span class="kpi-formula-badge">\(\sigma = \frac{M}{W_y}\)</span>
             </div>
             <div class="kpi-value">
               <span id="kpi-sigma">347.9</span>
@@ -299,9 +304,9 @@
             <div class="diagram-header">
               <div class="diagram-title-group">
                 <span class="diagram-title">2. Shear Force Diagram (SFD)</span>
-                <span class="diagram-badge">V(x) = w · (L/2 - x)</span>
+                <span class="diagram-badge">\(V(x) = w \left(\frac{L}{2} - x\right)\)</span>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">V_max = ±R</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(V_{\max} = \pm R\)</span>
             </div>
             <div id="viewport-sfd" class="diagram-viewport"></div>
           </div>
@@ -311,9 +316,9 @@
             <div class="diagram-header">
               <div class="diagram-title-group">
                 <span class="diagram-title">3. Bending Moment Diagram (BMD)</span>
-                <span class="diagram-badge">M(x) = (w · x / 2) · (L - x)</span>
+                <span class="diagram-badge">\(M(x) = \frac{w x}{2} (L - x)\)</span>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">M_max = wL²/8</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(M_{\max} = \frac{wL^2}{8}\)</span>
             </div>
             <div id="viewport-bmd" class="diagram-viewport"></div>
           </div>
@@ -323,9 +328,9 @@
             <div class="diagram-header">
               <div class="diagram-title-group">
                 <span class="diagram-title">4. Deflection Curve (Biegelinie)</span>
-                <span class="diagram-badge">δ(x) = (w·x / 24EI) · (L³ - 2Lx² + x³)</span>
+                <span class="diagram-badge">\(\delta(x) = \frac{w x}{24EI} (L^3 - 2Lx^2 + x^3)\)</span>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">δ_max = 5wL⁴ / 384EI</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
             </div>
             <div id="viewport-deflection" class="diagram-viewport"></div>
           </div>
@@ -344,50 +349,52 @@
           <div class="formula-grid">
             <div class="formula-box">
               <div class="formula-name">1. Support Reaction Forces (Auflagerkräfte)</div>
-              <div class="math-display">R_A = R_B = \frac{w \cdot L}{2}</div>
+              <div class="math-display">$$R_A = R_B = \frac{w \cdot L}{2}$$</div>
               <div class="math-sub">Derived from vertical equilibrium \(\sum F_z = 0\) and moment equilibrium \(\sum M_A = 0\).</div>
             </div>
 
             <div class="formula-box">
               <div class="formula-name">2. Shear Force Equation (Querkraftfunktion)</div>
-              <div class="math-display">V(x) = w \cdot \left(\frac{L}{2} - x\right)</div>
+              <div class="math-display">$$V(x) = w \cdot \left(\frac{L}{2} - x\right)$$</div>
               <div class="math-sub">Linear gradient with maximum \(V_{\max} = \frac{wL}{2}\) at supports and zero crossing at \(x = L/2\).</div>
             </div>
 
             <div class="formula-box">
               <div class="formula-name">3. Bending Moment Equation (Biegemoment)</div>
-              <div class="math-display">M(x) = \frac{w \cdot x}{2} \cdot (L - x)</div>
+              <div class="math-display">$$M(x) = \frac{w \cdot x}{2} \cdot (L - x), \quad M_{\max} = \frac{w \cdot L^2}{8}$$</div>
               <div class="math-sub">Quadratic parabola. Peak at \(x = L/2\): \(M_{\max} = \frac{w \cdot L^2}{8}\).</div>
             </div>
 
             <div class="formula-box">
               <div class="formula-name">4. Elastic Deflection (Euler-Bernoulli)</div>
-              <div class="math-display">\delta(x) = \frac{w \cdot x}{24 E I} \left(L^3 - 2 L x^2 + x^3\right)</div>
+              <div class="math-display">$$\delta(x) = \frac{w \cdot x}{24 E I} \left(L^3 - 2 L x^2 + x^3\right)$$</div>
               <div class="math-sub">Peak deflection at midspan: \(\delta_{\max} = \frac{5 \cdot w \cdot L^4}{384 \cdot E \cdot I}\).</div>
             </div>
 
             <div class="formula-box">
               <div class="formula-name">5. Support Rotation Angle (Verdrehwinkel)</div>
-              <div class="math-display">\theta_A = \theta_B = \frac{w \cdot L^3}{24 \cdot E \cdot I}</div>
+              <div class="math-display">$$\theta_A = \theta_B = \frac{w \cdot L^3}{24 \cdot E \cdot I}$$</div>
               <div class="math-sub">Slope of the elastic curve at bearings in radians.</div>
             </div>
 
             <div class="formula-box">
               <div class="formula-name">6. Maximum Bending Stress (Biegespannung)</div>
-              <div class="math-display">\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max} \cdot (h / 2)}{I_y}</div>
+              <div class="math-display">$$\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max} \cdot (h / 2)}{I_y}$$</div>
               <div class="math-sub">Extreme fiber tensile &amp; compressive stress in outer fibers.</div>
             </div>
           </div>
 
           <!-- Live Dynamic Value Substitution -->
           <div class="substitution-box">
-            <div style="font-weight: 700; color: var(--accent-amber); margin-bottom: 0.6rem; font-size: 0.9rem;">
-              ⚡ Live Step-by-Step Calculation (Substituted with Current Parameters):
+            <div class="substitution-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Live Step-by-Step Calculation (KaTeX Typeset Mathematical Substitution)</span>
             </div>
             <div id="subst-step1" class="substitution-step"></div>
             <div id="subst-step2" class="substitution-step"></div>
             <div id="subst-step3" class="substitution-step"></div>
             <div id="subst-step4" class="substitution-step"></div>
+            <div id="subst-step5" class="substitution-step"></div>
           </div>
         </section>
       </main>
