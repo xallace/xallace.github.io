@@ -107,10 +107,18 @@ export const COLOR_PALETTES = [
   }
 ];
 
+// Roof plane height of the flattened buildings in QR mode
+const QR_ROOF_HEIGHT = 0.35;
+// QR spec quiet zone: 4 light modules around the symbol
+const QR_QUIET_ZONE = 4;
+
 export class CityEngine {
   constructor(canvasContainer, options = {}) {
     this.container = canvasContainer;
     this.onModeChange = options.onModeChange || (() => {});
+    // Screen margins (px) covered by UI overlays; the QR view is framed into the rest
+    this.getViewInsets = options.getViewInsets || (() => ({ top: 0, right: 0, bottom: 0, left: 0 }));
+    this.userInteracting = false;
 
     // State
     this.style = options.style || 'metropolis';
@@ -182,6 +190,8 @@ export class CityEngine {
       this.controls.minDistance = 10;
       this.controls.maxDistance = 140;
       this.controls.target.copy(this.camCityTarget);
+      this.controls.addEventListener('start', () => { this.userInteracting = true; });
+      this.controls.addEventListener('end', () => { this.userInteracting = false; });
     }
 
     // 5. Lighting
@@ -298,6 +308,7 @@ export class CityEngine {
     }
 
     this.buildCity();
+    this.refreshQrCamera();
   }
 
   buildCity() {
@@ -343,11 +354,15 @@ export class CityEngine {
     });
 
     const roofColor = this.highContrast ? '#000000' : this.palette.roofColor;
+    // Glossy in 3D; applyMorph turns it matte and darker in QR mode so the
+    // top-down fill light does not glare off the roofs and wash out dark modules
     const roofMat = new THREE.MeshStandardMaterial({
       color: new THREE.Color(roofColor),
       roughness: 0.2,
       metalness: 0.8
     });
+    this.roofMat = roofMat;
+    this.roofBaseColor = new THREE.Color(roofColor);
 
     const spireMat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(this.palette.accent)
@@ -498,7 +513,8 @@ export class CityEngine {
     const headMat = new THREE.MeshBasicMaterial({ color: 0xfff4cc }); // Warm headlight
     const tailMat = new THREE.MeshBasicMaterial({ color: 0xff2244 }); // Red taillight
 
-    const halfSize = (N * cellSpacing) / 2;
+    const totalSize = N * cellSpacing;
+    const halfSize = totalSize / 2;
 
     for (let i = 0; i < numCars; i++) {
       const isEastWest = i % 2 === 0;
@@ -528,7 +544,6 @@ export class CityEngine {
         bound: halfSize + 5
       });
     }
-    const totalSize = N * cellSpacing;
   }
 
   setCityStyle(styleId) {
@@ -569,15 +584,52 @@ export class CityEngine {
     this.transitionDuration = 1200; // ms
     this.startCamPos = this.camera.position.clone();
     this.startCamTarget = this.controls ? this.controls.target.clone() : new THREE.Vector3();
+    this.startOrbit = new THREE.Spherical().setFromVector3(
+      new THREE.Vector3().subVectors(this.startCamPos, this.startCamTarget)
+    );
     this.startMorphT = this.morphT;
     this.targetMorphT = this.isQrMode ? 1.0 : 0.0;
 
-    // Calculate camera distance for top-down QR mode
-    const distNeeded = (this.moduleCount * 1.0) / (2 * Math.tan((this.camera.fov * Math.PI) / 360)) + 6;
-    this.camQrPos.set(0, distNeeded, 0);
+    // Start the unwind of the idle drift from the equivalent angle in [-PI, PI]
+    const rot = this.scene.rotation.y;
+    this.startSceneRotY = Math.atan2(Math.sin(rot), Math.cos(rot));
+    this.scene.rotation.y = this.startSceneRotY;
+
+    this.fitQrView();
 
     if (this.onModeChange) {
       this.onModeChange(this.isQrMode);
+    }
+  }
+
+  // Frame the QR symbol plus its quiet zone top-down inside the part of the
+  // screen that is not covered by UI overlays
+  fitQrView() {
+    const w = this.container.clientWidth;
+    const h = this.container.clientHeight;
+    const ins = this.getViewInsets();
+    const freeW = Math.max(1, w - ins.left - ins.right);
+    const freeH = Math.max(1, h - ins.top - ins.bottom);
+
+    const span = this.moduleCount + 2 * QR_QUIET_ZONE;
+    const tanHalf = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
+    const dist = (span * h) / (2 * tanHalf * Math.min(freeW, freeH));
+    const unitsPerPx = (2 * dist * tanHalf) / h;
+
+    // Shift the camera so the symbol centre lands in the centre of the free area
+    const offX = -((ins.left - ins.right) / 2) * unitsPerPx;
+    const offZ = -((ins.top - ins.bottom) / 2) * unitsPerPx;
+    this.camQrTarget.set(offX, 0, offZ);
+    this.camQrPos.set(offX, dist + QR_ROOF_HEIGHT, offZ);
+  }
+
+  // Re-frame the camera when the symbol size or viewport changes in QR mode
+  refreshQrCamera() {
+    if (!this.isQrMode) return;
+    this.fitQrView();
+    if (!this.animatingTransition) {
+      this.camera.position.copy(this.camQrPos);
+      if (this.controls) this.controls.target.copy(this.camQrTarget);
     }
   }
 
@@ -588,10 +640,8 @@ export class CityEngine {
     const footprint = THREE.MathUtils.lerp(0.82, 1.0, t);
 
     // Height morph: in QR mode, all buildings flatten into crisp, uniform top plane
-    const uniformQrHeight = 0.35;
-
     this.buildings.forEach(b => {
-      const h = THREE.MathUtils.lerp(b.baseHeight, uniformQrHeight, t);
+      const h = THREE.MathUtils.lerp(b.baseHeight, QR_ROOF_HEIGHT, t);
       b.currentHeight = h;
 
       // Scale box geometry: x = footprint, y = h, z = footprint
@@ -616,6 +666,14 @@ export class CityEngine {
     // Shadows & Top fill light: In QR mode, activate shadowless top-down illumination
     this.lights.sun.intensity = THREE.MathUtils.lerp(2.4, 0.4, t);
     this.lights.qrFill.intensity = THREE.MathUtils.lerp(0.0, 2.8, t);
+
+    // Matte roofs and no fog in QR mode: maximum module contrast for scanners
+    if (this.roofMat) {
+      this.roofMat.roughness = THREE.MathUtils.lerp(0.2, 1.0, t);
+      this.roofMat.metalness = THREE.MathUtils.lerp(0.8, 0.0, t);
+      this.roofMat.color.copy(this.roofBaseColor).multiplyScalar(1 - 0.7 * t);
+    }
+    this.scene.fog.density = THREE.MathUtils.lerp(0.012, 0.0, t);
   }
 
   animate() {
@@ -636,13 +694,31 @@ export class CityEngine {
       this.morphT = THREE.MathUtils.lerp(this.startMorphT, this.targetMorphT, ease);
       this.applyMorph(this.morphT);
 
-      // Interpolate Camera Position
+      // Glide the camera on a sphere around the moving look-at point, so the
+      // azimuth turns smoothly into the upright top-down view. A straight
+      // Cartesian lerp leaves a near-zero horizontal offset whose rounding
+      // noise decides the final azimuth (snapped or upside-down QR).
       const targetPos = this.isQrMode ? this.camQrPos : this.camCityPos;
       const targetLook = this.isQrMode ? this.camQrTarget : this.camCityTarget;
 
-      this.camera.position.lerpVectors(this.startCamPos, targetPos, ease);
+      const look = new THREE.Vector3().lerpVectors(this.startCamTarget, targetLook, ease);
+      const from = this.startOrbit;
+      const to = new THREE.Spherical().setFromVector3(new THREE.Vector3().subVectors(targetPos, targetLook));
+      const dTheta = Math.atan2(Math.sin(to.theta - from.theta), Math.cos(to.theta - from.theta));
+      const orbit = new THREE.Spherical(
+        THREE.MathUtils.lerp(from.radius, to.radius, ease),
+        THREE.MathUtils.lerp(from.phi, to.phi, ease),
+        from.theta + dTheta * ease
+      );
+
+      this.camera.position.setFromSpherical(orbit).add(look);
       if (this.controls) {
-        this.controls.target.lerpVectors(this.startCamTarget, targetLook, ease);
+        this.controls.target.copy(look);
+      }
+
+      // Unwind the idle drift so the symbol ends up straight without a snap
+      if (this.isQrMode) {
+        this.scene.rotation.y = this.startSceneRotY * (1 - ease);
       }
 
       if (progress >= 1.0) {
@@ -653,7 +729,7 @@ export class CityEngine {
     } else if (!this.isQrMode && this.controls) {
       // Gentle cinematic camera drift in 3D City Mode
       // Only drift if user isn't actively dragging
-      if (!this.controls.state || this.controls.state === -1) {
+      if (!this.userInteracting) {
         this.scene.rotation.y += 0.0006;
       }
     } else if (this.isQrMode) {
@@ -689,6 +765,7 @@ export class CityEngine {
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
+    this.refreshQrCamera();
   }
 
   capture(resolutionMultiplier = 2) {

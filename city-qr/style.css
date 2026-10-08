@@ -502,6 +502,10 @@ html, body {
 
 /* Cybernetic Targeting Reticle Overlay (Active in QR Mode) */
 .scanner-hud {
+  /* Centre and half-size of the QR frame, set from app.js */
+  --hud-cx: 50%;
+  --hud-cy: 50%;
+  --hud-half: 190px;
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -523,10 +527,10 @@ html, body {
   border-width: 0;
 }
 
-.hud-corner.tl { top: calc(50% - 190px); left: calc(50% - 190px); border-top-width: 3px; border-left-width: 3px; }
-.hud-corner.tr { top: calc(50% - 190px); right: calc(50% - 190px); border-top-width: 3px; border-right-width: 3px; }
-.hud-corner.bl { bottom: calc(50% - 190px); left: calc(50% - 190px); border-bottom-width: 3px; border-left-width: 3px; }
-.hud-corner.br { bottom: calc(50% - 190px); right: calc(50% - 190px); border-bottom-width: 3px; border-right-width: 3px; }
+.hud-corner.tl { top: calc(var(--hud-cy) - var(--hud-half)); left: calc(var(--hud-cx) - var(--hud-half)); border-top-width: 3px; border-left-width: 3px; }
+.hud-corner.tr { top: calc(var(--hud-cy) - var(--hud-half)); left: calc(var(--hud-cx) + var(--hud-half) - 36px); border-top-width: 3px; border-right-width: 3px; }
+.hud-corner.bl { top: calc(var(--hud-cy) + var(--hud-half) - 36px); left: calc(var(--hud-cx) - var(--hud-half)); border-bottom-width: 3px; border-left-width: 3px; }
+.hud-corner.br { top: calc(var(--hud-cy) + var(--hud-half) - 36px); left: calc(var(--hud-cx) + var(--hud-half) - 36px); border-bottom-width: 3px; border-right-width: 3px; }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

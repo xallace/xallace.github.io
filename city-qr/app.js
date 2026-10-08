@@ -85,6 +85,7 @@ function initEngine() {
     text: state.url,
     style: state.style,
     palette: pal,
+    getViewInsets,
     onModeChange: (isQr) => {
       state.isQrMode = isQr;
       updateHintBar();
@@ -93,8 +94,11 @@ function initEngine() {
 
       const hud = document.getElementById('scanner-hud');
       if (hud) hud.classList.toggle('active', isQr);
+      positionScannerHud();
     }
   });
+
+  window.addEventListener('resize', positionScannerHud);
 
   // Tap on canvas (without dragging) toggles 3D City <-> QR Scan Mode (like Bubbbly Bloom)
   let pointerDownPos = null;
@@ -250,6 +254,42 @@ function bindUIEvents() {
       panel.classList.toggle('mobile-open');
     });
   }
+}
+
+// Screen margins (px) the QR code must keep clear of: header on top, hint bar
+// at the bottom and, on desktop, the floating control panel on the right
+function getViewInsets() {
+  const container = document.getElementById('canvas-container');
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  const gap = 16;
+  const insets = { top: 0, right: 0, bottom: 0, left: 0 };
+
+  const header = document.querySelector('.brand-header');
+  const hint = document.getElementById('floating-hint');
+  const panel = document.getElementById('control-panel');
+
+  if (header) insets.top = header.getBoundingClientRect().bottom + gap;
+  if (hint) insets.bottom = h - hint.getBoundingClientRect().top + gap;
+  if (panel && !window.matchMedia('(max-width: 768px)').matches) {
+    insets.right = w - panel.getBoundingClientRect().left + gap;
+  }
+  return insets;
+}
+
+// Scanner HUD corners frame the same square the engine fits the QR code into
+function positionScannerHud() {
+  const hud = document.getElementById('scanner-hud');
+  const container = document.getElementById('canvas-container');
+  if (!hud || !container) return;
+
+  const ins = getViewInsets();
+  const freeW = Math.max(1, container.clientWidth - ins.left - ins.right);
+  const freeH = Math.max(1, container.clientHeight - ins.top - ins.bottom);
+
+  hud.style.setProperty('--hud-cx', `${ins.left + freeW / 2}px`);
+  hud.style.setProperty('--hud-cy', `${ins.top + freeH / 2}px`);
+  hud.style.setProperty('--hud-half', `${Math.min(freeW, freeH) / 2}px`);
 }
 
 function updateHintBar() {
