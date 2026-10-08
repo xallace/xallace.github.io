@@ -38,11 +38,12 @@ With a single tap on the canvas or via the control drawer, the camera smoothly g
   - Tested across iOS Camera, Android Google Lens, and standard barcode readers.
 
 - **5 Architectural Styles:**
-  1. **Metropolis:** Classic skyscraper silhouettes with setback terraces, spire antennas, and glass facades.
-  2. **Cyberpunk:** High-density megalopolis with neon accents, holographic roof nodes, and heavy contrast.
-  3. **Art Deco:** Stepped ziggurat pinnacles, elegant brass/gold highlights, and symmetrical fluting.
-  4. **Voxel Grid:** Minimalist cubic towers with crisp beveled edges and modern digital geometry.
-  5. **Sci-Fi Monolith:** Angular monolithic mega-structures with dark panels and cyan energy conduits.
+  1. **Metropolis:** Glass and steel towers with lit office windows, accent spire antennas, and rooftop helipads.
+  2. **Cyberpunk:** Thin, spiky monoliths with glowing multicolour windows, neon bands, holographic billboards, and beacon masts.
+  3. **Art Deco:** Stepped sandstone ziggurats with fluted facades, gold cornices, and golden spires.
+  4. **Voxel City:** Whole-unit blocks in a flat colour palette, stacked setbacks, rooftop units, and parks with blocky trees.
+  5. **Sci-Fi Megacity:** Podium arcologies with slender towers, glass domes, halo rings, glowing hull strips, and energy conduits between the landmark towers.
+  - Every style collapses into the same flat, dark, matte module plane in QR mode, so scannability does not depend on the style.
 
 - **6 Atmospheric Lighting Palettes:**
   - **Midnight Neon:** Deep obsidian pavement, bright cyan and magenta window glows, dark night fog.

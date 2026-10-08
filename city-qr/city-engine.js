@@ -11,7 +11,7 @@ export const CITY_STYLES = [
   { id: 'cyberpunk', label: 'Cyberpunk', desc: 'Neo-Tokyo monoliths with glowing neon' },
   { id: 'artdeco', label: 'Art Deco', desc: 'Stepped ziggurats & golden spires' },
   { id: 'voxel', label: 'Voxel City', desc: 'Modular low-poly urban blocks & parks' },
-  { id: 'scifi', label: 'Sci-Fi Megacity', desc: 'Futuristic arcologies & energy conduits' }
+  { id: 'scifi', label: 'Sci-Fi Megacity', desc: 'Podium arcologies, glass domes & energy conduits' }
 ];
 
 export const COLOR_PALETTES = [
@@ -112,6 +112,106 @@ const QR_ROOF_HEIGHT = 0.35;
 // QR spec quiet zone: 4 light modules around the symbol
 const QR_QUIET_ZONE = 4;
 
+// Building footprint per style in 3D mode (1.0 = full QR module)
+const STYLE_FOOTPRINT = { metropolis: 0.82, cyberpunk: 0.66, artdeco: 0.88, voxel: 0.94, scifi: 0.9 };
+
+const NEON_PINK = '#ff2bd6';
+const GOLD = '#e0b44c';
+const VOXEL_COLORS = ['#e76f51', '#f4a261', '#e9c46a', '#2a9d8f', '#8ab17d', '#7b8fd6'];
+
+// Outward directions of the four facades (plane default faces +z)
+const FACE_DIRS = [
+  { x: 1, z: 0, rotY: Math.PI / 2 },
+  { x: -1, z: 0, rotY: -Math.PI / 2 },
+  { x: 0, z: 1, rotY: 0 },
+  { x: 0, z: -1, rotY: Math.PI }
+];
+
+// Pseudo-random value in [0, 1) seeded by grid position
+function hash(r, c, salt = 0) {
+  const seed = Math.sin(r * 12.9898 + c * 78.233 + salt * 37.719) * 43758.5453;
+  return seed - Math.floor(seed);
+}
+
+function mixColor(a, b, t) {
+  return new THREE.Color(a).lerp(new THREE.Color(b), t);
+}
+
+// Unit box with two material slots: walls (0) and roof (1), two draw calls.
+// BoxGeometry face order is +x, -x, +y, -y, +z, -z with 6 indices each;
+// the +y face moves to the end so the walls form one contiguous group.
+function createBuildingGeometry() {
+  const geo = new THREE.BoxGeometry(1, 1, 1);
+  const idx = Array.from(geo.index.array);
+  geo.setIndex([...idx.slice(0, 12), ...idx.slice(18), ...idx.slice(12, 18)]);
+  geo.clearGroups();
+  geo.addGroup(0, 30, 0);
+  geo.addGroup(30, 6, 1);
+  return geo;
+}
+
+// Single-material box for setback tiers, one draw call. Its top face (+y,
+// vertices 8-11) samples a single facade texel at the texture edge, so the
+// setbacks read as plain stone instead of windows.
+function createTierGeometry() {
+  const geo = new THREE.BoxGeometry(1, 1, 1);
+  geo.clearGroups();
+  for (let i = 8; i < 12; i++) geo.attributes.uv.setXY(i, 0.01, 0.01);
+  return geo;
+}
+
+// Decor pieces: update(t, h, fp, top, b) places them for morph state t, with
+// h/fp the current body height/footprint and top the height of the tier stack
+
+// Sits on top of the stack and shrinks away in QR mode
+function topDecor(mesh, lift) {
+  return {
+    mesh,
+    update(t, h, fp, top) {
+      const k = 1 - t;
+      mesh.position.y = top + lift * k;
+      mesh.scale.setScalar(Math.max(k, 0.001));
+      mesh.visible = t < 0.95;
+    }
+  };
+}
+
+// Wraps around the body at a fraction of its height
+function bodyBand(mesh, frac, inflate) {
+  return {
+    mesh,
+    update(t, h, fp) {
+      mesh.position.y = h * frac;
+      mesh.scale.set(fp + inflate, 1, fp + inflate);
+      mesh.visible = t < 0.4;
+    }
+  };
+}
+
+// Hangs on one facade of the body
+function sideDecor(mesh, frac, dir) {
+  return {
+    mesh,
+    update(t, h, fp) {
+      mesh.position.set(dir.x * (fp / 2 + 0.02), h * frac, dir.z * (fp / 2 + 0.02));
+      mesh.visible = t < 0.4;
+    }
+  };
+}
+
+// Encircles the first tier at a fraction of its height
+function tierRing(mesh, frac) {
+  return {
+    mesh,
+    update(t, h, fp, top, b) {
+      const k = 1 - t;
+      mesh.position.y = h + b.tiers[0].height * k * frac;
+      mesh.scale.setScalar(Math.max(k, 0.001));
+      mesh.visible = t < 0.9;
+    }
+  };
+}
+
 export class CityEngine {
   constructor(canvasContainer, options = {}) {
     this.container = canvasContainer;
@@ -136,14 +236,21 @@ export class CityEngine {
     this.controls = null;
     this.cityGroup = new THREE.Group();
     this.trafficGroup = new THREE.Group();
+    this.decorGroup = new THREE.Group(); // Street-level style decor, hidden in QR mode
     this.groundMesh = null;
     this.lights = {};
+
+    // Per-build style resources
+    this.styleAssets = []; // Geometries, materials, textures to dispose on rebuild
+    this.qrDarkMats = []; // Building surfaces that fade to the dark module colour
+    this.glowMats = []; // Emissive materials whose glow fades out in QR mode
+    this.footprint3D = STYLE_FOOTPRINT.metropolis;
 
     // QR Data
     this.text = options.text || 'https://xallace.github.io/';
     this.moduleCount = 25;
     this.matrix = [];
-    this.buildings = []; // Array of { mesh, baseHeight, targetHeight, r, c, isFinder }
+    this.buildings = []; // Array of { group, bodyMesh, bodyHeight, tiers, decor, r, c, isFinder }
     this.trafficParticles = [];
 
     // Camera viewpoints
@@ -200,17 +307,15 @@ export class CityEngine {
     // 6. Groups
     this.scene.add(this.cityGroup);
     this.scene.add(this.trafficGroup);
+    this.scene.add(this.decorGroup);
 
-    // 7. Textures
-    this.windowTexture = this.generateWindowTexture();
-
-    // 8. Generate QR and build city
+    // 7. Generate QR and build city
     this.updateQR(this.text);
 
-    // 9. Events
+    // 8. Events
     window.addEventListener('resize', this.onResize.bind(this));
 
-    // 10. Start loop
+    // 9. Start loop
     this.animate = this.animate.bind(this);
     requestAnimationFrame(this.animate);
   }
@@ -247,37 +352,76 @@ export class CityEngine {
     this.scene.add(this.lights.qrFill);
   }
 
-  generateWindowTexture() {
+  // Facade texture of the active style; null for plain-coloured voxel blocks
+  generateFacadeTexture() {
+    if (this.style === 'voxel') return null;
+
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
+    const pal = this.palette;
 
-    // Dark building glass background
-    ctx.fillStyle = '#080c14';
-    ctx.fillRect(0, 0, 128, 256);
-
-    // Draw grid of windows
-    const cols = 8;
-    const rows = 24;
-    const w = 9;
-    const h = 6;
-    const gapX = 6;
-    const gapY = 4;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        // Randomly lit or unlit
-        const isLit = Math.random() > 0.45;
-        if (isLit) {
-          ctx.fillStyle = this.palette.windowLit;
-          ctx.shadowColor = this.palette.windowLit;
-          ctx.shadowBlur = 4;
-        } else {
-          ctx.fillStyle = this.palette.windowUnlit;
-          ctx.shadowBlur = 0;
+    if (this.style === 'cyberpunk') {
+      // Dense grid of small windows lit in neon colours (also the glow map)
+      ctx.fillStyle = '#05060a';
+      ctx.fillRect(0, 0, 128, 256);
+      const neon = [pal.windowLit, pal.accent, NEON_PINK];
+      for (let r = 0; r < 36; r++) {
+        for (let c = 0; c < 12; c++) {
+          if (Math.random() > 0.38) continue;
+          ctx.fillStyle = neon[Math.floor(Math.random() * neon.length)];
+          ctx.fillRect(4 + c * 10, 4 + r * 7, 7, 4);
         }
-        ctx.fillRect(8 + c * (w + gapX), 8 + r * (h + gapY), w, h);
+      }
+    } else if (this.style === 'artdeco') {
+      // Light stone with fluted pilasters and tall narrow windows
+      ctx.fillStyle = '#d8cfbd';
+      ctx.fillRect(0, 0, 128, 256);
+      ctx.fillStyle = '#f1ebdf';
+      for (let x = 0; x < 128; x += 16) ctx.fillRect(x, 0, 4, 256);
+      for (let r = 0; r < 12; r++) {
+        for (let c = 0; c < 8; c++) {
+          ctx.fillStyle = Math.random() > 0.55 ? pal.windowLit : '#3b3a40';
+          ctx.fillRect(7 + c * 16, 6 + r * 21, 6, 15);
+        }
+      }
+    } else if (this.style === 'scifi') {
+      // Dark hull panels with bright energy strips (also the glow map)
+      ctx.fillStyle = '#1a2130';
+      ctx.fillRect(0, 0, 128, 256);
+      ctx.strokeStyle = '#2c3648';
+      ctx.lineWidth = 2;
+      for (let y = 0; y < 256; y += 32) ctx.strokeRect(1, y + 1, 126, 30);
+      ctx.fillStyle = '#ffffff';
+      for (let y = 14; y < 256; y += 64) ctx.fillRect(0, y, 128, 3);
+      for (let x = 30; x < 128; x += 64) ctx.fillRect(x, 0, 2, 256);
+    } else {
+      // Metropolis: dark glass curtain wall with a regular window grid
+      ctx.fillStyle = '#080c14';
+      ctx.fillRect(0, 0, 128, 256);
+
+      const cols = 8;
+      const rows = 24;
+      const w = 9;
+      const h = 6;
+      const gapX = 6;
+      const gapY = 4;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          // Randomly lit or unlit
+          const isLit = Math.random() > 0.45;
+          if (isLit) {
+            ctx.fillStyle = pal.windowLit;
+            ctx.shadowColor = pal.windowLit;
+            ctx.shadowBlur = 4;
+          } else {
+            ctx.fillStyle = pal.windowUnlit;
+            ctx.shadowBlur = 0;
+          }
+          ctx.fillRect(8 + c * (w + gapX), 8 + r * (h + gapY), w, h);
+        }
       }
     }
 
@@ -312,12 +456,13 @@ export class CityEngine {
   }
 
   buildCity() {
-    // Clear previous
-    while (this.cityGroup.children.length > 0) {
-      const obj = this.cityGroup.children[0];
-      this.cityGroup.remove(obj);
-      if (obj.geometry) obj.geometry.dispose();
-    }
+    // Clear previous city, street decor and the style's GPU resources
+    this.cityGroup.clear();
+    this.decorGroup.clear();
+    this.styleAssets.forEach(asset => asset.dispose());
+    this.styleAssets = [];
+    this.qrDarkMats = [];
+    this.glowMats = [];
     this.buildings = [];
 
     const N = this.moduleCount;
@@ -342,121 +487,339 @@ export class CityEngine {
       return inTLC || inTRC || inBLC;
     };
 
-    // Shared geometries and materials
-    const boxGeo = new THREE.BoxGeometry(1, 1, 1);
-
-    // Material definitions based on palette and style
-    const wallMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.palette.buildingBase),
-      roughness: 0.35,
-      metalness: 0.65,
-      map: this.windowTexture
-    });
-
-    const roofColor = this.highContrast ? '#000000' : this.palette.roofColor;
-    // Glossy in 3D; applyMorph turns it matte and darker in QR mode so the
-    // top-down fill light does not glare off the roofs and wash out dark modules
-    const roofMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(roofColor),
-      roughness: 0.2,
-      metalness: 0.8
-    });
-    this.roofMat = roofMat;
-    this.roofBaseColor = new THREE.Color(roofColor);
-
-    const spireMat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(this.palette.accent)
-    });
+    // 3. Shared geometries and materials of the active style
+    const kit = this.createStyleKit();
+    this.footprint3D = STYLE_FOOTPRINT[this.style] || STYLE_FOOTPRINT.metropolis;
 
     const centerDistMax = Math.hypot(N / 2, N / 2);
 
     for (let r = 0; r < N; r++) {
       for (let c = 0; c < N; c++) {
-        if (!this.matrix[r][c]) continue; // Empty module = street / plaza
-
         const posX = (c - N / 2 + 0.5) * cellSpacing;
         const posZ = (r - N / 2 + 0.5) * cellSpacing;
 
-        // Calculate procedural 3D height
+        // Empty module = street / plaza
+        if (!this.matrix[r][c]) {
+          if (kit.street && !isFinder(r, c)) kit.street(posX, posZ, hash(r, c, 3.7));
+          continue;
+        }
+
         const distFromCenter = Math.hypot(c - N / 2, r - N / 2);
-        const centerFactor = 1.0 - (distFromCenter / centerDistMax);
-
-        // Pseudo-random noise seeded by position
-        const seed = Math.sin(r * 12.9898 + c * 78.233) * 43758.5453;
-        const rand = seed - Math.floor(seed);
-
-        let height = 2.0 + centerFactor * 5.5 + rand * 3.0;
-
-        const isF = isFinder(r, c);
-        const isFC = isFinderCenter(r, c);
-
-        // Landmark finder core towers rise high with futuristic spires
-        if (isFC) {
-          height = 11.5 + (r % 2 === 0 ? 1.0 : 0);
-        } else if (isF) {
-          height = 6.0 + rand * 1.5;
-        }
-
-        // Create building group
-        const building = new THREE.Group();
-        building.position.set(posX, 0, posZ);
-
-        // Building body mesh
-        // Use multi-material: sides use window texture, top uses roofMat
-        const materials = [
-          wallMat, wallMat,
-          roofMat, // Top face (+Y)
-          wallMat, // Bottom face (-Y)
-          wallMat, wallMat
-        ];
-
-        const bodyMesh = new THREE.Mesh(boxGeo, materials);
-        bodyMesh.castShadow = true;
-        bodyMesh.receiveShadow = true;
-        building.add(bodyMesh);
-
-        // Optional architectural antenna/spire on tallest towers in 3D mode
-        let spire = null;
-        if ((isFC || (height > 8.0 && rand > 0.65)) && this.style !== 'voxel') {
-          const spireGeo = new THREE.CylinderGeometry(0.04, 0.08, 2.2, 8);
-          spire = new THREE.Mesh(spireGeo, spireMat);
-          spire.position.y = 0.5 + 1.1; // Sits on top of the box
-          building.add(spire);
-        }
-
-        // Helipad circle on selected mid-tier roofs
-        let helipad = null;
-        if (!isF && height > 5.0 && height <= 8.0 && rand > 0.5 && this.style === 'metropolis') {
-          const heliGeo = new THREE.RingGeometry(0.18, 0.28, 16);
-          const heliMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(this.palette.accent), side: THREE.DoubleSide });
-          helipad = new THREE.Mesh(heliGeo, heliMat);
-          helipad.rotation.x = -Math.PI / 2;
-          helipad.position.y = 0.505;
-          building.add(helipad);
-        }
-
-        this.cityGroup.add(building);
-
-        this.buildings.push({
-          group: building,
-          bodyMesh,
-          spire,
-          helipad,
-          baseHeight: height,
-          currentHeight: height,
+        const site = {
           r,
           c,
-          isFinder: isF,
-          isFinderCenter: isFC
-        });
+          cf: 1.0 - (distFromCenter / centerDistMax), // 1 at the centre, 0 at the corners
+          rand: hash(r, c),
+          rand2: hash(r, c, 1.3),
+          isF: isFinder(r, c),
+          isFC: isFinderCenter(r, c)
+        };
+
+        const group = new THREE.Group();
+        group.position.set(posX, 0, posZ);
+        this.cityGroup.add(group);
+
+        const building = {
+          group,
+          bodyMesh: null,
+          bodyHeight: 1,
+          tiers: [],
+          decor: [],
+          r,
+          c,
+          isFinder: site.isF,
+          isFinderCenter: site.isFC
+        };
+        kit.build(building, site);
+        this.buildings.push(building);
       }
     }
 
-    // 3. Initialize Traffic Particles along street corridors
+    if (kit.landmarks) kit.landmarks(N);
+
+    // 4. Initialize Traffic Particles along street corridors
     this.setupTraffic(N, cellSpacing);
 
     // Apply current morph state
     this.applyMorph(this.morphT);
+  }
+
+  // Builders, geometries and materials for the active style and palette.
+  // Every building gets a body box that morphs into its QR module; tiers
+  // collapse onto it and decor shrinks away, so all styles scan the same.
+  createStyleKit() {
+    const pal = this.palette;
+    const district = this.decorGroup;
+    const track = asset => { this.styleAssets.push(asset); return asset; };
+
+    const roofColor = this.highContrast ? '#000000' : pal.roofColor;
+    this.qrRoofColor = new THREE.Color(roofColor).multiplyScalar(0.3);
+
+    // Building surfaces fade to the dark module colour and turn matte in QR
+    // mode, so the top-down fill light cannot glare off them; glow fades out
+    const surface = params => {
+      const mat = track(new THREE.MeshStandardMaterial(params));
+      this.qrDarkMats.push({ mat, base: mat.color.clone(), roughness: mat.roughness, metalness: mat.metalness });
+      if (params.emissiveMap) this.glowMats.push({ mat, intensity: mat.emissiveIntensity });
+      return mat;
+    };
+    const basic = (color, extra = {}) => track(new THREE.MeshBasicMaterial({ color: new THREE.Color(color), ...extra }));
+
+    const facade = this.generateFacadeTexture();
+    if (facade) track(facade);
+    const box = track(createBuildingGeometry());
+    const tierBox = track(createTierGeometry());
+
+    const mesh = (geo, mat, castShadow = false) => {
+      const m = new THREE.Mesh(geo, mat);
+      m.castShadow = castShadow;
+      return m;
+    };
+    const addBody = (b, materials, height) => {
+      b.bodyMesh = mesh(box, materials, true);
+      b.bodyMesh.receiveShadow = true;
+      b.bodyHeight = height;
+      b.group.add(b.bodyMesh);
+    };
+    // [wall, roof] gets a separate roof colour; a single material saves a draw call
+    const addTier = (b, materials, footprint, height) => {
+      const tier = mesh(Array.isArray(materials) ? box : tierBox, materials, true);
+      tier.receiveShadow = true;
+      b.tiers.push({ mesh: tier, footprint, height });
+      b.group.add(tier);
+    };
+    const addDecor = (b, decor) => {
+      b.decor.push(decor);
+      b.group.add(decor.mesh);
+    };
+
+    switch (this.style) {
+      case 'cyberpunk': {
+        const wall = surface({
+          color: new THREE.Color(pal.buildingBase), roughness: 0.5, metalness: 0.5, map: facade,
+          emissive: new THREE.Color('#ffffff'), emissiveMap: facade, emissiveIntensity: 0.85
+        });
+        const roof = surface({ color: new THREE.Color(roofColor), roughness: 0.3, metalness: 0.7 });
+        const neon = [basic(pal.accent), basic(NEON_PINK)];
+        const signs = [pal.accent, NEON_PINK].map(col => basic(col, { side: THREE.DoubleSide, transparent: true, opacity: 0.85 }));
+        const mastMat = track(new THREE.MeshStandardMaterial({ color: 0x8a94a6, roughness: 0.4, metalness: 0.8 }));
+        const beaconMat = basic('#ff3355');
+        const bandGeo = track(new THREE.BoxGeometry(1, 0.06, 1));
+        const signGeo = track(new THREE.PlaneGeometry(0.42, 1.1));
+        const mastGeo = track(new THREE.CylinderGeometry(0.02, 0.035, 1.6, 6));
+        const beaconGeo = track(new THREE.SphereGeometry(0.06, 8, 6));
+
+        return {
+          build(b, s) {
+            // Thin monoliths with a spiky, uneven skyline
+            let height = 3.0 + s.cf * 7.0 + s.rand * s.rand * 9.0;
+            if (s.isFC) height = 16.0 + (s.r % 2);
+            else if (s.isF) height = 7.0 + s.rand * 2.0;
+            addBody(b, [wall, roof], height);
+
+            // Neon bands wrapped around the facade
+            if (height > 4.0) {
+              addDecor(b, bodyBand(mesh(bandGeo, neon[(s.r + s.c) % 2]), 0.3 + s.rand * 0.15, 0.05));
+              if (s.rand2 > 0.45) {
+                addDecor(b, bodyBand(mesh(bandGeo, neon[(s.r + s.c + 1) % 2]), 0.7 + s.rand2 * 0.2, 0.05));
+              }
+            }
+
+            // Holographic billboard on one facade
+            if (!s.isF && height > 6.0 && s.rand2 > 0.55) {
+              const dir = FACE_DIRS[Math.floor(s.rand * 4)];
+              const sign = mesh(signGeo, signs[s.c % 2]);
+              sign.rotation.y = dir.rotY;
+              addDecor(b, sideDecor(sign, 0.55, dir));
+            }
+
+            // Antenna mast with a red beacon
+            if (s.isFC || s.rand2 > 0.75) {
+              const antenna = new THREE.Group();
+              antenna.add(mesh(mastGeo, mastMat));
+              const beacon = mesh(beaconGeo, beaconMat);
+              beacon.position.y = 0.8;
+              antenna.add(beacon);
+              addDecor(b, topDecor(antenna, 0.8));
+            }
+          }
+        };
+      }
+
+      case 'artdeco': {
+        const wall = surface({ color: mixColor(pal.buildingBase, '#c9b58a', 0.55), roughness: 0.8, metalness: 0.05, map: facade });
+        const roof = surface({ color: mixColor(roofColor, '#7a5c2e', 0.35), roughness: 0.5, metalness: 0.4 });
+        const gold = track(new THREE.MeshStandardMaterial({
+          color: new THREE.Color(GOLD), roughness: 0.35, metalness: 0.4,
+          emissive: new THREE.Color('#5a3d0a'), emissiveIntensity: 0.6
+        }));
+        const trimGeo = track(new THREE.BoxGeometry(1, 0.08, 1));
+        const spireGeo = track(new THREE.CylinderGeometry(0.0, 0.1, 2.6, 8));
+
+        return {
+          build(b, s) {
+            // Stepped ziggurats: wide base, two setback tiers, gold crown
+            let total = 2.5 + s.cf * 6.0 + s.rand * 2.5;
+            if (s.isFC) total = 13.0 + (s.r % 2);
+            else if (s.isF) total = 5.0 + s.rand;
+            const stepped = (!s.isF || s.isFC) && total > 4.0;
+
+            addBody(b, [wall, roof], stepped ? total * 0.55 : total);
+            addDecor(b, bodyBand(mesh(trimGeo, gold), 1.0, 0.04)); // Gold cornice
+
+            if (stepped) {
+              addTier(b, wall, 0.64, total * 0.25);
+              addTier(b, wall, 0.4, total * 0.2);
+              if (s.isFC || (total > 7.0 && s.rand2 > 0.6)) {
+                addDecor(b, topDecor(mesh(spireGeo, gold), 1.3));
+              }
+            }
+          }
+        };
+      }
+
+      case 'voxel': {
+        const walls = VOXEL_COLORS.map(col => surface({ color: mixColor(col, pal.buildingBase, 0.35), roughness: 0.9, metalness: 0.0 }));
+        const roofs = VOXEL_COLORS.map(col => surface({
+          color: mixColor(col, '#ffffff', 0.2).lerp(new THREE.Color(pal.buildingBase), 0.3), roughness: 0.9, metalness: 0.0
+        }));
+        const unitMat = track(new THREE.MeshStandardMaterial({ color: 0xd9dee7, roughness: 0.8 }));
+        const grassMat = track(new THREE.MeshStandardMaterial({ color: mixColor('#7cb342', pal.buildingBase, 0.25), roughness: 1.0 }));
+        const leafMat = track(new THREE.MeshStandardMaterial({ color: mixColor('#3f9b4a', pal.buildingBase, 0.2), roughness: 0.9 }));
+        const trunkMat = track(new THREE.MeshStandardMaterial({ color: 0x6b4a2b, roughness: 1.0 }));
+        const unitGeo = track(new THREE.BoxGeometry(0.3, 0.3, 0.3));
+        const grassGeo = track(new THREE.PlaneGeometry(0.92, 0.92));
+        const trunkGeo = track(new THREE.BoxGeometry(0.08, 0.3, 0.08));
+        const leafGeo = track(new THREE.BoxGeometry(0.42, 0.42, 0.42));
+
+        return {
+          build(b, s) {
+            // Whole-unit block heights, chunky footprints, one colour per block
+            let height = 1 + Math.floor(s.cf * 3.0 + s.rand * 2.5);
+            if (s.isFC) height = 6;
+            else if (s.isF) height = 3;
+            const i = Math.floor(s.rand2 * walls.length);
+
+            addBody(b, [walls[i], roofs[i]], height);
+            if (!s.isF && height >= 2 && s.rand2 > 0.55) addTier(b, [walls[i], roofs[i]], 0.56, 1);
+            if (s.rand > 0.75) addDecor(b, topDecor(mesh(unitGeo, unitMat), 0.15)); // Rooftop unit
+          },
+
+          // Parks with blocky trees on some empty modules
+          street(x, z, rnd) {
+            if (rnd > 0.3) return;
+            const grass = mesh(grassGeo, grassMat);
+            grass.rotation.x = -Math.PI / 2;
+            grass.position.set(x, 0.006, z);
+            grass.receiveShadow = true;
+            district.add(grass);
+
+            if (rnd < 0.2) {
+              const trunk = mesh(trunkGeo, trunkMat);
+              trunk.position.set(x, 0.15, z);
+              const leaves = mesh(leafGeo, leafMat, true);
+              leaves.position.set(x, 0.5, z);
+              district.add(trunk, leaves);
+            }
+          }
+        };
+      }
+
+      case 'scifi': {
+        const wall = surface({
+          color: mixColor('#cfd8e6', pal.buildingBase, 0.3), roughness: 0.3, metalness: 0.6, map: facade,
+          emissive: new THREE.Color(pal.accent), emissiveMap: facade, emissiveIntensity: 1.1
+        });
+        const roof = surface({ color: new THREE.Color(roofColor), roughness: 0.25, metalness: 0.7 });
+        const energy = basic(pal.accent);
+        const domeMat = track(new THREE.MeshStandardMaterial({
+          color: mixColor(pal.accent, '#ffffff', 0.5), roughness: 0.15, metalness: 0.2,
+          emissive: new THREE.Color(pal.accent), emissiveIntensity: 0.35, transparent: true, opacity: 0.9
+        }));
+        const domeGeo = track(new THREE.SphereGeometry(0.24, 12, 4, 0, Math.PI * 2, 0, Math.PI / 2));
+        const ringGeo = track(new THREE.TorusGeometry(0.34, 0.03, 4, 16));
+        const conduitGeo = track(new THREE.CylinderGeometry(0.07, 0.07, 1, 8));
+        const nodeGeo = track(new THREE.SphereGeometry(0.42, 16, 12));
+
+        return {
+          build(b, s) {
+            // Podium arcologies: wide base, slender tower, glass dome, halo rings
+            let podium = 0.6 + s.rand * 0.5;
+            if (s.isFC) podium = 1.4;
+            else if (s.isF) podium = 1.0 + s.rand * 0.3;
+            addBody(b, [wall, roof], podium);
+
+            let tower = 0;
+            if (s.isFC) tower = 12.0 + (s.r % 2);
+            else if (!s.isF && s.rand > 0.4) tower = 1.5 + s.cf * 7.0 + s.rand2 * 4.0;
+
+            if (tower > 0) {
+              addTier(b, [wall, roof], s.isFC ? 0.5 : 0.36 + s.rand2 * 0.14, tower);
+              addDecor(b, topDecor(mesh(domeGeo, domeMat), 0));
+              const rings = s.isFC ? [0.45, 0.8] : (s.rand2 > 0.65 ? [0.7] : []);
+              rings.forEach(frac => {
+                const ring = mesh(ringGeo, energy);
+                ring.rotation.x = Math.PI / 2;
+                addDecor(b, tierRing(ring, frac));
+              });
+            } else if (s.rand2 > 0.6) {
+              addDecor(b, topDecor(mesh(domeGeo, domeMat), 0));
+            }
+          },
+
+          // Energy conduits linking the three landmark towers
+          landmarks(N) {
+            const at = (r, c) => new THREE.Vector3(c - N / 2 + 0.5, 9.0, r - N / 2 + 0.5);
+            const tl = at(3, 3);
+            const tr = at(3, N - 4);
+            const bl = at(N - 4, 3);
+
+            [[tl, tr], [tl, bl]].forEach(([from, to]) => {
+              const beam = mesh(conduitGeo, energy);
+              beam.position.copy(from).add(to).multiplyScalar(0.5);
+              beam.scale.y = from.distanceTo(to);
+              beam.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), to.clone().sub(from).normalize());
+              district.add(beam);
+            });
+            [tl, tr, bl].forEach(p => {
+              const node = mesh(nodeGeo, energy);
+              node.position.copy(p);
+              district.add(node);
+            });
+          }
+        };
+      }
+
+      default: {
+        // Metropolis: glass & steel towers with lit office windows, accent spires and helipads
+        const wall = surface({
+          color: mixColor(pal.buildingBase, '#9fb3c8', 0.6), roughness: 0.35, metalness: 0.65, map: facade,
+          emissive: new THREE.Color('#ffffff'), emissiveMap: facade, emissiveIntensity: 0.35
+        });
+        const roof = surface({ color: new THREE.Color(roofColor), roughness: 0.2, metalness: 0.8 });
+        const accent = basic(pal.accent, { side: THREE.DoubleSide });
+        const spireGeo = track(new THREE.CylinderGeometry(0.04, 0.08, 2.2, 8));
+        const helipadGeo = track(new THREE.RingGeometry(0.18, 0.28, 16));
+
+        return {
+          build(b, s) {
+            let height = 2.0 + s.cf * 5.5 + s.rand * 3.0;
+            if (s.isFC) height = 11.5 + (s.r % 2 === 0 ? 1.0 : 0);
+            else if (s.isF) height = 6.0 + s.rand * 1.5;
+            addBody(b, [wall, roof], height);
+
+            if (s.isFC || (height > 8.0 && s.rand > 0.65)) {
+              addDecor(b, topDecor(mesh(spireGeo, accent), 1.1));
+            }
+            if (!s.isF && height > 5.0 && height <= 8.0 && s.rand > 0.5) {
+              const pad = mesh(helipadGeo, accent);
+              pad.rotation.x = -Math.PI / 2;
+              addDecor(b, topDecor(pad, 0.01));
+            }
+          }
+        };
+      }
+    }
   }
 
   buildGround(totalSize) {
@@ -562,8 +925,7 @@ export class CityEngine {
     this.lights.sun.color.set(this.palette.sunColor);
     this.lights.rim.color.set(this.palette.accent);
 
-    // Refresh window texture
-    this.windowTexture = this.generateWindowTexture();
+    // Rebuild with facade textures and materials in the new colours
     this.buildCity();
   }
 
@@ -635,44 +997,51 @@ export class CityEngine {
 
   applyMorph(t) {
     // t: 0.0 = 3D City Skyline, 1.0 = Scannable 2D QR Code
-    // In 3D: Footprint width = 0.82 (leaves realistic street canyons for traffic)
+    // In 3D: Footprint width per style (leaves street canyons for traffic)
     // In QR: Footprint width = 1.00 (expands seamlessly to create unbroken QR finder rings & barcode blocks!)
-    const footprint = THREE.MathUtils.lerp(0.82, 1.0, t);
+    const footprint = THREE.MathUtils.lerp(this.footprint3D, 1.0, t);
+    const k = 1 - t;
 
     // Height morph: in QR mode, all buildings flatten into crisp, uniform top plane
     this.buildings.forEach(b => {
-      const h = THREE.MathUtils.lerp(b.baseHeight, QR_ROOF_HEIGHT, t);
-      b.currentHeight = h;
+      const h = THREE.MathUtils.lerp(b.bodyHeight, QR_ROOF_HEIGHT, t);
 
       // Scale box geometry: x = footprint, y = h, z = footprint
       b.bodyMesh.scale.set(footprint, h, footprint);
       b.bodyMesh.position.y = h / 2;
 
-      // Spire & helipad scale down in QR mode to prevent visual clutter
-      if (b.spire) {
-        b.spire.scale.set(1 - t, 1 - t, 1 - t);
-        b.spire.position.y = h + (1.1 * (1 - t));
-        b.spire.visible = t < 0.95;
-      }
-      if (b.helipad) {
-        b.helipad.position.y = h + 0.01;
-        b.helipad.visible = t < 0.8;
-      }
+      // Setback tiers collapse onto the body
+      let top = h;
+      b.tiers.forEach(tier => {
+        const th = Math.max(tier.height * k, 0.001);
+        tier.mesh.scale.set(tier.footprint, th, tier.footprint);
+        tier.mesh.position.y = top + th / 2;
+        tier.mesh.visible = t < 0.98;
+        top += th;
+      });
+
+      // Spires, neon, domes etc. shrink away to prevent visual clutter
+      b.decor.forEach(d => d.update(t, h, footprint, top, b));
     });
 
-    // Traffic visibility: fade out in QR mode to keep barcode 100% clean
+    // Traffic and street decor: fade out in QR mode to keep barcode 100% clean
     this.trafficGroup.visible = this.trafficEnabled && t < 0.3;
+    this.decorGroup.visible = t < 0.3;
 
     // Shadows & Top fill light: In QR mode, activate shadowless top-down illumination
     this.lights.sun.intensity = THREE.MathUtils.lerp(2.4, 0.4, t);
     this.lights.qrFill.intensity = THREE.MathUtils.lerp(0.0, 2.8, t);
 
-    // Matte roofs and no fog in QR mode: maximum module contrast for scanners
-    if (this.roofMat) {
-      this.roofMat.roughness = THREE.MathUtils.lerp(0.2, 1.0, t);
-      this.roofMat.metalness = THREE.MathUtils.lerp(0.8, 0.0, t);
-      this.roofMat.color.copy(this.roofBaseColor).multiplyScalar(1 - 0.7 * t);
-    }
+    // Dark matte buildings without glow and no fog in QR mode: maximum module
+    // contrast for scanners in every style
+    this.qrDarkMats.forEach(({ mat, base, roughness, metalness }) => {
+      mat.color.copy(base).lerp(this.qrRoofColor, t);
+      mat.roughness = THREE.MathUtils.lerp(roughness, 1.0, t);
+      mat.metalness = THREE.MathUtils.lerp(metalness, 0.0, t);
+    });
+    this.glowMats.forEach(({ mat, intensity }) => {
+      mat.emissiveIntensity = intensity * k;
+    });
     this.scene.fog.density = THREE.MathUtils.lerp(0.012, 0.0, t);
   }
 
