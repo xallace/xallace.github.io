@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KfzDyn · Dynamik der Kraftfahrzeuge</title>
+  <meta name="description" content="Rechenmodelle aus Mitschke/Wallentowitz, Dynamik der Kraftfahrzeuge: Reifen, Fahrleistungen, Bremsung, Schwingungen und Einspurmodell zum Ausprobieren.">
+  <meta property="og:title" content="KfzDyn · Dynamik der Kraftfahrzeuge">
+  <meta property="og:description" content="Reifen, Fahrleistungen, Bremsung, Schwingungen und Fahrverhalten interaktiv, gegen die Zahlenbeispiele des Buchs geprüft.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛞</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <a href="../" class="back-link">← Portfolio</a>
+        <h1><span class="logo">KfzDyn</span> Dynamik der Kraftfahrzeuge
+          <span class="badge">Mitschke/Wallentowitz, 5. Aufl.</span>
+          <span class="badge amber">Rechenmodelle</span>
+        </h1>
+        <p>Reifen, Fahrleistungen, Bremsung, Schwingungen und Fahrverhalten zum Ausprobieren. Die Modelle sind nach den
+          Gleichungen des Buchs programmiert und gegen seine Zahlenbeispiele geprüft.</p>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs"></nav>
+    <main id="tab-host"></main>
+
+    <footer>
+      Quelle der Modelle und Beispieldaten: M. Mitschke, H. Wallentowitz: <i>Dynamik der Kraftfahrzeuge</i>, 5. Auflage,
+      Springer Vieweg 2014. Gleichungsnummern und Seitenzahlen beziehen sich auf diese Auflage. Texte und Abbildungen
+      des Buchs sind nicht übernommen, Diagrammkurven nur dort digitalisiert, wo das Buch keine Formel angibt
+      (siehe Reiter „Prüfung &amp; Quellen“).
+    </footer>
+  </div>
+
+  <script src="vendor/three/three.min.js"></script>
+  <script src="vendor/three/OrbitControls.js"></script>
+  <script src="vendor/katex/katex.min.js"></script>
+
+  <script src="js/engine/core.js"></script>
+  <script src="js/engine/reifen.js"></script>
+  <script src="js/engine/laengs.js"></script>
+  <script src="js/engine/bremsung.js"></script>
+  <script src="js/engine/schwingung.js"></script>
+  <script src="js/engine/einspur.js"></script>
+  <script src="js/engine/data.js"></script>
+  <script src="js/engine/pruefung.js"></script>
+
+  <script src="js/ui/chart.js"></script>
+  <script src="js/ui/controls.js"></script>
+  <script src="js/ui/reifen3d.js"></script>
+
+  <script src="js/tabs/reifen.js"></script>
+  <script src="js/tabs/fahrleistung.js"></script>
+  <script src="js/tabs/bremsung.js"></script>
+  <script src="js/tabs/schwingung.js"></script>
+  <script src="js/tabs/fahrverhalten.js"></script>
+  <script src="js/tabs/pruefung.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
