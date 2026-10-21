@@ -9,9 +9,21 @@ Central portfolio landing page showcasing physical simulation systems, mechanica
 
 ## 🚀 Showcased Projects & Modules
 
+* **[pla-100](https://xallace.github.io/pla-100.html)** *(WIP)* — Parametric 14-part precision linear axis (`PLA-100`) with Three.js WebGL CAD inspector & STEP AP214 download.
+* **[kfz-dynamik](https://xallace.github.io/kfz-dynamik/)** — *KfzDyn*: Interactive vehicle dynamics models from Mitschke/Wallentowitz (*Dynamik der Kraftfahrzeuge*, 5th ed.) with 3D wheel forces, longitudinal performance, braking, quarter-car vibrations & single-track handling.
+* **[beam-calculator](https://xallace.github.io/beam-calculator/)** — *BeamLab*: Euler-Bernoulli simply supported beam calculator (`StructX 001`) with real-time SFD/BMD/deflection curves, Eurocode profiles & KaTeX step-by-step math.
+* **[tabellenbuch-metall-formeln](https://xallace.github.io/tabellenbuch-metall-formeln/)** — Interactive digital twin of *Tabellenbuch Metall (S. 14)* ($v_c = \pi \cdot d \cdot n$, $M = 9550 \cdot P / n$, linear functions & break-even $K_G = E$).
+* **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling & cross-section inspection studio with STL/OBJ export.
+* **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — Wankel rotary engine, robotics cycloidal reducers & roulette curves with 1-click AutoCAD DXF/SVG export.
+* **[carousel-simulation](https://xallace.github.io/carousel-simulation/)** — 3D Three.js centripetal physics & cable tension modeling.
 * **[lever-simulation](https://xallace.github.io/lever-simulation/)** — Archimedean lever principle & torque dynamics ($\alpha = \tau / I$).
+* **[abacus](https://xallace.github.io/abacus/)** — Interactive bi-quinary Soroban, Suanpan, Schoty & Roman hand-abacus laboratory.
 * **[number-pyramid](https://xallace.github.io/number-pyramid/)** — Pascal combinatorics lab & constraint-based arithmetic solver.
-* **[carousel-simulation](https://github.com/xallace)** — 3D Three.js centripetal physics & cable tension modeling.
+* **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
+* **[speed-cad](https://xallace.github.io/speed-cad/)** — *SpeedCAD: Blueprint Blitz* 3D CAD speedrunner game with LiveSplits & Web Audio.
+* **[cosmic-card-studio](https://xallace.github.io/cosmic-card-studio/)** — 3D parallax card studio with holographic foil shaders.
+* **[lingua-ai](https://xallace.github.io/languages.html)** — Sentence-synchronized bilingual reader (DE ↔ UA) & LLM story generator.
+* **[google-page-two](https://xallace.github.io/google-page-two/)** — Searchable guide to 26 underrated Google tools & search operators.
 * **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
 * **Engineering Monographies** — Historical linkage mechanisms (I. I. Artobolevsky) & Astronautics historical foundations.
 
