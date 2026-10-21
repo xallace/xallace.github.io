@@ -1148,6 +1148,27 @@ body {
   border: 1px dashed rgba(245, 158, 11, 0.45);
 }
 
+/* Tabellenbuch Metall S. 58 Visual (baut auf .tbb-vis auf) */
+.tbb58-vis {
+  padding-top: 40px;  /* Platz für das Badge oben rechts */
+  gap: 2px;
+  overflow: hidden;
+}
+.tbb58-vis .vis-tbb-badge { margin-bottom: 2px; }
+.tbb58-vis .vis-tbb-formula { margin-top: 2px; }
+.tbb58-vis .vis-tbb58-plot {
+  width: 135px;
+  height: 86px;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.35));
+}
+.tbb58-vis .vis-tbb58-plot .ax { stroke: #cbd5e1; stroke-width: 1.5; fill: none; }
+.tbb58-vis .vis-tbb58-plot .head { fill: #cbd5e1; }
+.tbb58-vis .vis-tbb58-plot .curve { stroke: #f87171; stroke-width: 2.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.tbb58-vis .vis-tbb58-plot .read { stroke: #facc15; stroke-width: 1.2; stroke-dasharray: 3 3; fill: none; }
+.tbb58-vis .vis-tbb58-plot .pt { fill: #05101f; stroke: #e2e8f0; stroke-width: 1.3; }
+.tbb58-vis .vis-tbb58-plot .pt.a { stroke: #facc15; stroke-width: 1.8; }
+
 
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
