@@ -1098,6 +1098,56 @@ body {
   border: 1px dashed rgba(168, 85, 247, 0.5);
 }
 
+/* KfzDyn Visual */
+.kfz-vis {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #3b2506 0%, #030712 100%);
+  gap: 8px;
+  padding-top: 34px;  /* Platz für das Badge oben rechts */
+  overflow: hidden;
+}
+.kfz-vis .vis-kfz-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(245, 158, 11, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.12) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.kfz-vis .vis-kfz-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  z-index: 2;
+}
+.kfz-vis .vis-kfz-symbol {
+  font-size: 2.3rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.6));
+}
+.kfz-vis .vis-kfz-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38bdf8;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px dashed rgba(245, 158, 11, 0.45);
+}
+
 
 /* ==========================================================================
    Wide Feature (pdf-toc-injector)
