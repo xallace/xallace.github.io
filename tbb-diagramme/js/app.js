@@ -22,9 +22,11 @@
     try { localStorage.setItem('tbb58-theme', dark ? 'dark' : 'light'); } catch (e) { /* ohne Speicher weiter */ }
   }
   $('btn-theme').addEventListener('click', () => setTheme(!document.body.classList.contains('theme-blueprint')));
+  // Blueprint ist Standard (Klasse steht schon im <body>); hell nur nach Umschalten oder mit ?theme=light
   let saved = null;
   try { saved = localStorage.getItem('tbb58-theme'); } catch (e) { /* ohne Speicher weiter */ }
-  if (saved === 'dark' || /[?&]theme=dark/.test(location.search)) setTheme(true);
+  const forced = /[?&]theme=(dark|light)/.exec(location.search);
+  setTheme((forced ? forced[1] : saved) !== 'light');
 
   $('btn-book').addEventListener('click', () => {
     for (const k in tabs) tabs[k].reset();

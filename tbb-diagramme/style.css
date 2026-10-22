@@ -1,4 +1,4 @@
-/* Tabellenbuch Metall S. 58 · Diagramme – Design wie die App zu S. 14 (Königsblau, hell) mit Blueprint-Dunkelmodus */
+/* Tabellenbuch Metall S. 58 · Diagramme – Blueprint-Dunkelmodus als Standard, helles Design wie die App zu S. 14 (Königsblau) umschaltbar */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
@@ -149,7 +149,7 @@ label.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85
 .slider output { font: 600 0.85rem var(--mono); min-width: 64px; text-align: right; }
 .btn { appearance: none; border: 1px solid var(--primary); background: var(--primary); color: #fff; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
 body.theme-blueprint .btn { color: #0b1526; }
-.btn.ghost { background: transparent; color: var(--primary); }
+.btn.ghost, body.theme-blueprint .btn.ghost { background: transparent; color: var(--primary); }
 .btn:disabled { opacity: 0.5; cursor: default; }
 input.num, input.txt { font: 0.9rem var(--mono); padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); }
 input.num { width: 84px; }

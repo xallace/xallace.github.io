@@ -18,7 +18,7 @@ und die Beispielwerte (P1, P2, Tellerfeder-Tabelle, Ablesestelle s = 0,9 mm).
 | 4 Federkennlinie | Buchtabelle editierbar, Punkte ziehbar. Kennlinie als glatte Kurve oder Polygonzug, Ablesung F aus s oder s aus F über Punkt A, Tangente und Federrate in A, Ableseübung mit Toleranz. |
 
 Oben rechts: „Buchwerte laden“ setzt alle Reiter auf die Beispiele der Seite zurück,
-„Blueprint-Modus“ schaltet das dunkle Design (wird im Browser gespeichert; `?theme=dark` erzwingt es).
+Das dunkle Blueprint-Design ist Standard. „Heller Modus“ schaltet auf das helle Design um; die Wahl wird im Browser gespeichert, `?theme=light` bzw. `?theme=dark` erzwingt eines der beiden.
 Reiter sind per Adresse erreichbar: `#koordinaten`, `#aufbau`, `#skalen`, `#feder`.
 
 ## Annahmen und Abweichungen

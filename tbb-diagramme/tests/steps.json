@@ -17,11 +17,11 @@
     "js": "document.querySelector('#f-dir [data-v=Fs]').click(); document.getElementById('f-tangent').click(); document.querySelector('#f-curve [data-v=linear]').click(); document.getElementById('f-result').textContent" },
   { "name": "f-quiz", "hash": "feder", "clip": "#tab-feder",
     "js": "document.querySelector('#f-curve [data-v=pchip]').click(); document.getElementById('f-quiz').click(); const q=UI.tabs.feder.state.quiz; document.getElementById('f-answer').value=String(Math.round(q.truth*(q.dir==='sF'?1:100))/(q.dir==='sF'?1:100)).replace('.',','); document.getElementById('f-check').click(); JSON.stringify(q)+' | '+document.getElementById('f-feedback').textContent" },
-  { "name": "dark-aufbau", "hash": "aufbau", "clip": "#tab-aufbau",
-    "js": "document.getElementById('btn-book').click(); document.getElementById('btn-theme').click(); document.getElementById('a-grid').click(); document.body.className" },
-  { "name": "dark-feder", "hash": "feder" },
-  { "name": "dark-koord", "hash": "koordinaten" },
+  { "name": "light-aufbau", "hash": "aufbau", "clip": "#tab-aufbau",
+    "js": "document.getElementById('btn-book').click(); document.getElementById('btn-theme').click(); document.getElementById('a-grid').click(); 'body: ' + document.body.className" },
+  { "name": "light-feder", "hash": "feder" },
+  { "name": "light-koord", "hash": "koordinaten" },
   { "name": "narrow-feder", "hash": "feder", "width": 500,
-    "js": "document.getElementById('btn-theme').click(); 'light'" },
+    "js": "document.getElementById('btn-theme').click(); 'body: ' + document.body.className" },
   { "name": "narrow-koord", "hash": "koordinaten", "width": 500 }
 ]
