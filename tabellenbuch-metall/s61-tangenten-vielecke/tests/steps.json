@@ -1,0 +1,12 @@
+[
+  { "name": "1-tangente-p-book", "hash": "tangente-p", "clip": "#tab-tangente-p" },
+  { "name": "2-tangente-aussen-book", "hash": "tangente-aussen", "clip": "#tab-tangente-aussen" },
+  { "name": "3-rundung-winkel-book", "hash": "rundung-winkel", "clip": "#tab-rundung-winkel" },
+  { "name": "4-kreisverbindung-book", "hash": "kreisverbindung", "clip": "#tab-kreisverbindung" },
+  { "name": "5-vieleck-umkreis-fuenfeck", "hash": "vieleck-umkreis", "clip": "#tab-vieleck-umkreis" },
+  { "name": "6-sechseck-zwoelfeck-book", "hash": "sechseck-zwoelfeck", "clip": "#tab-sechseck-zwoelfeck" },
+  { "name": "7-light-theme-fuenfeck", "hash": "vieleck-umkreis",
+    "js": "document.getElementById('btn-book').click(); document.getElementById('btn-theme').click(); 'body: ' + document.body.className" },
+  { "name": "8-sechseck-dodecagon", "hash": "sechseck-zwoelfeck",
+    "js": "document.querySelector('#sechs-mode button[data-v=\"dodecagon\"]').click(); document.getElementById('sechs-result').textContent" }
+]

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geometrische Grundkonstruktionen: Tangenten, Kreisbögen, Vielecke • Tabellenbuch Metall S. 61</title>
+  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 61 (3.2 Geometrische Grundkonstruktionen – Tangenten, Kreisbögen, Vielecke): Tangente durch Kreispunkt P, Tangente von einem Punkt P an den Kreis, Rundung am Winkel, Verbindung zweier Kreise durch Kreisbögen, Regelmäßiges Vieleck im Umkreis und Sechseck/Zwölfeck im Umkreis.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='white' stroke-width='2' fill='none'/%3E%3Cline x1='4' y1='6' x2='28' y2='6' stroke='%23fbbf24' stroke-width='2.2'/%3E%3Cpolygon points='16,7 25,13 22,23 10,23 7,13' stroke='%23f87171' stroke-width='1.8' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blueprint">
+  <header class="tbb-header">
+    <div class="tbb-top">
+      <div class="tbb-meta">
+        <span class="page-badge">61</span>
+        <span class="subject-tag">K</span>
+        <div>
+          <h1>3.2 Geometrische Grundkonstruktionen • Tangenten, Kreisbögen, Vielecke</h1>
+          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • Zirkel- und Linealkonstruktionen nach DIN ISO 128</div>
+        </div>
+      </div>
+      <div class="tbb-tools">
+        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
+        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
+        <a href="../s58-diagramme/" class="back-link" title="Zu Seite 58: Kartesisches Koordinatensystem">← S. 58</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Zu Seite 59: Polarkoordinatensysteme, Flächendiagramme">← S. 59</a>
+        <a href="../s60-grundkonstruktionen/" class="back-link" title="Zu Seite 60: Strecken, Lote, Winkel">← S. 60</a>
+        <button class="btn-header" id="btn-book" title="Alle 6 Grundkonstruktionen auf die Buchdarstellung von Seite 61 zurücksetzen">↺ Buchwerte laden</button>
+        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="tangente-p" class="active">1 Tangente in P</button>
+      <button data-tab="tangente-aussen">2 Tangente von P</button>
+      <button data-tab="rundung-winkel">3 Rundung am Winkel</button>
+      <button data-tab="kreisverbindung">4 Kreisverbindung</button>
+      <button data-tab="vieleck-umkreis">5 Vieleck im Umkreis</button>
+      <button data-tab="sechseck-zwoelfeck">6 Sechseck, Zwölfeck</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= 1 Tangente durch Kreispunkt P ================= -->
+    <section class="tab active" id="tab-tangente-p">
+      <div class="tab-head">
+        <h2>Tangente durch Kreispunkt P</h2>
+        <p>Die Verbindungsgerade <span class="overline">MP</span> wird über den Berührpunkt <i>P</i> hinaus verlängert. Durch Schlagen eines symmetrischen Hilfskreises um <i>P</i> entsteht die Strecke <span class="overline">AB</span>, deren Mittelsenkrechte <span class="overline">CD</span> exakt die gesuchte Tangente im Punkt <i>P</i> darstellt ($\angle(CD, MP) = 90^\circ$).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="tanp-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Strahl MP</button>
+              <button data-v="2">2 Kreis um P (A, B)</button>
+              <button data-v="3">3 Bögen (C, D)</button>
+              <button data-v="4" class="on">4 Tangente CD</button>
+            </span>
+            <button class="btn ghost" id="tanp-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="tanp-radii" checked> Radiuspfeile <i>r</i>₁, <i>r</i>₂</label>
+            <label class="chk"><input type="checkbox" id="tanp-angle" checked> 90°-Winkelmarke</label>
+          </div>
+          <div class="slider">
+            <span>Kreisradius <i>R</i></span>
+            <input type="range" id="tanp-r" min="30" max="65" step="1" value="48">
+            <output id="tanp-r-out">48 mm</output>
+          </div>
+          <div class="slider">
+            <span>Winkelposition <i>φ</i> von P</span>
+            <input type="range" id="tanp-ang" min="0" max="360" step="1" value="55">
+            <output id="tanp-ang-out">55°</output>
+          </div>
+          <div class="slider">
+            <span>Hilfskreis um P (<i>r</i>₁)</span>
+            <input type="range" id="tanp-r1" min="15" max="35" step="1" value="24">
+            <output id="tanp-r1-out">24 mm</output>
+          </div>
+          <div class="slider">
+            <span>Bögen um A &amp; B (<i>r</i>₂ &gt; <i>r</i>₁)</span>
+            <input type="range" id="tanp-r2" min="25" max="55" step="1" value="38">
+            <output id="tanp-r2-out">38 mm</output>
+          </div>
+          <svg class="dia" id="tanp-svg" viewBox="0 0 640 460" role="img" aria-label="Tangente durch einen Kreispunkt P"></svg>
+          <p class="note">Punkt <b>P</b> kann direkt im Zeichenblatt entlang der Kreislinie gedreht werden. Da <span class="overline">MP</span> der Radius ist, steht die Tangente exakt senkrecht dazu.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Kreis und Punkt P auf dem Kreis</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="tanp-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="tanp-result"></div>
+            <div class="kv" id="tanp-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="tanp-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="tanp-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="tanp-task" class="note"></div>
+            <div class="ctl-row" id="tanp-ans-row" hidden>
+              <input class="num" id="tanp-ans" inputmode="decimal"> <span id="tanp-ans-unit"></span>
+              <button class="btn" id="tanp-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="tanp-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2 Tangente von einem Punkt P an den Kreis ================= -->
+    <section class="tab" id="tab-tangente-aussen">
+      <div class="tab-head">
+        <h2>Tangente von einem Punkt P an den Kreis</h2>
+        <p>Die Strecke <span class="overline">MP</span> wird halbiert. Der Kreis um den Mittelpunkt <i>A</i> mit Radius $r = \overline{AM} = \overline{AP}$ (Satz des Thales) schneidet den Ausgangskreis in den Berührpunkten <i>T</i> (und $T'$). Da $\triangle MTP$ dem Thaleskreis einbeschrieben ist, gilt $\overline{MT} \perp \overline{PT}$ ($\angle MTP = 90^\circ$).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="tana-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 MP halbieren</button>
+              <button data-v="2">2 Thaleskreis (T)</button>
+              <button data-v="3">3 Tangente PT</button>
+              <button data-v="4" class="on">4 Thales-Satz (90°)</button>
+            </span>
+            <button class="btn ghost" id="tana-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="tana-both" checked> Beide Tangenten (<i>T</i> und <i>T′</i>)</label>
+            <label class="chk"><input type="checkbox" id="tana-thales" checked> Thaleskreis voll zeichnen</label>
+            <label class="chk"><input type="checkbox" id="tana-bisect" checked> Mittelsenkrechten-Bögen</label>
+          </div>
+          <div class="slider">
+            <span>Kreisradius <i>R</i></span>
+            <input type="range" id="tana-r" min="25" max="55" step="1" value="42">
+            <output id="tana-r-out">42 mm</output>
+          </div>
+          <div class="slider">
+            <span>Abstand <span class="overline">MP</span></span>
+            <input type="range" id="tana-d" min="70" max="150" step="1" value="103">
+            <output id="tana-d-out">103 mm</output>
+          </div>
+          <svg class="dia" id="tana-svg" viewBox="0 0 640 460" role="img" aria-label="Tangente von einem äußeren Punkt P an den Kreis"></svg>
+          <p class="note">Punkt <b>P</b> kann direkt im Zeichenblatt verschoben werden. Die Tangentenlänge erfüllt den Satz des Pythagoras: $R^2 + L^2 = \overline{MP}^2$.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Kreis (M, R) und Punkt P außerhalb</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="tana-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="tana-result"></div>
+            <div class="kv" id="tana-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="tana-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="tana-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="tana-task" class="note"></div>
+            <div class="ctl-row" id="tana-ans-row" hidden>
+              <input class="num" id="tana-ans" inputmode="decimal"> <span id="tana-ans-unit"></span>
+              <button class="btn" id="tana-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="tana-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3 Rundung am Winkel ================= -->
+    <section class="tab" id="tab-rundung-winkel">
+      <div class="tab-head">
+        <h2>Rundung am Winkel</h2>
+        <p>Zu den Schenkeln <span class="overline">AS</span> und <span class="overline">BS</span> werden Parallelen im Abstand <i>r</i> gezogen. Ihr Schnittpunkt <i>M</i> ist der Mittelpunkt des Ausrundungsbogens. Die Lote von <i>M</i> auf die Schenkel liefern die tangentialen Übergangspunkte <i>C</i> und <i>D</i> ($C^1$-stetiger Übergang ohne Knick).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="rund-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Parallelen (M)</button>
+              <button data-v="2">2 Lote (C, D)</button>
+              <button data-v="3" class="on">3 Bogen CD</button>
+            </span>
+            <button class="btn ghost" id="rund-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="rund-par" checked> Parallelen im Abstand <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="rund-perp" checked> Lote <i>MC</i>, <i>MD</i> (90°)</label>
+            <label class="chk"><input type="checkbox" id="rund-kite"> Drachenviereck <i>SMCD</i></label>
+          </div>
+          <div class="slider">
+            <span>Innenwinkel <i>α</i></span>
+            <input type="range" id="rund-alpha" min="30" max="145" step="1" value="72">
+            <output id="rund-alpha-out">72°</output>
+          </div>
+          <div class="slider">
+            <span>Rundungsradius <i>r</i></span>
+            <input type="range" id="rund-r" min="15" max="55" step="1" value="36">
+            <output id="rund-r-out">36 mm</output>
+          </div>
+          <svg class="dia" id="rund-svg" viewBox="0 0 640 460" role="img" aria-label="Rundung am Winkel mit Radius r"></svg>
+          <p class="note">Der Tangentenabschnitt beträgt $t = \overline{SC} = \overline{SD} = r / \tan(\alpha / 2)$. Der Scheitelabstand ist $\overline{SM} = r / \sin(\alpha / 2)$.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Winkel ASB und Rundungsradius r</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="rund-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="rund-result"></div>
+            <div class="kv" id="rund-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="rund-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="rund-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="rund-task" class="note"></div>
+            <div class="ctl-row" id="rund-ans-row" hidden>
+              <input class="num" id="rund-ans" inputmode="decimal"> <span id="rund-ans-unit"></span>
+              <button class="btn" id="rund-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="rund-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 Verbindung zweier Kreise durch Kreisbögen ================= -->
+    <section class="tab" id="tab-kreisverbindung">
+      <div class="tab-head">
+        <h2>Verbindung zweier Kreise durch Kreisbögen</h2>
+        <p>Zwei Kreise mit Radien $r_1$ und $r_2$ werden tangential durch einen Innenbogen ($R_i$, Kehle) und einen Außenbogen ($R_a$, Hülle) verbunden. Die Bogenmittelpunkte <i>A</i> und <i>D</i> entstehen durch Zirkelschläge mit den Summenradien $R_i + r$ bzw. Differenzradien $R_a - r$ (klassische Nocken-, Flansch- und Pleuelkontur).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="verb-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 R_i+r₁</button>
+              <button data-v="2">2 R_i+r₂ (A)</button>
+              <button data-v="3">3 Innenbogen B-C</button>
+              <button data-v="4">4 R_a−r₁</button>
+              <button data-v="5">5 R_a−r₂ (D)</button>
+              <button data-v="6" class="on">6 Außenbogen E-F</button>
+            </span>
+            <button class="btn ghost" id="verb-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="verb-help" checked> Hilfsbögen einblenden</label>
+            <label class="chk"><input type="checkbox" id="verb-lines" checked> Zentrenlinien <i>A–M</i> &amp; <i>D–M</i></label>
+            <label class="chk"><input type="checkbox" id="verb-full" checked> Vollständige Nockenkontur</label>
+          </div>
+          <div class="slider">
+            <span>Kreis 1 Radius <i>r</i>₁</span>
+            <input type="range" id="verb-r1" min="15" max="32" step="1" value="22">
+            <output id="verb-r1-out">22 mm</output>
+          </div>
+          <div class="slider">
+            <span>Kreis 2 Radius <i>r</i>₂</span>
+            <input type="range" id="verb-r2" min="20" max="45" step="1" value="32">
+            <output id="verb-r2-out">32 mm</output>
+          </div>
+          <div class="slider">
+            <span>Achsabstand <i>a</i> = <span class="overline">M₁M₂</span></span>
+            <input type="range" id="verb-a" min="70" max="120" step="1" value="96">
+            <output id="verb-a-out">96 mm</output>
+          </div>
+          <div class="slider">
+            <span>Innenradius <i>R</i><sub>i</sub> (Kehle)</span>
+            <input type="range" id="verb-ri" min="40" max="85" step="1" value="55">
+            <output id="verb-ri-out">55 mm</output>
+          </div>
+          <div class="slider">
+            <span>Außenradius <i>R</i><sub>a</sub> (Hülle)</span>
+            <input type="range" id="verb-ra" min="80" max="140" step="1" value="110">
+            <output id="verb-ra-out">110 mm</output>
+          </div>
+          <svg class="dia" id="verb-svg" viewBox="0 0 640 460" role="img" aria-label="Verbindung zweier Kreise durch Innen- und Außenbögen"></svg>
+          <p class="note">Die Berührpunkte <i>B, C</i> und <i>E, F</i> liegen exakt auf den Verbindungsgeraden der Mittelpunkte (Kollinearitätsbeweis für Tangentialität).</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Kreis 1, Kreis 2; Radien R_i und R_a</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="verb-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="verb-result"></div>
+            <div class="kv" id="verb-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="verb-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="verb-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="verb-task" class="note"></div>
+            <div class="ctl-row" id="verb-ans-row" hidden>
+              <input class="num" id="verb-ans" inputmode="decimal"> <span id="verb-ans-unit"></span>
+              <button class="btn" id="verb-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="verb-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5 Regelmäßiges Vieleck im Umkreis ================= -->
+    <section class="tab" id="tab-vieleck-umkreis">
+      <div class="tab-head">
+        <h2>Regelmäßiges Vieleck im Umkreis (z. B. Fünfeck)</h2>
+        <p>Universelle Näherungskonstruktion nach Bion: Der vertikale Durchmesser <span class="overline">AB</span> wird in <i>n</i> gleiche Teile geteilt. Ein Kreisbogen mit Radius $r = \overline{AB}$ um <i>A</i> liefert die Polpunkte <i>C</i> und <i>D</i> im Abstand $R\sqrt{3}$. Strahlen von <i>C</i> und <i>D</i> durch die Teilpunkte (ungerade für ungerades <i>n</i>, gerade für gerades <i>n</i>) schlagen die Ecken auf dem Kreis aus.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Eckzahl <i>n</i>:</span>
+            <span class="seg" id="viel-n">
+              <button data-v="3">3</button>
+              <button data-v="4">4</button>
+              <button data-v="5" class="on">5 (Buch)</button>
+              <button data-v="6">6</button>
+              <button data-v="7">7</button>
+              <button data-v="8">8</button>
+              <button data-v="9">9</button>
+              <button data-v="10">10</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="viel-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 n Teile auf AB</button>
+              <button data-v="2">2 Polpunkte C &amp; D</button>
+              <button data-v="3">3 Polstrahlen</button>
+              <button data-v="4" class="on">4 Vieleck verbinden</button>
+            </span>
+            <button class="btn ghost" id="viel-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="viel-rays" checked> Polstrahlen anzeigen</label>
+            <label class="chk"><input type="checkbox" id="viel-div" checked> Teilungsstriche 1..n</label>
+            <label class="chk"><input type="checkbox" id="viel-exact"> Exaktes Vieleck (Vergleich)</label>
+          </div>
+          <div class="slider">
+            <span>Kreisdurchmesser <i>d</i></span>
+            <input type="range" id="viel-d" min="60" max="130" step="2" value="100">
+            <output id="viel-d-out">100 mm</output>
+          </div>
+          <svg class="dia" id="viel-svg" viewBox="0 0 640 460" role="img" aria-label="Regelmäßiges Vieleck im Umkreis"></svg>
+          <p class="note">Beim Fünfeck erreicht die historische Näherung eine Genauigkeit von <b>99,15%</b> (Winkelfehler &lt; 0,1°). Beim Sechseck ist sie mathematisch <b>100% exakt</b>.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Kreis mit Durchmesser d (z. B. Fünfeck)</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="viel-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="viel-result"></div>
+            <div class="kv" id="viel-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="viel-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="viel-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="viel-task" class="note"></div>
+            <div class="ctl-row" id="viel-ans-row" hidden>
+              <input class="num" id="viel-ans" inputmode="decimal"> <span id="viel-ans-unit"></span>
+              <button class="btn" id="viel-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="viel-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6 Sechseck, Zwölfeck im Umkreis ================= -->
+    <section class="tab" id="tab-sechseck-zwoelfeck">
+      <div class="tab-head">
+        <h2>Sechseck, Zwölfeck im Umkreis</h2>
+        <p>Mit dem unveränderten Zirkelradius $r = d/2$ wird in die Endpunkte des Durchmessers <i>A</i> und <i>B</i> eingestochen $\to$ exaktes Sechseck ($s = r$). Durch zusätzliche Einstiche in die horizontalen Punkte <i>C</i> und <i>D</i> wird der Kreis in 12 gleiche Abschnitte zu je 30° unterteilt (Zwölfeck).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Modus:</span>
+            <span class="seg" id="sechs-mode">
+              <button data-v="hexagon" class="on">Sechseck (6 Ecken)</button>
+              <button data-v="dodecagon">Zwölfeck (12 Ecken)</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="sechs-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bögen um A</button>
+              <button data-v="2">2 Bögen um B</button>
+              <button data-v="3" class="on">3 Sechseck verbinden</button>
+            </span>
+            <button class="btn ghost" id="sechs-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="sechs-incircle" checked> Inkreis (Schlüsselweite <i>SW</i>)</label>
+            <label class="chk"><input type="checkbox" id="sechs-radii" checked> Radiuspfeil <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="sechs-sw"> Bemaßung <i>SW</i> anzeigen</label>
+          </div>
+          <div class="slider">
+            <span>Kreisdurchmesser <i>d</i> (Eckenmaß <i>e</i>)</span>
+            <input type="range" id="sechs-d" min="50" max="120" step="2" value="92">
+            <output id="sechs-d-out">92 mm</output>
+          </div>
+          <svg class="dia" id="sechs-svg" viewBox="0 0 640 460" role="img" aria-label="Sechseck und Zwölfeck im Umkreis"></svg>
+          <p class="note">Technische Anwendung: Sechskantschrauben (DIN EN ISO 4014 / DIN 931). Das Eckenmaß ist $e = d$, die Schlüsselweite ist $SW = d \cdot \frac{\sqrt{3}}{2} \approx 0{,}866\,d$.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Kreis mit Durchmesser d (r = d/2)</div>
+            <h3>Konstruktionsschritte (S. 61)</h3>
+            <ul class="rules" id="sechs-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="sechs-result"></div>
+            <div class="kv" id="sechs-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="sechs-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="sechs-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="sechs-task" class="note"></div>
+            <div class="ctl-row" id="sechs-ans-row" hidden>
+              <input class="num" id="sechs-ans" inputmode="decimal"> <span id="sechs-ans-unit"></span>
+              <button class="btn" id="sechs-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="sechs-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Tabellenbuch Metall • 48. Auflage • Fachbereich Technische Kommunikation (K) • Seite 61 • 3.2 Geometrische Grundkonstruktionen: Tangenten, Kreisbögen, Vielecke • Zero-Dependency HTML5/SVG
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/svg.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tab-tangente-p.js"></script>
+  <script src="js/tab-tangente-aussen.js"></script>
+  <script src="js/tab-rundung-winkel.js"></script>
+  <script src="js/tab-kreisverbindung.js"></script>
+  <script src="js/tab-vieleck-umkreis.js"></script>
+  <script src="js/tab-sechseck.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
