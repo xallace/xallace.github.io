@@ -1,0 +1,800 @@
+/* ==========================================================================
+   Tabellenbuch Metall - Formeln, Gleichungen, Diagramme (S. 14)
+   Professional German Engineering UI & Tabellenbuch Design System
+   ========================================================================== */
+
+:root {
+  --primary: #004b87;         /* Tabellenbuch Blue */
+  --primary-hover: #003a6b;
+  --primary-light: #e6f0fa;
+  --accent-burgundy: #8b0000; /* Formula Box Accent Bar */
+  --accent-amber: #d97706;    /* Calculation highlights */
+  --accent-cyan: #0284c7;     /* Function curve / Dimensions */
+  --success: #15803d;        /* Profit / Correct */
+  --danger: #dc2626;         /* Loss / Error */
+  
+  --bg-app: #f4f6f9;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f8fafc;
+  --border-color: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-light: #94a3b8;
+  
+  --example-bg: #f0fdf4;
+  --example-border: #86efac;
+  --formula-badge-bg: #881337;
+  --formula-badge-text: #ffffff;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Blueprint / Dark Theme */
+body.theme-blueprint {
+  --primary: #38bdf8;
+  --primary-hover: #7dd3fc;
+  --primary-light: #0c2d48;
+  --accent-burgundy: #f43f5e;
+  --accent-amber: #fbbf24;
+  --accent-cyan: #38bdf8;
+  --success: #4ade80;
+  --danger: #f87171;
+  
+  --bg-app: #0b1526;
+  --bg-card: #132238;
+  --bg-card-alt: #0e1b2e;
+  --border-color: #1e3a5f;
+  --border-subtle: #162d4a;
+  
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  
+  --example-bg: #0d281e;
+  --example-border: #166534;
+  --formula-badge-bg: #9f1239;
+  --formula-badge-text: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Header Bar (Tabellenbuch Metall Style)
+   ========================================================================== */
+.tbb-header {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.tbb-header-top {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tbb-book-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tbb-page-badge {
+  background: #ffffff;
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 1.15rem;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  letter-spacing: -0.5px;
+}
+
+.tbb-subject-tag {
+  background: #b91c1c;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.tbb-title-group h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.tbb-title-group .tbb-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.tbb-header-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.back-link {
+  color: #dbeafe;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease;
+}
+
+.back-link:hover {
+  background: rgba(255, 255, 255, 0.14);
+  text-decoration: underline;
+}
+
+.btn-header {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-header:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   Navigation Tabs
+   ========================================================================== */
+.tbb-nav-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.18);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 15px;
+}
+
+.tbb-nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tbb-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tbb-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tbb-tab-btn.active {
+  color: #ffffff;
+  border-bottom-color: #facc15;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.tbb-tab-btn .badge-pill {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+}
+
+/* ==========================================================================
+   Main Container
+   ========================================================================== */
+.tbb-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  width: 100%;
+  flex: 1;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Grid & Card Layouts
+   ========================================================================== */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tbb-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.tbb-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.tbb-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+}
+
+/* Formula Highlight Box (Exact Tabellenbuch S. 14 Red/Burgundy Styling) */
+.tbb-formula-box {
+  background: var(--bg-card-alt);
+  border-left: 6px solid var(--accent-burgundy);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tbb-formula-box .formula-desc {
+  font-weight: 700;
+  color: var(--accent-burgundy);
+  font-size: 0.95rem;
+}
+
+.tbb-formula-box .formula-math {
+  font-size: 1.35rem;
+  font-weight: bold;
+}
+
+.tbb-formula-box .formula-math .katex-display {
+  margin: 0 !important;
+}
+
+/* Math Rows in solutions & explanations */
+.math-row {
+  margin: 8px 0;
+  overflow-x: auto;
+}
+
+.math-row .katex-display {
+  margin: 6px 0 !important;
+}
+
+/* Example Box (Buch-Beispiel) */
+.tbb-example-box {
+  background: var(--example-bg);
+  border: 1px solid var(--example-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+.tbb-example-title {
+  color: var(--success);
+  font-weight: 800;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Formula Explanation List */
+.tbb-definition-list {
+  list-style: none;
+  margin: 12px 0;
+}
+
+.tbb-definition-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.tbb-definition-list li::before {
+  content: "•";
+  color: var(--accent-burgundy);
+  font-size: 1.3rem;
+  position: absolute;
+  left: 4px;
+  top: -2px;
+}
+
+/* ==========================================================================
+   Form Controls & Interactive Calculator
+   ========================================================================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+
+.input-with-unit {
+  display: flex;
+  align-items: center;
+}
+
+.input-control {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s;
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 75, 135, 0.15);
+}
+
+.input-with-unit .input-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.unit-select, .unit-badge {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-color);
+  border-left: none;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-top-right-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.range-slider-wrapper {
+  margin-top: 8px;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* Result Card */
+.result-card {
+  background: var(--primary-light);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-top: 20px;
+}
+
+.result-card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.result-main-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.result-sub-value {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Step-by-Step Box */
+.calc-step-box {
+  background: var(--bg-card-alt);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-top: 16px;
+}
+
+.calc-step-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.calc-step-line {
+  padding: 4px 0;
+  color: var(--text-main);
+  overflow-x: auto;
+}
+
+.calc-step-line .katex-display {
+  margin: 4px 0 !important;
+}
+
+.calc-step-line .katex {
+  font-size: 1.05rem;
+}
+
+/* Prescribed Units Table (vorgeschriebene Einheiten) */
+.tbb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 12px 0;
+}
+
+.tbb-table th {
+  background: var(--primary);
+  color: #ffffff;
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid var(--primary);
+}
+
+.tbb-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.tbb-table tr:nth-child(even) td {
+  background: var(--bg-card-alt);
+}
+
+/* Canvas & SVG Containers */
+.canvas-container {
+  width: 100%;
+  height: 340px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.svg-container {
+  width: 100%;
+  min-height: 350px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.svg-container svg {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  display: block;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  background: var(--bg-card-alt);
+  border-color: var(--text-muted);
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Quiz & Practice Mode
+   ========================================================================== */
+.quiz-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+
+.quiz-card.answered-correct {
+  border-color: var(--success);
+  border-left: 6px solid var(--success);
+}
+
+.quiz-card.answered-wrong {
+  border-color: var(--danger);
+  border-left: 6px solid var(--danger);
+}
+
+.quiz-category-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.quiz-question-text {
+  font-size: 0.98rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.quiz-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.solution-block {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-top: 14px;
+  font-size: 0.92rem;
+}
+
+.solution-block h4 {
+  color: var(--success);
+  margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   Original Book Viewer & Synopse
+   ========================================================================== */
+.book-viewer-wrap {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.book-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Interactive Hotspots on Page 14 */
+.book-hotspot {
+  position: absolute;
+  border: 2px dashed rgba(2, 132, 199, 0.7);
+  background: rgba(2, 132, 199, 0.15);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 6px;
+}
+
+.book-hotspot:hover {
+  background: rgba(2, 132, 199, 0.35);
+  border-color: #0284c7;
+  transform: scale(1.01);
+}
+
+.hotspot-badge {
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hotspots exact percentages on S. 14 image */
+.hotspot-vc {
+  top: 9%;
+  left: 4%;
+  width: 92%;
+  height: 27%;
+}
+
+.hotspot-torque {
+  top: 38%;
+  left: 4%;
+  width: 92%;
+  height: 20%;
+}
+
+.hotspot-functions {
+  top: 60%;
+  left: 4%;
+  width: 92%;
+  height: 38%;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.tbb-footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 992px) {
+  .grid-2col {
+    grid-template-columns: 1fr;
+  }
+  .grid-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .tbb-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tbb-header-tools {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .tbb-nav-tabs {
+    padding: 0 8px;
+  }
+  .tbb-container {
+    padding: 16px 10px;
+  }
+}

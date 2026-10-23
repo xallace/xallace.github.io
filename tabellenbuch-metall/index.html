@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabellenbuch Metall • Interaktive Lehrmodelle (S. 14, S. 58 &amp; S. 59)</title>
+  <meta name="description" content="Interaktive digitale Lehrmodelle zum Tabellenbuch Metall (48. Auflage): Seite 14 (Formeln, Gleichungen, Diagramme), Seite 58 (Kartesisches Koordinatensystem, DIN 461, Federkennlinie) und Seite 59 (Polarkoordinaten, Rundheitsprüfung, Flächendiagramme).">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cpath d='M6 25V7M6 25h20' stroke='white' stroke-width='2.2' fill='none'/%3E%3Cpath d='M7 24C12 13 18 10 25 8' stroke='%23f87171' stroke-width='2.4' fill='none'/%3E%3Ccircle cx='20' cy='18' r='5' stroke='%23fbbf24' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blueprint">
+  <!-- Gemeinsamer SVG-Farbverlauf für die Diagrammvorschauen -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="hubDiaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--dia-top)"/>
+        <stop offset="1" style="stop-color: var(--dia-bottom)"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ================= Kopfzeile im Stil des Tabellenbuchs ================= -->
+  <header class="tbb-header">
+    <div class="tbb-top">
+      <div class="tbb-meta">
+        <span class="book-badge">TBB 48</span>
+        <div class="subject-badges" aria-hidden="true">
+          <span class="subject-tag tag-m" title="Technische Mathematik">M</span>
+          <span class="subject-tag tag-k" title="Technische Kommunikation">K</span>
+        </div>
+        <div>
+          <h1>Tabellenbuch Metall • Interaktive Lehrmodelle</h1>
+          <div class="sub">48. Auflage • Kapitel 1.2 Formeln (S. 14) &amp; Kapitel 3.1 Diagramme (S. 58–59) • vgl. DIN 461, DIN EN ISO 80000-2</div>
+        </div>
+      </div>
+      <div class="tbb-tools">
+        <a href="../" class="back-link">← Portfolio (@xallace)</a>
+        <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall" target="_blank" rel="noopener noreferrer" class="back-link">GitHub Source ↗</a>
+        <button class="btn-header" id="btn-theme" title="Zwischen hellem Königsblau-Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= Übersicht & Kennzahlen ================= -->
+    <section class="hub-hero">
+      <div>
+        <div class="hero-eyebrow">
+          <span>📐 Digitale Zwillinge &amp; Interaktive Tafeln</span>
+        </div>
+        <h2>Mathematik &amp; Diagramme aus dem Tabellenbuch Metall</h2>
+        <p>
+          Eigenständig erstellte interaktive Lern- und Rechenmodelle zu den Grundlagenseiten des <strong>Tabellenbuchs Metall</strong> (48. Auflage, Europa-Lehrmittel).
+          Jede Buchseite ist als eigenständige, sofort im Browser lauffähige Anwendung mit interaktiven Vektordiagrammen, den Original-Zahlenbeispielen und Diagnose-Übungen umgesetzt.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <span class="stat-val">3 Seiten</span>
+          <span class="stat-lbl">S. 14 · S. 58 · S. 59</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">15 Reiter</span>
+          <span class="stat-lbl">Interaktive Module</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">93 Checks</span>
+          <span class="stat-lbl">Geprüfte Buchwerte</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Filter & Seitensprung ================= -->
+    <div class="hub-toolbar">
+      <div class="filter-group" id="chapter-filter" role="tablist" aria-label="Kapitel filtern">
+        <button class="filter-btn active" data-filter="all">Alle Projekte (3)</button>
+        <button class="filter-btn" data-filter="K">K · 3.1 Diagramme (S. 58 &amp; S. 59)</button>
+        <button class="filter-btn" data-filter="M">M · 1.2 Formeln &amp; Gleichungen (S. 14)</button>
+      </div>
+      <div class="page-jump-strip">
+        <a href="s14-formeln/" class="page-pill"><span class="p-num">S. 14</span> Formeln &amp; Gleichungen</a>
+        <a href="s58-diagramme/" class="page-pill"><span class="p-num">S. 58</span> Kartesische Diagramme</a>
+        <a href="s59-polarkoordinaten/" class="page-pill"><span class="p-num">S. 59</span> Polar- &amp; Flächendiagramme</a>
+      </div>
+    </div>
+
+    <!-- ================= Projektkarten ================= -->
+    <div class="tbb-cards-grid" id="cards-grid">
+
+      <!-- =====================================================================
+           PROJEKT 1: SEITE 58 — 3.1 Diagramme (Kartesisches Koordinatensystem)
+           ===================================================================== -->
+      <article class="tbb-project-card" data-subject="K">
+        <div class="card-page-bar">
+          <div class="card-page-left">
+            <span class="card-page-badge">S. 58</span>
+            <span class="card-subj" title="Technische Kommunikation">K</span>
+            <span class="card-chap">3.1 Diagramme</span>
+          </div>
+          <span class="card-norm-badge">DIN 461 · ISO 80000-2</span>
+        </div>
+
+        <div class="card-preview">
+          <a href="s58-diagramme/" aria-label="Seite 58 öffnen: Kartesisches Koordinatensystem und Federkennlinie">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 58: Kartesisches Koordinatensystem und Tellerfeder-Kennlinie F(s)">
+              <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
+              <!-- Linke Hälfte: Kartesisches Koordinatensystem P1(3,5; 1,5), P2(-2; -1) -->
+              <g transform="translate(14, 12)">
+                <line x1="12" y1="82" x2="178" y2="82" class="ax"/>
+                <line x1="95" y1="152" x2="95" y2="12" class="ax"/>
+                <polygon points="182,82 173,78.5 173,85.5" fill="var(--ink)"/>
+                <polygon points="95,8 91.5,17 98.5,17" fill="var(--ink)"/>
+                <!-- Projektionslinien P1(3,5; 1,5) -->
+                <polyline points="95,52 155,52 155,82" fill="none" stroke="var(--accent-red)" stroke-width="1.3" stroke-dasharray="3 2"/>
+                <circle cx="155" cy="52" r="4" fill="var(--bg-card)" stroke="var(--ink)" stroke-width="1.6"/>
+                <text x="122" y="43" font-size="11" font-weight="700">P₁(3,5; 1,5)</text>
+                <!-- Projektionslinien P2(-2; -1) -->
+                <polyline points="95,104 59,104 59,82" fill="none" stroke="var(--accent-amber)" stroke-width="1.3" stroke-dasharray="3 2"/>
+                <circle cx="59" cy="104" r="4" fill="var(--bg-card)" stroke="var(--ink)" stroke-width="1.6"/>
+                <text x="18" y="122" font-size="11" font-weight="700">P₂(−2; −1)</text>
+                <text x="172" y="97" font-size="11" font-style="italic">x</text>
+                <text x="103" y="19" font-size="11" font-style="italic">y</text>
+              </g>
+              <!-- Trennlinie -->
+              <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
+              <!-- Rechte Hälfte: Tellerfeder-Kennlinie F(s) mit Ablesung s = 0,9 mm -> F ≈ 1250 N -->
+              <g transform="translate(226, 16)">
+                <line x1="22" y1="138" x2="174" y2="138" class="ax"/>
+                <line x1="22" y1="138" x2="22" y2="14" class="ax"/>
+                <!-- Netzlinien -->
+                <line x1="22" y1="100" x2="170" y2="100" class="grid"/>
+                <line x1="22" y1="62" x2="170" y2="62" class="grid"/>
+                <line x1="22" y1="24" x2="170" y2="24" class="grid"/>
+                <!-- Ablesepfeile s = 0,9 mm -> Punkt A -> F ≈ 1250 N -->
+                <line x1="118" y1="138" x2="118" y2="39" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <line x1="118" y1="39" x2="22" y2="39" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <!-- PCHIP Kennlinie -->
+                <path d="M 22,138 C 52,85 88,52 128,35 C 145,28 158,25 168,23" fill="none" stroke="var(--accent-red)" stroke-width="2.6"/>
+                <circle cx="118" cy="39" r="4.2" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.4"/>
+                <text x="124" y="34" font-size="11" font-weight="700">A (1250 N)</text>
+                <text x="98" y="154" font-size="10.5">s = 0,9 mm</text>
+                <text x="28" y="20" font-size="10.5" font-weight="700">F in N</text>
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">
+            <a href="s58-diagramme/">Tabellenbuch Metall • Diagramme (S. 58)</a>
+          </h3>
+          <p class="card-desc">
+            Kartesisches Koordinatensystem mit allen drei Punktschreibweisen (<code>P(x; y)</code>, <code>P(x | y)</code>, <code>P(x, y)</code>),
+            interaktiver Diagrammaufbau nach DIN 461 mit Fehlersuchmodus, Koordinatenausschnitt mit und ohne Nullpunkt,
+            logarithmische Drehzahlskalen (<i>n</i> = <i>v</i><sub>c</sub> / (&pi; · <i>d</i>)) sowie Ablesung an der Tellerfeder-Kennlinie (PCHIP vs. Polygonzug).
+          </p>
+
+          <div class="reiter-box">
+            <div class="reiter-label">
+              <span>Direkt zu den 4 Reitern springen</span>
+              <span>41 Prüfungen ✓</span>
+            </div>
+            <div class="reiter-links">
+              <a href="s58-diagramme/#koordinaten" class="reiter-link">
+                <span class="reiter-num">1</span>
+                <span>Koordinatensystem</span>
+              </a>
+              <a href="s58-diagramme/#aufbau" class="reiter-link">
+                <span class="reiter-num">2</span>
+                <span>Diagrammaufbau &amp; DIN 461</span>
+              </a>
+              <a href="s58-diagramme/#skalen" class="reiter-link">
+                <span class="reiter-num">3</span>
+                <span>Ausschnitt &amp; Log-Skalen</span>
+              </a>
+              <a href="s58-diagramme/#feder" class="reiter-link">
+                <span class="reiter-num">4</span>
+                <span>Federkennlinie <i>F</i>(<i>s</i>)</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="spec-pills">
+            <span class="spec-pill">P₁(3,5; 1,5) · P₂(−2; −1)</span>
+            <span class="spec-pill">Liniengruppe 1 : 2 : 4</span>
+            <span class="spec-pill">s = 0,9 mm → F ≈ 1250 N</span>
+            <span class="spec-pill">PCHIP-Interpolation</span>
+          </div>
+
+          <div class="card-actions">
+            <a href="s58-diagramme/" class="btn-open">
+              <span>Projekt S. 58 öffnen</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s58-diagramme" target="_blank" rel="noopener noreferrer" class="btn-code">
+              <span>Source Code</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- =====================================================================
+           PROJEKT 2: SEITE 59 — 3.1 Diagramme (Polarkoordinaten & Flächendiagramme)
+           ===================================================================== -->
+      <article class="tbb-project-card" data-subject="K">
+        <div class="card-page-bar">
+          <div class="card-page-left">
+            <span class="card-page-badge">S. 59</span>
+            <span class="card-subj" title="Technische Kommunikation">K</span>
+            <span class="card-chap">3.1 Diagramme</span>
+          </div>
+          <span class="card-norm-badge">DIN 461 · Rundheit &amp; Flächen</span>
+        </div>
+
+        <div class="card-preview">
+          <a href="s59-polarkoordinaten/" aria-label="Seite 59 öffnen: Polarkoordinatensysteme und Flächendiagramme">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 59: Polardiagramm einer Rundheitsprüfung und Kreisflächendiagramm CuZn36Pb3">
+              <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
+              <!-- Linke Hälfte: Polarkoordinaten & Rundheitsprüfung (10 mm ≙ 5 µm, 3-Backen-Gleichdick) -->
+              <g transform="translate(105, 93)">
+                <circle cx="0" cy="0" r="64" class="grid"/>
+                <circle cx="0" cy="0" r="44" class="grid"/>
+                <circle cx="0" cy="0" r="24" class="grid"/>
+                <line x1="-72" y1="0" x2="72" y2="0" class="ax"/>
+                <line x1="0" y1="-72" x2="0" y2="72" class="ax"/>
+                <!-- 3-Backen-Rundheitsschrieb (Erhebungen bei 90°, 210°, 330°) -->
+                <path d="M 48,0 C 48,-18 28,-54 0,-56 C -28,-54 -38,-18 -38,0 C -38,18 -46,42 -48,28 C -50,14 -20,38 0,38 C 20,38 48,46 48,27 C 48,14 48,8 48,0 Z" fill="rgba(248, 113, 113, 0.16)" stroke="var(--accent-red)" stroke-width="2.3"/>
+                <!-- Polar-Vektor r, +φ -->
+                <line x1="0" y1="0" x2="38" y2="-32" stroke="var(--accent-amber)" stroke-width="2"/>
+                <circle cx="38" cy="-32" r="3.8" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.3"/>
+                <text x="44" y="-34" font-size="10.5" font-weight="700">P(r; +φ)</text>
+                <text x="52" y="13" font-size="10">0°</text>
+                <text x="-48" y="76" font-size="10" font-weight="700">10 mm ≙ 5 µm</text>
+              </g>
+              <!-- Trennlinie -->
+              <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
+              <!-- Rechte Hälfte: Kreisflächendiagramm CuZn36Pb3 (Cu 61 %, Zn 36 %, Pb 3 % -> 10,8°) & Säulen -->
+              <g transform="translate(292, 90)">
+                <circle cx="0" cy="0" r="54" fill="rgba(56, 189, 248, 0.25)" stroke="var(--ink)" stroke-width="1.5"/>
+                <!-- Sektor Zn 36 % (129,6°) -->
+                <path d="M 0,0 L 54,0 A 54,54 0 0,0 -34.4,-41.6 Z" fill="rgba(251, 191, 36, 0.42)" stroke="var(--ink)" stroke-width="1.4"/>
+                <!-- Sektor Pb 3 % (10,8°) -->
+                <path d="M 0,0 L 54,0 A 54,54 0 0,1 53.0,10.1 Z" fill="rgba(248, 113, 113, 0.75)" stroke="var(--ink)" stroke-width="1.4"/>
+                <text x="-28" y="24" font-size="10.5" font-weight="700">Cu 61 %</text>
+                <text x="-18" y="-16" font-size="10.5" font-weight="700">Zn 36 %</text>
+                <text x="20" y="70" font-size="10.5" font-weight="700">Pb 3 % → α = 10,8°</text>
+              </g>
+              <!-- Mini-Säulen rechts außen -->
+              <g transform="translate(364, 34)">
+                <rect x="0" y="34" width="9" height="56" fill="var(--primary)" rx="1.5"/>
+                <rect x="13" y="46" width="9" height="44" fill="var(--primary)" opacity="0.75" rx="1.5"/>
+                <rect x="26" y="24" width="9" height="66" fill="var(--accent-amber)" rx="1.5"/>
+                <line x1="-3" y1="90" x2="39" y2="90" class="ax"/>
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">
+            <a href="s59-polarkoordinaten/">Tabellenbuch Metall • Polarkoordinaten &amp; Flächendiagramme (S. 59)</a>
+          </h3>
+          <p class="card-desc">
+            Warmfestigkeitsdiagramm (<i>R</i><sub>m</sub>, <i>R</i><sub>e</sub> über Temperatur <i>T</i>) mit streuenden Messwerten (&times;, &bigcirc;, &square;),
+            Polarkoordinatensystem mit 360°-Teilung (Pol, Winkel +<i>&phi;</i>, Radius <i>r</i>),
+            Rundheitsprüfung einer im Backenfutter gedrehten Buchse im Maßstab 10 mm &mathrel{&#8793;} 5 &mu;m (2000 : 1) sowie Säulen-, Balken- und Kreisflächendiagramme.
+          </p>
+
+          <div class="reiter-box">
+            <div class="reiter-label">
+              <span>Direkt zu den 4 Reitern springen</span>
+              <span>52 Prüfungen ✓</span>
+            </div>
+            <div class="reiter-links">
+              <a href="s59-polarkoordinaten/#kennlinien" class="reiter-link">
+                <span class="reiter-num">1</span>
+                <span>Mehrere Kennlinien (<i>R</i><sub>m</sub>/<i>R</i><sub>e</sub>)</span>
+              </a>
+              <a href="s59-polarkoordinaten/#polar" class="reiter-link">
+                <span class="reiter-num">2</span>
+                <span>Polarkoordinaten <i>P</i>(<i>r</i>; <i>&phi;</i>)</span>
+              </a>
+              <a href="s59-polarkoordinaten/#rundheit" class="reiter-link">
+                <span class="reiter-num">3</span>
+                <span>Rundheitsprüfung (2000 : 1)</span>
+              </a>
+              <a href="s59-polarkoordinaten/#flaechen" class="reiter-link">
+                <span class="reiter-num">4</span>
+                <span>Flächendiagramme (&alpha; = 10,8°)</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="spec-pills">
+            <span class="spec-pill">Rm / Re (0…600 °C)</span>
+            <span class="spec-pill">Polarkoordinaten (360°)</span>
+            <span class="spec-pill">10 mm ≙ 5 µm</span>
+            <span class="spec-pill">CuZn36Pb3 (α = 10,8°)</span>
+          </div>
+
+          <div class="card-actions">
+            <a href="s59-polarkoordinaten/" class="btn-open">
+              <span>Projekt S. 59 öffnen</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s59-polarkoordinaten" target="_blank" rel="noopener noreferrer" class="btn-code">
+              <span>Source Code</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- =====================================================================
+           PROJEKT 3: SEITE 14 — 1.2 Formeln (Formeln, Gleichungen, Diagramme)
+           ===================================================================== -->
+      <article class="tbb-project-card" data-subject="M">
+        <div class="card-page-bar">
+          <div class="card-page-left">
+            <span class="card-page-badge">S. 14</span>
+            <span class="card-subj" title="Technische Mathematik">M</span>
+            <span class="card-chap">1.2 Formeln</span>
+          </div>
+          <span class="card-norm-badge">Größen- &amp; Zahlenwertgleichungen</span>
+        </div>
+
+        <div class="card-preview">
+          <a href="s14-formeln/" aria-label="Seite 14 öffnen: Formeln, Gleichungen, Diagramme">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 14: Zerspanungs-Kinematik vc = pi * d * n und Break-Even-Diagramm KG = E">
+              <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
+              <!-- Linke Hälfte: Schnittgeschwindigkeit vc = π · d · n (Drehteil-Querschnitt) -->
+              <g transform="translate(98, 92)">
+                <circle cx="0" cy="0" r="46" fill="rgba(56, 189, 248, 0.18)" stroke="var(--ink)" stroke-width="2"/>
+                <circle cx="0" cy="0" r="6" fill="var(--ink)"/>
+                <!-- Durchmesserlinie d -->
+                <line x1="-46" y1="0" x2="46" y2="0" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <!-- Tangentialer Schnittgeschwindigkeitsvektor vc -->
+                <line x1="46" y1="0" x2="46" y2="-54" stroke="var(--accent-red)" stroke-width="2.5"/>
+                <polygon points="46,-60 41.5,-50 50.5,-50" fill="var(--accent-red)"/>
+                <text x="54" y="-36" font-size="11.5" font-weight="700">v_c = π·d·n</text>
+                <text x="-14" y="-8" font-size="10.5" font-weight="700">Ø d</text>
+                <text x="-48" y="68" font-size="10.5" font-weight="700">M = 9550 · P / n</text>
+              </g>
+              <!-- Trennlinie -->
+              <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
+              <!-- Rechte Hälfte: Break-Even-Diagramm (Erlös E(x) vs. Gesamtkosten KG(x) = Kf + kv·x) -->
+              <g transform="translate(228, 18)">
+                <line x1="20" y1="136" x2="174" y2="136" class="ax"/>
+                <line x1="20" y1="136" x2="20" y2="14" class="ax"/>
+                <!-- Fixkosten Kf (waagrecht) -->
+                <line x1="20" y1="98" x2="168" y2="98" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3"/>
+                <!-- Gesamtkosten KG = Kf + kv·x -->
+                <line x1="20" y1="98" x2="168" y2="38" stroke="var(--accent-red)" stroke-width="2.2"/>
+                <!-- Erlösgerade E = p·x -->
+                <line x1="20" y1="136" x2="168" y2="18" stroke="var(--ok)" stroke-width="2.4"/>
+                <!-- Gewinnschwelle Gs (Schnittpunkt bei x=104, y=64) -->
+                <circle cx="101" cy="65" r="4.5" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.4"/>
+                <line x1="101" y1="65" x2="101" y2="136" stroke="var(--accent-amber)" stroke-width="1.3" stroke-dasharray="3 2"/>
+                <text x="64" y="54" font-size="10.5" font-weight="700">Gewinnschwelle Gs</text>
+                <text x="134" y="28" font-size="10.5" font-weight="700">E(x)</text>
+                <text x="134" y="60" font-size="10.5" font-weight="700">K_G(x)</text>
+                <text x="82" y="152" font-size="10">Stückzahl x</text>
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">
+            <a href="s14-formeln/">Tabellenbuch Metall • Formeln, Gleichungen, Diagramme (S. 14)</a>
+          </h3>
+          <p class="card-desc">
+            Methodisches Fundament aus Kapitel 1.2: Größengleichungen mit Einheitenführung am Beispiel der Schnittgeschwindigkeit
+            (<i>v</i><sub>c</sub> = &pi; · <i>d</i> · <i>n</i>) mit 2D-Zerspanungkinematik, hergeleitete Zahlenwertgleichung des Drehmoments
+            (<i>M</i> = 9550 · <i>P</i> / <i>n</i>), lineare Funktionen (<i>y</i> = <i>m</i>·<i>x</i> + <i>b</i>) sowie Break-Even-Kostenkalkulation (<i>K</i><sub>G</sub> = <i>E</i>).
+          </p>
+
+          <div class="reiter-box">
+            <div class="reiter-label">
+              <span>Direkt zu den Reitern springen</span>
+              <span>6 Prüfungsaufgaben ✓</span>
+            </div>
+            <div class="reiter-links">
+              <a href="s14-formeln/#tab-vc" class="reiter-link">
+                <span class="reiter-num">1</span>
+                <span>Formeln (<i>v</i><sub>c</sub> = &pi;·<i>d</i>·<i>n</i>)</span>
+              </a>
+              <a href="s14-formeln/#tab-torque" class="reiter-link">
+                <span class="reiter-num">2</span>
+                <span>Zahlenwertgleichung (<i>M</i>)</span>
+              </a>
+              <a href="s14-formeln/#tab-linear" class="reiter-link">
+                <span class="reiter-num">3</span>
+                <span>Lineare Funktionen</span>
+              </a>
+              <a href="s14-formeln/#tab-breakeven" class="reiter-link">
+                <span class="reiter-num">4</span>
+                <span>Gewinnschwelle (<i>G</i><sub>s</sub>)</span>
+              </a>
+              <a href="s14-formeln/#tab-quiz" class="reiter-link">
+                <span class="reiter-num">5</span>
+                <span>Übungsmodus (6 Aufgaben)</span>
+              </a>
+              <a href="s14-formeln/#tab-book" class="reiter-link">
+                <span class="reiter-num">6</span>
+                <span>Didaktiktafel (S. 14)</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="spec-pills">
+            <span class="spec-pill">v_c = π · d · n</span>
+            <span class="spec-pill">M = 9550 · P / n</span>
+            <span class="spec-pill">y = m · x + b</span>
+            <span class="spec-pill">Break-Even K_G = E</span>
+          </div>
+
+          <div class="card-actions">
+            <a href="s14-formeln/" class="btn-open">
+              <span>Projekt S. 14 öffnen</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s14-formeln" target="_blank" rel="noopener noreferrer" class="btn-code">
+              <span>Source Code</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- ================= Technische & Didaktische Hinweise ================= -->
+    <section class="hub-notes">
+      <h3>Methodik, Normbezug &amp; Eigenständigkeit</h3>
+      <div class="notes-grid">
+        <div class="note-item">
+          <strong>DIN 461 &amp; DIN EN ISO 80000-2</strong>
+          Achsenbeschriftung, Einheitenklammerung bzw. Platzierung zwischen den beiden letzten Zahlen, Liniengruppen im Verhältnis 1 : 2 : 4 sowie positiver Winkelabtrag im Polarkoordinatensystem folgen den im Buch zitierten Normen.
+        </div>
+        <div class="note-item">
+          <strong>Urheberrechtlich sauber &amp; eigenständig</strong>
+          Sämtliche Texte, Erklärungen und SVG-/Canvas-Grafiken sind eigenständig programmiert. Aus dem Tabellenbuch Metall (48. Auflage) stammen lediglich die sinngemäßen Regeln und die Zahlenwerte der Rechenbeispiele.
+        </div>
+        <div class="note-item">
+          <strong>100 % Offline-fähig &amp; deterministisch geprüft</strong>
+          Alle drei Anwendungen laufen ohne Backend und ohne externe Laufzeit-Abhängigkeiten direkt im Browser. Die Rechenkerne zu S. 58 (41 Checks) und S. 59 (52 Checks) sind per Node-Prüfskript gegen die Buchwerte verifiziert.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hub-footer">
+    <div>
+      <strong>Tabellenbuch Metall • Interaktive Lehrmodelle</strong> · Erstellt von <a href="../">Walter (@xallace)</a>
+    </div>
+    <div>
+      <a href="s14-formeln/">Seite 14 (Formeln)</a> ·
+      <a href="s58-diagramme/">Seite 58 (Kartesische Diagramme)</a> ·
+      <a href="s59-polarkoordinaten/">Seite 59 (Polar- &amp; Flächendiagramme)</a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      'use strict';
+      const btnTheme = document.getElementById('btn-theme');
+      const themeLabel = document.getElementById('theme-label');
+
+      function setTheme(dark) {
+        document.body.classList.toggle('theme-blueprint', dark);
+        themeLabel.textContent = dark ? 'Heller Modus' : 'Blueprint-Modus';
+        try {
+          localStorage.setItem('tbb58-theme', dark ? 'dark' : 'light');
+        } catch (e) { /* ignore storage restrictions */ }
+      }
+
+      btnTheme.addEventListener('click', () => {
+        setTheme(!document.body.classList.contains('theme-blueprint'));
+      });
+
+      let saved = null;
+      try { saved = localStorage.getItem('tbb58-theme'); } catch (e) {}
+      const forced = /[?&]theme=(dark|light)/.exec(location.search);
+      setTheme((forced ? forced[1] : saved) !== 'light');
+
+      // Kapitel-Filter (Alle / K / M)
+      const filterBtns = document.querySelectorAll('#chapter-filter .filter-btn');
+      const cards = document.querySelectorAll('#cards-grid .tbb-project-card');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const f = btn.dataset.filter;
+          filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+          cards.forEach(card => {
+            card.hidden = (f !== 'all' && card.dataset.subject !== f);
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

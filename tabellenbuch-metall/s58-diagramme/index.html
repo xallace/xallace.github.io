@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramme • Tabellenbuch Metall S. 58</title>
+  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 58: kartesisches Koordinatensystem, Diagrammaufbau nach DIN 461, Ausschnitte, logarithmische Teilung und Ablesen einer Federkennlinie.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cpath d='M7 26V6M7 26h20' stroke='white' stroke-width='2.5' fill='none'/%3E%3Cpath d='M8 25C13 12 19 10 26 9' stroke='%23ff6b6b' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blueprint">
+  <!-- Gemeinsame SVG-Definitionen (nicht display:none, sonst greifen die Verläufe nicht) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="diaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--dia-top)"/>
+        <stop offset="1" style="stop-color: var(--dia-bottom)"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="tbb-header">
+    <div class="tbb-top">
+      <div class="tbb-meta">
+        <span class="page-badge">58</span>
+        <span class="subject-tag">K</span>
+        <div>
+          <h1>3.1 Diagramme • Kartesisches Koordinatensystem</h1>
+          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • vgl. DIN 461, DIN EN ISO 80000-2</div>
+        </div>
+      </div>
+      <div class="tbb-tools">
+        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
+        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Weiter zu Seite 59: Polarkoordinatensysteme, Flächendiagramme">S. 59 →</a>
+        <button class="btn-header" id="btn-book" title="Alle Reiter auf die Beispiele von Seite 58 zurücksetzen">↺ Buchwerte laden</button>
+        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="koordinaten" class="active">1 Koordinatensystem</button>
+      <button data-tab="aufbau">2 Diagrammaufbau</button>
+      <button data-tab="skalen">3 Ausschnitt &amp; Skalen</button>
+      <button data-tab="feder">4 Federkennlinie</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= 1 Koordinatensystem ================= -->
+    <section class="tab active" id="tab-koordinaten">
+      <div class="tab-head">
+        <h2>Punkte im kartesischen Koordinatensystem</h2>
+        <p>Punkte ziehen, durch Klick ins Diagramm hinzufügen oder unten eintippen. Ein Punkt ist ein geordnetes Paar: zuerst der x-Wert, dann der y-Wert.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span class="seg" id="k-style">
+              <button data-v="semi" class="on">P(x; y)</button><button data-v="bar">P(x | y)</button><button data-v="comma">P(x, y)</button>
+            </span>
+            <span class="seg" id="k-dir">
+              <button data-v="heads" class="on">Pfeilspitzen</button><button data-v="parallel">Pfeile parallel</button>
+            </span>
+            <span class="seg" id="k-snap" title="Rasterweite beim Ziehen und Klicken">
+              <button data-v="1">Raster 1</button><button data-v="0.5" class="on">0,5</button><button data-v="0.1">0,1</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="k-proj" checked> Projektionslinien</label>
+            <label class="chk"><input type="checkbox" id="k-names" checked> Bezeichnungen</label>
+            <label class="chk"><input type="checkbox" id="k-nums" checked> Zahlenwerte</label>
+            <label class="chk"><input type="checkbox" id="k-grid"> Netzlinien</label>
+            <label class="chk"><input type="checkbox" id="k-path"> Weg vom Nullpunkt</label>
+          </div>
+          <svg class="dia" id="k-svg" viewBox="0 0 640 500" role="img" aria-label="Koordinatensystem mit Punkten"></svg>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Ausgewählter Punkt <span class="quad" id="k-quad"></span></h3>
+            <div class="notation" id="k-notation"></div>
+            <p class="note" id="k-way"></p>
+          </div>
+          <div class="card">
+            <h3>Punkt eingeben</h3>
+            <div class="ctl-row">
+              <input class="txt" id="k-input" placeholder="P3(−1,5; 2)" spellcheck="false">
+              <button class="btn" id="k-set">Setzen</button>
+            </div>
+            <div class="feedback" id="k-input-msg"></div>
+            <ul class="pt-list" id="k-list"></ul>
+          </div>
+          <div class="card">
+            <h3>Übung <span class="score" id="k-score"></span></h3>
+            <span class="seg" id="k-mode">
+              <button data-v="free" class="on">Erkunden</button><button data-v="place">Punkt setzen</button><button data-v="read">Ablesen</button>
+            </span>
+            <div id="k-task" class="note"></div>
+            <div class="ctl-row" id="k-read-inputs" hidden>
+              <label>x = <input class="num" id="k-ans-x"></label>
+              <label>y = <input class="num" id="k-ans-y"></label>
+              <button class="btn" id="k-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="k-feedback"></div>
+            <button class="btn ghost" id="k-next" hidden>Nächste Aufgabe</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2 Diagrammaufbau ================= -->
+    <section class="tab" id="tab-aufbau">
+      <div class="tab-head">
+        <h2>Aufbau eines Diagramms</h2>
+        <p>Eine Regel in der Liste antippen: Das zugehörige Element leuchtet im Diagramm auf. Unter „Fehler finden“ baut die App Regelverstöße ein, die gefunden werden sollen.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span class="seg" id="a-dir">
+              <button data-v="parallel" class="on">Pfeile parallel</button><button data-v="heads">Pfeilspitzen</button>
+            </span>
+            <span class="seg" id="a-unit">
+              <button data-v="between" class="on">Einheit zwischen Zahlen</button><button data-v="symbol">Einheit hinter Formelzeichen</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="a-callouts" checked> Beschriftungen</label>
+            <label class="chk"><input type="checkbox" id="a-grid"> Netzlinien</label>
+            <span class="seg" id="a-widths" title="Linienbreiten Netzlinie : Achse : Kennlinie in mm">
+              <button data-v="0.18">0,18 : 0,35 : 0,7</button><button data-v="0.25" class="on">0,25 : 0,5 : 1</button><button data-v="0.35">0,35 : 0,7 : 1,4</button>
+            </span>
+          </div>
+          <svg class="dia" id="a-svg" viewBox="0 0 640 460" role="img" aria-label="Spannungs-Dehnungs-Diagramm mit Beschriftung der Diagrammteile"></svg>
+          <div class="width-legend" id="a-legend"></div>
+          <p class="note">Beispielkurve <i>σ</i>(<i>ε</i>) ohne Werkstoffbezug. Das Buch druckt an der Ordinate <i>δ</i>; Einheit N/mm² und Abszisse <i>ε</i> sprechen für die Spannung <i>σ</i>.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Regeln</h3>
+            <ul class="rules" id="a-rules"></ul>
+          </div>
+          <div class="card">
+            <h3>Fehler finden <span class="score" id="a-score"></span></h3>
+            <p class="note" id="a-quiz-intro">Erzeugt ein Diagramm mit zwei bis drei Regelverstößen.</p>
+            <div class="ctl-row"><button class="btn" id="a-new">Fehlerhaftes Diagramm</button><button class="btn ghost" id="a-fix" hidden>Korrektes Diagramm</button></div>
+            <ul class="rules" id="a-faults" hidden></ul>
+            <div class="ctl-row"><button class="btn" id="a-check" hidden>Prüfen</button></div>
+            <div class="feedback" id="a-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3 Ausschnitt & Skalen ================= -->
+    <section class="tab" id="tab-skalen">
+      <div class="tab-head">
+        <h2>Diagramm-Ausschnitt und Skalenteilung</h2>
+        <p>Liegen alle Werte weit vom Nullpunkt entfernt, zeigt erst ein Ausschnitt den Verlauf. Überspannen die Werte mehrere Zehnerpotenzen, hilft eine logarithmische Teilung.</p>
+      </div>
+      <div class="card">
+        <h3>Ausschnitt mit unterdrücktem Nullpunkt <span class="note" id="s-readout"></span></h3>
+        <div class="ctl-row">
+          <div class="slider" style="min-width:300px;flex:1">
+            <span>Ausdehnungskoeffizient <i>α</i></span>
+            <input type="range" id="s-alpha" min="6" max="26" step="0.5" value="12">
+            <output id="s-alpha-out"></output>
+          </div>
+          <span class="seg" id="s-preset">
+            <button data-v="12" class="on">Stahl ≈ 12</button><button data-v="16.5">Kupfer ≈ 16,5</button><button data-v="23.5">Aluminium ≈ 23,5</button>
+          </span>
+          <label class="chk"><input type="checkbox" id="s-grid" checked> Netzlinien</label>
+        </div>
+        <div class="dia-pair">
+          <figure><svg class="dia" id="s-full" viewBox="0 0 440 360" role="img" aria-label="Diagramm mit Nullpunkt"></svg><figcaption>Mit Nullpunkt: Die Längenänderung verschwindet in der Linienbreite.</figcaption></figure>
+          <figure><svg class="dia" id="s-cut" viewBox="0 0 440 360" role="img" aria-label="Diagramm-Ausschnitt"></svg><figcaption>Ausschnitt: Nullpunkt unterdrückt, Teilung an den Wertebereich angepasst.</figcaption></figure>
+        </div>
+        <p class="note">Stab mit <i>l</i><sub>0</sub> = 1000 mm bei 20 °C, Länge <i>l</i> = <i>l</i><sub>0</sub> · (1 + <i>α</i> · Δ<i>ϑ</i>). Die Werkstoffwerte sind gerundete Richtwerte in 10<sup>−6</sup>/K.</p>
+      </div>
+      <div class="card">
+        <h3>Lineare und logarithmische Teilung <span class="note" id="l-readout"></span></h3>
+        <div class="ctl-row">
+          <span>Abszisse <i>d</i>:</span>
+          <span class="seg" id="l-xs"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmisch</button></span>
+          <span>Ordinate <i>n</i>:</span>
+          <span class="seg" id="l-ys"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmisch</button></span>
+          <span>Hervorheben <i>v</i><sub>c</sub>:</span>
+          <span class="seg" id="l-vc"><button data-v="25">25</button><button data-v="50">50</button><button data-v="100" class="on">100</button><button data-v="200">200 m/min</button></span>
+        </div>
+        <svg class="dia" id="l-svg" viewBox="0 0 760 440" role="img" aria-label="Drehzahl über Durchmesser"></svg>
+        <p class="note">Drehzahl <i>n</i> = <i>v</i><sub>c</sub> / (π · <i>d</i>) für vier Schnittgeschwindigkeiten. Bei doppelt logarithmischer Teilung werden die Hyperbeln zu parallelen Geraden. Maus über das Diagramm: Ablesung auf der hervorgehobenen Linie.</p>
+      </div>
+    </section>
+
+    <!-- ================= 4 Federkennlinie ================= -->
+    <section class="tab" id="tab-feder">
+      <div class="tab-head">
+        <h2>Beispiel Federkennlinie einer Tellerfeder</h2>
+        <p>Messwerte in die Tabelle eintragen oder die Punkte ziehen. Die Kennlinie verbindet die Werte; über Punkt A wird der gesuchte Wert abgelesen.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span class="seg" id="f-curve"><button data-v="pchip" class="on">Glatte Kennlinie</button><button data-v="linear">Polygonzug</button></span>
+            <span class="seg" id="f-dir"><button data-v="sF" class="on"><i>F</i> aus <i>s</i></button><button data-v="Fs"><i>s</i> aus <i>F</i></button></span>
+            <label class="chk"><input type="checkbox" id="f-grid"> Netzlinien</label>
+            <label class="chk"><input type="checkbox" id="f-tangent"> Tangente in A</label>
+          </div>
+          <div class="slider" id="f-slider-row">
+            <span id="f-slider-label"></span>
+            <input type="range" id="f-slider">
+            <output id="f-slider-out"></output>
+          </div>
+          <svg class="dia" id="f-svg" viewBox="0 0 640 500" role="img" aria-label="Federkennlinie mit Ablesung"></svg>
+        </div>
+        <div class="side">
+          <div class="card example">
+            <h3>Wertetabelle</h3>
+            <div class="vtable-wrap"><table class="vtable" id="f-table"></table></div>
+            <div class="ctl-row"><button class="btn ghost" id="f-add">+ Wert</button><button class="btn ghost" id="f-del">− Wert</button></div>
+            <div class="feedback" id="f-table-msg"></div>
+          </div>
+          <div class="card">
+            <h3>Ablesung</h3>
+            <div class="result" id="f-result"></div>
+            <div class="kv" id="f-details"></div>
+            <p class="note" id="f-book"></p>
+          </div>
+          <div class="card">
+            <h3>Ablesen üben <span class="score" id="f-score"></span></h3>
+            <div class="ctl-row"><button class="btn" id="f-quiz">Neue Aufgabe</button><button class="btn ghost" id="f-quiz-end" hidden>Beenden</button></div>
+            <div id="f-task" class="note"></div>
+            <div class="ctl-row" id="f-answer-row" hidden>
+              <input class="num" id="f-answer"> <span id="f-answer-unit"></span>
+              <button class="btn" id="f-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="f-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Lernhilfe nach Tabellenbuch Metall, 48. Auflage, Seite 58 (Verlag Europa-Lehrmittel). Texte und Grafiken sind eigenständig erstellt; übernommen sind nur die Beispielwerte der Seite. Normbezug: DIN 461, DIN EN ISO 80000-2.
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/svg.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tab-koordinaten.js"></script>
+  <script src="js/tab-aufbau.js"></script>
+  <script src="js/tab-skalen.js"></script>
+  <script src="js/tab-feder.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

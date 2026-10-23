@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polarkoordinatensysteme, Flächendiagramme • Tabellenbuch Metall S. 59</title>
+  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 59: Diagramme mit mehreren Kennlinien und streuenden Messwerten, Polarkoordinatensystem nach DIN 461, Rundheitsprüfung einer Buchse sowie Säulen-, Balken- und Kreisflächendiagramme.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='white' stroke-width='2' fill='none'/%3E%3Cpath d='M16 16L24 10' stroke='%23fbbf24' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blueprint">
+  <!-- Gemeinsame SVG-Definitionen (nicht display:none, sonst greifen die Verläufe nicht) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="diaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--dia-top)"/>
+        <stop offset="1" style="stop-color: var(--dia-bottom)"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="tbb-header">
+    <div class="tbb-top">
+      <div class="tbb-meta">
+        <span class="page-badge">59</span>
+        <span class="subject-tag">K</span>
+        <div>
+          <h1>3.1 Diagramme • Polarkoordinatensysteme, Flächendiagramme</h1>
+          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • vgl. DIN 461 (1973-03), DIN EN ISO 80000-2 (2013-08)</div>
+        </div>
+      </div>
+      <div class="tbb-tools">
+        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
+        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
+        <a href="../s58-diagramme/" class="back-link" title="Zurück zu Seite 58: Kartesisches Koordinatensystem">← S. 58</a>
+        <button class="btn-header" id="btn-book" title="Alle Reiter auf die Beispiele von Seite 59 zurücksetzen">↺ Buchwerte laden</button>
+        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="kennlinien" class="active">1 Mehrere Kennlinien</button>
+      <button data-tab="polar">2 Polarkoordinaten</button>
+      <button data-tab="rundheit">3 Rundheitsprüfung</button>
+      <button data-tab="flaechen">4 Flächendiagramme</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= 1 Mehrere Kennlinien ================= -->
+    <section class="tab active" id="tab-kennlinien">
+      <div class="tab-head">
+        <h2>Kartesisches Koordinatensystem (Fortsetzung) • Diagramme mit mehreren Kennlinien</h2>
+        <p>Bei stark streuenden Messwerten wird für jede Kennlinie ein besonderes Zeichen verwendet (z. B. ○, ×, □). Die Kennlinien selbst werden durch Formelzeichen/Namen, unterschiedliche Farben oder verschiedene Linienarten gekennzeichnet.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Kennzeichnung:</span>
+            <span class="seg" id="m-id">
+              <button data-v="color" class="on">Farbe &amp; Formelzeichen</button>
+              <button data-v="dash">Linienarten (S/W)</button>
+              <button data-v="both">Beides</button>
+            </span>
+            <span>Verlauf:</span>
+            <span class="seg" id="m-fit">
+              <button data-v="smooth" class="on">Ausgleichskurve</button>
+              <button data-v="band">Streuband</button>
+              <button data-v="zigzag">Ohne Ausgleich</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="m-marks" checked> Messwertzeichen (×, ○, □)</label>
+            <label class="chk"><input type="checkbox" id="m-third"> 3. Kennlinie <i>R</i><sub>e2</sub> (□, Werkstoff 2)</label>
+            <label class="chk"><input type="checkbox" id="m-read" checked> Ableselinie</label>
+          </div>
+          <div class="slider">
+            <span>Temperatur <i>T</i></span>
+            <input type="range" id="m-temp" min="0" max="600" step="10" value="300">
+            <output id="m-temp-out">300 °C</output>
+          </div>
+          <svg class="dia" id="m-svg" viewBox="0 0 640 500" role="img" aria-label="Warmfestigkeitsdiagramm mit Zugfestigkeit Rm und Streckgrenze Re über der Temperatur"></svg>
+          <p class="note">Warmfestigkeitsdiagramm nach Seite 59: Zugfestigkeit <i>R</i><sub>m</sub> (×) und Streckgrenze <i>R</i><sub>e</sub> (○) in N/mm² über der Temperatur in °C. Einzelne Messpunkte lassen sich im Diagramm senkrecht ziehen.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Ablesung &amp; Streuung</h3>
+            <div class="result" id="m-result"></div>
+            <div class="kv" id="m-details"></div>
+          </div>
+          <div class="card">
+            <h3>Regeln (DIN 461)</h3>
+            <ul class="rules" id="m-rules"></ul>
+          </div>
+          <div class="card">
+            <h3>Ablesen üben <span class="score" id="m-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="m-quiz">Neue Aufgabe</button>
+              <button class="btn ghost" id="m-quiz-end" hidden>Beenden</button>
+            </div>
+            <div id="m-task" class="note"></div>
+            <div class="ctl-row" id="m-ans-row" hidden>
+              <input class="num" id="m-ans" inputmode="decimal"> <span id="m-ans-unit"></span>
+              <button class="btn" id="m-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="m-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2 Polarkoordinatensystem ================= -->
+    <section class="tab" id="tab-polar">
+      <div class="tab-head">
+        <h2>Polarkoordinatensystem • 360°-Teilung, Pol, Winkel +<i>φ</i> und Radius <i>r</i></h2>
+        <p>Vom Nullpunkt (Pol) aus wird der Winkel <i>φ</i> von der rechten waagrechten Achse (0°) entgegen dem Uhrzeigersinn abgetragen; der Radius <i>r</i> gibt den Abstand vom Pol an.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Kreisteilung:</span>
+            <span class="seg" id="p-div">
+              <button data-v="15">15°</button>
+              <button data-v="30" class="on">30°</button>
+              <button data-v="45">45°</button>
+            </span>
+            <span>Winkelraster:</span>
+            <span class="seg" id="p-snap">
+              <button data-v="15" class="on">15°</button>
+              <button data-v="5">5°</button>
+              <button data-v="1">1°</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="p-curve" checked> Buch-Kennlinie <i>r</i>(<i>φ</i>)</label>
+            <label class="chk"><input type="checkbox" id="p-nums" checked> Zahlen &amp; Winkel</label>
+            <label class="chk"><input type="checkbox" id="p-cart"> Kartesisches Stützdreieck (<i>x</i>, <i>y</i>)</label>
+          </div>
+          <svg class="dia" id="p-svg" viewBox="0 0 640 500" role="img" aria-label="Polarkoordinatensystem mit 360-Grad-Teilung"></svg>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Ausgewählter Punkt <span class="quad" id="p-region"></span></h3>
+            <div id="p-readout" class="note" style="font-size:0.92rem;color:var(--text)"></div>
+            <p class="note" id="p-cart-info"></p>
+          </div>
+          <div class="card">
+            <h3><span>Polarpunkt P(<i>r</i>; <i>φ</i>) eingeben</span></h3>
+            <div class="ctl-row">
+              <input class="txt" id="p-input" placeholder="P3(3,5; 120°)" spellcheck="false">
+              <button class="btn" id="p-set">Setzen</button>
+            </div>
+            <div class="feedback" id="p-input-msg"></div>
+            <ul class="pt-list" id="p-list"></ul>
+          </div>
+          <div class="card">
+            <h3>Regeln (DIN 461)</h3>
+            <ul class="rules" id="p-rules"></ul>
+          </div>
+          <div class="card">
+            <h3>Übung <span class="score" id="p-score"></span></h3>
+            <span class="seg" id="p-mode">
+              <button data-v="free" class="on">Erkunden</button>
+              <button data-v="place">Punkt setzen</button>
+              <button data-v="read">Ablesen</button>
+            </span>
+            <div id="p-task" class="note"></div>
+            <div class="ctl-row" id="p-read-inputs" hidden>
+              <label><i>r</i> = <input class="num" id="p-ans-r" inputmode="decimal"></label>
+              <label><i>φ</i> = <input class="num" id="p-ans-deg" inputmode="decimal"> °</label>
+              <button class="btn" id="p-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="p-feedback"></div>
+            <button class="btn ghost" id="p-next" hidden>Nächste Aufgabe</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3 Rundheitsprüfung ================= -->
+    <section class="tab" id="tab-rundheit">
+      <div class="tab-head">
+        <h2>Beispiel Polarkoordinatensystem • Rundheitsprüfung einer gedrehten Buchse</h2>
+        <p>Eine Messmaschine zeichnet die Abweichung Δ<i>r</i> vom idealen Kreis stark vergrößert über dem Umfangswinkel <i>φ</i> auf (Maßstab im Buch: 10 mm ≙ 5 µm, Vergrößerung 2000 : 1).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Spannform:</span>
+            <span class="seg" id="r-kind">
+              <button data-v="book" class="on">Buchbeispiel</button>
+              <button data-v="oval">2-Backen (oval)</button>
+              <button data-v="3jaw">3-Backenfutter</button>
+              <button data-v="4jaw">4-Backenfutter</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <span>Maßstab:</span>
+            <span class="seg" id="r-scale">
+              <button data-v="2.5">10 mm ≙ 2,5 µm</button>
+              <button data-v="5" class="on">10 mm ≙ 5 µm (Buch)</button>
+              <button data-v="10">10 mm ≙ 10 µm</button>
+            </span>
+            <label class="chk"><input type="checkbox" id="r-tol-show" checked> Toleranzband</label>
+            <label class="chk"><input type="checkbox" id="r-jaws" checked> Spannbacken</label>
+          </div>
+          <div class="slider">
+            <span>Spannverformung <i>A</i></span>
+            <input type="range" id="r-amp" min="0.5" max="7.5" step="0.5" value="4.0">
+            <output id="r-amp-out">± 4,0 µm</output>
+          </div>
+          <div class="slider">
+            <span>Rundheitstoleranz <i>t</i></span>
+            <input type="range" id="r-tol" min="2.0" max="12.0" step="0.5" value="6.0">
+            <output id="r-tol-out">6,0 µm</output>
+          </div>
+          <div class="slider">
+            <span>Messtaster-Winkel <i>φ</i></span>
+            <input type="range" id="r-deg" min="0" max="355" step="5" value="90">
+            <output id="r-deg-out">90°</output>
+          </div>
+          <svg class="dia" id="r-svg" viewBox="0 0 640 500" role="img" aria-label="Polardiagramm der Rundheitsprüfung einer gedrehten Buchse"></svg>
+        </div>
+        <div class="side">
+          <div class="card example">
+            <h3>Beispiel (Buch S. 59)</h3>
+            <p class="note" style="color:var(--text);margin-top:2px">
+              Mithilfe einer Messmaschine wird überprüft, ob die Rundheit einer gedrehten Buchse innerhalb einer geforderten Toleranz liegt.<br><br>
+              Die ermittelte Unrundheit wurde vermutlich durch <b>zu starkes Spannen der Buchse im Backenfutter</b> verursacht: Die Backen (Pfeile) drücken die dünnwandige Buchse elastisch ein, und in diesem Zustand wird sie rund gedreht. Nach dem Ausspannen federt sie zurück, und an jeder Backe entsteht eine Erhebung. Beim Dreibackenfutter ergibt das die Dreiecksform (Gleichdick) des Messschriebs im Buch.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Auswertung am Messschrieb</h3>
+            <div class="result" id="r-result"></div>
+            <div class="kv" id="r-details"></div>
+          </div>
+          <div class="card">
+            <h3>Maßstab &amp; Rundheit üben <span class="score" id="r-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="r-quiz">Neue Aufgabe</button>
+              <button class="btn ghost" id="r-quiz-end" hidden>Beenden</button>
+            </div>
+            <div id="r-task" class="note"></div>
+            <div class="ctl-row" id="r-ans-row" hidden>
+              <input class="num" id="r-ans" inputmode="decimal"> <span id="r-ans-unit"></span>
+              <button class="btn" id="r-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="r-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 Flächendiagramme ================= -->
+    <section class="tab" id="tab-flaechen">
+      <div class="tab-head">
+        <h2>Flächendiagramme • Kreisflächendiagramm (Mittelpunktswinkel <i>α</i>) &amp; Säulen-/Balkendiagramm</h2>
+        <p>Im Kreisflächendiagramm entspricht der Vollkreis 100 % (≙ 360°). Im Säulen- und Balkendiagramm werden Größen als gleich dicke senkrechte Säulen oder waagrechte Balken dargestellt.</p>
+      </div>
+      <div class="layout">
+        <div>
+          <div class="card">
+            <h3><span>Kreisflächendiagramm &amp; Mittelpunktswinkel <i>α</i></span></h3>
+            <div class="ctl-row">
+              <span>Vorlage:</span>
+              <span class="seg" id="c-preset">
+                <button data-v="alloy" class="on">CuZn36Pb3 (Buchbeispiel)</button>
+                <button data-v="pct">65 / 25 / 5 / 5 % (Buchbild)</button>
+                <button data-v="cusn8">CuSn8</button>
+                <button data-v="cuni">CuNi18Zn20</button>
+              </span>
+            </div>
+            <svg class="dia" id="c-pie-svg" viewBox="0 0 560 400" role="img" aria-label="Kreisflächendiagramm mit Mittelpunktswinkel alpha"></svg>
+            <div id="c-formula-box"></div>
+            <p class="note" id="c-sum-msg"></p>
+          </div>
+
+          <div class="card">
+            <div class="ctl-row" style="justify-content:space-between;margin-top:0">
+              <h3 style="margin:0">Säulendiagramm &amp; Balkendiagramm (Umsatz 2013–2016)</h3>
+              <span class="seg" id="c-orient">
+                <button data-v="col" class="on">Senkrechte Säulen</button>
+                <button data-v="bar">Waagrechte Balken</button>
+              </span>
+            </div>
+            <svg class="dia" id="c-bar-svg" viewBox="0 0 560 310" role="img" aria-label="Säulen- bzw. Balkendiagramm Umsatz in Mio Euro"></svg>
+            <p class="note" id="c-bar-summary"></p>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="card example">
+            <h3>Beispiel (Buch S. 59): CuZn36Pb3</h3>
+            <p class="note" style="color:var(--text);margin-top:2px">
+              <b>Frage:</b> Wie groß ist der Mittelpunktswinkel <i>α</i> für den Bleianteil der Legierung <b>CuZn36Pb3</b>?<br>
+              <span class="note">(Kurzname: 36 % Zn, 3 % Pb, Rest 61 % Cu)</span>
+            </p>
+            <div class="formula-line">
+              <i>α</i> = <span class="frac"><span>360° · 3 %</span><span>100 %</span></span> = <b>10,8°</b>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Anteile &amp; Mittelpunktswinkel <button class="btn ghost" id="c-norm-btn" title="Anteile auf 100 % normieren">Auf 100 % normieren</button></h3>
+            <div class="vtable-wrap"><table class="vtable" id="c-pie-table"></table></div>
+            <p class="note">Sektor im Diagramm antippen oder Trennlinie ziehen, um den Mittelpunktswinkel <i>α</i> live zu berechnen.</p>
+          </div>
+
+          <div class="card">
+            <h3>Mittelpunktswinkel üben <span class="score" id="c-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="c-quiz">Neue Aufgabe</button>
+              <button class="btn ghost" id="c-quiz-end" hidden>Beenden</button>
+            </div>
+            <div id="c-task" class="note"></div>
+            <div class="ctl-row" id="c-ans-row" hidden>
+              <input class="num" id="c-ans" inputmode="decimal"> <span id="c-ans-unit"></span>
+              <button class="btn" id="c-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="c-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Lernhilfe nach Tabellenbuch Metall, 48. Auflage, Seite 59 (Verlag Europa-Lehrmittel). Texte und Grafiken sind eigenständig erstellt; übernommen sind die Regeln (sinngemäß) und die Beispielwerte der Seite. Normbezug: DIN 461 (1973-03), DIN EN ISO 80000-2 (2013-08).
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/svg.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tab-kennlinien.js"></script>
+  <script src="js/tab-polar.js"></script>
+  <script src="js/tab-rundheit.js"></script>
+  <script src="js/tab-flaechen.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

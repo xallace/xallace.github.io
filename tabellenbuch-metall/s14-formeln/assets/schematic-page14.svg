@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#004b87"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="lossHatch" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239, 68, 68, 0.4)" stroke-width="2"/>
+    </pattern>
+    <pattern id="profitHatch" width="8" height="8" patternTransform="rotate(-45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(22, 163, 74, 0.4)" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <!-- Paper Background -->
+  <rect width="800" height="1100" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3" rx="8"/>
+
+  <!-- Top Blue Header Bar -->
+  <rect x="0" y="0" width="800" height="70" fill="url(#headerGrad)" rx="8 8 0 0"/>
+  <rect x="25" y="15" width="40" height="40" rx="4" fill="#ffffff"/>
+  <text x="45" y="42" font-family="Inter, sans-serif" font-size="22" font-weight="900" fill="#004b87" text-anchor="middle">14</text>
+  
+  <text x="80" y="44" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff">1.2 Formeln</text>
+  <text x="770" y="44" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#e0f2fe" text-anchor="end">Struktur- &amp; Didaktiktafel</text>
+
+  <!-- Section Title -->
+  <text x="30" y="115" font-family="Inter, sans-serif" font-size="24" font-weight="800" fill="#0f172a">Formeln, Gleichungen, Diagramme</text>
+  <line x1="30" y1="130" x2="770" y2="130" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- =========================================================================
+       SECTION 1: Formeln (Größengleichungen & Schnittgeschwindigkeit)
+       ========================================================================= -->
+  <g transform="translate(30, 150)">
+    <rect width="740" height="260" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="740" height="34" rx="6 6 0 0" fill="#f1f5f9"/>
+    <text x="16" y="23" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#004b87">1. FORMELN (GRÖSSENGLEICHUNGEN)</text>
+    
+    <text x="20" y="65" font-family="Inter, sans-serif" font-size="13" fill="#334155">• Verknüpfen physikalische Größen mit Einheiten</text>
+    <text x="20" y="90" font-family="Inter, sans-serif" font-size="13" fill="#334155">• Bestandteile: Formelzeichen (v_c, d, n), Operatoren (·, +, -, /), Konstanten (π), Zahlen</text>
+    <text x="20" y="115" font-family="Inter, sans-serif" font-size="13" fill="#334155">• Einheitenumrechnung im Rechengang zwingend erforderlich (z. B. mm → m)</text>
+
+    <!-- Formula Box Right -->
+    <rect x="470" y="50" width="250" height="60" rx="4" fill="#f8fafc" stroke="#881337" stroke-width="1.5" stroke-dasharray="0"/>
+    <rect x="470" y="50" width="8" height="60" fill="#881337"/>
+    <text x="490" y="72" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#881337">Formel für Schnittgeschwindigkeit</text>
+    <text x="595" y="96" font-family="Inter, sans-serif" font-size="17" font-weight="800" fill="#0f172a" text-anchor="middle">v_c = π · d · n</text>
+
+    <!-- Example Box -->
+    <rect x="20" y="145" width="700" height="95" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+    <text x="35" y="170" font-family="Inter, sans-serif" font-size="12" font-weight="800" fill="#15803d">BEISPIEL (WERKSTATTRECHNUNG):</text>
+    <text x="35" y="195" font-family="Inter, sans-serif" font-size="13" fill="#166534">Gegeben: d = 200 mm, n = 630 /min</text>
+    <text x="35" y="222" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#0f172a">v_c = π · 200 mm · (1 m / 1000 mm) · 630 (1/min) = 395,84 m/min</text>
+  </g>
+
+  <!-- =========================================================================
+       SECTION 2: Zahlenwertgleichungen (Drehmoment)
+       ========================================================================= -->
+  <g transform="translate(30, 435)">
+    <rect width="740" height="235" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="740" height="34" rx="6 6 0 0" fill="#f1f5f9"/>
+    <text x="16" y="23" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#004b87">2. ZAHLENWERTGLEICHUNGEN</text>
+
+    <text x="20" y="65" font-family="Inter, sans-serif" font-size="13" fill="#334155">• Umrechnungsfaktoren sind bereits fest in den Zahlenfaktor eingearbeitet</text>
+    <text x="20" y="90" font-family="Inter, sans-serif" font-size="13" fill="#b91c1c" font-weight="600">⚠️ Regel: Größen dürfen NUR in der vorgeschriebenen Einheit eingesetzt werden!</text>
+    <text x="20" y="115" font-family="Inter, sans-serif" font-size="13" fill="#334155">• Einheiten werden bei der Rechnung nicht mitgeführt; Ergebnis-Einheit steht fest</text>
+
+    <!-- Formula Box Right -->
+    <rect x="470" y="48" width="250" height="65" rx="4" fill="#f8fafc" stroke="#881337" stroke-width="1.5"/>
+    <rect x="470" y="48" width="8" height="65" fill="#881337"/>
+    <text x="490" y="70" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#881337">Drehmoment-Zahlenwertgleichung</text>
+    <text x="595" y="96" font-family="Inter, sans-serif" font-size="17" font-weight="800" fill="#0f172a" text-anchor="middle">M = (9550 · P) / n</text>
+
+    <!-- Table prescribed units -->
+    <g transform="translate(20, 135)">
+      <rect width="700" height="80" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+      <line x1="0" y1="26" x2="700" y2="26" stroke="#cbd5e1" stroke-width="1"/>
+      <text x="15" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#475569">Vorgeschriebene Einheiten:  M in N·m  |  P in kW  |  n in 1/min (min⁻¹)</text>
+      <text x="15" y="48" font-family="Inter, sans-serif" font-size="12" fill="#334155">Beispiel: P = 15 kW, n = 750 /min  →  M = (9550 · 15) / 750 N·m = 191 N·m</text>
+      <text x="15" y="68" font-family="Inter, sans-serif" font-size="11" fill="#64748b">Herleitung: 60.000 / (2π) = 9549,296... ≈ 9550 (Abweichung &lt; 0,0073 %)</text>
+    </g>
+  </g>
+
+  <!-- =========================================================================
+       SECTION 3: Gleichungen und Diagramme (Lineare Funktionen & Gewinnschwelle)
+       ========================================================================= -->
+  <g transform="translate(30, 695)">
+    <rect width="740" height="375" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="740" height="34" rx="6 6 0 0" fill="#f1f5f9"/>
+    <text x="16" y="23" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#004b87">3. GLEICHUNGEN UND DIAGRAMME</text>
+
+    <!-- Left: Functions & Break-Even definitions -->
+    <g transform="translate(20, 50)">
+      <text x="0" y="18" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0f172a">Zuordnungsfunktion:</text>
+      <text x="160" y="18" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#0284c7">y = f(x)</text>
+
+      <text x="0" y="44" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0f172a">Lineare Funktion:</text>
+      <text x="160" y="44" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#0284c7">y = m · x + b</text>
+
+      <line x1="0" y1="62" x2="350" y2="62" stroke="#e2e8f0" stroke-width="1"/>
+
+      <text x="0" y="85" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#dc2626">Kostenfunktion:</text>
+      <text x="160" y="85" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#dc2626">K_G = K_v · M + K_f</text>
+
+      <text x="0" y="110" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0284c7">Erlösfunktion:</text>
+      <text x="160" y="110" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#0284c7">E = e · M</text>
+
+      <text x="0" y="135" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0f172a">Gewinnschwelle (Gs):</text>
+      <text x="160" y="135" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#15803d">K_G = E  →  M = K_f / (e - K_v)</text>
+
+      <!-- Table small -->
+      <g transform="translate(0, 160)">
+        <rect width="350" height="120" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="10" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#475569">Buchbeispiel 2 (Menge M / Kosten €):</text>
+        <text x="10" y="45" font-family="Inter, sans-serif" font-size="11" fill="#334155">K_f = 200.000 €, K_v = 60 €/Stck, e = 110 €/Stck</text>
+        <text x="10" y="70" font-family="Inter, sans-serif" font-size="11" fill="#dc2626">• Bei M = 0: K_G = 200.000 €, E = 0 €  (Verlust)</text>
+        <text x="10" y="92" font-family="Inter, sans-serif" font-size="11" fill="#15803d">• Bei M = 4000: K_G = 440.000 €, E = 440.000 €  (Gs)</text>
+        <text x="10" y="112" font-family="Inter, sans-serif" font-size="11" fill="#15803d">• Bei M = 6000: K_G = 560.000 €, E = 660.000 €  (+100k Gewinn)</text>
+      </g>
+    </g>
+
+    <!-- Right: Mini Schematic Diagram -->
+    <g transform="translate(410, 48)">
+      <rect width="310" height="295" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+      
+      <!-- Coordinate Axes -->
+      <line x1="50" y1="240" x2="290" y2="240" stroke="#1e293b" stroke-width="2"/>
+      <line x1="50" y1="240" x2="50" y2="25" stroke="#1e293b" stroke-width="2"/>
+      
+      <!-- Axis Labels -->
+      <text x="290" y="255" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1e293b" text-anchor="end">Menge M ──▶</text>
+      <text x="25" y="25" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#1e293b">€ ──▶</text>
+
+      <!-- Fixed Costs Dashed -->
+      <line x1="50" y1="180" x2="280" y2="180" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="55" y="195" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#0284c7">fixe Kosten</text>
+
+      <!-- Loss & Profit Areas -->
+      <!-- Intersection Gs is at x = 170, y = 100 -->
+      <polygon points="50,240 50,180 170,100" fill="url(#lossHatch)"/>
+      <polygon points="170,100 280,30 280,75" fill="url(#profitHatch)"/>
+
+      <text x="95" y="205" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#dc2626">Verlust</text>
+      <text x="225" y="80" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#15803d">Gewinn</text>
+
+      <!-- Gesamtkosten Line (Red) -->
+      <line x1="50" y1="180" x2="280" y2="75" stroke="#dc2626" stroke-width="2.5"/>
+      <text x="275" y="95" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#dc2626">Gesamtkosten</text>
+
+      <!-- Erlös Line (Blue) -->
+      <line x1="50" y1="240" x2="280" y2="30" stroke="#0284c7" stroke-width="2.5"/>
+      <text x="245" y="30" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#0284c7">Erlös</text>
+
+      <!-- Gs Point -->
+      <circle cx="170" cy="100" r="4.5" fill="#1e293b"/>
+      <line x1="170" y1="100" x2="170" y2="240" stroke="#64748b" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="170" y1="100" x2="50" y2="100" stroke="#64748b" stroke-width="1" stroke-dasharray="2,2"/>
+      <rect x="115" y="70" width="105" height="20" rx="3" fill="#ffffff" stroke="#1e293b" stroke-width="1"/>
+      <text x="167" y="84" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#1e293b" text-anchor="middle">Gewinnschwelle (Gs)</text>
+    </g>
+  </g>
+</svg>

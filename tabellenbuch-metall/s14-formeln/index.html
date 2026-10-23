@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabellenbuch Metall • Formeln, Gleichungen, Diagramme (S. 14)</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Local KaTeX with CDN fallback (Guaranteed synchronous, 100% offline capable) -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/auto-render.min.js"></script>
+</head>
+<body>
+
+  <!-- =========================================================================
+       Top Header: Tabellenbuch Metall (48. Auflage, S. 14)
+       ========================================================================= -->
+  <header class="tbb-header">
+    <div class="tbb-header-top">
+      <div class="tbb-book-meta">
+        <span class="tbb-page-badge">14</span>
+        <span class="tbb-subject-tag">M</span>
+        <div class="tbb-title-group">
+          <h1>1.2 Formeln • Formeln, Gleichungen, Diagramme</h1>
+          <div class="tbb-subtitle">Tabellenbuch Metall • 48. Auflage • Technische Mathematik</div>
+        </div>
+      </div>
+
+      <div class="tbb-header-tools">
+        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
+        <a href="../s58-diagramme/" class="back-link" title="Weiter zu Seite 58: Kartesisches Koordinatensystem">S. 58 →</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Weiter zu Seite 59: Polarkoordinaten &amp; Flächendiagramme">S. 59 →</a>
+        <button class="btn-header" id="btn-reset-book" title="Alle Rechner auf die exakten Buchbeispiele von Seite 14 zurücksetzen">
+          <span>🔄</span> Buchwerte laden
+        </button>
+        <button class="btn-header" id="btn-theme-toggle" title="Zwischen Ingenieur-Design und Blueprint-Dunkelmodus umschalten">
+          <span id="theme-icon">📐</span> <span id="theme-label">Blueprint-Modus</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="tbb-nav-tabs" id="main-nav-tabs">
+      <button class="tbb-tab-btn active" data-tab="tab-overview">
+        <span>📘</span> Übersicht &amp; Kompendium
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-vc">
+        <span>⚙️</span> 1. Formeln (<i>v</i><sub>c</sub>)
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-torque">
+        <span>⚡</span> 2. Zahlenwertgleichungen (<i>M</i>)
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-linear">
+        <span>📈</span> 3. Lineare Funktionen (<i>y</i> = <i>m</i>·<i>x</i> + <i>b</i>)
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-breakeven">
+        <span>💼</span> 4. Kosten &amp; Gewinnschwelle (<i>Gs</i>)
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-quiz">
+        <span>🎓</span> Übungsmodus <span class="badge-pill">6 Aufgaben</span>
+      </button>
+      <button class="tbb-tab-btn" data-tab="tab-book">
+        <span>📐</span> Struktur- &amp; Didaktiktafel (S. 14)
+      </button>
+    </nav>
+  </header>
+
+  <!-- =========================================================================
+       Main Application Container
+       ========================================================================= -->
+  <main class="tbb-container">
+
+    <!-- -----------------------------------------------------------------------
+         TAB 0: Übersicht & Kompendium
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane active" id="tab-overview">
+      <div class="tbb-card">
+        <div class="tbb-card-header">
+          <h2 class="tbb-card-title"><span>📘</span> Das mathematische Fundament der Metalltechnik (S. 14)</h2>
+          <span class="badge-pill">Kapitel 1.2 Formeln</span>
+        </div>
+        <p style="font-size: 1.05rem; margin-bottom: 16px; color: var(--text-main);">
+          Seite 14 des <strong>Tabellenbuchs Metall</strong> legt die verbindlichen methodischen Grundlagen fest, wie in der 
+          Fertigung, Konstruktion und Betriebswirtschaft physikalische Größen berechnet, in Werkstatt-Formeln übertragen und grafisch interpretiert werden.
+        </p>
+
+        <div class="grid-3col">
+          <!-- Card 1 -->
+          <div class="tbb-card" style="margin-bottom:0; background: var(--bg-card-alt);">
+            <div style="font-size:1.8rem; margin-bottom:8px;">⚙️</div>
+            <h3 style="color:var(--primary); margin-bottom:6px;">1. Größengleichungen</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+              Physikalische Gesetzmäßigkeiten mit Formelzeichen, Operatoren und Konstanten ($\pi$). Die Einheiten werden mitgeführt und müssen konsequent umgerechnet werden.
+            </p>
+            <div class="tbb-formula-box" style="padding:8px 12px; margin:0 0 12px 0;">
+              <span class="formula-desc">Schnittgeschwindigkeit:</span>
+              <span class="formula-math" data-latex="v_c = \pi \cdot d \cdot n">$$v_c = \pi \cdot d \cdot n$$</span>
+            </div>
+            <button class="btn btn-outline btn-sm btn-nav-jump" data-target="tab-vc">Zum Rechner &amp; Kinematik →</button>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="tbb-card" style="margin-bottom:0; background: var(--bg-card-alt);">
+            <div style="font-size:1.8rem; margin-bottom:8px;">⚡</div>
+            <h3 style="color:var(--primary); margin-bottom:6px;">2. Zahlenwertgleichungen</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+              Formeln mit fest eingearbeiteten Umrechnungsfaktoren (z. B. $9550$). Zahlenwerte dürfen <em>nur</em> in der vorgeschriebenen Einheit eingesetzt werden!
+            </p>
+            <div class="tbb-formula-box" style="padding:8px 12px; margin:0 0 12px 0;">
+              <span class="formula-desc">Drehmoment:</span>
+              <span class="formula-math" data-latex="M = \frac{9550 \cdot P}{n}">$$M = \frac{9550 \cdot P}{n}$$</span>
+            </div>
+            <button class="btn btn-outline btn-sm btn-nav-jump" data-target="tab-torque">Zum Drehmoment &amp; Herleitung →</button>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="tbb-card" style="margin-bottom:0; background: var(--bg-card-alt);">
+            <div style="font-size:1.8rem; margin-bottom:8px;">📈</div>
+            <h3 style="color:var(--primary); margin-bottom:6px;">3. Funktionen &amp; Diagramme</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+              Lineare Funktionen $y = m \cdot x + b$ zur Modellierung von Kosten, Erlösen und der Gewinnschwelle ($K_G = E$) im Koordinatensystem.
+            </p>
+            <div class="tbb-formula-box" style="padding:8px 12px; margin:0 0 12px 0;">
+              <span class="formula-desc">Gewinnschwelle:</span>
+              <span class="formula-math" data-latex="K_G = K_v \cdot M + K_f">$$K_G = K_v \cdot M + K_f$$</span>
+            </div>
+            <button class="btn btn-outline btn-sm btn-nav-jump" data-target="tab-breakeven">Zur Gewinnschwelle-Analyse →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison card between Größen- and Zahlenwertgleichung -->
+      <div class="tbb-card">
+        <h3 class="tbb-card-title">⚖️ Gegenüberstellung: Größengleichung vs. Zahlenwertgleichung</h3>
+        <table class="tbb-table" style="margin-top:14px;">
+          <thead>
+            <tr>
+              <th>Merkmal</th>
+              <th>Größengleichung (z. B. $v_c = \pi \cdot d \cdot n$)</th>
+              <th>Zahlenwertgleichung (z. B. $M = \frac{9550 \cdot P}{n}$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Definition</strong></td>
+              <td>Verknüpft physikalische Größen unabhängig vom Einheitensystem.</td>
+              <td>Verknüpft reine Zahlenwerte; Umrechnungsfaktoren sind eingearbeitet.</td>
+            </tr>
+            <tr>
+              <td><strong>Einheiten im Rechengang</strong></td>
+              <td>Müssen mitgeführt und umgeformt werden ($200\,\text{mm} \cdot \frac{1\,\text{m}}{1000\,\text{mm}}$).</td>
+              <td>Werden im Rechengang <em>nicht</em> mitgeführt.</td>
+            </tr>
+            <tr>
+              <td><strong>Einheitendisziplin</strong></td>
+              <td>Flexibel: Jede Einheit ist zulässig, sofern konsequent gekürzt wird.</td>
+              <td><strong>Streng vorgeschrieben:</strong> z. B. $P$ in $\text{kW}$, $n$ in $1/\text{min}$, Ergebnis fest in $\text{N}\cdot\text{m}$.</td>
+            </tr>
+            <tr>
+              <td><strong>Haupteinsatzgebiet</strong></td>
+              <td>Wissenschaft, physikalische Herleitungen, Grundlagenprüfungen.</td>
+              <td>Werkstattpraxis, Schnellauslegung von Maschinen und Antrieben.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 1: Formeln & Schnittgeschwindigkeit (vc = π · d · n)
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-vc">
+      <div class="grid-2col">
+        
+        <!-- Left: Interactive Calculator -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>⚙️</span> Schnittgeschwindigkeits-Rechner</h2>
+            <div class="btn-group">
+              <button class="btn btn-outline btn-sm" id="btn-load-vc-example">Buch-Beispiel laden</button>
+            </div>
+          </div>
+
+          <!-- Formula Box matching Book -->
+          <div class="tbb-formula-box">
+            <span class="formula-desc">Formel für die Schnittgeschwindigkeit</span>
+            <span class="formula-math" data-latex="v_c = \pi \cdot d \cdot n">$$v_c = \pi \cdot d \cdot n$$</span>
+          </div>
+
+          <!-- Solver Mode Selector -->
+          <div class="form-group">
+            <label class="form-label">Gesuchte Größe wählen:</label>
+            <div class="btn-group" style="width:100%; display:flex;">
+              <button class="btn btn-primary btn-sm flex-1" id="mode-vc-solve" style="flex:1;">Schnittgeschwindigkeit <i>v</i><sub>c</sub></button>
+              <button class="btn btn-outline btn-sm flex-1" id="mode-n-solve" style="flex:1;">Drehzahl <i>n</i></button>
+              <button class="btn btn-outline btn-sm flex-1" id="mode-d-solve" style="flex:1;">Durchmesser <i>d</i></button>
+            </div>
+          </div>
+
+          <!-- Material Preset Selector -->
+          <div class="form-group">
+            <label class="form-label" for="vc-material-select">Werkstoff-Richtwerte (Tabellenbuch Metall):</label>
+            <select class="input-control" id="vc-material-select">
+              <!-- populated by JS -->
+            </select>
+          </div>
+
+          <!-- Input Fields -->
+          <div class="form-group" id="group-vc-d">
+            <label class="form-label" for="input-vc-d">Durchmesser <i>d</i> (Werkstück / Werkzeug):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-vc-d" value="200" min="0.1" step="1">
+              <select class="unit-select" id="unit-vc-d">
+                <option value="mm" selected>mm</option>
+                <option value="cm">cm</option>
+                <option value="m">m</option>
+                <option value="in">Zoll (in)</option>
+              </select>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-vc-d" min="5" max="500" value="200">
+            </div>
+          </div>
+
+          <div class="form-group" id="group-vc-n">
+            <label class="form-label" for="input-vc-n">Drehzahl <i>n</i>:</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-vc-n" value="630" min="1" step="10">
+              <select class="unit-select" id="unit-vc-n">
+                <option value="1/min" selected>1/min (min⁻¹)</option>
+                <option value="1/s">1/s (Hz)</option>
+                <option value="rad/s">rad/s</option>
+              </select>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-vc-n" min="20" max="2500" value="630">
+            </div>
+          </div>
+
+          <div class="form-group" id="group-vc-vc" style="display:none;">
+            <label class="form-label" for="input-vc-vc">Schnittgeschwindigkeit <i>v</i><sub>c</sub>:</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-vc-vc" value="395.84" min="1" step="5">
+              <span class="unit-badge">m/min</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-vc-vc" min="10" max="600" value="395.84">
+            </div>
+          </div>
+
+          <!-- Result Display -->
+          <div class="result-card">
+            <div class="result-card-title" id="vc-result-title">Berechnete Schnittgeschwindigkeit:</div>
+            <div class="result-main-value" id="vc-result-val">395,84 m/min</div>
+            <div class="result-sub-value" id="vc-result-sub">≈ 6,60 m/s • 23,75 km/h</div>
+          </div>
+
+          <!-- Step-by-Step Box (Exakter Rechengang aus dem Buch) -->
+          <div class="calc-step-box">
+            <div class="calc-step-title">Exakter Rechengang mit Einheitenumformung (wie Buchseite 14):</div>
+            <div class="calc-step-line" id="vc-step-1"></div>
+            <div class="calc-step-line" id="vc-step-2"></div>
+            <div class="calc-step-line" id="vc-step-3" style="font-weight:bold; color:var(--primary);"></div>
+          </div>
+
+        </div>
+
+        <!-- Right: Kinematic 2D Visualizer -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>🔄</span> Kinematische Werkzeug- &amp; Zerspanungs-Simulation</h2>
+            <div class="btn-group">
+              <button class="btn btn-outline btn-sm active" id="btn-mode-lathe">Drehen</button>
+              <button class="btn btn-outline btn-sm" id="btn-mode-mill">Fräsen</button>
+              <button class="btn btn-outline btn-sm" id="btn-toggle-anim">⏸ Pause</button>
+            </div>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="canvas-vc"></canvas>
+          </div>
+
+          <div class="tbb-example-box" style="margin-top:16px;">
+            <div class="tbb-example-title">Buch-Beispiel (Original Seite 14):</div>
+            <p style="font-size:0.92rem; margin-bottom:8px;">
+              <strong>Frage:</strong> Wie groß ist die Schnittgeschwindigkeit $v_c$ in $\text{m/min}$ für $d = 200\,\text{mm}$ und $n = 630/\text{min}$?
+            </p>
+            <p style="font-size:0.88rem; color:var(--text-muted);">
+              <strong>Einheiten-Regel:</strong> Vor oder während der Berechnung werden die Einheiten so umgeformt, dass der Rechengang möglich wird (hier: $200\,\text{mm} \cdot \frac{1\,\text{m}}{1000\,\text{mm}} = 0{,}2\,\text{m}$). Das Ergebnis ist immer ein Zahlenwert mit Einheit ($395{,}84\,\text{m/min}$).
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 2: Zahlenwertgleichungen (M = (9550 · P) / n)
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-torque">
+      <div class="grid-2col">
+        
+        <!-- Left: Calculator -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>⚡</span> Drehmoment-Zahlenwertgleichung</h2>
+            <button class="btn btn-outline btn-sm" id="btn-load-torque-example">Buch-Beispiel laden</button>
+          </div>
+
+          <div class="tbb-formula-box">
+            <span class="formula-desc">Zahlenwertgleichung für das Drehmoment</span>
+            <span class="formula-math" data-latex="M = \frac{9550 \cdot P}{n}">$$M = \frac{9550 \cdot P}{n}$$</span>
+          </div>
+
+          <!-- Prescribed units warning / table -->
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:12px; margin-bottom:16px;">
+            <div style="font-size:0.85rem; font-weight:700; color:var(--accent-burgundy); margin-bottom:6px;">
+              ⚠️ Gesetz der Zahlenwertgleichung:
+            </div>
+            <ul class="tbb-definition-list" style="margin:0;">
+              <li>Die Zahlenwerte der einzelnen Größen dürfen <strong>nur</strong> in der vorgeschriebenen Einheit verwendet werden.</li>
+              <li>Die Einheiten werden bei der Berechnung <strong>nicht mitgeführt</strong>.</li>
+              <li>Die Einheit der gesuchten Größe ist fest vorgegeben.</li>
+            </ul>
+          </div>
+
+          <!-- Prescribed Units Table from Book -->
+          <table class="tbb-table">
+            <thead>
+              <tr>
+                <th>Bezeichnung</th>
+                <th>Größe</th>
+                <th>Vorgeschriebene Einheit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>$M$</strong></td>
+                <td>Drehmoment</td>
+                <td>$\text{N}\cdot\text{m}$</td>
+              </tr>
+              <tr>
+                <td><strong>$P$</strong></td>
+                <td>Leistung</td>
+                <td>$\text{kW}$</td>
+              </tr>
+              <tr>
+                <td><strong>$n$</strong></td>
+                <td>Drehzahl</td>
+                <td>$1/\text{min}$ ($\text{min}^{-1}$)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Target Variable -->
+          <div class="form-group" style="margin-top:16px;">
+            <label class="form-label">Gesuchte Größe wählen:</label>
+            <div class="btn-group" style="width:100%; display:flex;">
+              <button class="btn btn-primary btn-sm flex-1" id="mode-m-solve" style="flex:1;">Drehmoment <i>M</i></button>
+              <button class="btn btn-outline btn-sm flex-1" id="mode-p-solve" style="flex:1;">Leistung <i>P</i></button>
+              <button class="btn btn-outline btn-sm flex-1" id="mode-torquen-solve" style="flex:1;">Drehzahl <i>n</i></button>
+            </div>
+          </div>
+
+          <!-- Inputs -->
+          <div class="form-group" id="group-torque-p">
+            <label class="form-label" for="input-torque-p">Antriebsleistung <i>P</i> (vorgeschrieben in kW):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-torque-p" value="15" min="0.1" step="0.5">
+              <span class="unit-badge">kW</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-torque-p" min="0.5" max="100" value="15" step="0.5">
+            </div>
+          </div>
+
+          <div class="form-group" id="group-torque-n">
+            <label class="form-label" for="input-torque-n">Drehzahl <i>n</i> (vorgeschrieben in 1/min):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-torque-n" value="750" min="10" step="10">
+              <span class="unit-badge">1/min</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-torque-n" min="50" max="3000" value="750" step="25">
+            </div>
+          </div>
+
+          <div class="form-group" id="group-torque-m" style="display:none;">
+            <label class="form-label" for="input-torque-m">Drehmoment <i>M</i> (vorgeschrieben in N·m):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-torque-m" value="191" min="1" step="5">
+              <span class="unit-badge">N·m</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-torque-m" min="5" max="1000" value="191" step="1">
+            </div>
+          </div>
+
+          <!-- Result Card -->
+          <div class="result-card">
+            <div class="result-card-title" id="torque-result-title">Berechnetes Drehmoment M:</div>
+            <div class="result-main-value" id="torque-result-val">191,0 N·m</div>
+            <div class="result-sub-value" id="torque-result-sub">Exakter physikalischer Wert: 190,99 N·m (Abweichung &lt; 0,01%)</div>
+          </div>
+
+          <!-- Calculation Steps -->
+          <div class="calc-step-box">
+            <div class="calc-step-title">Einsetzen in die Zahlenwertgleichung (Buch Seite 14):</div>
+            <div class="calc-step-line" id="torque-step-1"></div>
+            <div class="calc-step-line" id="torque-step-2"></div>
+          </div>
+        </div>
+
+        <!-- Right: Derivation & Characteristic Curve -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>📐</span> Motorkennlinie &amp; Ursprung des Faktors 9550</h2>
+          </div>
+
+          <div class="svg-container" style="min-height:300px;">
+            <svg id="svg-motor-curve"></svg>
+          </div>
+
+          <!-- Deep-Dive Box -->
+          <div class="tbb-card" style="margin-top:16px; margin-bottom:0; background:var(--bg-card-alt);">
+            <h3 style="font-size:0.95rem; font-weight:700; color:var(--primary); margin-bottom:8px;">
+              🔬 Woher kommt eigentlich die Zahl 9550?
+            </h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:6px;">
+              Ausgangspunkt ist die physikalische Größengleichung der Leistung bei Rotation:
+            </p>
+            <div style="font-family:var(--font-mono); font-size:0.88rem; line-height:1.6; background:var(--bg-card); padding:10px; border-radius:4px; border:1px solid var(--border-color);">
+              <div>1. $P = M \cdot \omega$ mit $\omega = 2\pi \cdot \frac{n}{60}$</div>
+              <div>2. $P(\text{W}) = M \cdot \frac{2\pi \cdot n}{60} \implies M = \frac{60}{2\pi} \cdot \frac{P(\text{W})}{n}$</div>
+              <div>3. Übergang von Watt zu Kilowatt ($1\,\text{kW} = 1000\,\text{W}$):</div>
+              <div style="color:var(--accent-burgundy); font-weight:bold; margin-top:4px;">
+                $$M = \frac{60 \cdot 1000}{2\pi} \cdot \frac{P(\text{kW})}{n} = \frac{60\,000}{2\pi} \cdot \frac{P}{n} \approx \mathbf{9549{,}29658\dots} \cdot \frac{P}{n}$$
+              </div>
+            </div>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin-top:8px;">
+              Durch Runden auf <strong>9550</strong> entsteht im Tabellenbuch Metall eine extrem handliche Formel mit einem vernachlässigbaren Fehler von nur <strong>+0,0073%</strong>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 3: Gleichungen und Diagramme (Lineare Funktion y = m·x + b)
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-linear">
+      <div class="grid-2col">
+
+        <!-- Left: Function Controls & Value Table -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>📈</span> Lineare Funktion &amp; Steigungsdreieck</h2>
+            <button class="btn btn-outline btn-sm" id="btn-load-linear-example">Buch-Beispiel 1 laden</button>
+          </div>
+
+          <div class="tbb-formula-box">
+            <span class="formula-desc">Lineare Funktion (Zuordnungsfunktion $y = f(x)$)</span>
+            <span class="formula-math" data-latex="y = m \cdot x + b">$$y = m \cdot x + b$$</span>
+          </div>
+
+          <!-- Controls for m and b -->
+          <div class="form-group">
+            <label class="form-label" for="input-lin-m">Steigung <i>m</i> ($\Delta y / \Delta x$):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-lin-m" value="0.5" step="0.1">
+              <span class="unit-badge">m</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-lin-m" min="-2" max="3" step="0.1" value="0.5">
+            </div>
+          </div>
+
+          <div class="form-group" id="group-lin-b">
+            <label class="form-label" for="input-lin-b">y-Achsenabschnitt <i>b</i>:</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-lin-b" value="1.0" step="0.5">
+              <span class="unit-badge">b</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-lin-b" min="-3" max="3" step="0.5" value="1.0">
+            </div>
+          </div>
+
+          <!-- Wertetabelle aus dem Buch -->
+          <div style="margin-top:20px;">
+            <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:8px;">
+              Wertetabelle (Beispiel 1: $y = 0{,}5 x + 1$):
+            </h3>
+            <table class="tbb-table" id="table-linear-values">
+              <thead>
+                <tr>
+                  <th style="width:30%;"><i>x</i> (unabhängig)</th>
+                  <th>-2</th>
+                  <th>0</th>
+                  <th>2</th>
+                  <th>3</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong><i>y</i> (abhängig)</strong></td>
+                  <td id="tbl-y-neg2">0</td>
+                  <td id="tbl-y-0">1</td>
+                  <td id="tbl-y-2">2</td>
+                  <td id="tbl-y-3">2,5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tbb-example-box" style="margin-top:16px;">
+            <div class="tbb-example-title">Buch-Erklärung (Seite 14):</div>
+            <p style="font-size:0.88rem; color:var(--text-muted);">
+              "Bei Funktionsgleichungen ist $y$ die Funktion von $x$, mit $x$ als unabhängige und $y$ als abhängige Variable. Die Zahlenpaare $(x, y)$ einer Wertetabelle bilden ein Diagramm im x-y-Koordinatensystem."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: SVG Coordinate System Plotter -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>📐</span> Interaktives x-y-Koordinatensystem</h2>
+          </div>
+
+          <div class="svg-container">
+            <svg id="svg-linear-plot"></svg>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); text-align:center; margin-top:8px;">
+            Rot gestrichelt: Steigungsdreieck mit $\Delta x = 2$, $\Delta y = 1 \implies m = \frac{\Delta y}{\Delta x} = 0{,}5$. Roter Punkt: Achsenabschnitt $b = 1$.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 4: Kosten- & Erlösfunktion (Gewinnschwelle / Break-Even-Point)
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-breakeven">
+      <div class="grid-2col">
+        
+        <!-- Left: Economic parameters & controls -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>💼</span> Kosten- und Erlösfunktion</h2>
+            <button class="btn btn-outline btn-sm" id="btn-load-be-example">Buch-Beispiel 2 laden</button>
+          </div>
+
+          <!-- Formula Boxes matching Book -->
+          <div class="tbb-formula-box" style="margin-bottom:10px;">
+            <span class="formula-desc">Kostenfunktion:</span>
+            <span class="formula-math" data-latex="K_G = K_v \cdot M + K_f">$$K_G = K_v \cdot M + K_f$$</span>
+          </div>
+
+          <div class="tbb-formula-box" style="margin-top:0;">
+            <span class="formula-desc">Erlösfunktion:</span>
+            <span class="formula-math" data-latex="E = e \cdot M">$$E = e \cdot M$$</span>
+          </div>
+
+          <!-- Scenario presets dropdown -->
+          <div class="form-group">
+            <label class="form-label" for="be-preset-select">Fertigungsszenario wählen:</label>
+            <select class="input-control" id="be-preset-select">
+              <option value="book" selected>Buch-Beispiel 2 (Maschinenbau S. 14): Kf = 200.000 €, Kv = 60 €, e = 110 €</option>
+              <option value="cnc_shaft">CNC-Präzisionswelle (Kleinserie): Kf = 15.000 €, Kv = 25 €, e = 65 €</option>
+              <option value="injection_mold">Spritzguss-Werkzeug (Großserie): Kf = 85.000 €, Kv = 1,80 €, e = 4,50 €</option>
+              <option value="stamping">Stanz-Biegeteil (Blechfertigung): Kf = 45.000 €, Kv = 0,75 €, e = 1,65 €</option>
+            </select>
+          </div>
+
+          <!-- Sliders & Inputs -->
+          <div class="form-group">
+            <label class="form-label" for="input-be-kf">Fixe Kosten <i>K</i><sub>f</sub> (Vorrichtungen, Abschreibung):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-be-kf" value="200000" min="0" step="10000">
+              <span class="unit-badge">€</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-be-kf" min="10000" max="500000" step="10000" value="200000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-be-kv">Variable Kosten <i>K</i><sub>v</sub> (Material, Lohn pro Stück):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-be-kv" value="60" min="0" step="5">
+              <span class="unit-badge">€/Stück</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-be-kv" min="1" max="200" step="1" value="60">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-be-e">Verkaufserlös <i>e</i> (Netto-Verkaufspreis pro Stück):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-be-e" value="110" min="1" step="5">
+              <span class="unit-badge">€/Stück</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-be-e" min="2" max="300" step="1" value="110">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-be-m">Geplante Produktionsmenge <i>M</i> (Stück):</label>
+            <div class="input-with-unit">
+              <input type="number" class="input-control" id="input-be-m" value="6000" min="0" step="100">
+              <span class="unit-badge">Stück</span>
+            </div>
+            <div class="range-slider-wrapper">
+              <input type="range" id="slider-be-m" min="0" max="8000" step="100" value="6000">
+            </div>
+          </div>
+
+          <!-- Key Financial Outputs -->
+          <div class="result-card" id="be-result-card">
+            <div class="result-card-title">Ergebnis an der Gewinnschwelle (Gs):</div>
+            <div class="result-main-value" id="be-res-mgs">4.000 Stück</div>
+            <div class="result-sub-value" id="be-res-turnover">Umsatz / Kosten: 440.000 € • Deckungsbeitrag: 50 €/Stck</div>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:14px;">
+            <div class="tbb-card" style="flex:1; margin:0; padding:12px; background:var(--bg-card-alt);">
+              <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">GESAMTKOSTEN (bei M)</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#dc2626;" id="be-stat-kg">560.000 €</div>
+            </div>
+            <div class="tbb-card" style="flex:1; margin:0; padding:12px; background:var(--bg-card-alt);">
+              <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">GESAMTERLÖS (bei M)</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#0284c7;" id="be-stat-e">660.000 €</div>
+            </div>
+            <div class="tbb-card" style="flex:1; margin:0; padding:12px; background:var(--bg-card-alt);">
+              <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">GEWINN / VERLUST</div>
+              <div style="font-size:1.2rem; font-weight:800; color:#15803d;" id="be-stat-profit">+100.000 €</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Diagram replicating Page 14 & Wertetabelle -->
+        <div class="tbb-card">
+          <div class="tbb-card-header">
+            <h2 class="tbb-card-title"><span>📊</span> Diagramm: Kosten- und Erlöskurven</h2>
+            <span class="badge-pill" id="be-zone-indicator" style="background:#15803d; color:#fff;">GEWINNZONE</span>
+          </div>
+
+          <div class="svg-container" style="min-height:380px;">
+            <svg id="svg-breakeven-plot"></svg>
+          </div>
+
+          <!-- Live Dynamic Wertetabelle from Page 14 -->
+          <div style="margin-top:16px;">
+            <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:8px;">
+              Wertetabelle (wie Tabellenbuch Metall S. 14):
+            </h3>
+            <table class="tbb-table" id="table-be-matrix">
+              <thead>
+                <tr>
+                  <th>Größe</th>
+                  <th>M = 0 (Stillstand)</th>
+                  <th>M = 4000 (Gewinnschwelle)</th>
+                  <th>M = 6000 (Zielmenge)</th>
+                  <th style="background:#475569;">M = Aktuell</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Gesamtkosten $K_G$</strong></td>
+                  <td id="tbl-be-kg-0">200.000 €</td>
+                  <td id="tbl-be-kg-gs">440.000 €</td>
+                  <td id="tbl-be-kg-6000">560.000 €</td>
+                  <td id="tbl-be-kg-curr" style="font-weight:bold;">560.000 €</td>
+                </tr>
+                <tr>
+                  <td><strong>Erlös $E$</strong></td>
+                  <td id="tbl-be-e-0">0 €</td>
+                  <td id="tbl-be-e-gs">440.000 €</td>
+                  <td id="tbl-be-e-6000">660.000 €</td>
+                  <td id="tbl-be-e-curr" style="font-weight:bold;">660.000 €</td>
+                </tr>
+                <tr>
+                  <td><strong>Bilanz ($E - K_G$)</strong></td>
+                  <td id="tbl-be-diff-0" style="color:#dc2626; font-weight:bold;">-200.000 € (Verlust)</td>
+                  <td id="tbl-be-diff-gs" style="font-weight:bold;">0 € (Schwelle)</td>
+                  <td id="tbl-be-diff-6000" style="color:#15803d; font-weight:bold;">+100.000 € (Gewinn)</td>
+                  <td id="tbl-be-diff-curr" style="font-weight:bold; color:#15803d;">+100.000 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 5: Interaktiver Übungs- & Trainingsmodus
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-quiz">
+      <div class="tbb-card">
+        <div class="tbb-card-header">
+          <h2 class="tbb-card-title"><span>🎓</span> Praxis- und Prüfungsaufgaben (6 Aufgaben)</h2>
+          <div style="font-weight:700; color:var(--primary);" id="quiz-score-badge">Punkte: 0 / 6 gelöst</div>
+        </div>
+        <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:20px;">
+          Wende die Formeln, Einheitenumrechnungen und Zahlenwertgleichungen von Seite 14 auf reale Werkstatt- und Prüfungssituationen an.
+        </p>
+
+        <!-- Container where quiz cards are rendered dynamically -->
+        <div id="quiz-container"></div>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         TAB 6: Struktur- & Didaktiktafel (S. 14 Synopse mit interaktiven Hotspots)
+         ----------------------------------------------------------------------- -->
+    <section class="tab-pane" id="tab-book">
+      <div class="tbb-card">
+        <div class="tbb-card-header">
+          <h2 class="tbb-card-title"><span>📐</span> Didaktische Struktur- &amp; Formeltafel (S. 14 Synopse)</h2>
+          <span class="badge-pill">Interaktive Hotspots aktiv</span>
+        </div>
+        <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:16px;">
+          Systematische Vektor-Übersichtstafel der drei mathematischen Säulen von Kapitel 1.2: Klicke auf die markierten Bereiche, um direkt zu den interaktiven Berechnungsmodellen zu springen.
+        </p>
+
+        <div class="book-viewer-wrap">
+          <img src="assets/schematic-page14.svg" alt="Didaktische Struktur- und Formeltafel (S. 14)" class="book-image" id="book-page-img">
+          
+          <!-- Hotspot 1: Schnittgeschwindigkeit -->
+          <div class="book-hotspot hotspot-vc btn-nav-jump" data-target="tab-vc" title="Klicken: Zu Formeln &amp; Schnittgeschwindigkeit springen">
+            <span class="hotspot-badge">⚙️ 1. Schnittgeschwindigkeit <i>v</i><sub>c</sub></span>
+          </div>
+
+          <!-- Hotspot 2: Zahlenwertgleichungen -->
+          <div class="book-hotspot hotspot-torque btn-nav-jump" data-target="tab-torque" title="Klicken: Zur Drehmoment-Zahlenwertgleichung springen">
+            <span class="hotspot-badge">⚡ 2. Zahlenwertgleichung <i>M</i></span>
+          </div>
+
+          <!-- Hotspot 3: Gleichungen und Diagramme / Gewinnschwelle -->
+          <div class="book-hotspot hotspot-functions btn-nav-jump" data-target="tab-breakeven" title="Klicken: Zu Diagrammen &amp; Gewinnschwelle springen">
+            <span class="hotspot-badge">📈 3. Gewinnschwelle &amp; Diagramme</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       Footer
+       ========================================================================= -->
+  <footer class="tbb-footer">
+    <div>
+      <strong>Tabellenbuch Metall (48. Auflage)</strong> • Kapitel 1.2 Formeln (Seite 14): <em>Formeln, Gleichungen, Diagramme</em>
+    </div>
+    <div style="margin-top:4px; font-size:0.8rem; opacity:0.8;">
+      Interaktives technisches Lehrmodell für Ausbildung, Meisterschule und Ingenieurpraxis.
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="physics-math.js"></script>
+  <script src="diagram-renderer.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
