@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geometrische Grundkonstruktionen: Strecken, Lote, Winkel • Tabellenbuch Metall S. 60</title>
+  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 60 (3.2 Geometrische Grundkonstruktionen – Strecken, Lote, Winkel): Parallele zu einer Strecke, Halbieren einer Strecke, Fällen eines Lotes, Errichten einer Senkrechten im Punkt P, Halbieren eines Winkels und Teilen einer Strecke.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cline x1='5' y1='23' x2='27' y2='23' stroke='white' stroke-width='2.3'/%3E%3Cline x1='16' y1='5' x2='16' y2='27' stroke='%23fbbf24' stroke-width='2'/%3E%3Cpath d='M10 11A11 11 0 0 1 22 11' stroke='%23f87171' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blueprint">
+  <header class="tbb-header">
+    <div class="tbb-top">
+      <div class="tbb-meta">
+        <span class="page-badge">60</span>
+        <span class="subject-tag">K</span>
+        <div>
+          <h1>3.2 Geometrische Grundkonstruktionen • Strecken, Lote, Winkel</h1>
+          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • Zirkel- und Linealkonstruktionen nach DIN ISO 128</div>
+        </div>
+      </div>
+      <div class="tbb-tools">
+        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
+        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
+        <a href="../s58-diagramme/" class="back-link" title="Zu Seite 58: Kartesisches Koordinatensystem">← S. 58</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Zurück zu Seite 59: Polarkoordinatensysteme, Flächendiagramme">← S. 59</a>
+        <button class="btn-header" id="btn-book" title="Alle 6 Grundkonstruktionen auf die Buchdarstellung von Seite 60 zurücksetzen">↺ Buchwerte laden</button>
+        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="parallele" class="active">1 Parallele</button>
+      <button data-tab="halbieren">2 Strecke halbieren</button>
+      <button data-tab="lot">3 Lot fällen</button>
+      <button data-tab="senkrechte">4 Senkrechte in P</button>
+      <button data-tab="winkel">5 Winkel halbieren</button>
+      <button data-tab="teilen">6 Strecke teilen</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= 1 Parallele zu einer Strecke ================= -->
+    <section class="tab active" id="tab-parallele">
+      <div class="tab-head">
+        <h2>Parallele zu einer Strecke</h2>
+        <p>Durch dreimaliges Abtragen desselben Zirkelradius <i>r</i> entsteht das gleichseitige Parallelogramm (Raute) <i>ACDP</i>. Die Verbindungsgerade durch <i>P</i> und <i>D</i> ist die gesuchte Parallele <i>g′</i> zu <span class="overline">AB</span>.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="par-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bogen um A</button>
+              <button data-v="2">2 Bogen um P</button>
+              <button data-v="3">3 Bogen um C</button>
+              <button data-v="4" class="on">4 Parallele g′</button>
+            </span>
+            <button class="btn ghost" id="par-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="par-radii" checked> Radiuspfeile <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="par-rhombus"> Rauten-Beweis (<i>ACDP</i>)</label>
+            <label class="chk"><input type="checkbox" id="par-dist"> Lotabstand <i>h</i></label>
+          </div>
+          <div class="slider">
+            <span>Abstand <i>h</i> der Parallelen</span>
+            <input type="range" id="par-h" min="20" max="70" step="1" value="44">
+            <output id="par-h-out">44 mm</output>
+          </div>
+          <svg class="dia" id="par-svg" viewBox="0 0 640 440" role="img" aria-label="Konstruktion einer Parallelen g Strich zu einer Strecke AB durch Punkt P"></svg>
+          <p class="note">Punkte <b>P</b>, <b>A</b> und <b>B</b> lassen sich direkt im Zeichenblatt ziehen. Da <i>r</i> = <span class="overline">AP</span> gewählt wird, gilt <span class="overline">AC</span> = <span class="overline">PD</span> = <span class="overline">CD</span> = <i>r</i>.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Strecke <span class="overline">AB</span> und Punkt P auf gesuchter Parallele g′</div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="par-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Geometrische Prüfung</h3>
+            <div class="result" id="par-result"></div>
+            <div class="kv" id="par-details"></div>
+          </div>
+          <div class="card">
+            <h3>Prüfungsfrage <span class="score" id="par-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="par-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="par-task" class="note"></div>
+            <div class="ctl-row" id="par-ans-row" hidden>
+              <input class="num" id="par-ans" inputmode="decimal"> <span id="par-ans-unit"></span>
+              <button class="btn" id="par-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="par-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2 Halbieren einer Strecke ================= -->
+    <section class="tab" id="tab-halbieren">
+      <div class="tab-head">
+        <h2>Halbieren einer Strecke (Mittelsenkrechte)</h2>
+        <p>Zwei Kreisbögen mit gleichem Radius <i>r</i> &gt; ½ <span class="overline">AB</span> um die Endpunkte <i>A</i> und <i>B</i> schneiden sich oberhalb und unterhalb der Strecke. Ihre Verbindungslinie halbiert <span class="overline">AB</span> im Punkt <i>M</i> rechtwinklig.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="bis-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bogen um A</button>
+              <button data-v="2">2 Bogen um B</button>
+              <button data-v="3" class="on">3 Mittelsenkrechte</button>
+            </span>
+            <button class="btn ghost" id="bis-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="bis-radii" checked> Radiuspfeile <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="bis-proof"> Symmetrie-Raute &amp; 90°</label>
+            <label class="chk"><input type="checkbox" id="bis-dims" checked> Teilmaße <span class="overline">AM</span> = <span class="overline">MB</span></label>
+          </div>
+          <div class="slider">
+            <span>Zirkelradius <i>r</i> / <span class="overline">AB</span></span>
+            <input type="range" id="bis-ratio" min="0.35" max="0.90" step="0.01" value="0.68">
+            <output id="bis-ratio-out">0,68 · AB</output>
+          </div>
+          <svg class="dia" id="bis-svg" viewBox="0 0 640 460" role="img" aria-label="Halbieren einer Strecke AB durch Mittelsenkrechte"></svg>
+          <p class="note">Ziehe die Endpunkte <b>A</b> und <b>B</b> oder verkleinere den Zirkelradius unter 0,50 · <span class="overline">AB</span>, um zu sehen, warum die Bedingung <i>r</i> &gt; ½ <span class="overline">AB</span> notwendig ist.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Strecke <span class="overline">AB</span></div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="bis-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Maße &amp; Bedingung <i>r</i> &gt; ½ <span class="overline">AB</span></h3>
+            <div class="result" id="bis-result"></div>
+            <div class="kv" id="bis-details"></div>
+          </div>
+          <div class="card">
+            <h3>Rechen- &amp; Verständnisübung <span class="score" id="bis-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="bis-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="bis-task" class="note"></div>
+            <div class="ctl-row" id="bis-ans-row" hidden>
+              <input class="num" id="bis-ans" inputmode="decimal"> <span id="bis-ans-unit"></span>
+              <button class="btn" id="bis-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="bis-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3 Fällen eines Lotes ================= -->
+    <section class="tab" id="tab-lot">
+      <div class="tab-head">
+        <h2>Fällen eines Lotes (von Punkt P auf Gerade g)</h2>
+        <p>Ein erster Kreisbogen um <i>P</i> schneidet auf der Geraden <i>g</i> zwei gleich weit von <i>P</i> entfernte Punkte <i>A</i> und <i>B</i> aus. Zwei weitere Bögen mit gleichem Radius <i>r</i> &gt; ½ <span class="overline">AB</span> um <i>A</i> und <i>B</i> liefern den Schnittpunkt <i>C</i> für das Lot <span class="overline">PC</span>.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="lot-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bogen um P</button>
+              <button data-v="2">2 Bogen um A</button>
+              <button data-v="3">3 Bogen um B</button>
+              <button data-v="4" class="on">4 Lot PC</button>
+            </span>
+            <button class="btn ghost" id="lot-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="lot-radii" checked> Radiuspfeile <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="lot-proof"> Drachenviereck <i>PACB</i> &amp; 90°</label>
+          </div>
+          <div class="slider">
+            <span>Bogen 1 um P (<i>r</i><sub>1</sub>)</span>
+            <input type="range" id="lot-r1" min="25" max="90" step="1" value="68">
+            <output id="lot-r1-out">68 mm</output>
+          </div>
+          <div class="slider">
+            <span>Bögen 2 &amp; 3 um A, B (<i>r</i>)</span>
+            <input type="range" id="lot-r2" min="25" max="90" step="1" value="60">
+            <output id="lot-r2-out">60 mm</output>
+          </div>
+          <svg class="dia" id="lot-svg" viewBox="0 0 640 460" role="img" aria-label="Fällen eines Lotes von Punkt P auf Gerade g"></svg>
+          <p class="note">Punkt <b>P</b> ist im Diagramm frei verschiebbar. Damit Kreisbogen 1 die Gerade <i>g</i> zweimal schneidet, muss sein Radius größer als der Lotabstand von <i>P</i> zu <i>g</i> sein.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Gerade g und Punkt P</div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="lot-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Abstände &amp; Sehne <span class="overline">AB</span></h3>
+            <div class="result" id="lot-result"></div>
+            <div class="kv" id="lot-details"></div>
+          </div>
+          <div class="card">
+            <h3>Übungsaufgabe <span class="score" id="lot-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="lot-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="lot-task" class="note"></div>
+            <div class="ctl-row" id="lot-ans-row" hidden>
+              <input class="num" id="lot-ans" inputmode="decimal"> <span id="lot-ans-unit"></span>
+              <button class="btn" id="lot-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="lot-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 Errichten einer Senkrechten im Punkt P ================= -->
+    <section class="tab" id="tab-senkrechte">
+      <div class="tab-head">
+        <h2>Errichten einer Senkrechten im Punkt P</h2>
+        <p>Liegt <i>P</i> nahe am Ende einer Strecke oder am Zeichnungsrand, konstruiert man die Senkrechte mit <b>einem einzigen Zirkelradius <i>r</i></b>: Über das gleichseitige Dreieck <i>PAB</i> (60°) und die Verlängerung von <span class="overline">AB</span> um <i>r</i> bis <i>C</i> entsteht nach dem Satz des Thales im Punkt <i>P</i> exakt ein 90°-Winkel.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="sen-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bogen P</button>
+              <button data-v="2">2 Bogen A</button>
+              <button data-v="3">3 Bogen B</button>
+              <button data-v="4">4 Gerade AB</button>
+              <button data-v="5" class="on">5 Lot PC</button>
+            </span>
+            <button class="btn ghost" id="sen-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <span>Auslage:</span>
+            <span class="seg" id="sen-side">
+              <button data-v="left" class="on">Links von P (Buch)</button>
+              <button data-v="right">Rechts von P</button>
+            </span>
+            <label class="chk"><input type="checkbox" id="sen-radii" checked> Radiuspfeile <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="sen-thales"> Thaleskreis &amp; 60°-Dreieck</label>
+          </div>
+          <div class="slider">
+            <span>Zirkelradius <i>r</i></span>
+            <input type="range" id="sen-r" min="30" max="72" step="1" value="52">
+            <output id="sen-r-out">52 mm</output>
+          </div>
+          <svg class="dia" id="sen-svg" viewBox="0 0 640 460" role="img" aria-label="Errichten einer Senkrechten im Punkt P auf der Geraden g"></svg>
+          <p class="note">Punkt <b>P</b> lässt sich entlang der Geraden <i>g</i> verschieben, Punkt <b>A</b> ändert den Zirkelradius <i>r</i>. Es gilt <span class="overline">PA</span> = <span class="overline">AB</span> = <span class="overline">BP</span> = <span class="overline">BC</span> = <i>r</i> und <span class="overline">PC</span> = <i>r</i> · √3.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Gerade g und Punkt P</div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="sen-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Satz des Thales &amp; Maße</h3>
+            <div class="result" id="sen-result"></div>
+            <div class="kv" id="sen-details"></div>
+          </div>
+          <div class="card">
+            <h3>Übungsaufgabe <span class="score" id="sen-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="sen-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="sen-task" class="note"></div>
+            <div class="ctl-row" id="sen-ans-row" hidden>
+              <input class="num" id="sen-ans" inputmode="decimal"> <span id="sen-ans-unit"></span>
+              <button class="btn" id="sen-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="sen-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5 Halbieren eines Winkels ================= -->
+    <section class="tab" id="tab-winkel">
+      <div class="tab-head">
+        <h2>Halbieren eines Winkels (Winkelhalbierende)</h2>
+        <p>Kreisbogen 1 um den Scheitelpunkt <i>S</i> liefert zwei gleich weit entfernte Schenkelpunkte <i>A</i> und <i>B</i>. Zwei Kreisbögen 2 und 3 mit gleichem Radius <i>r</i> &gt; ½ <span class="overline">AB</span> um <i>A</i> und <i>B</i> schneiden sich in <i>C</i> auf der Winkelhalbierenden.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="win-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Bogen um S</button>
+              <button data-v="2">2 Bogen um A</button>
+              <button data-v="3">3 Bogen um B</button>
+              <button data-v="4" class="on">4 Winkelhalbierende</button>
+            </span>
+            <button class="btn ghost" id="win-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="win-radii" checked> Radiuspfeile <i>r</i></label>
+            <label class="chk"><input type="checkbox" id="win-kite"> Kongruente Dreiecke <i>SAC</i> ≅ <i>SBC</i></label>
+          </div>
+          <div class="slider">
+            <span>Gegebener Winkel <i>α</i></span>
+            <input type="range" id="win-alpha" min="24" max="156" step="2" value="120">
+            <output id="win-alpha-out">120°</output>
+          </div>
+          <div class="slider">
+            <span>Zirkelradius <i>r</i> (Bögen 2 &amp; 3)</span>
+            <input type="range" id="win-r2" min="25" max="90" step="1" value="62">
+            <output id="win-r2-out">62 mm</output>
+          </div>
+          <svg class="dia" id="win-svg" viewBox="0 0 640 460" role="img" aria-label="Halbieren eines Winkels alpha durch Winkelhalbierende"></svg>
+          <p class="note">Ziehe Punkt <b>A</b> im Diagramm oder verstelle den Regler, um den Winkel <i>α</i> zu ändern. Jeder Punkt auf der Winkelhalbierenden hat zu beiden Schenkeln denselben Lotabstand.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box"><b>Gegeben:</b> Winkel <i>α</i></div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="win-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Winkelteilung &amp; Sehne <span class="overline">AB</span></h3>
+            <div class="result" id="win-result"></div>
+            <div class="kv" id="win-details"></div>
+          </div>
+          <div class="card">
+            <h3>Übungsaufgabe <span class="score" id="win-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="win-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="win-task" class="note"></div>
+            <div class="ctl-row" id="win-ans-row" hidden>
+              <input class="num" id="win-ans" inputmode="decimal"> <span id="win-ans-unit"></span>
+              <button class="btn" id="win-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="win-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6 Teilen einer Strecke ================= -->
+    <section class="tab" id="tab-teilen">
+      <div class="tab-head">
+        <h2>Teilen einer Strecke (Strahlensatz-Konstruktion)</h2>
+        <p>Um eine Strecke <span class="overline">AB</span> ohne Rechnen und ohne Rundungsfehler in <i>n</i> gleiche Teile zu teilen, trägt man auf einem Hilfsstrahl von <i>A</i> aus mit dem Zirkel <i>n</i> gleiche Stücke ab, verbindet den Endpunkt mit <i>B</i> und verschiebt diese Gerade parallel durch alle Teilpunkte.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Konstruktionsschritt:</span>
+            <span class="seg" id="tei-step">
+              <button data-v="0">Gegeben</button>
+              <button data-v="1">1 Hilfsstrahl</button>
+              <button data-v="2">2 Zirkelteile 1′…n′</button>
+              <button data-v="3">3 Ende verbinden</button>
+              <button data-v="4" class="on">4 Parallelen ziehen</button>
+            </span>
+            <button class="btn ghost" id="tei-play">▶ Animation</button>
+          </div>
+          <div class="ctl-row">
+            <span>Teile <i>n</i>:</span>
+            <span class="seg" id="tei-n">
+              <button data-v="3">3</button>
+              <button data-v="4">4</button>
+              <button data-v="5" class="on">5 (Buch)</button>
+              <button data-v="6">6</button>
+              <button data-v="7">7</button>
+              <button data-v="8">8</button>
+            </span>
+            <label class="chk"><input type="checkbox" id="tei-arcs" checked> Zirkelbögen &amp; Pfeile</label>
+            <label class="chk"><input type="checkbox" id="tei-dims" checked> Teilmaße Δ<i>l</i></label>
+          </div>
+          <div class="slider">
+            <span>Hilfsstrahl-Winkel <i>β</i></span>
+            <input type="range" id="tei-angle" min="18" max="52" step="1" value="32">
+            <output id="tei-angle-out">32°</output>
+          </div>
+          <div class="slider">
+            <span>Zirkelspanne <i>s</i> auf Hilfsstrahl</span>
+            <input type="range" id="tei-span" min="11" max="22" step="0.5" value="16.5">
+            <output id="tei-span-out">16,5 mm</output>
+          </div>
+          <svg class="dia" id="tei-svg" viewBox="0 0 640 460" role="img" aria-label="Teilen einer Strecke AB in 5 gleiche Teile mit Hilfsstrahl"></svg>
+          <p class="note">Ziehe Punkt <b>B</b> oder den Endpunkt <b>5′</b> des Hilfsstrahls: Nach dem 1. Strahlensatz bleiben die Abschnitte auf <span class="overline">AB</span> für jeden Winkel <i>β</i> und jede Zirkelspanne <i>s</i> exakt gleich groß.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <div class="given-box" id="tei-given"><b>Gegeben:</b> Strecke <span class="overline">AB</span> soll in 5 gleiche Teile geteilt werden.</div>
+            <h3>Konstruktionsschritte (S. 60)</h3>
+            <ul class="rules" id="tei-steps"></ul>
+          </div>
+          <div class="card">
+            <h3>Strahlensatz &amp; Teillängen</h3>
+            <div class="result" id="tei-result"></div>
+            <div class="kv" id="tei-details"></div>
+          </div>
+          <div class="card">
+            <h3>Übungsaufgabe <span class="score" id="tei-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="tei-quiz">Neue Aufgabe</button>
+            </div>
+            <div id="tei-task" class="note"></div>
+            <div class="ctl-row" id="tei-ans-row" hidden>
+              <input class="num" id="tei-ans" inputmode="decimal"> <span id="tei-ans-unit"></span>
+              <button class="btn" id="tei-check">Prüfen</button>
+            </div>
+            <div class="feedback" id="tei-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Tabellenbuch Metall (48. Auflage, Europa-Lehrmittel) • Seite 60: 3.2 Geometrische Grundkonstruktionen – Strecken, Lote, Winkel • Eigenständige interaktive Vektor-Konstruktionen
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/svg.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tab-parallele.js"></script>
+  <script src="js/tab-halbieren.js"></script>
+  <script src="js/tab-lot.js"></script>
+  <script src="js/tab-senkrechte.js"></script>
+  <script src="js/tab-winkel.js"></script>
+  <script src="js/tab-teilen.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

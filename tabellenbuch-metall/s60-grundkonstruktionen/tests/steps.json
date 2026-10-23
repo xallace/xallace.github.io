@@ -1,0 +1,16 @@
+[
+  { "name": "1-parallele-book", "hash": "parallele", "clip": "#tab-parallele" },
+  { "name": "1-parallele-rhombus", "hash": "parallele", "clip": "#tab-parallele",
+    "js": "document.getElementById('par-rhombus').click(); document.getElementById('par-dist').click(); document.querySelector('#par-steps [data-step=\"3\"]').click(); document.getElementById('par-result').textContent" },
+  { "name": "2-halbieren-book", "hash": "halbieren", "clip": "#tab-halbieren" },
+  { "name": "2-halbieren-warn", "hash": "halbieren", "clip": "#tab-halbieren",
+    "js": "document.getElementById('bis-ratio').value='0.44'; document.getElementById('bis-ratio').dispatchEvent(new Event('input')); document.getElementById('bis-result').textContent" },
+  { "name": "3-lot-book", "hash": "lot", "clip": "#tab-lot" },
+  { "name": "4-senkrechte-book", "hash": "senkrechte", "clip": "#tab-senkrechte",
+    "js": "document.getElementById('sen-thales').click(); document.getElementById('sen-result').textContent" },
+  { "name": "5-winkel-book", "hash": "winkel", "clip": "#tab-winkel" },
+  { "name": "6-teilen-book", "hash": "teilen", "clip": "#tab-teilen" },
+  { "name": "7-light-senkrechte", "hash": "senkrechte",
+    "js": "document.getElementById('btn-book').click(); document.getElementById('btn-theme').click(); 'body: ' + document.body.className" },
+  { "name": "8-light-teilen", "hash": "teilen" }
+]

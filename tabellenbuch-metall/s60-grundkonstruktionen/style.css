@@ -1,0 +1,173 @@
+/* Tabellenbuch Metall S. 60 · 3.2 Geometrische Grundkonstruktionen (Strecken, Lote, Winkel) –
+   Design wie S. 58 & S. 59: Blueprint-Dunkelmodus als Standard, helles Königsblau-Design umschaltbar */
+:root {
+  --primary: #004b87;
+  --primary-light: #e6f0fa;
+  --accent: #c8102e;          /* Rote Konstruktions-Schrittnummern 1..5 wie im Buch */
+  --accent-blue: #0066b3;
+  --accent-green: #15803d;
+  --accent-2: #d97706;
+  --ok: #15803d;
+  --bad: #dc2626;
+  --bg-app: #f4f6f9;
+  --bg-card: #ffffff;
+  --bg-alt: #f8fafc;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+  --light: #94a3b8;
+  --ink: #111827;
+  --arc-stroke: #334155;
+  --grid: #cbd5e1;
+  --dia-plain: #eef0f3;       /* Grauer Konstruktionshintergrund wie in der linken Spalte von S. 60 */
+  --hl: #f59e0b;
+  --given-bg: #fef9c3;        /* Gelber Kopfbalken wie im Tabellenbuch rechts */
+  --given-border: #eab308;
+  --pt-fill: #ffffff;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --radius: 10px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-dia: 'Bahnschrift', 'DIN Alternate', 'D-DIN', 'Arial Narrow', 'Segoe UI', sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
+}
+body.theme-blueprint {
+  --primary: #38bdf8;
+  --primary-light: #0c2d48;
+  --accent: #f87171;
+  --accent-blue: #38bdf8;
+  --accent-green: #4ade80;
+  --accent-2: #fbbf24;
+  --ok: #4ade80;
+  --bad: #f87171;
+  --bg-app: #0b1526;
+  --bg-card: #132238;
+  --bg-alt: #0e1b2e;
+  --border: #1e3a5f;
+  --border-subtle: #162d4a;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --light: #64748b;
+  --ink: #e2e8f0;
+  --arc-stroke: #94a3b8;
+  --grid: #1e3a5f;
+  --dia-plain: #0e1b2e;
+  --hl: #fbbf24;
+  --given-bg: #262110;
+  --given-border: #ca8a04;
+  --pt-fill: #0b1526;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* Kopfzeile wie im Buch: blaue Leiste mit Seitenzahl 60 und Fachbuchstabe K */
+.tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
+body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
+.tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tbb-meta { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.page-badge { background: #fff; color: #004b87; font-weight: 800; font-size: 1.15rem; padding: 2px 10px; border-radius: 4px; }
+.subject-tag { color: #fecaca; font-weight: 800; font-size: 1.3rem; }
+.tbb-meta h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+.tbb-meta .sub { font-size: 0.8rem; opacity: 0.82; }
+.tbb-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.btn-header { appearance: none; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.1); color: #fff; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.btn-header:hover { background: rgba(255, 255, 255, 0.2); }
+.back-link { color: #dbeafe; font-size: 0.8rem; text-decoration: none; padding: 4px 6px; border-radius: 4px; }
+.back-link:hover { text-decoration: underline; background: rgba(255, 255, 255, 0.08); }
+.tabs { max-width: 1320px; margin: 0 auto; padding: 0 12px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
+.tabs button { appearance: none; border: 0; background: transparent; color: rgba(255, 255, 255, 0.78); font: 600 0.86rem var(--font); padding: 10px 13px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+.tabs button:hover { color: #fff; }
+.tabs button.active { color: #fff; border-bottom-color: #fbbf24; }
+
+main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
+.tab { display: none; }
+.tab.active { display: block; }
+.tab-head h2 { margin: 0 0 4px; font-size: 1.3rem; color: var(--primary); }
+.tab-head p { margin: 0 0 14px; color: var(--muted); max-width: 960px; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+@media (max-width: 1020px) { .layout { grid-template-columns: 1fr; } }
+.card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px; min-width: 0; }
+.card + .card { margin-top: 14px; }
+.card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--primary); display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.card h3 .score { margin-left: auto; }
+.side .card h3 { font-size: 0.9rem; }
+
+/* Gelber Buch-Kopfkasten „Gegeben: ...“ */
+.given-box { background: var(--given-bg); border-left: 4px solid var(--given-border); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin-bottom: 10px; }
+.given-box b { color: var(--text); }
+.overline { text-decoration: overline; }
+
+/* Konstruktions-Zeichenfläche (SVG) nach DIN ISO 128 */
+.dia { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; font-family: var(--font-dia); --halo: var(--dia-plain); border-radius: 6px; border: 1px solid var(--border-subtle); }
+.dia text { fill: var(--ink); }
+.dia .bg-plain { fill: var(--dia-plain); }
+.dia .halo { paint-order: stroke; stroke: var(--halo); stroke-width: 4.5px; stroke-linejoin: round; }
+.dia .given-line { stroke: var(--ink); fill: none; stroke-linecap: round; }
+.dia .res-line { stroke: var(--primary); fill: none; stroke-linecap: round; }
+.dia .arc-line { stroke: var(--arc-stroke); fill: none; stroke-width: 1.25; stroke-linecap: round; }
+.dia .thin-line { stroke: var(--ink); fill: none; stroke-width: 1.05; }
+.dia .proof-line { stroke: var(--accent-green); fill: none; stroke-width: 1.5; stroke-dasharray: 5 3; }
+.dia .proof-fill { fill: var(--accent-green); fill-opacity: 0.10; stroke: var(--accent-green); stroke-width: 1.3; stroke-dasharray: 5 3; }
+.dia .warn-arc { stroke: var(--bad); fill: none; stroke-width: 1.6; stroke-dasharray: 4 3; }
+.dia .ax-head { fill: var(--ink); stroke: none; }
+.dia .pt { fill: var(--pt-fill); stroke: var(--ink); stroke-width: 1.6; }
+.dia .pt.sel { stroke: var(--primary); stroke-width: 2.5; }
+.dia .pt.pt-res { fill: var(--primary); stroke: var(--ink); stroke-width: 1.5; }
+.dia .pt-hit { fill: transparent; cursor: grab; }
+.dia .pt-hit:active { cursor: grabbing; }
+.dia text.step-num { fill: var(--accent); font-weight: 800; }
+.dia text.lbl-strong { font-weight: 700; }
+.dia text.lbl-muted { fill: var(--muted); }
+.dia .hl { stroke: var(--hl) !important; stroke-width: 3.2px !important; fill: none; opacity: 0.95; }
+.dia .hl-ring { fill: none; stroke: var(--hl); stroke-width: 2.6; }
+.dia text.hl-text { fill: var(--hl) !important; font-weight: 800; }
+
+/* Bedienelemente */
+.ctl-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 8px 0; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
+.seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--primary); color: #fff; }
+body.theme-blueprint .seg button.on { color: #0b1526; }
+label.chk { display: inline-block; font-size: 0.84rem; color: var(--text); cursor: pointer; }
+label.chk input { vertical-align: middle; margin: 0 5px 2px 0; }
+.slider { display: grid; grid-template-columns: minmax(110px, auto) 1fr auto; gap: 8px; align-items: center; font-size: 0.84rem; margin: 6px 0; }
+.slider input[type=range] { width: 100%; accent-color: var(--primary); }
+.slider output { font: 600 0.84rem var(--mono); min-width: 72px; text-align: right; }
+.btn { appearance: none; border: 1px solid var(--primary); background: var(--primary); color: #fff; font: 600 0.8rem var(--font); padding: 5px 11px; border-radius: 6px; cursor: pointer; }
+body.theme-blueprint .btn { color: #0b1526; }
+.btn.ghost, body.theme-blueprint .btn.ghost { background: transparent; color: var(--primary); }
+input.num { font: 0.9rem var(--mono); padding: 5px 8px; width: 88px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); }
+input.num:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
+
+/* Nummerierte Konstruktionsschritte (1..5 wie im Buch) */
+.rules { list-style: none; margin: 0; padding: 0; }
+.rules li { display: flex; align-items: flex-start; gap: 9px; border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.84rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: pointer; transition: background 0.12s; }
+.rules li b { color: var(--text); }
+.rules li.step-pending { opacity: 0.52; }
+.rules li:hover, .rules li.active { border-left-color: var(--hl); background: var(--primary-light); opacity: 1; }
+.step-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; border-radius: 99px; background: var(--accent); color: #fff; font: 800 0.76rem var(--font); flex-shrink: 0; margin-top: 1px; }
+body.theme-blueprint .step-badge { color: #0b1526; }
+
+.note { font-size: 0.82rem; color: var(--muted); margin: 8px 0 0; }
+.result { font: 700 1.02rem var(--mono); color: var(--primary); }
+.result.warn { color: var(--bad); }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; font-size: 0.84rem; margin-top: 6px; }
+.kv span:nth-child(even) { font-family: var(--mono); text-align: right; }
+.feedback { margin-top: 8px; font-size: 0.88rem; min-height: 1.3em; }
+.feedback.ok { color: var(--ok); }
+.feedback.bad { color: var(--bad); }
+.score { font: 600 0.8rem var(--mono); color: var(--muted); }
+
+footer { max-width: 1320px; margin: 0 auto; padding: 0 20px 28px; color: var(--muted); font-size: 0.78rem; }
+
+@media (max-width: 640px) {
+  main { padding: 12px 12px 24px; }
+  .tbb-top { padding: 8px 12px; }
+  .tbb-meta h1 { font-size: 1rem; }
+  .card { padding: 12px; }
+}
