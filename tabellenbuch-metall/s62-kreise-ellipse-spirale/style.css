@@ -1,0 +1,186 @@
+/* Tabellenbuch Metall S. 62 · 3.2 Geometrische Grundkonstruktionen
+   (Inkreis und Umkreis beim Dreieck, Kreismittelpunkt, Ellipse, Spirale) –
+   Design wie S. 58, S. 59, S. 60 & S. 61: Blueprint-Dunkelmodus als Standard, helles Königsblau-Design umschaltbar */
+:root {
+  --primary: #004b87;
+  --primary-light: #e6f0fa;
+  --accent: #c8102e;          /* Rote Konstruktions-Schrittnummern 1..6 wie im Buch */
+  --accent-blue: #0066b3;
+  --accent-green: #15803d;
+  --accent-amber: #d97706;
+  --accent-purple: #7c3aed;
+  --ok: #15803d;
+  --bad: #dc2626;
+  --bg-app: #f4f6f9;
+  --bg-card: #ffffff;
+  --bg-alt: #f8fafc;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+  --light: #94a3b8;
+  --ink: #111827;
+  --arc-stroke: #334155;
+  --grid: #cbd5e1;
+  --dia-plain: #eef0f3;       /* Grauer Konstruktionshintergrund wie im Buch */
+  --hl: #f59e0b;
+  --given-bg: #fef9c3;        /* Gelber Kopfbalken wie im Tabellenbuch rechts */
+  --given-border: #eab308;
+  --pt-fill: #ffffff;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --radius: 10px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-dia: 'Bahnschrift', 'DIN Alternate', 'D-DIN', 'Arial Narrow', 'Segoe UI', sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
+}
+
+body.theme-blueprint {
+  --primary: #38bdf8;
+  --primary-light: #0c2d48;
+  --accent: #f87171;
+  --accent-blue: #38bdf8;
+  --accent-green: #4ade80;
+  --accent-amber: #fbbf24;
+  --accent-purple: #c084fc;
+  --ok: #4ade80;
+  --bad: #f87171;
+  --bg-app: #0b1526;
+  --bg-card: #132238;
+  --bg-alt: #0e1b2e;
+  --border: #1e3a5f;
+  --border-subtle: #162d4a;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --light: #64748b;
+  --ink: #e2e8f0;
+  --arc-stroke: #94a3b8;
+  --grid: #1e3a5f;
+  --dia-plain: #0e1b2e;
+  --hl: #fbbf24;
+  --given-bg: #262110;
+  --given-border: #ca8a04;
+  --pt-fill: #0b1526;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* Kopfzeile im Stil des Tabellenbuchs mit Seitenzahl 62 und Fachbuchstabe K */
+.tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
+body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
+.tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tbb-meta { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.page-badge { background: #fff; color: #004b87; font-weight: 800; font-size: 1.15rem; padding: 2px 10px; border-radius: 4px; }
+.subject-tag { color: #fecaca; font-weight: 800; font-size: 1.3rem; }
+.tbb-meta h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+.tbb-meta .sub { font-size: 0.8rem; opacity: 0.82; }
+.tbb-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.btn-header { appearance: none; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.1); color: #fff; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.btn-header:hover { background: rgba(255, 255, 255, 0.2); }
+.back-link { color: #dbeafe; font-size: 0.8rem; text-decoration: none; padding: 4px 6px; border-radius: 4px; }
+.back-link:hover { text-decoration: underline; background: rgba(255, 255, 255, 0.08); }
+.tabs { max-width: 1320px; margin: 0 auto; padding: 0 12px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
+.tabs button { appearance: none; border: 0; background: transparent; color: rgba(255, 255, 255, 0.78); font: 600 0.86rem var(--font); padding: 10px 13px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+.tabs button:hover { color: #fff; }
+.tabs button.active { color: #fff; border-bottom-color: #fbbf24; }
+
+main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
+.tab { display: none; }
+.tab.active { display: block; }
+.tab-head h2 { margin: 0 0 4px; font-size: 1.3rem; color: var(--primary); }
+.tab-head p { margin: 0 0 14px; color: var(--muted); max-width: 960px; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 16px; align-items: start; }
+@media (max-width: 1020px) { .layout { grid-template-columns: 1fr; } }
+.card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px; min-width: 0; }
+.card + .card { margin-top: 14px; }
+.card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--primary); display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.card h3 .score { margin-left: auto; }
+.side .card h3 { font-size: 0.9rem; }
+
+/* Gelber Buch-Kopfkasten „Gegeben: ...“ */
+.given-box { background: var(--given-bg); border-left: 4px solid var(--given-border); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin-bottom: 10px; }
+
+/* Zeilen mit Bedienelementen */
+.ctl-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; font-size: 0.86rem; }
+.ctl-row > span:first-child { font-weight: 600; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); padding: 5px 9px; font: 600 0.8rem var(--font); cursor: pointer; border-right: 1px solid var(--border); }
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: var(--bg-alt); }
+.seg button.on { background: var(--primary); color: #fff; }
+body.theme-blueprint .seg button.on { background: #0284c7; }
+
+.btn { appearance: none; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); padding: 6px 12px; font: 600 0.82rem var(--font); border-radius: 6px; cursor: pointer; }
+.btn:hover { background: var(--bg-alt); border-color: var(--primary); }
+.btn.ghost { background: transparent; border-color: var(--border); color: var(--primary); }
+.btn.ghost:hover { background: var(--primary-light); }
+.btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn.primary:hover { opacity: 0.9; }
+
+.slider { display: grid; grid-template-columns: 180px 1fr 70px; gap: 8px; align-items: center; font-size: 0.84rem; margin-bottom: 6px; }
+.slider span { color: var(--muted); }
+.slider input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+.slider output { font-variant-numeric: tabular-nums; font-family: var(--mono); text-align: right; font-weight: 600; }
+
+.chk { display: inline-flex; align-items: center; gap: 5px; font-size: 0.84rem; color: var(--muted); cursor: pointer; user-select: none; }
+.chk input { accent-color: var(--primary); }
+
+/* SVG-Zeichenfläche */
+svg.dia { width: 100%; height: auto; display: block; border: 1px solid var(--border); border-radius: 6px; background: var(--dia-plain); user-select: none; touch-action: none; }
+.note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; line-height: 1.4; }
+
+/* Buch-Schrittliste rechts */
+ul.rules { margin: 0; padding-left: 0; list-style: none; font-size: 0.85rem; }
+ul.rules li { display: flex; gap: 8px; padding: 6px 4px; border-bottom: 1px solid var(--border-subtle); border-radius: 4px; transition: background 0.15s ease; }
+ul.rules li:last-child { border-bottom: 0; }
+ul.rules li.hover-able { cursor: pointer; }
+ul.rules li.hover-able:hover, ul.rules li.active { background: var(--primary-light); }
+.step-badge { flex: 0 0 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 800; font-size: 0.72rem; }
+ul.rules li.step-pending { opacity: 0.55; }
+ul.rules li.step-done .step-badge { background: var(--accent); }
+
+/* Tabellarische Auswertungen (Kennwerte) */
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 0.82rem; margin-top: 6px; }
+.kv dt { color: var(--muted); margin: 0; }
+.kv dd { font-family: var(--mono); font-weight: 600; margin: 0; text-align: right; }
+
+.result { padding: 8px 10px; border-radius: 6px; background: var(--bg-alt); font-size: 0.84rem; margin-bottom: 8px; border-left: 3px solid var(--primary); }
+.result.ok { border-left-color: var(--ok); }
+.result.warn { border-left-color: var(--accent-amber); }
+
+/* Diagnose / Interaktives Quiz */
+.quiz-box { font-size: 0.85rem; }
+.quiz-box p { margin: 0 0 8px; }
+.quiz-row { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+.quiz-row input { flex: 1; padding: 6px 8px; font: 0.85rem var(--mono); border: 1px solid var(--border); border-radius: 5px; background: var(--bg-card); color: var(--text); }
+.quiz-row span.unit { font-size: 0.82rem; color: var(--muted); }
+.feedback { margin-top: 8px; padding: 6px 10px; border-radius: 5px; font-size: 0.82rem; }
+.feedback.ok { background: #dcfce7; color: #166534; }
+.feedback.bad { background: #fee2e2; color: #991b1b; }
+body.theme-blueprint .feedback.ok { background: #064e3b; color: #86efac; }
+body.theme-blueprint .feedback.bad { background: #7f1d1d; color: #fca5a5; }
+
+/* SVG-Klassen für technische Zeichnungselemente */
+.bg-plain { fill: var(--dia-plain); }
+.given-line { stroke: var(--ink); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.thin-line { stroke: var(--arc-stroke); fill: none; stroke-linecap: round; }
+.arc-line { stroke: var(--arc-stroke); fill: none; }
+.hl-line { stroke: var(--hl) !important; }
+.warn-arc { stroke: var(--bad); fill: none; stroke-dasharray: 4 3; }
+.result-line { stroke: var(--accent-green); fill: none; }
+.secant-line { stroke: var(--primary); fill: none; }
+.ellipse-line { stroke: var(--accent); fill: none; stroke-width: 2.2; }
+.spiral-line { stroke: var(--ink); fill: none; stroke-width: 2.2; stroke-linecap: round; }
+.ray-line { stroke: var(--light); fill: none; stroke-dasharray: 3 3; }
+.pt-circ { fill: var(--pt-fill); stroke: var(--ink); stroke-width: 1.5; cursor: default; }
+.pt-drag { fill: #38bdf8; stroke: #0284c7; stroke-width: 2; cursor: move; }
+.pt-drag:hover { fill: #facc15; stroke: #ca8a04; }
+.pt-label { font-family: var(--font-dia); font-size: 13px; font-weight: 700; fill: var(--ink); user-select: none; }
+.dim-text { font-family: var(--font-dia); font-size: 11px; fill: var(--muted); user-select: none; }
+.step-num { font-family: var(--font-dia); font-weight: 800; font-size: 15px; fill: var(--accent); user-select: none; }
+.halo { paint-order: stroke fill; stroke: var(--dia-plain); stroke-width: 3.5px; stroke-linejoin: round; }
+.ax-head { fill: var(--arc-stroke); }
+.overline { text-decoration: overline; }
