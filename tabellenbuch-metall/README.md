@@ -1,4 +1,4 @@
-# Tabellenbuch Metall • Interaktive Lehrmodelle (S. 14, S. 58, S. 59, S. 60, S. 61 & S. 62)
+# Tabellenbuch Metall • Interaktive Lehrmodelle
 
 Zentrale Übersichtsseite und Sammlung interaktiver Lehrmodelle zum **Tabellenbuch Metall** (48. Auflage, Europa-Lehrmittel), vgl. DIN 461, DIN ISO 128 und DIN EN ISO 80000-2.
 
