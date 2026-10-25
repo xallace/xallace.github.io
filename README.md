@@ -11,7 +11,6 @@ Portfolio of Walter Lehn, Technischer Produktdesigner (IHK): interactive physics
 
 * **[pla-100](https://xallace.github.io/pla-100.html)** *(WIP)* — Parametric 14-part precision linear axis (`PLA-100`) with Three.js WebGL CAD inspector & STEP AP214 download.
 * **[kfz-dynamik](https://xallace.github.io/kfz-dynamik/)** — *KfzDyn*: Interactive vehicle dynamics models from Mitschke/Wallentowitz (*Dynamik der Kraftfahrzeuge*, 5th ed.) with 3D wheel forces, longitudinal performance, braking, quarter-car vibrations & single-track handling.
-* **[vsusp-sim](https://xallace.github.io/vsusp-sim/)** — *VSuspLab*: Front-view suspension kinematics for double wishbone (SLA) & MacPherson — instant centers, roll center migration, camber, KPI/scrub & bump steer; drag wheels/body on the diagram, CSV sweeps. Installable mobile web app (PWA), works offline.
 * **[solar-utc-clock](https://xallace.github.io/solar-utc-clock/)** — *Helios & Chronos*: Dual astronomical solar & universal UTC decimal day percentage clocks with NOAA solar calculations, 60 FPS live mode & interactive time scrubber.
 * **[beam-calculator](https://xallace.github.io/beam-calculator/)** — *BeamLab*: Euler-Bernoulli simply supported beam calculator (`StructX 001`) with real-time SFD/BMD/deflection curves, Eurocode profiles & KaTeX step-by-step math.
 * **[tabellenbuch-metall](https://xallace.github.io/tabellenbuch-metall/)** — *Tabellenbuch Metall (48. Aufl.)* central hub uniting:
