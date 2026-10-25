@@ -3,7 +3,7 @@
 > Official GitHub Pages Portfolio: `xallace.github.io`  
 > Live URL: [https://xallace.github.io](https://xallace.github.io)
 
-Central portfolio landing page showcasing physical simulation systems, mechanical engineering (CAD/CAE), and high-performance Python automation pipelines.
+Portfolio of Walter Lehn, Technischer Produktdesigner (IHK): interactive physics and kinematics simulations, CAD projects and Python tools. The web apps are built with AI coding agents; where stated, they are checked against textbook or reference values.
 
 ---
 
@@ -34,7 +34,6 @@ Central portfolio landing page showcasing physical simulation systems, mechanica
 * **[lingua-ai](https://xallace.github.io/languages.html)** — Sentence-synchronized bilingual reader (DE ↔ UA) & LLM story generator.
 * **[google-page-two](https://xallace.github.io/google-page-two/)** — Searchable guide to 26 underrated Google tools & search operators.
 * **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
-* **Engineering Monographies** — Historical linkage mechanisms (I. I. Artobolevsky) & Astronautics historical foundations.
 
 ---
 
