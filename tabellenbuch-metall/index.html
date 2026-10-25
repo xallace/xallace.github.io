@@ -60,11 +60,11 @@
           <span class="stat-lbl">S. 14 · S. 58 · S. 59 · S. 60 · S. 61 · S. 62</span>
         </div>
         <div class="stat-box">
-          <span class="stat-val">33 Reiter</span>
+          <span class="stat-val">31 Reiter</span>
           <span class="stat-lbl">Interaktive Module</span>
         </div>
         <div class="stat-box">
-          <span class="stat-val">204 Checks</span>
+          <span class="stat-val">253 Checks</span>
           <span class="stat-lbl">Geprüfte Buchwerte</span>
         </div>
       </div>
@@ -668,10 +668,10 @@
 
         <div class="card-preview">
           <a href="s14-formeln/" aria-label="Seite 14 öffnen: Formeln, Gleichungen, Diagramme">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 14: Zerspanungs-Kinematik vc = pi * d * n und Break-Even-Diagramm KG = E">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 14: Schnittgeschwindigkeit vc = pi * d * n und Diagramm Kosten, Erlös, Gewinnschwelle">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
               <!-- Linke Hälfte: Schnittgeschwindigkeit vc = π · d · n (Drehteil-Querschnitt) -->
-              <g transform="translate(98, 92)">
+              <g transform="translate(88, 96)">
                 <circle cx="0" cy="0" r="46" fill="rgba(56, 189, 248, 0.18)" stroke="var(--ink)" stroke-width="2"/>
                 <circle cx="0" cy="0" r="6" fill="var(--ink)"/>
                 <!-- Durchmesserlinie d -->
@@ -679,29 +679,29 @@
                 <!-- Tangentialer Schnittgeschwindigkeitsvektor vc -->
                 <line x1="46" y1="0" x2="46" y2="-54" stroke="var(--accent-red)" stroke-width="2.5"/>
                 <polygon points="46,-60 41.5,-50 50.5,-50" fill="var(--accent-red)"/>
-                <text x="54" y="-36" font-size="11.5" font-weight="700">v_c = π·d·n</text>
-                <text x="-14" y="-8" font-size="10.5" font-weight="700">Ø d</text>
-                <text x="-48" y="68" font-size="10.5" font-weight="700">M = 9550 · P / n</text>
+                <text x="52" y="-40" font-size="10.5" font-weight="700"><tspan font-style="italic">v</tspan><tspan font-size="8" dy="3">c</tspan><tspan dy="-3"> = π·</tspan><tspan font-style="italic">d</tspan>·<tspan font-style="italic">n</tspan></text>
+                <text x="-14" y="-8" font-size="10.5" font-weight="700">Ø <tspan font-style="italic">d</tspan></text>
+                <text x="-48" y="68" font-size="10.5" font-weight="700"><tspan font-style="italic">M</tspan> = 9550 · <tspan font-style="italic">P</tspan> / <tspan font-style="italic">n</tspan></text>
               </g>
               <!-- Trennlinie -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Break-Even-Diagramm (Erlös E(x) vs. Gesamtkosten KG(x) = Kf + kv·x) -->
+              <!-- Rechte Hälfte: Gesamtkosten KG = Kv · M + Kf durchgezogen, Erlös E gestrichelt (wie im Buch) -->
               <g transform="translate(228, 18)">
                 <line x1="20" y1="136" x2="174" y2="136" class="ax"/>
                 <line x1="20" y1="136" x2="20" y2="14" class="ax"/>
                 <!-- Fixkosten Kf (waagrecht) -->
                 <line x1="20" y1="98" x2="168" y2="98" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3"/>
-                <!-- Gesamtkosten KG = Kf + kv·x -->
+                <!-- Gesamtkosten KG = Kv · M + Kf -->
                 <line x1="20" y1="98" x2="168" y2="38" stroke="var(--accent-red)" stroke-width="2.2"/>
-                <!-- Erlösgerade E = p·x -->
-                <line x1="20" y1="136" x2="168" y2="18" stroke="var(--ok)" stroke-width="2.4"/>
+                <!-- Erlösgerade E = E/Stück · M -->
+                <line x1="20" y1="136" x2="168" y2="18" stroke="var(--accent-red)" stroke-width="2.2" stroke-dasharray="7 4"/>
                 <!-- Gewinnschwelle Gs (Schnittpunkt bei x=104, y=64) -->
                 <circle cx="101" cy="65" r="4.5" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.4"/>
                 <line x1="101" y1="65" x2="101" y2="136" stroke="var(--accent-amber)" stroke-width="1.3" stroke-dasharray="3 2"/>
-                <text x="64" y="54" font-size="10.5" font-weight="700">Gewinnschwelle Gs</text>
-                <text x="134" y="28" font-size="10.5" font-weight="700">E(x)</text>
-                <text x="134" y="60" font-size="10.5" font-weight="700">K_G(x)</text>
-                <text x="82" y="152" font-size="10">Stückzahl x</text>
+                <text x="108" y="80" font-size="10.5" font-weight="700">Gs</text>
+                <text x="140" y="28" font-size="10.5" font-weight="700" font-style="italic">E</text>
+                <text x="140" y="62" font-size="10.5" font-weight="700"><tspan font-style="italic">K</tspan><tspan font-size="8" dy="3">G</tspan></text>
+                <text x="82" y="152" font-size="10">Menge <tspan font-style="italic">M</tspan></text>
               </g>
             </svg>
           </a>
@@ -713,48 +713,40 @@
           </h3>
           <p class="card-desc">
             Methodisches Fundament aus Kapitel 1.2: Größengleichungen mit Einheitenführung am Beispiel der Schnittgeschwindigkeit
-            (<i>v</i><sub>c</sub> = &pi; · <i>d</i> · <i>n</i>) mit 2D-Zerspanungkinematik, hergeleitete Zahlenwertgleichung des Drehmoments
-            (<i>M</i> = 9550 · <i>P</i> / <i>n</i>), lineare Funktionen (<i>y</i> = <i>m</i>·<i>x</i> + <i>b</i>) sowie Break-Even-Kostenkalkulation (<i>K</i><sub>G</sub> = <i>E</i>).
+            (<i>v</i><sub>c</sub> = &pi; · <i>d</i> · <i>n</i>, Drehen und Fräsen als bewegtes Bild), Zahlenwertgleichung des Drehmoments
+            (<i>M</i> = 9550 · <i>P</i> / <i>n</i>) mit vorgeschriebenen Einheiten und Fehlerbild, lineare Funktion (<i>y</i> = <i>m</i> · <i>x</i> + <i>b</i>) mit Steigungsdreieck sowie Kosten, Erlös und Gewinnschwelle (<i>K</i><sub>G</sub> = <i>E</i>).
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
               <span>Direkt zu den Reitern springen</span>
-              <span>6 Prüfungsaufgaben ✓</span>
+              <span>49 Prüfungen ✓</span>
             </div>
             <div class="reiter-links">
-              <a href="s14-formeln/#tab-vc" class="reiter-link">
+              <a href="s14-formeln/#formeln" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Formeln (<i>v</i><sub>c</sub> = &pi;·<i>d</i>·<i>n</i>)</span>
+                <span>Formeln (<i>v</i><sub>c</sub>)</span>
               </a>
-              <a href="s14-formeln/#tab-torque" class="reiter-link">
+              <a href="s14-formeln/#zahlenwert" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Zahlenwertgleichung (<i>M</i>)</span>
+                <span>Zahlenwertgleichungen (<i>M</i>)</span>
               </a>
-              <a href="s14-formeln/#tab-linear" class="reiter-link">
+              <a href="s14-formeln/#linear" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Lineare Funktionen</span>
+                <span>Lineare Funktion</span>
               </a>
-              <a href="s14-formeln/#tab-breakeven" class="reiter-link">
+              <a href="s14-formeln/#kosten" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Gewinnschwelle (<i>G</i><sub>s</sub>)</span>
-              </a>
-              <a href="s14-formeln/#tab-quiz" class="reiter-link">
-                <span class="reiter-num">5</span>
-                <span>Übungsmodus (6 Aufgaben)</span>
-              </a>
-              <a href="s14-formeln/#tab-book" class="reiter-link">
-                <span class="reiter-num">6</span>
-                <span>Didaktiktafel (S. 14)</span>
+                <span>Kosten &amp; Gewinnschwelle</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill">v_c = π · d · n</span>
-            <span class="spec-pill">M = 9550 · P / n</span>
-            <span class="spec-pill">y = m · x + b</span>
-            <span class="spec-pill">Break-Even K_G = E</span>
+            <span class="spec-pill"><i>v</i><sub>c</sub> = 395,84 m/min</span>
+            <span class="spec-pill"><i>M</i> = 191 N · m</span>
+            <span class="spec-pill"><i>y</i> = 0,5 · <i>x</i> + 1</span>
+            <span class="spec-pill">Gewinnschwelle 4000 Stück</span>
           </div>
 
           <div class="card-actions">
