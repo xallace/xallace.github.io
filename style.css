@@ -435,6 +435,11 @@ body {
   gap: 1.5rem;
 }
 
+.grid-subhead {
+  grid-column: 1 / -1;
+  margin-top: 2.5rem;
+}
+
 .project-card {
   background: var(--bg-card);
   backdrop-filter: blur(10px);
