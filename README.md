@@ -24,6 +24,7 @@ Central portfolio landing page showcasing physical simulation systems, mechanica
 * **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling & cross-section inspection studio with STL/OBJ export.
 * **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — Wankel rotary engine, robotics cycloidal reducers & roulette curves with 1-click AutoCAD DXF/SVG export.
 * **[carousel-simulation](https://xallace.github.io/carousel-simulation/)** — 3D Three.js centripetal physics & cable tension modeling.
+* **[metamaterial-shock-lab](https://xallace.github.io/metamaterial-shock-lab/)** — *Granular Metamaterial Shock Lab*: 3D WebGL discrete particle mechanics, nonlinear Hertzian solitary waves (HNSW), kinetic energy trapping & acoustic diodes.
 * **[lever-simulation](https://xallace.github.io/lever-simulation/)** — Archimedean lever principle & torque dynamics ($\alpha = \tau / I$).
 * **[abacus](https://xallace.github.io/abacus/)** — Interactive bi-quinary Soroban, Suanpan, Schoty & Roman hand-abacus laboratory.
 * **[number-pyramid](https://xallace.github.io/number-pyramid/)** — Pascal combinatorics lab & constraint-based arithmetic solver.
