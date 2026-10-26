@@ -1,0 +1,17 @@
+# Zeilenenden: Textdateien im Repo immer mit LF speichern.
+# Windows-Zeilenenden (CRLF) in der Arbeitskopie zählen dadurch nicht als Änderung.
+* text=auto eol=lf
+
+# Binärdateien nie umwandeln
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.pdf   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary
+*.stl   binary
+*.glb   binary
