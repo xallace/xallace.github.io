@@ -45,6 +45,10 @@
       top: 0 !important;
       height: 100% !important;
     }
+    /* Eingebettet ist das Bild nur 560 px hoch, der Kasten würde das rechte untere Achsende verdecken */
+    body.is-embedded .cad-specs-overlay {
+      display: none;
+    }
 
     #cad-canvas {
       width: 100%;
@@ -488,6 +492,10 @@
     const MAX_STROKE = 192.0;  // Mechanischer Anschlag Heck (Loslagerbock X=240)
     let currentStroke = 120.0; // Symmetrische Mittelhubstellung (Mitte Grundkörper)
 
+    // Hüllquader der Baugruppe in mm (aus den STL-Dateien gemessen, Schlitten in Mittelstellung)
+    const MODEL_BOX = new THREE.Box3(new THREE.Vector3(-65, -41, -8.5), new THREE.Vector3(254, 58, 51.5));
+    const VIEW_FILL = 0.92; // Anteil des Bildes, den die Baugruppe ausfüllt
+
     const container = document.getElementById('viewport-container');
     const canvas = document.getElementById('cad-canvas');
     const slider = document.getElementById('stroke-slider');
@@ -505,8 +513,8 @@
       scene.background = new THREE.Color(0x070a12);
 
       // 2. Camera
-      camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 3000);
-      setCameraView('iso');
+      camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 1, 3000);
+      camera.up.set(0, 0, 1); // Z-up wie das CAD-Modell, vor OrbitControls setzen
 
       // 3. Renderer
       renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
@@ -519,9 +527,9 @@
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
-      controls.target.set(120, 0, 25); // Center of rotation in linear axis middle
       controls.maxDistance = 1200;
       controls.minDistance = 60;
+      setCameraView('iso');
 
       // 5. Studio Lighting
       const hemiLight = new THREE.HemisphereLight(0xffffff, 0x1e293b, 0.75);
@@ -546,7 +554,7 @@
       // 6. Ground Reference Grid
       const gridHelper = new THREE.GridHelper(600, 60, 0x1e293b, 0x0f172a);
       gridHelper.rotation.x = Math.PI / 2; // Match Z-up coordinate system
-      gridHelper.position.set(120, 0, -0.5);
+      gridHelper.position.set(120, 0, MODEL_BOX.min.z - 0.5); // knapp unter dem tiefsten Punkt
       scene.add(gridHelper);
 
       // 7. Load STLs
@@ -665,26 +673,74 @@
 
     function setCameraView(view) {
       document.querySelectorAll('.hud-btn').forEach(b => b.classList.remove('active'));
-      const center = new THREE.Vector3(120, 0, 25);
 
+      let dir;
       if (view === 'iso') {
-        camera.position.set(380, -320, 240);
+        // Längsachse auf der Bilddiagonale von links oben nach rechts unten (Kamera vorn rechts oben)
+        const elev = THREE.MathUtils.degToRad(30);
+        const slope = Math.atan2(container.clientHeight, container.clientWidth);
+        const azim = THREE.MathUtils.clamp(Math.atan(Math.sin(elev) / Math.tan(slope)),
+          THREE.MathUtils.degToRad(20), THREE.MathUtils.degToRad(70));
+        dir = new THREE.Vector3(Math.cos(elev) * Math.cos(azim), -Math.cos(elev) * Math.sin(azim), Math.sin(elev));
       } else if (view === 'top') {
-        camera.position.set(120, 0, 480);
+        dir = new THREE.Vector3(0, -0.001, 1);
       } else if (view === 'front') {
-        camera.position.set(120, -420, 25);
+        dir = new THREE.Vector3(0, -1, 0);
       } else if (view === 'side') {
-        camera.position.set(520, 0, 25);
+        dir = new THREE.Vector3(1, 0, 0);
       }
 
-      camera.lookAt(center);
+      const target = fitCamera(dir.normalize());
       if (controls) {
-        controls.target.copy(center);
+        controls.target.copy(target);
         controls.update();
       }
 
       const activeBtn = Array.from(document.querySelectorAll('.hud-btn')).find(b => b.textContent.toLowerCase() === view.toLowerCase());
       if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // Kamera entlang dir so weit zurücksetzen und so zentrieren, dass der Hüllquader das Bild ausfüllt
+    function fitCamera(dir) {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * VIEW_FILL;
+      const tanH = tanV * camera.aspect;
+
+      // Bildachsen für diese Blickrichtung
+      const target = MODEL_BOX.getCenter(new THREE.Vector3());
+      camera.position.copy(target).add(dir);
+      camera.lookAt(target);
+      camera.updateMatrixWorld();
+      const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+      const up = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
+
+      const corners = [];
+      for (const x of [MODEL_BOX.min.x, MODEL_BOX.max.x])
+        for (const y of [MODEL_BOX.min.y, MODEL_BOX.max.y])
+          for (const z of [MODEL_BOX.min.z, MODEL_BOX.max.z]) corners.push(new THREE.Vector3(x, y, z));
+
+      // Ecken in Bildkoordinaten relativ zum Ziel: x rechts, y oben, z zur Kamera hin
+      const relCorners = () => corners.map(c => {
+        const v = c.clone().sub(target);
+        return { x: v.dot(right), y: v.dot(up), z: v.dot(dir) };
+      });
+      // Kleinster Abstand, bei dem jede Ecke im Bild liegt
+      const minDist = pts => Math.max(...pts.map(p => p.z + Math.max(Math.abs(p.x) / tanH, Math.abs(p.y) / tanV)));
+
+      // Perspektive verschiebt die Ecken zum nahen Ende hin, deshalb einige Male nachzentrieren
+      for (let i = 0; i < 4; i++) {
+        const pts = relCorners();
+        const dist = minDist(pts);
+        const tx = pts.map(p => p.x / (dist - p.z));
+        const ty = pts.map(p => p.y / (dist - p.z));
+        target.addScaledVector(right, (Math.min(...tx) + Math.max(...tx)) / 2 * dist)
+              .addScaledVector(up, (Math.min(...ty) + Math.max(...ty)) / 2 * dist);
+      }
+
+      camera.position.copy(target).addScaledVector(dir, minDist(relCorners()));
+      camera.lookAt(target);
+      return target;
     }
 
     function resetCamera() {
