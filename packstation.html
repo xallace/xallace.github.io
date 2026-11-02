@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packstation & Palettier-Roboter · Digitaler Zwilling (Three.js + Rapier.js)</title>
+  <meta name="description" content="Physikbasierter digitaler Zwilling einer automatisierten Paket-Sortieranlage mit Palettier-Robotern, Three.js und Rapier.js WASM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      background: #070a12;
+      font-family: var(--font-sans);
+    }
+
+    #viewport-container {
+      position: absolute;
+      top: 64px; left: 0; right: 0; bottom: 0;
+      width: 100%; height: calc(100% - 64px);
+      overflow: hidden;
+    }
+
+    body.is-embedded .viewer-header { display: none !important; }
+    body.is-embedded #viewport-container { top: 0 !important; height: 100% !important; }
+
+    #cad-canvas { width: 100%; height: 100%; display: block; }
+
+    .viewer-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 64px;
+      background: rgba(10, 15, 26, 0.92);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+      backdrop-filter: blur(14px);
+      z-index: 50;
+    }
+
+    .viewer-title-group { display: flex; align-items: center; gap: 1rem; }
+    .viewer-back-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600; padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-fast);
+    }
+    .viewer-back-btn:hover {
+      color: var(--text-primary); border-color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .viewer-title-text h1 {
+      font-size: 1.05rem; font-weight: 700; margin: 0;
+      color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;
+    }
+    .viewer-title-text p {
+      font-size: 0.78rem; color: var(--text-muted); margin: 0; font-family: var(--font-mono);
+    }
+
+    .status-badge {
+      font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+      background: rgba(45, 212, 191, 0.15); color: var(--accent-teal);
+      border: 1px solid var(--accent-teal);
+    }
+
+    .sim-hud {
+      position: absolute;
+      bottom: 1.5rem; left: 1.5rem;
+      background: rgba(13, 21, 37, 0.88);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+      z-index: 40;
+      max-width: 410px;
+      width: calc(100vw - 3rem);
+    }
+
+    .hud-title {
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--accent-cyan);
+      margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .hud-controls-row {
+      display: flex; gap: 0.45rem; margin-bottom: 0.75rem;
+    }
+
+    .hud-btn {
+      flex: 1; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); color: var(--text-secondary);
+      font-size: 0.75rem; font-family: var(--font-mono); padding: 0.45rem 0.2rem;
+      cursor: pointer; transition: all var(--transition-fast); text-align: center;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;
+    }
+    .hud-btn:hover { color: var(--text-primary); border-color: var(--accent-cyan); background: rgba(56, 189, 248, 0.12); }
+    .hud-btn.active { color: #041019; background: var(--accent-cyan); border-color: var(--accent-cyan); font-weight: 700; }
+
+    .hud-slider-group { margin-bottom: 0.8rem; }
+    .hud-slider-header {
+      display: flex; justify-content: space-between; font-size: 0.75rem;
+      color: var(--text-secondary); margin-bottom: 0.35rem; font-family: var(--font-mono);
+    }
+    .hud-slider {
+      width: 100%; height: 6px; -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.12); border-radius: 3px; outline: none;
+    }
+    .hud-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+      background: var(--accent-cyan); cursor: pointer; box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    .sim-stats-overlay {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: rgba(13, 21, 37, 0.88); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md); padding: 1.1rem 1.25rem;
+      backdrop-filter: blur(16px); z-index: 40; max-width: 340px;
+      font-size: 0.8rem; color: var(--text-secondary);
+    }
+
+    .stats-row {
+      display: flex; justify-content: space-between; padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-family: var(--font-mono);
+    }
+    .stats-row:last-child { border-bottom: none; }
+    .stats-label { color: var(--text-muted); }
+    .stats-val { color: var(--text-primary); font-weight: 700; }
+
+    .scanner-feed {
+      margin-top: 0.75rem; padding: 0.65rem; border-radius: 6px;
+      background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.25);
+      font-family: var(--font-mono); font-size: 0.72rem;
+    }
+    .feed-header {
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.35rem;
+    }
+    .feed-body { color: var(--text-primary); line-height: 1.4; }
+
+    #loading-spinner {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      z-index: 30; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .spinner-ring {
+      width: 48px; height: 48px; border: 3px solid rgba(56, 189, 248, 0.2);
+      border-top-color: var(--accent-cyan); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-text { font-size: 0.85rem; color: var(--text-secondary); font-family: var(--font-mono); }
+
+    @media (max-width: 768px) {
+      .sim-stats-overlay { display: none; }
+      .sim-hud { left: 1rem; right: 1rem; bottom: 1rem; width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="viewer-header">
+    <div class="viewer-title-group">
+      <a href="index.html" class="viewer-back-btn" title="Zurück zum Portfolio">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Portfolio</span>
+      </a>
+      <div class="viewer-title-text">
+        <h1>
+          <span>Packstation & Palettier-Roboter</span>
+          <span class="status-badge">Digitaler Zwilling</span>
+          <span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: #f59e0b;">🚧 Work in Progress</span>
+          <span class="status-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border-color: var(--accent-cyan);">Three.js + Rapier.js WASM</span>
+        </h1>
+        <p>Einspeisung · Barcode-Scanner · PLA-100 Sorter · 2x Knickarm-Roboter & Europalettierung</p>
+      </div>
+    </div>
+
+    <div class="viewer-actions">
+      <a href="pla-100.html" class="btn btn-secondary" style="padding: 0.45rem 1rem; font-size: 0.82rem; gap: 0.4rem; text-decoration: none; border-color: rgba(56, 189, 248, 0.4); color: var(--accent-cyan);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+        <span>PLA-100 CAD Inspektor</span>
+      </a>
+    </div>
+  </header>
+
+  <div id="viewport-container">
+    <div id="loading-spinner">
+      <div class="spinner-ring"></div>
+      <div class="spinner-text">Initialisiere Rapier 3D Physik-Engine (WASM)...</div>
+    </div>
+    <canvas id="cad-canvas"></canvas>
+
+    <!-- Telemetry & Stats -->
+    <div class="sim-stats-overlay">
+      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>Leitstand / SPS-Telemetrie</span>
+        </div>
+        <span style="font-size: 0.65rem; color: var(--accent-teal); background: rgba(45, 212, 191, 0.15); border: 1px solid var(--accent-teal); padding: 1px 5px; border-radius: 3px; font-weight: 700;">LIVE</span>
+      </div>
+
+      <div class="stats-row"><span class="stats-label">Pakete Gesamt:</span> <span class="stats-val" id="stat-total">0</span></div>
+      <div class="stats-row"><span class="stats-label">Roboter A (Express):</span> <span class="stats-val" style="color: var(--accent-cyan);" id="stat-robot-a">BEREIT · 0/8</span></div>
+      <div class="stats-row"><span class="stats-label">Roboter B (Standard):</span> <span class="stats-val" style="color: #f59e0b;" id="stat-robot-b">BEREIT · 0/8</span></div>
+      <div class="stats-row"><span class="stats-label">Durchsatz:</span> <span class="stats-val" id="stat-rate">24 Pkt/min</span></div>
+      <div class="stats-row"><span class="stats-label">Pusher Status:</span> <span class="stats-val" style="color: var(--accent-emerald);" id="stat-pusher">BEREIT</span></div>
+
+      <div class="scanner-feed">
+        <div class="feed-header">
+          <span>OPTISCHER SCANNER</span>
+          <span id="scan-indicator" style="font-size: 0.65rem; color: var(--text-muted);">STANDBY</span>
+        </div>
+        <div class="feed-body" id="scan-body">
+          Warte auf eingehendes Packgut...
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating HUD -->
+    <div class="sim-hud">
+      <div class="hud-title">
+        <span>Anlagensteuerung & Simulation</span>
+        <span style="font-size: 0.72rem; color: var(--accent-cyan); font-family: var(--font-mono);">Rapier3D WASM</span>
+      </div>
+
+      <div class="hud-controls-row">
+        <button id="btn-spawn" class="hud-btn active" onclick="spawnSinglePackage()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Paket aufgeben</span>
+        </button>
+        <button id="btn-auto" class="hud-btn active" onclick="toggleAutoSpawn()">
+          <span id="auto-label">Auto: AN</span>
+        </button>
+        <button class="hud-btn" onclick="clearPackages()">
+          <span>Löschen</span>
+        </button>
+      </div>
+
+      <div class="hud-slider-group">
+        <div class="hud-slider-header">
+          <span>Fördergeschwindigkeit</span>
+          <span id="speed-val">1.2 m/s</span>
+        </div>
+        <input type="range" id="belt-speed" class="hud-slider" min="0.5" max="2.5" step="0.1" value="1.2">
+      </div>
+
+      <div class="hud-slider-group">
+        <div class="hud-slider-header">
+          <span>Sortier-Modus</span>
+          <span id="mode-val" style="color: var(--accent-cyan);">Auto 50/50</span>
+        </div>
+        <div style="display: flex; gap: 0.35rem;">
+          <button class="hud-btn active" id="mode-mixed" onclick="setSortMode('mixed')">Mix 50/50</button>
+          <button class="hud-btn" id="mode-express" onclick="setSortMode('express')">Express</button>
+          <button class="hud-btn" id="mode-standard" onclick="setSortMode('standard')">Standard</button>
+        </div>
+      </div>
+
+      <div class="hud-controls-row" style="margin-bottom: 0;">
+        <button class="hud-btn" onclick="setCamView('iso')">ISO</button>
+        <button class="hud-btn" onclick="setCamView('scanner')">Scanner</button>
+        <button class="hud-btn" onclick="setCamView('pusher')">Weiche</button>
+        <button class="hud-btn" onclick="setCamView('robotA')">Robot A</button>
+        <button class="hud-btn" onclick="setCamView('robotB')">Robot B</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import RAPIER from './vendor/rapier/rapier.es.js';
+
+    let scene, camera, renderer, controls;
+    let world;
+    let conveyorSpeed = 1.2;
+    let autoSpawn = true;
+    let spawnTimer = 0;
+    let spawnInterval = 2.4;
+    let sortMode = 'mixed';
+
+    let packages = [];
+    let packageIdCounter = 101;
+    let countTotal = 0;
+
+    // Sorter / Pusher
+    let pusherMesh, pusherBody;
+    let pusherMinZ = -0.38;
+    let pusherMaxZ = 0.28;
+    let pusherCurrentZ = -0.38;
+    let pusherState = 'idle';
+    let pusherSpeed = 3.2;
+
+    let belts = [];
+
+    // Robots
+    let robotA, robotB;
+
+    let container, canvas, spinner;
+
+    async function init() {
+      try {
+        container = document.getElementById('viewport-container');
+        canvas = document.getElementById('cad-canvas');
+        spinner = document.getElementById('loading-spinner');
+
+        await RAPIER.init();
+        world = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 });
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x070a12);
+
+      camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 100);
+      camera.position.set(-6.5, 6.2, 7.5);
+
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.target.set(2.5, 0.8, 1.5);
+      controls.maxDistance = 35;
+      controls.minDistance = 2;
+
+      // Lights
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x1e293b, 0.7);
+      scene.add(hemiLight);
+
+      const mainLight = new THREE.DirectionalLight(0xffffff, 1.15);
+      mainLight.position.set(5, 14, 8);
+      mainLight.castShadow = true;
+      mainLight.shadow.mapSize.width = 2048;
+      mainLight.shadow.mapSize.height = 2048;
+      mainLight.shadow.bias = -0.0001;
+      scene.add(mainLight);
+
+      const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.45);
+      fillLight.position.set(-8, 7, -5);
+      scene.add(fillLight);
+
+      const accentLight = new THREE.DirectionalLight(0x2dd4bf, 0.4);
+      accentLight.position.set(6, 5, -4);
+      scene.add(accentLight);
+
+      // Floor
+      const gridHelper = new THREE.GridHelper(30, 30, 0x1e293b, 0x0f172a);
+      gridHelper.position.y = 0;
+      scene.add(gridHelper);
+
+      // Ground Collider
+      const groundBodyDesc = RAPIER.RigidBodyDesc.fixed().setTranslation(0, -0.05, 0);
+      const groundBody = world.createRigidBody(groundBodyDesc);
+      const groundCollider = RAPIER.ColliderDesc.cuboid(15, 0.05, 15);
+      world.createCollider(groundCollider, groundBody);
+
+      // Build components
+      buildConveyorSystem();
+      buildScannerStation();
+      buildPusherUnit();
+      buildPalettes();
+      buildRobots();
+
+      window.addEventListener('resize', onWindowResize);
+      document.getElementById('belt-speed').addEventListener('input', (e) => {
+        conveyorSpeed = parseFloat(e.target.value);
+        document.getElementById('speed-val').textContent = `${conveyorSpeed.toFixed(1)} m/s`;
+      });
+
+      spinner.style.opacity = '0';
+      setTimeout(() => { spinner.style.display = 'none'; }, 300);
+
+      spawnPackage();
+
+      lastTime = performance.now();
+      animate();
+    } catch (err) {
+      console.error('Simulation Init Error:', err);
+    }
+  }
+
+    // =========================================================================
+    // Conveyors
+    // =========================================================================
+    function createConveyorBelt(xCenter, zCenter, sizeX, sizeZ, height, dirX, dirZ, label, railConfig) {
+      const beltY = height;
+      const frameHeight = height;
+
+      // Rubber Belt Mesh
+      const beltGeom = new THREE.BoxGeometry(sizeX, 0.04, sizeZ);
+      const beltMat = new THREE.MeshStandardMaterial({
+        color: 0x181e29,
+        metalness: 0.15,
+        roughness: 0.8
+      });
+      const beltMesh = new THREE.Mesh(beltGeom, beltMat);
+      beltMesh.position.set(xCenter, beltY, zCenter);
+      beltMesh.receiveShadow = true;
+      scene.add(beltMesh);
+
+      // Aluminum Extrusion Side Rails
+      const railMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
+      const isZ = Math.abs(dirZ) > 0.1;
+
+      if (!isZ) {
+        // Runs along X
+        const sideZ = sizeZ / 2 + 0.03;
+        // Left rail (-Z)
+        if (!railConfig || !railConfig.gapLeft) {
+          const rGeom = new THREE.BoxGeometry(sizeX, 0.08, 0.04);
+          const r1 = new THREE.Mesh(rGeom, railMat);
+          r1.position.set(xCenter, beltY + 0.04, zCenter - sideZ);
+          scene.add(r1);
+        } else {
+          // Rail with gap for pusher at x=1.7
+          const l1 = 1.15;
+          const r1a = new THREE.Mesh(new THREE.BoxGeometry(l1, 0.08, 0.04), railMat);
+          r1a.position.set(xCenter - sizeX/2 + l1/2, beltY + 0.04, zCenter - sideZ);
+          scene.add(r1a);
+          const l2 = 1.15;
+          const r1b = new THREE.Mesh(new THREE.BoxGeometry(l2, 0.08, 0.04), railMat);
+          r1b.position.set(xCenter + sizeX/2 - l2/2, beltY + 0.04, zCenter - sideZ);
+          scene.add(r1b);
+        }
+        // Right rail (+Z)
+        if (!railConfig || !railConfig.gapRight) {
+          const rGeom = new THREE.BoxGeometry(sizeX, 0.08, 0.04);
+          const r2 = new THREE.Mesh(rGeom, railMat);
+          r2.position.set(xCenter, beltY + 0.04, zCenter + sideZ);
+          scene.add(r2);
+        } else {
+          // Rail with gap for branch at x=1.7
+          const l1 = 1.15;
+          const r2a = new THREE.Mesh(new THREE.BoxGeometry(l1, 0.08, 0.04), railMat);
+          r2a.position.set(xCenter - sizeX/2 + l1/2, beltY + 0.04, zCenter + sideZ);
+          scene.add(r2a);
+          const l2 = 1.15;
+          const r2b = new THREE.Mesh(new THREE.BoxGeometry(l2, 0.08, 0.04), railMat);
+          r2b.position.set(xCenter + sizeX/2 - l2/2, beltY + 0.04, zCenter + sideZ);
+          scene.add(r2b);
+        }
+      } else {
+        // Runs along Z (Expressband A)
+        const sideX = sizeX / 2 + 0.03;
+        const rGeomZ = new THREE.BoxGeometry(0.04, 0.08, sizeZ);
+        const r1 = new THREE.Mesh(rGeomZ, railMat);
+        r1.position.set(xCenter - sideX, beltY + 0.04, zCenter);
+        scene.add(r1);
+        const r2 = new THREE.Mesh(rGeomZ, railMat);
+        r2.position.set(xCenter + sideX, beltY + 0.04, zCenter);
+        scene.add(r2);
+      }
+
+      // Legs
+      const legGeom = new THREE.CylinderGeometry(0.03, 0.03, frameHeight, 12);
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.3 });
+      const legPositions = [
+        [xCenter - sizeX/2 + 0.15, zCenter - sizeZ/2 + 0.1],
+        [xCenter - sizeX/2 + 0.15, zCenter + sizeZ/2 - 0.1],
+        [xCenter + sizeX/2 - 0.15, zCenter - sizeZ/2 + 0.1],
+        [xCenter + sizeX/2 - 0.15, zCenter + sizeZ/2 - 0.1]
+      ];
+      legPositions.forEach(p => {
+        const leg = new THREE.Mesh(legGeom, legMat);
+        leg.position.set(p[0], frameHeight / 2, p[1]);
+        leg.castShadow = true;
+        scene.add(leg);
+      });
+
+      // Rapier Collider for belt
+      const bodyDesc = RAPIER.RigidBodyDesc.fixed().setTranslation(xCenter, beltY, zCenter);
+      const body = world.createRigidBody(bodyDesc);
+      const colliderDesc = RAPIER.ColliderDesc.cuboid(sizeX / 2, 0.02, sizeZ / 2).setFriction(0.85);
+      world.createCollider(colliderDesc, body);
+
+      belts.push({
+        xMin: xCenter - sizeX / 2,
+        xMax: xCenter + sizeX / 2,
+        zMin: zCenter - sizeZ / 2,
+        zMax: zCenter + sizeZ / 2,
+        topY: beltY + 0.02,
+        dirX: dirX,
+        dirZ: dirZ
+      });
+    }
+
+    function createBufferTable(xCenter, zCenter, sizeX, sizeZ, height, stopAxis, stopVal) {
+      // Buffer roller table where packages wait for the robot
+      const tableGeom = new THREE.BoxGeometry(sizeX, 0.04, sizeZ);
+      const tableMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.4 });
+      const tableMesh = new THREE.Mesh(tableGeom, tableMat);
+      tableMesh.position.set(xCenter, height, zCenter);
+      scene.add(tableMesh);
+
+      // Rollers visual
+      const isZ = sizeZ > sizeX;
+      const numRollers = 5;
+      const rollerMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.9, roughness: 0.2 });
+      for (let i = 0; i < numRollers; i++) {
+        if (!isZ) {
+          const rx = xCenter - sizeX/2 + (sizeX / (numRollers + 1)) * (i + 1);
+          const rGeom = new THREE.CylinderGeometry(0.015, 0.015, sizeZ - 0.04, 12);
+          const rMesh = new THREE.Mesh(rGeom, rollerMat);
+          rMesh.rotation.x = Math.PI / 2;
+          rMesh.position.set(rx, height + 0.025, zCenter);
+          scene.add(rMesh);
+        } else {
+          const rz = zCenter - sizeZ/2 + (sizeZ / (numRollers + 1)) * (i + 1);
+          const rGeom = new THREE.CylinderGeometry(0.015, 0.015, sizeX - 0.04, 12);
+          const rMesh = new THREE.Mesh(rGeom, rollerMat);
+          rMesh.rotation.z = Math.PI / 2;
+          rMesh.position.set(xCenter, height + 0.025, rz);
+          scene.add(rMesh);
+        }
+      }
+
+      // End Stop Bar
+      const stopMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.4, roughness: 0.5 });
+      if (stopAxis === 'x') {
+        const stopGeom = new THREE.BoxGeometry(0.05, 0.12, sizeZ);
+        const stopMesh = new THREE.Mesh(stopGeom, stopMat);
+        stopMesh.position.set(stopVal, height + 0.06, zCenter);
+        scene.add(stopMesh);
+        // Collider
+        const sBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(stopVal, height + 0.06, zCenter));
+        world.createCollider(RAPIER.ColliderDesc.cuboid(0.025, 0.06, sizeZ / 2), sBody);
+      } else {
+        const stopGeom = new THREE.BoxGeometry(sizeX, 0.12, 0.05);
+        const stopMesh = new THREE.Mesh(stopGeom, stopMat);
+        stopMesh.position.set(xCenter, height + 0.06, stopVal);
+        scene.add(stopMesh);
+        // Collider
+        const sBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(xCenter, height + 0.06, stopVal));
+        world.createCollider(RAPIER.ColliderDesc.cuboid(sizeX / 2, 0.06, 0.025), sBody);
+      }
+
+      // Base Collider for table
+      const bBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(xCenter, height, zCenter));
+      world.createCollider(RAPIER.ColliderDesc.cuboid(sizeX / 2, 0.02, sizeZ / 2).setFriction(0.2), bBody);
+
+      // Support legs
+      const legGeom = new THREE.CylinderGeometry(0.03, 0.03, height, 12);
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.3 });
+      const legs = [
+        [xCenter - sizeX/2 + 0.08, zCenter - sizeZ/2 + 0.08],
+        [xCenter - sizeX/2 + 0.08, zCenter + sizeZ/2 - 0.08],
+        [xCenter + sizeX/2 - 0.08, zCenter - sizeZ/2 + 0.08],
+        [xCenter + sizeX/2 - 0.08, zCenter + sizeZ/2 - 0.08]
+      ];
+      legs.forEach(p => {
+        const leg = new THREE.Mesh(legGeom, legMat);
+        leg.position.set(p[0], height/2, p[1]);
+        scene.add(leg);
+      });
+    }
+
+    function buildConveyorSystem() {
+      // 1. Infeed Belt (-4.2 to 0.2, length 4.4, width 0.7)
+      createConveyorBelt(-2.0, 0, 4.4, 0.7, 0.9, 1.0, 0.0, 'Einspeisung');
+
+      // 2. Diverter Zone (0.2 to 3.2, length 3.0, width 0.7) with gapLeft for pusher & gapRight for lateral belt
+      createConveyorBelt(1.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Weichenbereich', { gapLeft: true, gapRight: true });
+
+      // 3. Outfeed Belt B (Standard, straight along +X from 3.2 to 6.2)
+      createConveyorBelt(4.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Standardband B');
+
+      // 4. Outfeed Belt A (Express, 90 deg lateral along +Z from 0.35 to 3.65)
+      // Rotated 90 degrees: sizeX = 0.7 (width), sizeZ = 3.3 (length along Z!)
+      createConveyorBelt(1.7, 2.0, 0.7, 3.3, 0.9, 0.0, 1.0, 'Expressband A');
+
+      // 5. Transfer dead plate at junction (x=1.7, z=0.35)
+      const transGeom = new THREE.BoxGeometry(0.7, 0.015, 0.08);
+      const transMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.2 });
+      const transMesh = new THREE.Mesh(transGeom, transMat);
+      transMesh.position.set(1.7, 0.91, 0.35);
+      scene.add(transMesh);
+
+      // 6. Buffer table B (at end of Belt B: X = 6.45, Z = 0) with stop at X = 6.70
+      createBufferTable(6.45, 0, 0.50, 0.70, 0.9, 'x', 6.70);
+
+      // 7. Buffer table A (at end of Belt A: X = 1.7, Z = 3.90) with stop at Z = 4.15
+      createBufferTable(1.7, 3.90, 0.70, 0.50, 0.9, 'z', 4.15);
+    }
+
+    // =========================================================================
+    // Scanner
+    // =========================================================================
+    let scannerLightMesh;
+    function buildScannerStation() {
+      const archMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6, roughness: 0.3 });
+      
+      const postGeom = new THREE.BoxGeometry(0.08, 0.9, 0.08);
+      const postLeft = new THREE.Mesh(postGeom, archMat);
+      postLeft.position.set(0.2, 1.35, -0.42);
+      scene.add(postLeft);
+
+      const postRight = new THREE.Mesh(postGeom, archMat);
+      postRight.position.set(0.2, 1.35, 0.42);
+      scene.add(postRight);
+
+      const beamGeom = new THREE.BoxGeometry(0.08, 0.08, 0.92);
+      const topBeam = new THREE.Mesh(beamGeom, archMat);
+      topBeam.position.set(0.2, 1.75, 0);
+      scene.add(topBeam);
+
+      const laserGeom = new THREE.PlaneGeometry(0.8, 0.5);
+      const laserMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.22, side: THREE.DoubleSide });
+      const laserPlane = new THREE.Mesh(laserGeom, laserMat);
+      laserPlane.rotation.y = Math.PI / 2;
+      laserPlane.position.set(0.2, 1.25, 0);
+      scene.add(laserPlane);
+
+      const ledGeom = new THREE.SphereGeometry(0.04, 16, 16);
+      const ledMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
+      scannerLightMesh = new THREE.Mesh(ledGeom, ledMat);
+      scannerLightMesh.position.set(0.2, 1.83, 0);
+      scene.add(scannerLightMesh);
+    }
+
+    // =========================================================================
+    // PLA-100 Mechatronic Linear Pusher Unit (Clean Mounting, No Overlap)
+    // =========================================================================
+    function buildPusherUnit() {
+      const pusherGroup = new THREE.Group();
+      // Mounted safely outside the belt: belt edge is z = -0.35
+      pusherGroup.position.set(1.7, 0.92, 0);
+
+      // Stator profile: positioned well behind the belt (center at z = -0.78, extends -0.48 to -1.08)
+      const baseMat = new THREE.MeshStandardMaterial({ color: 0xc8d1dc, metalness: 0.75, roughness: 0.3 });
+      const baseGeom = new THREE.BoxGeometry(0.36, 0.12, 0.60);
+      const baseMesh = new THREE.Mesh(baseGeom, baseMat);
+      baseMesh.position.set(0, 0, -0.78);
+      pusherGroup.add(baseMesh);
+
+      // Guide rail
+      const railGeom = new THREE.BoxGeometry(0.08, 0.04, 0.58);
+      const railMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.15 });
+      const rail = new THREE.Mesh(railGeom, railMat);
+      rail.position.set(0, 0.07, -0.78);
+      pusherGroup.add(rail);
+
+      // Rear Motor (NEMA 23)
+      const motorMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6, roughness: 0.4 });
+      const motorGeom = new THREE.BoxGeometry(0.18, 0.18, 0.20);
+      const motorMesh = new THREE.Mesh(motorGeom, motorMat);
+      motorMesh.position.set(0, 0, -1.18);
+      pusherGroup.add(motorMesh);
+
+      // Mount bracket connecting to conveyor chassis
+      const bracketGeom = new THREE.BoxGeometry(0.42, 0.04, 0.16);
+      const bracketMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.3 });
+      const bracket = new THREE.Mesh(bracketGeom, bracketMat);
+      bracket.position.set(0, -0.06, -0.44);
+      pusherGroup.add(bracket);
+
+      // Pusher Plate (Tool head) - retracted flush with rail line at z = -0.38
+      const plateMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.65, roughness: 0.28 });
+      const plateGeom = new THREE.BoxGeometry(0.38, 0.14, 0.035);
+      pusherMesh = new THREE.Mesh(plateGeom, plateMat);
+      pusherMesh.position.set(0, 0.03, pusherMinZ);
+      pusherGroup.add(pusherMesh);
+
+      scene.add(pusherGroup);
+
+      // Rapier Kinematic Rigid Body for Pusher Plate
+      const pusherBodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased()
+        .setTranslation(1.7, 0.95, pusherMinZ);
+      pusherBody = world.createRigidBody(pusherBodyDesc);
+      const pusherColliderDesc = RAPIER.ColliderDesc.cuboid(0.19, 0.07, 0.018).setFriction(0.2);
+      world.createCollider(pusherColliderDesc, pusherBody);
+    }
+
+    // =========================================================================
+    // Euro Pallets
+    // =========================================================================
+    function createEuroPalette(x, z, label, colorAccent, isRotated) {
+      const palGroup = new THREE.Group();
+      palGroup.position.set(x, 0, z);
+      if (isRotated) palGroup.rotation.y = Math.PI / 2;
+
+      const woodMat = new THREE.MeshStandardMaterial({ color: 0xb58a57, roughness: 0.85, metalness: 0.05 });
+      const blockMat = new THREE.MeshStandardMaterial({ color: 0x8a6237, roughness: 0.9, metalness: 0.05 });
+
+      // Skids
+      for (let i of [-0.35, 0, 0.35]) {
+        const skid = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.022, 0.1), woodMat);
+        skid.position.set(0, 0.011, i);
+        palGroup.add(skid);
+      }
+      // Blocks
+      for (let ix of [-0.5, 0, 0.5]) {
+        for (let iz of [-0.35, 0, 0.35]) {
+          const blk = new THREE.Mesh(new THREE.BoxGeometry(0.145, 0.078, 0.1), blockMat);
+          blk.position.set(ix, 0.061, iz);
+          palGroup.add(blk);
+        }
+      }
+      // Cross boards
+      for (let ix of [-0.5, 0, 0.5]) {
+        const board = new THREE.Mesh(new THREE.BoxGeometry(0.145, 0.022, 0.8), woodMat);
+        board.position.set(ix, 0.1, 0);
+        palGroup.add(board);
+      }
+      // Top boards
+      for (let iz of [-0.34, -0.17, 0, 0.17, 0.34]) {
+        const topBoard = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.022, 0.14), woodMat);
+        topBoard.position.set(0, 0.122, iz);
+        palGroup.add(topBoard);
+      }
+      // Badge
+      const badge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.04, 0.02), new THREE.MeshBasicMaterial({ color: colorAccent }));
+      badge.position.set(0, 0.06, 0.41);
+      palGroup.add(badge);
+
+      scene.add(palGroup);
+
+      // Floor Safety zone markings
+      const safetyGeom = new THREE.PlaneGeometry(isRotated ? 1.1 : 1.5, isRotated ? 1.5 : 1.1);
+      const safetyMat = new THREE.MeshBasicMaterial({ color: 0xfacc15, wireframe: true });
+      const safety = new THREE.Mesh(safetyGeom, safetyMat);
+      safety.rotation.x = -Math.PI / 2;
+      safety.position.set(x, 0.005, z);
+      scene.add(safety);
+
+      // Rapier Collider
+      const palBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x, 0.07, z));
+      world.createCollider(RAPIER.ColliderDesc.cuboid(isRotated ? 0.4 : 0.6, 0.07, isRotated ? 0.6 : 0.4).setFriction(0.8), palBody);
+    }
+
+    function buildPalettes() {
+      // Palette B (Standard) at X = 7.95, Z = 0
+      createEuroPalette(7.95, 0, 'PALETTE B (STANDARD)', 0xf59e0b, false);
+
+      // Palette A (Express) at X = 1.70, Z = 5.35 (rotated along Z)
+      createEuroPalette(1.70, 5.35, 'PALETTE A (EXPRESS)', 0x38bdf8, true);
+    }
+
+    // =========================================================================
+    // Industrial Palletizing Robot Model & Kinematics
+    // =========================================================================
+    const L1 = 0.95; // Boom length
+    const L2 = 0.90; // Forearm length
+    const Ltool = 0.16; // Tool flange to vacuum cup tip
+
+    function solveIK(xb, yb, zb, tx, ty, tz) {
+      const ys = yb + 0.50; // Shoulder pivot height
+      const dx = tx - xb, dz = tz - zb;
+      const theta1 = Math.atan2(dz, dx);
+      const R = Math.sqrt(dx*dx + dz*dz);
+      const H = (ty + Ltool) - ys;
+      const D = Math.sqrt(R*R + H*H);
+      if (D > L1 + L2 - 0.02) return null;
+
+      const alpha = Math.acos(Math.max(-1, Math.min(1, (L1*L1 + D*D - L2*L2) / (2 * L1 * D))));
+      const gamma = Math.atan2(H, R);
+      const shoulder = gamma + alpha;
+      const beta = Math.acos(Math.max(-1, Math.min(1, (L1*L1 + L2*L2 - D*D) / (2 * L1 * L2))));
+      const elbow = Math.PI - beta;
+      const wrist = -(shoulder - elbow);
+
+      return { theta1, shoulder, elbow, wrist };
+    }
+
+    function createRobotArm(baseX, baseY, baseZ, colorPrimary, colorAccent, name) {
+      const robotGroup = new THREE.Group();
+      robotGroup.position.set(baseX, baseY, baseZ);
+
+      const castDarkMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.35 });
+      const primaryMat = new THREE.MeshStandardMaterial({ color: colorPrimary, metalness: 0.6, roughness: 0.28 });
+      const chromeMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.12 });
+
+      // 1. Base Pedestal (bolted)
+      const basePedGeom = new THREE.CylinderGeometry(0.36, 0.40, 0.18, 6);
+      const basePed = new THREE.Mesh(basePedGeom, castDarkMat);
+      basePed.position.y = 0.09;
+      robotGroup.add(basePed);
+
+      // 2. Turntable Group (J1)
+      const turntableGroup = new THREE.Group();
+      turntableGroup.position.y = 0.18;
+      robotGroup.add(turntableGroup);
+
+      const turnGeom = new THREE.CylinderGeometry(0.30, 0.32, 0.14, 24);
+      const turnMesh = new THREE.Mesh(turnGeom, castDarkMat);
+      turnMesh.position.y = 0.07;
+      turntableGroup.add(turnMesh);
+
+      // J1 Motor Housing
+      const j1Motor = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.22, 0.18), primaryMat);
+      j1Motor.position.set(-0.15, 0.18, 0);
+      turntableGroup.add(j1Motor);
+
+      // 3. Shoulder Fork (at Y = 0.50 above base, so Y = 0.32 relative to turntable)
+      const shoulderGroup = new THREE.Group();
+      shoulderGroup.position.set(0, 0.32, 0);
+      turntableGroup.add(shoulderGroup);
+
+      const forkMesh = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.30, 0.28), primaryMat);
+      shoulderGroup.add(forkMesh);
+
+      // Counterweight rear
+      const cw = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.24), castDarkMat);
+      cw.position.set(-0.24, 0, 0);
+      shoulderGroup.add(cw);
+
+      // 4. Boom Arm (J2)
+      const boomPivot = new THREE.Group();
+      shoulderGroup.add(boomPivot);
+
+      // Boom structure (length L1 = 0.95)
+      const boomGeom = new THREE.BoxGeometry(L1, 0.14, 0.12);
+      const boomMesh = new THREE.Mesh(boomGeom, primaryMat);
+      boomMesh.position.set(L1 / 2, 0, 0);
+      boomPivot.add(boomMesh);
+
+      // Chrome cylinder assist
+      const cylMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.5, 12), chromeMat);
+      cylMesh.rotation.z = Math.PI / 2;
+      cylMesh.position.set(L1 * 0.4, -0.08, 0.08);
+      boomPivot.add(cylMesh);
+
+      // 5. Elbow Joint (J3) at end of boom
+      const elbowPivot = new THREE.Group();
+      elbowPivot.position.set(L1, 0, 0);
+      boomPivot.add(elbowPivot);
+
+      const elbowGeom = new THREE.CylinderGeometry(0.11, 0.11, 0.22, 16);
+      const elbowMesh = new THREE.Mesh(elbowGeom, castDarkMat);
+      elbowMesh.rotation.x = Math.PI / 2;
+      elbowPivot.add(elbowMesh);
+
+      // 6. Forearm (Length L2 = 0.90)
+      const forearmPivot = new THREE.Group();
+      elbowPivot.add(forearmPivot);
+
+      const foreGeom = new THREE.BoxGeometry(L2, 0.11, 0.10);
+      const foreMesh = new THREE.Mesh(foreGeom, primaryMat);
+      foreMesh.position.set(L2 / 2, 0, 0);
+      forearmPivot.add(foreMesh);
+
+      // 7. Wrist Joint (J4/5) at end of forearm
+      const wristPivot = new THREE.Group();
+      wristPivot.position.set(L2, 0, 0);
+      forearmPivot.add(wristPivot);
+
+      const wristMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.12, 16), castDarkMat);
+      wristMesh.rotation.x = Math.PI / 2;
+      wristPivot.add(wristMesh);
+
+      // 8. Vacuum Gripper Head (Spider)
+      const toolHead = new THREE.Group();
+      wristPivot.add(toolHead);
+
+      // Tool stem
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.08, 12), chromeMat);
+      stem.position.y = -0.04;
+      toolHead.add(stem);
+
+      // Aluminum cross frame
+      const crossGeom = new THREE.BoxGeometry(0.36, 0.025, 0.24);
+      const crossMesh = new THREE.Mesh(crossGeom, castDarkMat);
+      crossMesh.position.y = -0.09;
+      toolHead.add(crossMesh);
+
+      // 4 Vacuum Suction Cups
+      const cupMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.6 });
+      const cupGeom = new THREE.CylinderGeometry(0.035, 0.045, 0.05, 12);
+      const cupOffsets = [ [-0.13, -0.08], [0.13, -0.08], [-0.13, 0.08], [0.13, 0.08] ];
+      cupOffsets.forEach(co => {
+        const cup = new THREE.Mesh(cupGeom, cupMat);
+        cup.position.set(co[0], -0.13, co[1]);
+        toolHead.add(cup);
+      });
+
+      // Vacuum Gripper Status LED
+      const ledGeom = new THREE.SphereGeometry(0.03, 16, 16);
+      const ledMat = new THREE.MeshBasicMaterial({ color: colorAccent });
+      const led = new THREE.Mesh(ledGeom, ledMat);
+      led.position.set(0, -0.06, 0.12);
+      toolHead.add(led);
+
+      scene.add(robotGroup);
+
+      return {
+        name,
+        basePos: new THREE.Vector3(baseX, baseY, baseZ),
+        turntableGroup,
+        boomPivot,
+        elbowPivot,
+        wristPivot,
+        toolHead,
+        ledMat,
+        colorAccent,
+        state: 'IDLE',
+        timer: 0,
+        targetPackage: null,
+        palletCount: 0,
+        currentPos: new THREE.Vector3(),
+        targetPos: new THREE.Vector3(),
+        startPos: new THREE.Vector3()
+      };
+    }
+
+    function buildRobots() {
+      // Robot A: Express Line (Cobalt Teal)
+      robotA = createRobotArm(2.75, 0, 4.60, 0x0284c7, 0x38bdf8, 'Robot A');
+
+      // Robot B: Standard Line (KUKA Orange)
+      robotB = createRobotArm(7.20, 0, -1.05, 0xea580c, 0xf59e0b, 'Robot B');
+    }
+
+    // =========================================================================
+    // Package Generator
+    // =========================================================================
+    function createCardboardTexture(label, colorHex) {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 256;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#b78752';
+      ctx.fillRect(0, 0, 256, 256);
+
+      ctx.fillStyle = colorHex;
+      ctx.fillRect(0, 110, 256, 36);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(30, 30, 110, 70);
+
+      ctx.fillStyle = '#111111';
+      for (let i = 40; i < 130; i += 6) {
+        ctx.fillRect(i, 40, (i % 12 === 0 ? 4 : 2), 35);
+      }
+
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText(label, 40, 90);
+
+      return new THREE.CanvasTexture(c);
+    }
+
+    const texExpress = createCardboardTexture('EXPRESS A', '#0284c7');
+    const texStandard = createCardboardTexture('STANDARD B', '#d97706');
+
+    function spawnPackage() {
+      const id = packageIdCounter++;
+      let type;
+      if (sortMode === 'express') type = 'express';
+      else if (sortMode === 'standard') type = 'standard';
+      else type = (Math.random() > 0.5 ? 'express' : 'standard');
+
+      const sx = 0.36;
+      const sy = 0.22;
+      const sz = 0.28;
+
+      const geom = new THREE.BoxGeometry(sx, sy, sz);
+      const mat = new THREE.MeshStandardMaterial({
+        map: (type === 'express' ? texExpress : texStandard),
+        roughness: 0.8,
+        metalness: 0.05
+      });
+
+      const mesh = new THREE.Mesh(geom, mat);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
+      const spawnX = -3.8;
+      const spawnY = 1.35;
+      const spawnZ = (Math.random() - 0.5) * 0.10;
+
+      mesh.position.set(spawnX, spawnY, spawnZ);
+      scene.add(mesh);
+
+      const rbDesc = RAPIER.RigidBodyDesc.dynamic().setTranslation(spawnX, spawnY, spawnZ);
+      const body = world.createRigidBody(rbDesc);
+      const colDesc = RAPIER.ColliderDesc.cuboid(sx/2, sy/2, sz/2)
+        .setDensity(1.5)
+        .setFriction(0.65)
+        .setRestitution(0.05);
+      world.createCollider(colDesc, body);
+
+      packages.push({
+        id: id,
+        type: type,
+        mesh: mesh,
+        body: body,
+        sx: sx,
+        sy: sy,
+        sz: sz,
+        scanned: false,
+        sorted: false,
+        inRobot: false,
+        placed: false
+      });
+
+      countTotal++;
+      document.getElementById('stat-total').textContent = countTotal;
+    }
+
+    window.spawnSinglePackage = () => { spawnPackage(); };
+    window.toggleAutoSpawn = () => {
+      autoSpawn = !autoSpawn;
+      const btn = document.getElementById('btn-auto');
+      const label = document.getElementById('auto-label');
+      if (autoSpawn) {
+        btn.classList.add('active');
+        label.textContent = 'Auto: AN';
+      } else {
+        btn.classList.remove('active');
+        label.textContent = 'Auto: AUS';
+      }
+    };
+
+    window.clearPackages = () => {
+      packages.forEach(p => {
+        scene.remove(p.mesh);
+        world.removeRigidBody(p.body);
+      });
+      packages = [];
+      countTotal = 0;
+      robotA.palletCount = 0;
+      robotB.palletCount = 0;
+      robotA.state = 'IDLE';
+      robotB.state = 'IDLE';
+      robotA.targetPackage = null;
+      robotB.targetPackage = null;
+      document.getElementById('stat-total').textContent = '0';
+      document.getElementById('stat-robot-a').textContent = 'BEREIT · 0/8';
+      document.getElementById('stat-robot-b').textContent = 'BEREIT · 0/8';
+      document.getElementById('scan-body').textContent = 'Warte auf eingehendes Packgut...';
+      document.getElementById('scan-indicator').textContent = 'STANDBY';
+      document.getElementById('scan-indicator').style.color = 'var(--text-muted)';
+    };
+
+    window.setSortMode = (m) => {
+      sortMode = m;
+      document.querySelectorAll('.hud-slider-group button').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`mode-${m}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      document.getElementById('mode-val').textContent = (m === 'express' ? 'Nur Express' : m === 'standard' ? 'Nur Standard' : 'Auto 50/50');
+    };
+
+    window.setCamView = (v) => {
+      if (v === 'iso') {
+        camera.position.set(-6.5, 6.2, 7.5);
+        controls.target.set(2.5, 0.8, 1.5);
+      } else if (v === 'scanner') {
+        camera.position.set(-0.8, 2.2, 2.2);
+        controls.target.set(0.2, 1.1, 0);
+      } else if (v === 'pusher') {
+        camera.position.set(0.5, 2.6, -2.4);
+        controls.target.set(1.7, 1.0, 0.1);
+      } else if (v === 'robotA') {
+        camera.position.set(4.5, 3.2, 6.8);
+        controls.target.set(2.0, 0.8, 4.6);
+      } else if (v === 'robotB') {
+        camera.position.set(8.8, 3.2, -3.2);
+        controls.target.set(7.3, 0.8, -0.2);
+      }
+      controls.update();
+    };
+
+    // Pallet slot positioning (2x2 grid per layer, 4 boxes per layer)
+    function getPalletSlotPosition(isRotated, palletCenterX, palletCenterZ, slotIndex) {
+      const layer = Math.floor(slotIndex / 4);
+      const slotInLayer = slotIndex % 4;
+      const boxH = 0.22;
+      const py = 0.14 + boxH / 2 + layer * boxH;
+
+      let dx = 0, dz = 0;
+      if (!isRotated) {
+        // Aligned along X (Palette B)
+        const ox = (slotInLayer % 2 === 0 ? -0.26 : 0.26);
+        const oz = (slotInLayer < 2 ? -0.18 : 0.18);
+        dx = ox; dz = oz;
+      } else {
+        // Aligned along Z (Palette A)
+        const ox = (slotInLayer < 2 ? -0.18 : 0.18);
+        const oz = (slotInLayer % 2 === 0 ? -0.26 : 0.26);
+        dx = ox; dz = oz;
+      }
+
+      return new THREE.Vector3(palletCenterX + dx, py, palletCenterZ + dz);
+    }
+
+    function applyRobotPose(robot, targetPoint) {
+      const ik = solveIK(robot.basePos.x, robot.basePos.y, robot.basePos.z, targetPoint.x, targetPoint.y, targetPoint.z);
+      if (!ik) return;
+
+      robot.turntableGroup.rotation.y = -ik.theta1;
+      robot.boomPivot.rotation.z = ik.shoulder;
+      robot.elbowPivot.rotation.z = -ik.elbow;
+      robot.wristPivot.rotation.z = ik.wrist;
+    }
+
+    function updateRobot(robot, delta, isLineA) {
+      const statElem = document.getElementById(isLineA ? 'stat-robot-a' : 'stat-robot-b');
+      const pickStationPos = isLineA ? new THREE.Vector3(1.70, 0.92, 3.90) : new THREE.Vector3(6.45, 0.92, 0);
+      const palletCenter = isLineA ? new THREE.Vector3(1.70, 0, 5.35) : new THREE.Vector3(7.95, 0, 0);
+      const isRotated = isLineA;
+
+      const readyHoverPos = pickStationPos.clone().add(new THREE.Vector3(0, 0.45, 0));
+
+      if (robot.state === 'IDLE') {
+        applyRobotPose(robot, readyHoverPos);
+        robot.currentPos.copy(readyHoverPos);
+        robot.ledMat.color.setHex(robot.colorAccent);
+
+        statElem.textContent = `BEREIT · ${robot.palletCount}/8`;
+
+        // Check if package waiting at buffer table
+        const targetType = isLineA ? 'express' : 'standard';
+        const candidate = packages.find(p => {
+          if (p.type !== targetType || p.inRobot || p.placed) return false;
+          const pos = p.mesh.position;
+          if (isLineA) {
+            return (Math.abs(pos.x - 1.7) < 0.25 && pos.z > 3.65 && pos.z < 4.25);
+          } else {
+            return (pos.x > 6.20 && pos.x < 6.80 && Math.abs(pos.z) < 0.25);
+          }
+        });
+
+        if (candidate) {
+          robot.targetPackage = candidate;
+          candidate.inRobot = true;
+          robot.state = 'MOVE_DOWN';
+          robot.timer = 0;
+          robot.startPos.copy(readyHoverPos);
+          const topY = candidate.mesh.position.y + candidate.sy / 2;
+          robot.targetPos.set(candidate.mesh.position.x, topY, candidate.mesh.position.z);
+          statElem.textContent = 'GREIFEN...';
+        }
+      }
+      else if (robot.state === 'MOVE_DOWN') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.45, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        if (progress >= 1.0) {
+          robot.state = 'ENGAGE';
+          robot.timer = 0;
+          robot.ledMat.color.setHex(0x22c55e); // Green suction active
+        }
+      }
+      else if (robot.state === 'ENGAGE') {
+        robot.timer += delta;
+        if (robot.timer >= 0.15) {
+          robot.state = 'LIFT';
+          robot.timer = 0;
+          robot.startPos.copy(robot.currentPos);
+          robot.targetPos.set(robot.currentPos.x, 1.55, robot.currentPos.z);
+          statElem.textContent = 'HEBEN...';
+        }
+      }
+      else if (robot.state === 'LIFT') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.40, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        // Package follows tool head
+        if (robot.targetPackage) {
+          const pkg = robot.targetPackage;
+          pkg.body.setTranslation({ x: robot.currentPos.x, y: robot.currentPos.y - pkg.sy / 2, z: robot.currentPos.z }, true);
+          pkg.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        }
+
+        if (progress >= 1.0) {
+          robot.state = 'SWING';
+          robot.timer = 0;
+          robot.startPos.copy(robot.currentPos);
+          const slotPos = getPalletSlotPosition(isRotated, palletCenter.x, palletCenter.z, robot.palletCount);
+          robot.targetPos.set(slotPos.x, 1.55, slotPos.z);
+          statElem.textContent = 'PALETTIEREN...';
+        }
+      }
+      else if (robot.state === 'SWING') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.70, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        if (robot.targetPackage) {
+          const pkg = robot.targetPackage;
+          pkg.body.setTranslation({ x: robot.currentPos.x, y: robot.currentPos.y - pkg.sy / 2, z: robot.currentPos.z }, true);
+          pkg.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        }
+
+        if (progress >= 1.0) {
+          robot.state = 'LOWER';
+          robot.timer = 0;
+          robot.startPos.copy(robot.currentPos);
+          const slotPos = getPalletSlotPosition(isRotated, palletCenter.x, palletCenter.z, robot.palletCount);
+          robot.targetPos.copy(slotPos);
+          robot.targetPos.y += robot.targetPackage.sy / 2; // tool tip sits on top of box
+        }
+      }
+      else if (robot.state === 'LOWER') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.45, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        if (robot.targetPackage) {
+          const pkg = robot.targetPackage;
+          pkg.body.setTranslation({ x: robot.currentPos.x, y: robot.currentPos.y - pkg.sy / 2, z: robot.currentPos.z }, true);
+          pkg.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        }
+
+        if (progress >= 1.0) {
+          robot.state = 'RELEASE';
+          robot.timer = 0;
+          robot.ledMat.color.setHex(robot.colorAccent);
+
+          if (robot.targetPackage) {
+            const pkg = robot.targetPackage;
+            const slotPos = getPalletSlotPosition(isRotated, palletCenter.x, palletCenter.z, robot.palletCount);
+            pkg.body.setTranslation({ x: slotPos.x, y: slotPos.y, z: slotPos.z }, true);
+            pkg.body.setRotation({ x: 0, y: (isRotated ? Math.SQRT1_2 : 0), z: 0, w: (isRotated ? Math.SQRT1_2 : 1) }, true);
+            pkg.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+            pkg.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+            pkg.placed = true;
+            pkg.inRobot = false;
+            robot.targetPackage = null;
+          }
+
+          robot.palletCount++;
+          const curLayer = Math.floor((robot.palletCount - 1) / 4) + 1;
+          const curSlot = ((robot.palletCount - 1) % 4) + 1;
+          statElem.textContent = `Lage ${curLayer} [${curSlot}/4] · ${robot.palletCount}/8`;
+
+          // If pallet full (8 boxes), auto-dispatch after short delay
+          if (robot.palletCount >= 8) {
+            setTimeout(() => {
+              packages.filter(p => p.placed && p.type === targetType).forEach(p => {
+                scene.remove(p.mesh);
+                world.removeRigidBody(p.body);
+              });
+              packages = packages.filter(p => !(p.placed && p.type === targetType));
+              robot.palletCount = 0;
+              statElem.textContent = `VOLL · ABTRANSPORTIERT`;
+            }, 3000);
+          }
+        }
+      }
+      else if (robot.state === 'RELEASE') {
+        robot.timer += delta;
+        if (robot.timer >= 0.15) {
+          robot.state = 'RETRACT';
+          robot.timer = 0;
+          robot.startPos.copy(robot.currentPos);
+          robot.targetPos.set(robot.currentPos.x, 1.55, robot.currentPos.z);
+        }
+      }
+      else if (robot.state === 'RETRACT') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.35, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        if (progress >= 1.0) {
+          robot.state = 'RETURN';
+          robot.timer = 0;
+          robot.startPos.copy(robot.currentPos);
+          robot.targetPos.copy(readyHoverPos);
+        }
+      }
+      else if (robot.state === 'RETURN') {
+        robot.timer += delta;
+        const progress = Math.min(robot.timer / 0.65, 1.0);
+        const ease = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        robot.currentPos.lerpVectors(robot.startPos, robot.targetPos, ease);
+        applyRobotPose(robot, robot.currentPos);
+
+        if (progress >= 1.0) {
+          robot.state = 'IDLE';
+          statElem.textContent = `BEREIT · ${robot.palletCount}/8`;
+        }
+      }
+    }
+
+    // =========================================================================
+    // Simulation Tick Loop
+    // =========================================================================
+    let lastTime = 0;
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      const delta = Math.min((now - lastTime) / 1000.0, 0.05);
+      lastTime = now;
+
+      world.step();
+
+      if (autoSpawn) {
+        spawnTimer += delta;
+        if (spawnTimer >= spawnInterval) {
+          spawnTimer = 0;
+          spawnPackage();
+        }
+      }
+
+      // Belt transport & package sync
+      packages.forEach(p => {
+        if (!p.inRobot) {
+          const t = p.body.translation();
+          const r = p.body.rotation();
+
+          p.mesh.position.set(t.x, t.y, t.z);
+          p.mesh.quaternion.set(r.x, r.y, r.z, r.w);
+
+          // Apply belt velocity if on a conveyor
+          belts.forEach(b => {
+            if (t.x >= b.xMin && t.x <= b.xMax && t.z >= b.zMin && t.z <= b.zMax && t.y >= b.topY - 0.05 && t.y <= b.topY + 0.45) {
+              const currentVel = p.body.linvel();
+              p.body.setLinvel({
+                x: (b.dirX !== 0 ? b.dirX * conveyorSpeed : currentVel.x * 0.94),
+                y: currentVel.y,
+                z: (b.dirZ !== 0 ? b.dirZ * conveyorSpeed : currentVel.z * 0.94)
+              }, true);
+            }
+          });
+
+          // Barcode scanner trigger at x ≈ 0.2
+          if (!p.scanned && t.x >= 0.05 && t.x <= 0.40) {
+            p.scanned = true;
+            scannerLightMesh.material.color.setHex(p.type === 'express' ? 0x38bdf8 : 0xf59e0b);
+            setTimeout(() => { scannerLightMesh.material.color.setHex(0x34d399); }, 400);
+
+            document.getElementById('scan-indicator').textContent = (p.type === 'express' ? 'EXPRESS [ROUTE A]' : 'STANDARD [ROUTE B]');
+            document.getElementById('scan-indicator').style.color = (p.type === 'express' ? 'var(--accent-cyan)' : '#f59e0b');
+            document.getElementById('scan-body').innerHTML = `
+              <strong>ID #${p.id}</strong> · Barcode erfasst<br/>
+              Ziel: <span style="color:${p.type === 'express' ? 'var(--accent-cyan)' : '#f59e0b'}; font-weight:700;">${p.type === 'express' ? 'Roboter A (Express 90°)' : 'Roboter B (Standard)'}</span>
+            `;
+          }
+
+          // Pusher trigger when Express package reaches junction (x ≈ 1.55 .. 1.85)
+          if (p.type === 'express' && p.scanned && !p.sorted && t.x >= 1.45 && t.x <= 1.85 && t.z <= 0.10) {
+            if (pusherState === 'idle') {
+              pusherState = 'extending';
+              document.getElementById('stat-pusher').textContent = 'AUSSTOSS';
+              document.getElementById('stat-pusher').style.color = 'var(--accent-cyan)';
+            }
+          }
+        } else {
+          // Sync mesh while robot holds package
+          const t = p.body.translation();
+          p.mesh.position.set(t.x, t.y, t.z);
+        }
+      });
+
+      // Update PLA-100 Linear Pusher Actuator
+      if (pusherState === 'extending') {
+        pusherCurrentZ += pusherSpeed * delta;
+        if (pusherCurrentZ >= pusherMaxZ) {
+          pusherCurrentZ = pusherMaxZ;
+          pusherState = 'retracting';
+        }
+      } else if (pusherState === 'retracting') {
+        pusherCurrentZ -= (pusherSpeed * 0.7) * delta;
+        if (pusherCurrentZ <= pusherMinZ) {
+          pusherCurrentZ = pusherMinZ;
+          pusherState = 'idle';
+          document.getElementById('stat-pusher').textContent = 'BEREIT';
+          document.getElementById('stat-pusher').style.color = 'var(--accent-emerald)';
+        }
+      }
+
+      if (pusherMesh && pusherBody) {
+        pusherMesh.position.z = pusherCurrentZ;
+        pusherBody.setNextKinematicTranslation({ x: 1.7, y: 0.95, z: pusherCurrentZ });
+      }
+
+      // Update Robots
+      if (robotA) updateRobot(robotA, delta, true);
+      if (robotB) updateRobot(robotB, delta, false);
+
+      // Cleanup fallen packages
+      packages = packages.filter(p => {
+        if (p.body.translation().y < -2.0) {
+          scene.remove(p.mesh);
+          world.removeRigidBody(p.body);
+          return false;
+        }
+        return true;
+      });
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
