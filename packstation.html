@@ -721,25 +721,28 @@
       tableMesh.castShadow = true;
       scene.add(tableMesh);
 
-      const isZ = sizeZ > sizeX;
+      const isZ = stopAxis === 'z';
       const numRollers = 5;
       const rollerMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.2 });
+      const rollerLen = (isZ ? sizeX : sizeZ) - 0.06;
+      const rollerGeom = new THREE.CylinderGeometry(0.015, 0.015, rollerLen, 10);
+      if (isZ) {
+        rollerGeom.rotateZ(Math.PI / 2);
+      } else {
+        rollerGeom.rotateX(Math.PI / 2);
+      }
       for (let i = 0; i < numRollers; i++) {
+        const rMesh = new THREE.Mesh(rollerGeom, rollerMat);
         if (!isZ) {
           const rx = xCenter - sizeX / 2 + (sizeX / (numRollers + 1)) * (i + 1);
-          const rMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, sizeZ - 0.04, 12), rollerMat);
-          rMesh.rotation.x = Math.PI / 2;
-          rMesh.position.set(rx, height + 0.025, zCenter);
-          scene.add(rMesh);
+          rMesh.position.set(rx, height + 0.024, zCenter);
           bufferRollers.push({ mesh: rMesh, axis: 'z' });
         } else {
           const rz = zCenter - sizeZ / 2 + (sizeZ / (numRollers + 1)) * (i + 1);
-          const rMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, sizeX - 0.04, 12), rollerMat);
-          rMesh.rotation.z = Math.PI / 2;
-          rMesh.position.set(xCenter, height + 0.025, rz);
-          scene.add(rMesh);
+          rMesh.position.set(xCenter, height + 0.024, rz);
           bufferRollers.push({ mesh: rMesh, axis: 'x' });
         }
+        scene.add(rMesh);
       }
 
       // End Stop Bar + Low-Friction Side Containment Rails
@@ -1621,10 +1624,10 @@
       if (!isPaused) {
         world.step();
 
-        // Animate belt textures & buffer rollers
+        // Animate belt textures & buffer rollers cleanly along each belt's travel vector
         beltTextures.forEach(bt => {
           if (!bt.isZ) bt.tex.offset.x -= conveyorSpeed * delta * 2;
-          else bt.tex.offset.y -= conveyorSpeed * delta * 2;
+          else bt.tex.offset.y += conveyorSpeed * delta * 2;
         });
         bufferRollers.forEach(r => {
           const rot = conveyorSpeed * delta * 18;
