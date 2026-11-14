@@ -413,13 +413,6 @@ body {
   position: relative;
 }
 
-.abacus-embed-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
 @media (max-width: 768px) {
   .embed-frame-wrapper {
     height: 720px;
@@ -577,84 +570,6 @@ body {
   justify-content: center;
 }
 
-/* Lever Visual */
-.lever-vis .vis-beam {
-  width: 70%;
-  height: 6px;
-  background: #38bdf8;
-  border-radius: 3px;
-  transform: rotate(-7deg);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-}
-.lever-vis .vis-fulcrum {
-  position: absolute;
-  bottom: 60px;
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 22px solid #94a3b8;
-}
-.lever-vis .vis-force-l, .lever-vis .vis-force-r {
-  position: absolute;
-  width: 2px;
-  height: 35px;
-  background: #34d399;
-}
-.lever-vis .vis-force-l { left: 25%; top: 40px; }
-.lever-vis .vis-force-r { right: 25%; top: 60px; }
-
-/* Pyramid Visual */
-.pyramid-vis {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-}
-.pyramid-vis .brick {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--accent-cyan);
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  border-radius: 3px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 24px;
-  margin: 0 2px;
-}
-
-/* Carousel Visual */
-.carousel-vis .axis {
-  width: 4px;
-  height: 80px;
-  background: #64748b;
-  position: absolute;
-}
-.carousel-vis .arm {
-  position: absolute;
-  top: 60px;
-  width: 50px;
-  height: 2px;
-  background: #38bdf8;
-}
-.carousel-vis .arm-left { left: calc(50% - 50px); transform: rotate(20deg); transform-origin: right; }
-.carousel-vis .arm-right { left: 50%; transform: rotate(-20deg); transform-origin: left; }
-.carousel-vis .gondola {
-  position: absolute;
-  top: 85px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #2dd4bf;
-  box-shadow: 0 0 8px rgba(45, 212, 191, 0.6);
-}
-.carousel-vis .g-left { left: calc(50% - 62px); }
-.carousel-vis .g-right { right: calc(50% - 62px); }
-
 /* Shock Wave Visual */
 .shock-vis {
   display: flex;
@@ -670,49 +585,6 @@ body {
 .shock-vis .cb2 { width: 26px; height: 26px; }
 .shock-vis .cb3 { width: 18px; height: 18px; }
 .shock-vis .cb4 { width: 12px; height: 12px; }
-
-/* Abacus Visual */
-.abacus-vis .abacus-frame {
-  width: 140px;
-  height: 90px;
-  border: 4px solid #b8860b;
-  border-radius: 6px;
-  position: relative;
-  background: #1a0e0a;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-.abacus-vis .abacus-beam {
-  position: absolute;
-  top: 30px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: #4a2818;
-  border-top: 1px solid #b8860b;
-  border-bottom: 1px solid #b8860b;
-}
-.abacus-vis .abacus-rod {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #a89f91;
-}
-.abacus-vis .r1 { left: 30px; }
-.abacus-vis .r2 { left: 69px; }
-.abacus-vis .r3 { left: 108px; }
-.abacus-vis .abacus-bead {
-  position: absolute;
-  width: 20px;
-  height: 10px;
-  border-radius: 3px;
-  background: linear-gradient(135deg, #e07a5f, #b84224);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-}
-.abacus-vis .u1 { left: 21px; top: 18px; }
-.abacus-vis .u2 { left: 60px; top: 4px; }
-.abacus-vis .d1 { left: 21px; top: 38px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
-.abacus-vis .d2 { left: 99px; top: 68px; background: linear-gradient(135deg, #e6ccb2, #b08968); }
 
 /* Cycloid / Wankel Visual */
 .cycloid-vis {
@@ -820,101 +692,6 @@ body {
   100% { transform: translateX(40px); }
 }
 
-
-/* SpeedCAD Visual */
-.speedcad-vis {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at 50% 50%, #201124 0%, #0d0a14 100%);
-}
-.speedcad-vis .vis-speedcad-grid {
-  position: absolute;
-  inset: 16px;
-  background-image: linear-gradient(to right, rgba(245, 159, 0, 0.1) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(0, 210, 211, 0.1) 1px, transparent 1px);
-  background-size: 16px 16px;
-  border-radius: 6px;
-  border: 1px dashed rgba(245, 159, 0, 0.3);
-}
-.speedcad-vis .vis-speedcad-bolt {
-  font-size: 2.4rem;
-  z-index: 2;
-  filter: drop-shadow(0 0 16px rgba(245, 159, 0, 0.7));
-  animation: pulseBolt 1.2s ease-in-out infinite alternate;
-}
-.speedcad-vis .vis-speedcad-timer {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #00d2d3;
-  z-index: 2;
-  margin-top: 4px;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 210, 211, 0.4);
-}
-@keyframes pulseBolt {
-  from { transform: scale(0.95); }
-  to { transform: scale(1.15); filter: drop-shadow(0 0 24px rgba(0, 210, 211, 0.9)); }
-}
-
-/* Google, Page Two Visual */
-.pagetwo-vis {
-  flex-direction: column;
-  gap: 12px;
-  background: radial-gradient(circle at 50% 40%, #24121d 0%, #0a070c 100%);
-}
-.pagetwo-vis .vis-pt-search {
-  width: 60%;
-  padding: 4px 10px;
-  border: 1.5px solid rgba(240, 106, 162, 0.55);
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: #f06aa2;
-}
-.pagetwo-vis .vis-pt-results {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.pagetwo-vis .vis-pt-line {
-  height: 5px;
-  border-radius: 3px;
-  background: rgba(148, 163, 184, 0.25);
-}
-.pagetwo-vis .vis-pt-line:nth-child(2) { width: 78%; }
-.pagetwo-vis .vis-pt-line:nth-child(3) { width: 88%; }
-.pagetwo-vis .vis-pt-pages {
-  display: flex;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-.pagetwo-vis .vis-pt-pages span {
-  width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-}
-.pagetwo-vis .vis-pt-pages .on {
-  background: #f06aa2;
-  color: #1b0b13;
-  font-weight: 700;
-  box-shadow: 0 0 14px rgba(240, 106, 162, 0.55);
-  transition: transform 0.3s ease;
-}
-.project-card:hover .pagetwo-vis .vis-pt-pages .on {
-  transform: scale(1.25);
-}
 
 /* Hörbuch-Generator Visual */
 .hoerbuch-vis {

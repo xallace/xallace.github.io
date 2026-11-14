@@ -23,16 +23,9 @@ Portfolio of Walter Lehn, Technischer Produktdesigner (IHK): interactive physics
 * **[gps-grundlagen](https://xallace.github.io/gps-grundlagen/)** — *GPS-Grundlagen*: the 14 geometric tolerance types of DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, a feature-control-frame checker, the 13 principles of DIN EN ISO 8015 with an envelope-requirement (Ⓔ) calculator, and exercises.
 * **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling & cross-section inspection studio with STL/OBJ export.
 * **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — Wankel rotary engine, robotics cycloidal reducers & roulette curves with 1-click AutoCAD DXF/SVG export.
-* **[carousel-simulation](https://xallace.github.io/carousel-simulation/)** — 3D Three.js centripetal physics & cable tension modeling.
 * **[metamaterial-shock-lab](https://xallace.github.io/metamaterial-shock-lab/)** — *Granular Metamaterial Shock Lab*: impact on Hertzian sphere chains in SI units (solitary wave, tapered, stepped and diatomic chains, Newton's cradle), checked against the Hertz solution and Nesterenko's wave speed.
-* **[lever-simulation](https://xallace.github.io/lever-simulation/)** — Archimedean lever principle & torque dynamics ($\alpha = \tau / I$).
-* **[abacus](https://xallace.github.io/abacus/)** — Interactive bi-quinary Soroban, Suanpan, Schoty & Roman hand-abacus laboratory.
-* **[number-pyramid](https://xallace.github.io/number-pyramid/)** — Pascal combinatorics lab & constraint-based arithmetic solver.
 * **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
-* **[speed-cad](https://xallace.github.io/speed-cad/)** — *SpeedCAD: Blueprint Blitz* 3D CAD speedrunner game with LiveSplits & Web Audio.
 * **[hoerbuch-generator](https://github.com/xallace/hoerbuch-generator)** — 6-stage CLI & Web Studio (`web.py`) pipeline generating CEFR-graded (`A1`–`B2`) language-learning audiobooks (`.mp3`), Anki decks (`.apkg`), and study guides from YouTube videos, URLs, or text.
-* **[lingua-ai](https://xallace.github.io/languages.html)** — Sentence-synchronized bilingual reader (DE ↔ UA) & LLM story generator.
-* **[google-page-two](https://xallace.github.io/google-page-two/)** — Searchable guide to 26 underrated Google tools & search operators.
 * **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
 
 ---
