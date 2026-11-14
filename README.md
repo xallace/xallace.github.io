@@ -30,7 +30,6 @@ Portfolio of Walter Lehn, Technischer Produktdesigner (IHK): interactive physics
 * **[number-pyramid](https://xallace.github.io/number-pyramid/)** — Pascal combinatorics lab & constraint-based arithmetic solver.
 * **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
 * **[speed-cad](https://xallace.github.io/speed-cad/)** — *SpeedCAD: Blueprint Blitz* 3D CAD speedrunner game with LiveSplits & Web Audio.
-* **[cosmic-card-studio](https://xallace.github.io/cosmic-card-studio/)** — 3D parallax card studio with holographic foil shaders.
 * **[hoerbuch-generator](https://github.com/xallace/hoerbuch-generator)** — 6-stage CLI & Web Studio (`web.py`) pipeline generating CEFR-graded (`A1`–`B2`) language-learning audiobooks (`.mp3`), Anki decks (`.apkg`), and study guides from YouTube videos, URLs, or text.
 * **[lingua-ai](https://xallace.github.io/languages.html)** — Sentence-synchronized bilingual reader (DE ↔ UA) & LLM story generator.
 * **[google-page-two](https://xallace.github.io/google-page-two/)** — Searchable guide to 26 underrated Google tools & search operators.
