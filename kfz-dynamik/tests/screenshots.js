@@ -1,8 +1,8 @@
-// Screenshots aller Reiter im Headless-Edge über CDP, sammelt Konsolenfehler und prüft horizontalen Überlauf.
-// Aufruf (App vorher in einen Pfad ohne Leerzeichen kopieren, z. B. den Scratchpad):
-//   node tests/screenshots.js file:///C:/pfad/kfz/index.html <ausgabeordner> 1400 reifen fahrleistung bremsung schwingung fahrverhalten pruefung
-// OPEN_DETAILS=1 klappt die Formeln auf, EXTRA="<js>" läuft nach jedem Reiterwechsel.
-// Das Testprofil liegt unter %TEMP%\edge-shot-<port> und wird nicht automatisch gelöscht.
+// Screenshots all tabs in Headless Edge via CDP, collects console errors, and checks horizontal overflow.
+// Usage (copy the app to a path without spaces first, e.g. scratch directory):
+//   node tests/screenshots.js file:///C:/path/kfz/index.html <outDir> 1400 reifen fahrleistung bremsung schwingung fahrverhalten pruefung
+// OPEN_DETAILS=1 expands formulas; EXTRA="<js>" runs after each tab switch.
+// The test profile resides in %TEMP%\edge-shot-<port> and is not automatically deleted.
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 const [, , url, outDir, widthArg, ...tabs] = process.argv;
@@ -20,7 +20,7 @@ async function getJSON(p) {
   for (let i = 0; i < 80; i++) {
     try { const r = await fetch(`http://127.0.0.1:${port}${p}`); return await r.json(); } catch (e) { await sleep(150); }
   }
-  throw new Error('CDP nicht erreichbar');
+  throw new Error('CDP unreachable');
 }
 
 function connect(wsUrl) {
@@ -69,12 +69,12 @@ function connect(wsUrl) {
     await c.send('Emulation.setDeviceMetricsOverride', { width, height: H, deviceScaleFactor: 1, mobile: false });
     await sleep(1200);
     const sw = await c.send('Runtime.evaluate', { expression: 'document.documentElement.scrollWidth + "/" + document.documentElement.clientWidth', returnByValue: true });
-    logs.push(`[${name}] scrollWidth/clientWidth = ${sw.result.result.value}, Höhe ${H}`);
+    logs.push(`[${name}] scrollWidth/clientWidth = ${sw.result.result.value}, height ${H}`);
     const shot = await c.send('Page.captureScreenshot', { format: 'png' });
     fs.writeFileSync(path.join(outDir, `${name}-${width}.png`), Buffer.from(shot.result.data, 'base64'));
     await c.send('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: false });
   }
-  console.log(logs.join('\n') || '(keine Konsolenmeldungen)');
+  console.log(logs.join('\n') || '(no console messages)');
   c.close();
   const b = await connect(ver.webSocketDebuggerUrl);
   await b.send('Browser.close').catch(() => {});

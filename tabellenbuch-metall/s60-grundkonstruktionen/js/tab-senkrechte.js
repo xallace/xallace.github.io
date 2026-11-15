@@ -1,10 +1,10 @@
-/* Reiter 4: Errichten einer Senkrechten im Punkt P (Tabellenbuch Metall S. 60, 4. Zeile)
-   Gegeben: Gerade g und Punkt P
-   1. Kreisbogen 1 um P mit beliebigem Radius r ergibt Schnittpunkt A.
-   2. Kreisbogen 2 mit gleichem Radius r um Punkt A ergibt Schnittpunkt B.
-   3. Kreisbogen 3 mit gleichem Radius r um B.
-   4. A und B verbinden und Gerade verlängern (Schnittpunkt C).
-   5. Punkt C mit Punkt P verbinden. */
+/* Tab 4: Erecting a perpendicular at point P (Tabellenbuch Metall p. 60, row 4)
+   Given: line g and point P
+   1. Arc 1 around P with arbitrary radius r yields intersection A.
+   2. Arc 2 of the same radius r around point A yields intersection B.
+   3. Arc 3 of the same radius r around B.
+   4. Connect A and B and extend the line (intersection C).
+   5. Connect point C to point P. */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -13,11 +13,11 @@
 
   const W = 640, H = 460, SCALE = 4; // 4 px = 1 mm
   const STEPS = [
-    [1, 'Kreisbogen 1 um P', 'Kreisbogen 1 um P mit beliebigem Radius <i>r</i> schlagen; ergibt Schnittpunkt A auf der Geraden g.'],
-    [2, 'Kreisbogen 2 um A', 'Kreisbogen 2 mit gleichem Radius <i>r</i> um Punkt A schlagen; ergibt Schnittpunkt B auf Bogen 1 (60°).'],
-    [3, 'Kreisbogen 3 um B', 'Kreisbogen 3 mit gleichem Radius <i>r</i> um B nach oben schlagen.'],
-    [4, 'Gerade AB verlängern', 'A und B verbinden und Gerade 4 über B hinaus verlängern (Schnittpunkt C auf Kreisbogen 3).'],
-    [5, 'Senkrechte PC ziehen', 'Punkt C mit Punkt P verbinden – die Gerade 5 steht im Punkt P senkrecht (90°) auf g.']
+    [1, 'Arc 1 around P', 'Strike arc 1 centered at P with any compass radius <i>r</i>; yields intersection A on line g.'],
+    [2, 'Arc 2 around A', 'Strike arc 2 of the same radius <i>r</i> centered at A; yields intersection B on arc 1 (60°).'],
+    [3, 'Arc 3 around B', 'Strike arc 3 of the same radius <i>r</i> centered upward from B.'],
+    [4, 'Extend line AB', 'Connect A and B and extend line 4 past B (intersection C on arc 3).'],
+    [5, 'Draw perpendicular PC', 'Connect point C to point P — line 5 is perpendicular (90°) to g at point P.']
   ];
 
   const BOOK_STATE = () => ({
@@ -43,12 +43,12 @@
     el(svg, 'rect', { x: 0, y: 0, width: W, height: H, class: 'bg-plain' });
 
     const rPx = st.rMm * SCALE;
-    // up = -1 weil in SVG die y-Achse nach unten zeigt (Senkrechte zeigt nach oben)
+    // up = -1 because SVG y-axis points downward (perpendicular points upward)
     const res = Core.constructErectPerp(st.P, 0, rPx, st.side, -1);
     const { P, A, B, C } = res;
     const isLeft = st.side === 'left';
 
-    // Optional: Thaleskreis um B (geht durch A, P und C) & gleichseitiges Dreieck PAB
+    // Optional: Thales circle around B (passes through A, P and C) & equilateral triangle PAB
     if (st.showThales && st.step >= 2) {
       el(svg, 'polygon', {
         points: `${P.x.toFixed(1)},${P.y.toFixed(1)} ${A.x.toFixed(1)},${A.y.toFixed(1)} ${B.x.toFixed(1)},${B.y.toFixed(1)}`,
@@ -68,7 +68,7 @@
       }
     }
 
-    // Gegebene Gerade g (endet wie im Buch knapp neben P)
+    // Given line g (ends close to P as in the handbook)
     const gStart = isLeft ? pt(95, P.y) : pt(P.x - 16, P.y);
     const gEnd = isLeft ? pt(P.x + 16, P.y) : pt(545, P.y);
     el(svg, 'line', {
@@ -80,7 +80,7 @@
       'text-anchor': isLeft ? 'end' : 'start', 'font-size': 16
     });
 
-    // Schritt 1: Kreisbogen 1 um P mit Radius r ergibt Schnittpunkt A auf g
+    // Step 1: Arc 1 around P of radius r gives intersection A on g
     if (st.step >= 1) {
       const cls1 = 'arc-line' + (hl === 1 ? ' hl' : '');
       if (isLeft) SVG.compassArc(svg, P, rPx, -180, -35, { cls: cls1 });
@@ -95,7 +95,7 @@
       SVG.text(svg, A.x, A.y + 24, 'A', { 'text-anchor': 'middle', 'font-size': 15.5, class: hl === 1 ? 'hl-text' : '' });
     }
 
-    // Schritt 2: Kreisbogen 2 mit gleichem Radius r um A ergibt Schnittpunkt B
+    // Step 2: Arc 2 of same radius r around A gives intersection B
     if (st.step >= 2) {
       const cls2 = 'arc-line' + (hl === 2 ? ' hl' : '');
       if (isLeft) SVG.compassArc(svg, A, rPx, -142, 0, { cls: cls2 });
@@ -113,7 +113,7 @@
       });
     }
 
-    // Schritt 3: Kreisbogen 3 mit gleichem Radius r um B
+    // Step 3: Arc 3 of same radius r around B
     if (st.step >= 3) {
       const cls3 = 'arc-line' + (hl === 3 ? ' hl' : '');
       const angBC = SVG.screenAngle(B, C);
@@ -126,7 +126,7 @@
       SVG.stepNum(svg, pNum3.x, pNum3.y + 4, 3, { hl: hl === 3 });
     }
 
-    // Schritt 4: A und B verbinden und Gerade über B hinaus bis C verlängern
+    // Step 4: Connect A and B and extend line past B to C
     if (st.step >= 4) {
       const uAB = unit(sub(C, A));
       const cExt = add(C, scale(uAB, 20));
@@ -144,7 +144,7 @@
       });
     }
 
-    // Schritt 5: Punkt C mit Punkt P verbinden (Senkrechte)
+    // Step 5: Connect point C to point P (perpendicular)
     if (st.step >= 5) {
       const uPC = unit(sub(C, P));
       const cTop = add(C, scale(uPC, 20));
@@ -157,7 +157,7 @@
       SVG.stepNum(svg, P.x + (isLeft ? 15 : -15), (P.y + C.y) / 2 - 12, 5, { hl: hl === 5 });
     }
 
-    // Ziehpunkte P und A
+    // Draggable points P and A
     SVG.point(svg, P, { drag: 'P', label: 'P', dx: isLeft ? 15 : -15, dy: 5 });
     if (st.step >= 1) {
       el(svg, 'circle', { cx: A.x.toFixed(1), cy: A.y.toFixed(1), r: 14, class: 'pt-hit', 'data-drag': 'A' });
@@ -173,13 +173,13 @@
     $('sen-r-out').textContent = `${fmt(rMm, 0)} mm`;
     $('sen-result').innerHTML = `∠APC = ${fmt(res.perpAngleDeg, 1)}° &nbsp;·&nbsp; <span class="overline">PC</span> = ${fmt(pcMm, 1)} mm`;
     $('sen-details').innerHTML = [
-      ['Zirkelradius <i>r</i> (unverändert in 1–3)', `${fmt(rMm, 0)} mm`],
-      ['Dreieck <i>PAB</i> (<span class="overline">PA</span> = <span class="overline">AB</span> = <span class="overline">BP</span>)', `gleichseitig (60°)`],
-      ['Thales-Durchmesser <span class="overline">AC</span> = 2 · <i>r</i>', `${fmt(2 * rMm, 0)} mm`],
-      ['Senkrechte <span class="overline">PC</span> = <i>r</i> · √3', `${fmt(pcMm, 2)} mm`],
-      ['Winkel ∠APC (Satz des Thales)', `${fmt(res.perpAngleDeg, 1)}°`]
+      ['Compass radius <i>r</i> (constant in 1–3)', `${fmt(rMm, 0)} mm`],
+      ['Triangle <i>PAB</i> (<span class="overline">PA</span> = <span class="overline">AB</span> = <span class="overline">BP</span>)', `equilateral (60°)`],
+      ['Thales diameter <span class="overline">AC</span> = 2 · <i>r</i>', `${fmt(2 * rMm, 0)} mm`],
+      ['Perpendicular <span class="overline">PC</span> = <i>r</i> · √3', `${fmt(pcMm, 2)} mm`],
+      ['Angle ∠APC (Thales\' theorem)', `${fmt(res.perpAngleDeg, 1)}°`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
-    $('sen-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('sen-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   svg.addEventListener('pointerdown', e => {
@@ -215,8 +215,8 @@
     const truth = kind === 'ac' ? 2 * rMm : +(rMm * Math.sqrt(3)).toFixed(1);
     st.quiz = { rMm, kind, truth, answered: false };
     $('sen-task').innerHTML = kind === 'ac'
-      ? `Beim Errichten der Senkrechten im Punkt P werden alle drei Kreisbögen mit dem Zirkelradius <i>r</i> = <b>${rMm} mm</b> geschlagen. Wie lang ist die Verbindungsstrecke <span class="overline">AC</span> (von A über B bis C)?`
-      : `Gegeben ist der Zirkelradius <i>r</i> = <b>${rMm} mm</b>. Berechne die Höhe <span class="overline">PC</span> = <i>r</i> · √3 des Schnittpunktes C über P (auf 1 Nachkommastelle).`;
+      ? `When erecting a perpendicular at point P, all three arcs are struck with compass radius <i>r</i> = <b>${rMm} mm</b>. What is the length of connecting segment <span class="overline">AC</span> (from A through B to C)?`
+      : `Given compass radius <i>r</i> = <b>${rMm} mm</b>. Calculate the height <span class="overline">PC</span> = <i>r</i> · √3 of intersection C above P (to 1 decimal place).`;
     $('sen-ans-unit').textContent = 'mm';
     $('sen-ans').value = '';
     $('sen-ans-row').hidden = false;
@@ -226,15 +226,15 @@
   function checkQuiz() {
     if (!st.quiz || st.quiz.answered) return;
     const v = Core.parseNum($('sen-ans').value);
-    if (!isFinite(v)) { feedback('sen-feedback', 'Bitte eine Zahl in mm eingeben.', false); return; }
+    if (!isFinite(v)) { feedback('sen-feedback', 'Please enter a number in mm.', false); return; }
     const ok = Math.abs(v - st.quiz.truth) <= 0.35;
     st.quiz.answered = true;
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('sen-feedback', ok
-      ? `Richtig: ${fmt(st.quiz.truth, 1)} mm!`
-      : `Erwartet: ${fmt(st.quiz.truth, 1)} mm (${st.quiz.kind === 'ac' ? 'AC = 2 · r' : 'PC = r · √3'}).`, ok);
-    $('sen-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct: ${fmt(st.quiz.truth, 1)} mm!`
+      : `Expected: ${fmt(st.quiz.truth, 1)} mm (${st.quiz.kind === 'ac' ? 'AC = 2 · r' : 'PC = r · √3'}).`, ok);
+    $('sen-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('sen-quiz').addEventListener('click', newQuiz);

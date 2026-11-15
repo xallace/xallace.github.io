@@ -1,10 +1,10 @@
-/* Tabellenbuch Metall S. 62 · 3.2 Geometrische Grundkonstruktionen
-   (Inkreis und Umkreis beim Dreieck, Kreismittelpunkt, Ellipse, Spirale) –
-   Design wie S. 58, S. 59, S. 60 & S. 61: Blueprint-Dunkelmodus als Standard, helles Königsblau-Design umschaltbar */
+/* Tabellenbuch Metall p. 62 · 3.2 Basic Geometric Constructions
+   (Incircle and Circumcircle of a Triangle, Circle Center, Ellipse, Spiral) –
+   Design matching p. 58, p. 59, p. 60 & p. 61: Blueprint dark mode as default, toggleable light royal-blue theme */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
-  --accent: #c8102e;          /* Rote Konstruktions-Schrittnummern 1..6 wie im Buch */
+  --accent: #c8102e;          /* Red construction step numbers 1..6 as in handbook */
   --accent-blue: #0066b3;
   --accent-green: #15803d;
   --accent-amber: #d97706;
@@ -22,9 +22,9 @@
   --ink: #111827;
   --arc-stroke: #334155;
   --grid: #cbd5e1;
-  --dia-plain: #eef0f3;       /* Grauer Konstruktionshintergrund wie im Buch */
+  --dia-plain: #eef0f3;       /* Gray construction canvas background as in handbook */
   --hl: #f59e0b;
-  --given-bg: #fef9c3;        /* Gelber Kopfbalken wie im Tabellenbuch rechts */
+  --given-bg: #fef9c3;        /* Yellow header box as on right side of handbook */
   --given-border: #eab308;
   --pt-fill: #ffffff;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
@@ -67,7 +67,7 @@ body.theme-blueprint {
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* Kopfzeile im Stil des Tabellenbuchs mit Seitenzahl 62 und Fachbuchstabe K */
+/* Header styled after the handbook with page number 62 and subject letter K */
 .tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
 body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
 .tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -100,10 +100,10 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .card h3 .score { margin-left: auto; }
 .side .card h3 { font-size: 0.9rem; }
 
-/* Gelber Buch-Kopfkasten „Gegeben: ...“ */
+/* Yellow handbook header box "Given: ..." */
 .given-box { background: var(--given-bg); border-left: 4px solid var(--given-border); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin-bottom: 10px; }
 
-/* Zeilen mit Bedienelementen */
+/* Control rows */
 .ctl-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; font-size: 0.86rem; }
 .ctl-row > span:first-child { font-weight: 600; color: var(--muted); }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
@@ -128,11 +128,11 @@ body.theme-blueprint .seg button.on { background: #0284c7; }
 .chk { display: inline-flex; align-items: center; gap: 5px; font-size: 0.84rem; color: var(--muted); cursor: pointer; user-select: none; }
 .chk input { accent-color: var(--primary); }
 
-/* SVG-Zeichenfläche */
+/* SVG drawing canvas */
 svg.dia { width: 100%; height: auto; display: block; border: 1px solid var(--border); border-radius: 6px; background: var(--dia-plain); user-select: none; touch-action: none; }
 .note { font-size: 0.78rem; color: var(--muted); margin: 8px 0 0; line-height: 1.4; }
 
-/* Buch-Schrittliste rechts */
+/* Handbook step list on right */
 ul.rules { margin: 0; padding-left: 0; list-style: none; font-size: 0.85rem; }
 ul.rules li { display: flex; gap: 8px; padding: 6px 4px; border-bottom: 1px solid var(--border-subtle); border-radius: 4px; transition: background 0.15s ease; }
 ul.rules li:last-child { border-bottom: 0; }
@@ -142,7 +142,7 @@ ul.rules li.hover-able:hover, ul.rules li.active { background: var(--primary-lig
 ul.rules li.step-pending { opacity: 0.55; }
 ul.rules li.step-done .step-badge { background: var(--accent); }
 
-/* Tabellarische Auswertungen (Kennwerte) */
+/* Tabular evaluations (characteristic values) */
 .kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 0.82rem; margin-top: 6px; }
 .kv dt { color: var(--muted); margin: 0; }
 .kv dd { font-family: var(--mono); font-weight: 600; margin: 0; text-align: right; }
@@ -151,7 +151,7 @@ ul.rules li.step-done .step-badge { background: var(--accent); }
 .result.ok { border-left-color: var(--ok); }
 .result.warn { border-left-color: var(--accent-amber); }
 
-/* Diagnose / Interaktives Quiz */
+/* Diagnostic / Interactive quiz */
 .quiz-box { font-size: 0.85rem; }
 .quiz-box p { margin: 0 0 8px; }
 .quiz-row { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
@@ -163,7 +163,7 @@ ul.rules li.step-done .step-badge { background: var(--accent); }
 body.theme-blueprint .feedback.ok { background: #064e3b; color: #86efac; }
 body.theme-blueprint .feedback.bad { background: #7f1d1d; color: #fca5a5; }
 
-/* SVG-Klassen für technische Zeichnungselemente */
+/* SVG classes for technical drawing elements */
 .bg-plain { fill: var(--dia-plain); }
 .given-line { stroke: var(--ink); fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .thin-line { stroke: var(--arc-stroke); fill: none; stroke-linecap: round; }

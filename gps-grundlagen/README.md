@@ -1,38 +1,38 @@
-# GPS-Grundlagen • Form- und Lagetoleranzen
+# GPS Fundamentals • Geometrical Tolerances
 
-Interaktive Lernhilfe zur Geometrischen Produktspezifikation (GPS) nach DIN EN ISO 1101 und DIN EN ISO 8015:2011. Design wie die Tabellenbuch-Metall-Apps: Blueprint-Dunkelmodus als Standard, heller Modus umschaltbar.
+Interactive learning guide to Geometrical Product Specifications (GPS) per DIN EN ISO 1101 and DIN EN ISO 8015:2011. Styled after the Mechanical Engineering Handbook apps: blueprint dark mode by default, toggleable to light mode.
 
-## Reiter
+## Tabs
 
-| Reiter | Inhalt |
+| Tab | Content |
 | :--- | :--- |
-| 1 Übersicht | Die 14 Toleranzarten in vier Gruppen (Form, Richtung, Ort, Lauf) mit Symbol und Bezugsregel. Linien- und Flächenprofil erscheinen in drei Gruppen. |
-| 2 Toleranzarten | Je Toleranzart vier Spalten: Symbol, Zeichnungseintrag, Toleranzzone, Abweichung. Darunter toleriertes Element, Zone, eingeschlossene Toleranzen, Prüfmittel und ein Hinweis. Merksatz je Gruppe. |
-| 3 Toleranzrahmen | Rahmen zusammenstellen (Art, Wert, Ø, Ⓜ, bis zu drei Bezüge). Die Seite liest ihn in Worten vor und prüft typische Fehler: Bezug an einer Formtoleranz, fehlender Bezug bei Richtung und Lauf, Ø oder Ⓜ an der falschen Toleranzart, Bezugsbuchstaben I, O, Q, X, doppelte oder mehr als drei Bezüge. |
-| 4 Grundsätze ISO 8015 | Die 13 Grundsätze aus Abschnitt 5 in eigenen Worten mit Praxisbezug. Dazu ein Rechner zur Unabhängigkeit gegenüber der Hüllbedingung Ⓔ an einer Welle Ø20 −0,1. |
-| 5 Übung | Zufällige Aufgaben: Symbol erkennen, Gruppe zuordnen, Bezug nötig?, Zone erkennen, Toleranzrahmen auf Zulässigkeit prüfen. |
+| 1 Overview | The 14 tolerance types in four groups (Form, Orientation, Location, Run-out) with symbol and datum rule. Line profile and surface profile appear in three groups. |
+| 2 Tolerance Types | Four columns per tolerance type: Symbol, Drawing Callout, Tolerance Zone, Deviation. Below: tolerated feature, zone, controlled tolerances, inspection equipment, and a note. Key rule per group. |
+| 3 Tolerance Frame | Assemble a frame (type, value, Ø, Ⓜ, up to three datums). The page reads it aloud in plain words and checks typical errors: datum on a form tolerance, missing datum on orientation or run-out, Ø or Ⓜ on the wrong tolerance type, datum letters I, O, Q, X, duplicate or more than three datums. |
+| 4 ISO 8015 Principles | The 13 principles from Clause 5 summarized in plain language with practical relevance. Plus an interactive calculator comparing independency vs. envelope requirement Ⓔ on a shaft Ø20 −0.1. |
+| 5 Practice | Randomized questions: identify symbol, assign group, datum required?, identify zone, validate tolerance frame. |
 
-Direkteinstieg per Hash, z. B. `#toleranzarten/pos` oder `#rahmen`.
+Direct entry via URL hash, e.g. `#toleranzarten/pos` or `#rahmen`.
 
-## Quellen
+## Sources
 
-- DIN EN ISO 8015:2011-09, Abschnitt 5 (Grundsätze) — Wortlaut zusammengefasst, nicht zitiert
-- DIN EN ISO 5459:2011, 7.2.2 (Bezugsbuchstaben I, O, Q, X nicht verwenden)
+- DIN EN ISO 8015:2011-09, Clause 5 (Principles) — paraphrased summary, not verbatim quotes
+- DIN EN ISO 5459:2011, 7.2.2 (avoid datum letters I, O, Q, X)
 - DIN EN ISO 1101, ISO 2692 (Ⓜ), ISO 14405-1 (Ⓔ)
-- B. Klein: Toleranzdesign im Maschinen- und Fahrzeugbau, 5. Aufl. 2021, Tab. 7.1 (14 Toleranzarten, Bezug erforderlich ja/nein)
-- G. Henzold: Geometrical Dimensioning and Tolerancing for Design, Manufacturing and Inspection, 3rd ed 2021
-- ZEISS: Poster GPS – Geometrische Produktspezifikation (VIII/2023)
+- B. Klein: Toleranzdesign im Maschinen- und Fahrzeugbau, 5th ed. 2021, Table 7.1 (14 tolerance types, datum required yes/no)
+- G. Henzold: Geometrical Dimensioning and Tolerancing for Design, Manufacturing and Inspection, 3rd ed. 2021
+- ZEISS: GPS Poster – Geometrical Product Specifications (VIII/2023)
 
-Alle Zeichnungen sind eigene SVG-Darstellungen. Die Abweichungsbilder berechnen *f* aus dem gezeichneten Ist-Profil (Mindestzone in der vorgegebenen Richtung), die Krümmungen sind überhöht.
+All drawings are custom SVG illustrations. Deviation diagrams compute *f* directly from the plotted actual profile (minimum zone in the specified direction); curvatures are exaggerated.
 
-## Prüfen
+## Verify
 
 ```
-node tests/verify.mjs                 # Daten, Regeln und alle 42 Zeichnungen (150 Prüfungen)
-node tests/verify.mjs --sheet x.svg   # zusätzlich Vorschaubogen aller Zeichnungen
+node tests/verify.mjs                 # data, rules, and all 42 drawings (150 checks)
+node tests/verify.mjs --sheet x.svg   # additionally generate preview sheet of all drawings
 ```
 
-Keine Abhängigkeiten. Die Quellen in `js/` sind ES-Module; `index.html` lädt aber `js/bundle.js`, damit die Seite auch per Doppelklick (`file://`) läuft. Nach jeder Änderung in `js/` neu bauen:
+Zero dependencies. Sources in `js/` are ES modules; `index.html` loads `js/bundle.js` so the page also runs when opened directly via `file://`. Rebuild after any change in `js/`:
 
 ```
 node build.mjs

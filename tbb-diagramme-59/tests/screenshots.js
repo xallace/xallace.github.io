@@ -1,4 +1,4 @@
-// Screenshots der App im Headless-Edge über CDP: node tests/screenshots.js <outdir> [steps.json] [url]
+// App screenshots in headless Edge via CDP: node tests/screenshots.js <outdir> [steps.json] [url]
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 const [, , outDir, stepsArg, urlArg] = process.argv;
@@ -17,7 +17,7 @@ async function getJSON(p) {
   for (let i = 0; i < 80; i++) {
     try { const r = await fetch(`http://127.0.0.1:${port}${p}`); return await r.json(); } catch (e) { await sleep(150); }
   }
-  throw new Error('CDP nicht erreichbar');
+  throw new Error('CDP unreachable');
 }
 function connect(wsUrl) {
   const ws = new WebSocket(wsUrl);
@@ -66,7 +66,7 @@ function connect(wsUrl) {
     await c.send('Emulation.setDeviceMetricsOverride', { width, height: H, deviceScaleFactor: 1, mobile: false });
     await sleep(700);
     const sw = await c.send('Runtime.evaluate', { expression: 'document.documentElement.scrollWidth + "/" + document.documentElement.clientWidth', returnByValue: true });
-    logs.push(`[${s.name}] scrollWidth/clientWidth = ${sw.result.result.value}, Höhe ${H}`);
+    logs.push(`[${s.name}] scrollWidth/clientWidth = ${sw.result.result.value}, Height ${H}`);
     let params = { format: 'png' };
     if (s.clip) {
       const b = await c.send('Runtime.evaluate', { expression: `JSON.stringify(document.querySelector('${s.clip}').getBoundingClientRect())`, returnByValue: true });
@@ -76,7 +76,7 @@ function connect(wsUrl) {
     const shot = await c.send('Page.captureScreenshot', params);
     fs.writeFileSync(path.join(outDir, `${s.name}.png`), Buffer.from(shot.result.data, 'base64'));
   }
-  console.log(logs.join('\n') || '(keine Konsolenmeldungen)');
+  console.log(logs.join('\n') || '(no console messages)');
   c.close();
   const b = await connect(ver.webSocketDebuggerUrl);
   await b.send('Browser.close').catch(() => {});

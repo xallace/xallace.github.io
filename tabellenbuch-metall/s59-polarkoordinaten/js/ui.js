@@ -1,4 +1,4 @@
-/* Kleine UI-Hilfen und Register der Reiter für Tabellenbuch Metall S. 59 */
+/* Small UI helpers and tab registry for Tabellenbuch Metall p. 59 */
 const UI = (() => {
   'use strict';
   const $ = id => document.getElementById(id);

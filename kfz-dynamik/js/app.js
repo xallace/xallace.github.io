@@ -1,14 +1,14 @@
-/* Reiterverwaltung: baut jeden Reiter erst beim ersten Öffnen auf, merkt den Reiter in der Adresse (#reifen …)
-   und sagt dem alten Reiter Bescheid, damit er Animationen anhält. */
+/* Tab manager: lazily initializes each tab on first open, tracks the active tab in the URL hash (#reifen …),
+   and notifies the previous tab so it can pause animations. */
 (function () {
   'use strict';
   const TABS = [
-    { id: 'reifen', part: 'I', label: 'Reifen' },
-    { id: 'fahrleistung', part: 'II', label: 'Fahrleistungen' },
-    { id: 'bremsung', part: 'II', label: 'Bremsung' },
-    { id: 'schwingung', part: 'III', label: 'Schwingungen' },
-    { id: 'fahrverhalten', part: 'IV', label: 'Fahrverhalten' },
-    { id: 'pruefung', part: '✓', label: 'Prüfung & Quellen' },
+    { id: 'reifen', part: 'I', label: 'Tires' },
+    { id: 'fahrleistung', part: 'II', label: 'Performance' },
+    { id: 'bremsung', part: 'II', label: 'Braking' },
+    { id: 'schwingung', part: 'III', label: 'Vibrations' },
+    { id: 'fahrverhalten', part: 'IV', label: 'Handling' },
+    { id: 'pruefung', part: '✓', label: 'Verification & Sources' },
   ];
   const nav = document.getElementById('tabs');
   const host = document.getElementById('tab-host');
@@ -44,7 +44,7 @@
     s.sec.classList.add('active');
     if (!s.ready && mod) {
       try { mod.init(s.sec); } catch (e) {
-        s.sec.innerHTML = `<p class="note">Fehler beim Aufbau des Reiters: ${e.message}</p>`;
+        s.sec.innerHTML = `<p class="note">Error initializing tab: ${e.message}</p>`;
         console.error(e);
       }
       s.ready = true;

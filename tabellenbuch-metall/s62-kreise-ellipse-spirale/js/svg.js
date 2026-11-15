@@ -1,7 +1,7 @@
-/* SVG-Hilfen für Tabellenbuch Metall S. 62 (3.2 Geometrische Grundkonstruktionen:
-   Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale):
-   Zirkelbögen, Kreise, Dreiecke, Mittelsenkrechte, Ellipsen, Spiralbögen,
-   rote Schrittzahlen 1..6 wie im Buch, Rechtwinkelzeichen, ziehbare Punkte */
+/* SVG helpers for Tabellenbuch Metall p. 62 (3.2 Basic Geometric Constructions:
+   Incircle, Circumcircle, Circle Center, Ellipse, Spiral):
+   Compass arcs, circles, triangles, perpendicular bisectors, ellipses, spiral arcs,
+   red step numbers 1..6 as in handbook, right-angle marks, draggable points */
 const SVG = (() => {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
@@ -18,7 +18,7 @@ const SVG = (() => {
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
-  // Text mit kleiner Auszeichnung: *kursiv*, _{tief}, ^{hoch}.
+  // Text with simple markup: *italic*, _{subscript}, ^{superscript}.
   function text(parent, x, y, markup, attrs = {}) {
     const fs = +(attrs['font-size'] || 14);
     const t = el(parent, 'text', Object.assign({ x: +x.toFixed(1), y: +y.toFixed(1), 'font-size': fs }, attrs));
@@ -38,7 +38,7 @@ const SVG = (() => {
     return t;
   }
 
-  // Gefüllte Pfeilspitze
+  // Filled arrowhead
   function arrowHead(parent, x, y, deg, l = 11, b = 3.4, cls = 'ax-head') {
     const a = deg * DEG, c = Math.cos(a), s = Math.sin(a);
     const bx = x - l * c, by = y - l * s;
@@ -64,7 +64,7 @@ const SVG = (() => {
     return { x: center.x + r * Math.cos(a), y: center.y + r * Math.sin(a) };
   }
 
-  // Zirkelbogen um center mit Radius r von screenDeg0 bis screenDeg1
+  // Compass arc centered at center with radius r from screenDeg0 to screenDeg1
   function compassArc(parent, center, r, screenDeg0, screenDeg1, opts = {}) {
     let span = screenDeg1 - screenDeg0;
     if (Math.abs(span) < 1e-4 || r <= 0) return null;
@@ -81,7 +81,7 @@ const SVG = (() => {
     });
   }
 
-  // Kreis
+  // Circle
   function circle(parent, center, r, opts = {}) {
     return el(parent, 'circle', {
       cx: center.x.toFixed(1),
@@ -94,7 +94,7 @@ const SVG = (() => {
     });
   }
 
-  // Linie
+  // Line
   function line(parent, p1, p2, opts = {}) {
     return el(parent, 'line', {
       x1: p1.x.toFixed(1), y1: p1.y.toFixed(1),
@@ -105,7 +105,7 @@ const SVG = (() => {
     });
   }
 
-  // DIN-Mittelpunktskreuz
+  // DIN center cross
   function centerMark(parent, c, size = 12) {
     const g = el(parent, 'g', { class: 'center-mark' });
     const s = size / 2;
@@ -114,7 +114,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Rote Schrittnummer 1..6 wie im Tabellenbuch
+  // Red step number 1..6 as in handbook
   function stepNum(parent, x, y, num, opts = {}) {
     const g = el(parent, 'g', { class: 'step-tag' });
     const isHl = opts.hl;
@@ -129,7 +129,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Konstruktionspunkt mit Beschriftung
+  // Construction point with label
   function point(parent, p, opts = {}) {
     const g = el(parent, 'g', { class: 'geom-pt' });
     const r = opts.r || (opts.drag ? 5.5 : 3.5);
@@ -151,7 +151,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Rechtwinkel-Markierung mit Punkt (DIN ISO 128)
+  // Right-angle mark with dot (DIN ISO 128)
   function rightAngleMark(parent, vertex, arm1Pt, arm2Pt, size = 11) {
     const u1 = { x: arm1Pt.x - vertex.x, y: arm1Pt.y - vertex.y };
     const u2 = { x: arm2Pt.x - vertex.x, y: arm2Pt.y - vertex.y };
@@ -166,7 +166,7 @@ const SVG = (() => {
       points: `${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${corner.x.toFixed(1)},${corner.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`,
       class: 'thin-line', 'stroke-width': 1.1, fill: 'none'
     });
-    // Punkt in der Ecke
+    // Dot in the corner
     el(g, 'circle', {
       cx: (vertex.x + (e1.x + e2.x) * 0.5).toFixed(1),
       cy: (vertex.y + (e1.y + e2.y) * 0.5).toFixed(1),
@@ -175,7 +175,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Zieh-Handler für interaktive Punkte
+  // Drag handler for interactive points
   function makeDraggable(svgEl, onDrag) {
     let activeKey = null;
 

@@ -1,8 +1,8 @@
-/* Tabellenbuch Metall S. 58 · Diagramme – Blueprint-Dunkelmodus als Standard, helles Design wie die App zu S. 14 (Königsblau) umschaltbar */
+/* Tabellenbuch Metall p. 58 · Diagrams – Blueprint dark mode default, light theme toggleable like the p. 14 app (royal blue) */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
-  --accent: #c8102e;          /* Kennlinie rot wie im Buch */
+  --accent: #c8102e;          /* Characteristic curve in red as in the book */
   --accent-2: #d97706;
   --ok: #15803d;
   --bad: #dc2626;
@@ -14,18 +14,18 @@
   --text: #0f172a;
   --muted: #475569;
   --light: #94a3b8;
-  --ink: #111827;             /* Achsen, Beschriftung im Diagramm */
+  --ink: #111827;             /* Axes, diagram labels */
   --grid: #1f2937;
-  --dia-top: #bfe0f5;         /* hellblaue Diagrammfläche */
+  --dia-top: #bfe0f5;         /* Light blue plot background */
   --dia-bottom: #eaf5fc;
-  --hl: #f59e0b;              /* Hervorhebung */
+  --hl: #f59e0b;              /* Highlight */
   --example-bg: #f0fdf4;
   --example-border: #65a30d;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
   --radius: 10px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-dia: 'Bahnschrift', 'DIN Alternate', 'D-DIN', 'Arial Narrow', 'Segoe UI', sans-serif;  /* Bahnschrift: DIN-1451-Schrift von Windows */
-  --dia-plain: #eef0f3;       /* graue Fläche wie das Koordinatenbild im Buch */
+  --font-dia: 'Bahnschrift', 'DIN Alternate', 'D-DIN', 'Arial Narrow', 'Segoe UI', sans-serif;  /* Bahnschrift: Windows DIN 1451 font */
+  --dia-plain: #eef0f3;       /* Light gray background matching the book's coordinate figure */
   --pt-fill: #ffffff;
   --mono: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
 }
@@ -60,7 +60,7 @@ body.theme-blueprint {
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* Kopf wie das Buch: blaue Leiste mit Seitenzahl */
+/* Header styled like the book: blue bar with page number */
 .tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
 body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
 .tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -92,7 +92,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--primary); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
 .side .card h3 { font-size: 0.9rem; }
 
-/* Diagrammfläche */
+/* Diagram surface */
 #l-svg { max-width: 1000px; margin: 0 auto; }
 .dia { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; font-family: var(--font-dia); }
 .dia { --halo: var(--dia-bottom); }
@@ -136,7 +136,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia text.lbl-strong { font-weight: 700; }
 .dia text.lbl-muted { fill: var(--muted); }
 
-/* Bedienelemente */
+/* Controls */
 .ctl-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
@@ -156,7 +156,7 @@ input.num { width: 84px; }
 input.txt { width: 150px; }
 input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
 
-/* Regeln / Merksätze */
+/* Rules / Key points */
 .rules { list-style: none; margin: 0; padding: 0; }
 .rules li { border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.86rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: default; }
 .rules li b { color: var(--text); }
@@ -169,7 +169,7 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 #a-faults li { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 #a-faults li .state { float: none; white-space: nowrap; }
 
-/* Linienbreiten unter dem Diagramm in Reiter 2 */
+/* Line widths legend beneath diagram in Tab 2 */
 .width-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; font-size: 0.82rem; color: var(--muted);
   margin-top: 8px; padding: 6px 10px; border-radius: 6px; border: 1px solid transparent; }
 .width-legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -179,7 +179,7 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 .width-legend .ratio { font-weight: 700; color: var(--text); }
 .width-legend.active { border-color: var(--hl); background: var(--primary-light); color: var(--text); }
 
-/* Schreibweisen */
+/* Point notations */
 .notation { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.92rem; align-items: baseline; }
 .notation .lbl { color: var(--muted); font-size: 0.8rem; }
 .notation code { font: 600 0.95rem var(--mono); color: var(--text); }
@@ -195,7 +195,7 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 .pt-list button { appearance: none; border: 0; background: none; color: var(--bad); cursor: pointer; font-size: 1rem; }
 .quad { font-size: 0.8rem; color: var(--muted); font-family: var(--font); }
 
-/* Wertetabelle und Beispielkasten wie im Buch (grüner Balken) */
+/* Value table and example box styled like the book (green left bar) */
 .example { background: var(--example-bg); border-left: 5px solid var(--example-border); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 14px; }
 .example h3 { color: var(--text); }
 .vtable { border-collapse: collapse; font-size: 0.88rem; margin: 6px 0; width: 100%; }

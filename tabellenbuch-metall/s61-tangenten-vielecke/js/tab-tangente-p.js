@@ -1,9 +1,9 @@
-/* Reiter 1: Tangente durch Kreispunkt P (Tabellenbuch Metall S. 61, 1. Zeile)
-   Gegeben: Kreis und Punkt P auf dem Kreis
-   1. Verbindungslinie MP ziehen und verlängern.
-   2. Kreis um P ergibt Schnittpunkte A und B.
-   3. Kreisbögen um A und B mit gleichem Radius ergeben Schnittpunkte C und D.
-   4. Verbindungslinie CD ist Senkrechte zu PM (Tangente). */
+/* Tab 1: Tangent through Circle Point P (Tabellenbuch Metall p. 61, row 1)
+   Given: Circle and point P on the circle
+   1. Draw connecting line MP and extend it.
+   2. Circle centered at P yields intersection points A and B.
+   3. Arcs centered at A and B with equal radius yield intersection points C and D.
+   4. Connecting line CD is perpendicular to PM (tangent). */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,16 +12,16 @@
 
   const W = 640, H = 460, SCALE = 3.5; // 3.5 px = 1 mm
   const STEPS = [
-    [1, 'Strahl MP ziehen', 'Verbindungslinie <span class="overline">MP</span> ziehen und über P hinaus verlängern.'],
-    [2, 'Kreis um P (A und B)', 'Kreis um P mit Radius <i>r</i><sub>1</sub> schlagen; ergibt Schnittpunkte A und B auf der Geraden <span class="overline">MP</span>.'],
-    [3, 'Bögen um A und B (C und D)', 'Kreisbögen um A und B mit gleichem Radius <i>r</i><sub>2</sub> &gt; <i>r</i><sub>1</sub> schlagen; Schnittpunkte sind C und D.'],
-    [4, 'Tangente CD ziehen', 'Verbindungslinie CD ist die Senkrechte zu <span class="overline">PM</span> und damit die gesuchte Tangente im Punkt P.']
+    [1, 'Draw ray MP', 'Draw connecting line <span class="overline">MP</span> and extend it beyond P.'],
+    [2, 'Circle at P (A and B)', 'Draw a circle centered at P with radius <i>r</i><sub>1</sub>; yields intersection points A and B on line <span class="overline">MP</span>.'],
+    [3, 'Arcs at A and B (C and D)', 'Strike circular arcs centered at A and B with equal radius <i>r</i><sub>2</sub> &gt; <i>r</i><sub>1</sub>; intersection points are C and D.'],
+    [4, 'Draw tangent CD', 'Connecting line CD is perpendicular to <span class="overline">PM</span> and is the required tangent at point P.']
   ];
 
   const BOOK_STATE = () => ({
     M: pt(280, 260),
     RMm: 48,
-    angleDeg: 55, // Richtung von M nach P
+    angleDeg: 55, // Direction from M to P
     r1Mm: 24,
     r2Mm: 38,
     step: 4,
@@ -53,7 +53,7 @@
 
     const res = Core.constructTangentAtPoint(st.M, P, r1Px, r2Px);
 
-    // Gegebener Kreis
+    // Given circle
     SVG.circle(svg, st.M, RPx, { cls: 'given-line', w: 2.2 });
     SVG.centerMark(svg, st.M, 14);
     SVG.point(svg, st.M, { label: 'M', dx: -12, dy: 16 });
@@ -62,7 +62,7 @@
       if (res.reason === 'r2_too_small') {
         const u = res.u;
         const A = res.A, B = res.B;
-        // Strahl MP
+        // Ray MP
         el(svg, 'line', {
           x1: st.M.x.toFixed(1), y1: st.M.y.toFixed(1),
           x2: res.extP.x.toFixed(1), y2: res.extP.y.toFixed(1),
@@ -74,7 +74,7 @@
         SVG.compassArc(svg, A, r2Px, -st.angleDeg - 40, -st.angleDeg + 40, { cls: 'warn-arc' });
         SVG.compassArc(svg, B, r2Px, -st.angleDeg - 40, -st.angleDeg + 40, { cls: 'warn-arc' });
         SVG.text(svg, P.x, P.y - 45,
-          `Bögen 3 schneiden sich nicht: r₂ (${fmt(st.r2Mm, 0)} mm) muss > r₁ (${fmt(st.r1Mm, 0)} mm) sein!`,
+          `Step 3 arcs do not intersect: r₂ (${fmt(st.r2Mm, 0)} mm) must be > r₁ (${fmt(st.r1Mm, 0)} mm)!`,
           { 'text-anchor': 'middle', 'font-size': 13.5, class: 'halo step-num' });
       }
       SVG.point(svg, P, { drag: 'P', label: 'P', dx: 14, dy: -8, sel: true });
@@ -84,7 +84,7 @@
 
     const { u, extP, A, B, C, D } = res;
 
-    // Schritt 1: Verbindungslinie MP ziehen und verlängern
+    // Step 1: Draw connecting line MP and extend it
     if (st.step >= 1) {
       const isHl = hl === 1;
       const rayEnd = add(P, scale(u, r1Px * 1.6));
@@ -97,7 +97,7 @@
       SVG.stepNum(svg, (st.M.x + P.x) / 2 + 12, (st.M.y + P.y) / 2 - 8, 1, { hl: isHl });
     }
 
-    // Schritt 2: Kreis um P ergibt Schnittpunkte A und B
+    // Step 2: Circle centered at P yields intersection points A and B
     if (st.step >= 2) {
       const isHl = hl === 2;
       SVG.circle(svg, P, r1Px, {
@@ -112,13 +112,13 @@
       }
     }
 
-    // Schritt 3: Kreisbögen um A und B ergeben C und D
+    // Step 3: Arcs centered at A and B yield C and D
     if (st.step >= 3) {
       const isHl = hl === 3;
-      // Bögen um A
+      // Arcs centered at A
       SVG.arcThroughPoint(svg, A, r2Px, C, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.1 });
       SVG.arcThroughPoint(svg, A, r2Px, D, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.1 });
-      // Bögen um B
+      // Arcs centered at B
       SVG.arcThroughPoint(svg, B, r2Px, C, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.1 });
       SVG.arcThroughPoint(svg, B, r2Px, D, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.1 });
 
@@ -132,10 +132,10 @@
       }
     }
 
-    // Schritt 4: Verbindungslinie CD ist Senkrechte zu PM (Tangente)
+    // Step 4: Connecting line CD is perpendicular to PM (tangent)
     if (st.step >= 4) {
       const isHl = hl === 4;
-      // Tangente über C und D hinaus etwas verlängern
+      // Extend tangent slightly beyond C and D
       const tDir = unit(sub(D, C));
       const tStart = sub(C, scale(tDir, 45));
       const tEnd = add(D, scale(tDir, 45));
@@ -151,7 +151,7 @@
       }
     }
 
-    // Ziehbarer Kreispunkt P
+    // Draggable circle point P
     SVG.point(svg, P, { drag: 'P', label: 'P', dx: 12, dy: -12, sel: true });
 
     updateSide(res);
@@ -161,25 +161,25 @@
     const resEl = $('tanp-result');
     if (!res.ok) {
       resEl.className = 'result warn';
-      resEl.innerHTML = `Schritt 3: <i>r</i>₂ (${fmt(st.r2Mm, 0)} mm) ≤ <i>r</i>₁ (${fmt(st.r1Mm, 0)} mm)`;
+      resEl.innerHTML = `Step 3: <i>r</i>₂ (${fmt(st.r2Mm, 0)} mm) ≤ <i>r</i>₁ (${fmt(st.r1Mm, 0)} mm)`;
     } else {
       resEl.className = 'result';
-      resEl.innerHTML = `Tangente <span class="overline">CD</span> ⊥ <span class="overline">MP</span> &nbsp;·&nbsp; Winkel = ${fmt(res.perpAngleDeg, 1)}°`;
+      resEl.innerHTML = `Tangent <span class="overline">CD</span> ⊥ <span class="overline">MP</span> &nbsp;·&nbsp; Angle = ${fmt(res.perpAngleDeg, 1)}°`;
     }
 
     $('tanp-details').innerHTML = [
-      ['Kreisradius <i>R</i>', `${fmt(st.RMm, 0)} mm`],
-      ['Winkelposition <i>φ</i> von P', `${fmt(st.angleDeg, 0)}°`],
-      ['Hilfskreis um P (<i>r</i>₁)', `${fmt(st.r1Mm, 0)} mm`],
-      ['Strecke <span class="overline">AB</span>', res.ok ? `${fmt((res.r1 * 2) / SCALE, 1)} mm` : '–'],
-      ['Schnittbögen (<i>r</i>₂ &gt; <i>r</i>₁)', `${fmt(st.r2Mm, 0)} mm`],
-      ['Höhe <i>h</i> des Schnittpunkts C/D', res.ok ? `${fmt(res.heightCD / SCALE, 1)} mm` : '–']
+      ['Circle radius <i>R</i>', `${fmt(st.RMm, 0)} mm`],
+      ['Angular position <i>φ</i> of P', `${fmt(st.angleDeg, 0)}°`],
+      ['Aux. circle at P (<i>r</i>₁)', `${fmt(st.r1Mm, 0)} mm`],
+      ['Segment <span class="overline">AB</span>', res.ok ? `${fmt((res.r1 * 2) / SCALE, 1)} mm` : '–'],
+      ['Intersecting arcs (<i>r</i>₂ &gt; <i>r</i>₁)', `${fmt(st.r2Mm, 0)} mm`],
+      ['Height <i>h</i> of intersection C/D', res.ok ? `${fmt(res.heightCD / SCALE, 1)} mm` : '–']
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
 
-    $('tanp-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('tanp-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
-  // Interaktives Ziehen von Punkt P entlang des Kreisumfangs
+  // Interactive dragging of point P along the circumference
   svg.addEventListener('pointerdown', e => {
     const hit = e.target.closest('[data-drag="P"]');
     if (!hit) return;
@@ -229,8 +229,8 @@
     st.quiz = { RMm, r1, r2, truth: askH ? hTruth : 90, askH, answered: false };
 
     $('tanp-task').innerHTML = askH
-      ? `Um Punkt P wird ein Hilfskreis mit <i>r</i>₁ = <b>${r1} mm</b> geschlagen (<span class="overline">AB</span> = ${2 * r1} mm). Die Bögen um A und B haben den Radius <i>r</i>₂ = <b>${r2} mm</b>. Welchen Abstand <i>h</i> haben die Schnittpunkte C und D von P ($h = \\sqrt{r_2^2 - r_1^2}$)?`
-      : `Welchen Winkel (in Grad °) schließt die konstruierte Tangente <span class="overline">CD</span> mit dem Radiusstrahl <span class="overline">MP</span> ein?`;
+      ? `An auxiliary circle with <i>r</i>₁ = <b>${r1} mm</b> is struck around point P (<span class="overline">AB</span> = ${2 * r1} mm). The arcs centered at A and B have radius <i>r</i>₂ = <b>${r2} mm</b>. What is the distance <i>h</i> of intersection points C and D from P (<i>h</i> = √(<i>r</i>₂² − <i>r</i>₁²))?`
+      : `What angle (in degrees °) does the constructed tangent <span class="overline">CD</span> form with the radius ray <span class="overline">MP</span>?`;
 
     $('tanp-ans-unit').textContent = askH ? 'mm' : '°';
     $('tanp-ans').value = '';
@@ -242,7 +242,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('tanp-ans').value);
     if (isNaN(val)) {
-      feedback('tanp-feedback', 'Bitte eine gültige Zahl eingeben.', false);
+      feedback('tanp-feedback', 'Please enter a valid number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.2;
@@ -250,9 +250,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('tanp-feedback', ok
-      ? `Richtig! Wert: ${fmt(st.quiz.truth, 1)} ${$('tanp-ans-unit').textContent}.`
-      : `Leider falsch. Richtig wäre: ${fmt(st.quiz.truth, 1)} ${$('tanp-ans-unit').textContent}.`, ok);
-    $('tanp-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Value: ${fmt(st.quiz.truth, 1)} ${$('tanp-ans-unit').textContent}.`
+      : `Incorrect. Correct answer: ${fmt(st.quiz.truth, 1)} ${$('tanp-ans-unit').textContent}.`, ok);
+    $('tanp-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('tanp-quiz').addEventListener('click', newQuiz);

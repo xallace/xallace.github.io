@@ -1,5 +1,5 @@
-/* Reiter 1: Kartesisches Koordinatensystem (Fortsetzung) – Diagramme mit mehreren Kennlinien
-   Festigkeit Rm und Re über Temperatur T mit stark streuenden Messwerten (×, ○, □) nach DIN 461 */
+/* Tab 1: Cartesian Coordinate System (cont.) – Charts with Multiple Curves
+   Strength Rm and Re vs. temperature T with widely scattered measurements (×, ○, □) per DIN 461 */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback } = UI;
@@ -9,26 +9,26 @@
   const W = 640, H = 500, PX0 = 96, PX1 = 584, PY0 = 420, PY1 = 36;
   const TEMPS = [0, 100, 200, 300, 400, 500, 600];
 
-  // Messwerte [unten, oben] in N/mm² bei 0 … 600 °C, aus der Abbildung auf S. 59 abgelesen (± 10 N/mm²)
+  // Measured values [lower, upper] in N/mm² at 0 … 600 °C, digitized from the figure on p. 59 (± 10 N/mm²)
   const BOOK = () => ({
     Rm: [[1650, 1705], [1550, 1605], [1455, 1510], [1430, 1480], [1355, 1440], [1050, 1170], [425, 545]],
     Re: [[1205, 1255], [1160, 1200], [1125, 1165], [1070, 1120], [1020, 1065], [840, 920], [375, 485]],
-    // Nicht im Buch: frei erfundener zweiter Werkstoff, um das dritte Zeichen □ zu zeigen
+    // Not in the book: synthetic second material to demonstrate the third symbol □
     Rp: [[920, 980], [890, 950], [850, 910], [790, 860], [710, 790], [560, 640], [260, 320]]
   });
 
   const SERIES_META = [
-    { key: 'Rm', label: '*R*_{m}', html: '<i>R</i><sub>m</sub>', title: 'Zugfestigkeit', mark: 'cross', markSym: '×', cls: 'curve-rm', dash: null, lx: 225, lyOff: -24 },
-    { key: 'Re', label: '*R*_{e}', html: '<i>R</i><sub>e</sub>', title: 'Streckgrenze', mark: 'circle', markSym: '○', cls: 'curve-re', dash: '9 5', lx: 225, lyOff: -22 },
-    { key: 'Rp', label: '*R*_{e2}', html: '<i>R</i><sub>e2</sub>', title: 'Werkstoff 2', mark: 'square', markSym: '□', cls: 'curve-rp', dash: '10 4 2 4', lx: 225, lyOff: -22 }
+    { key: 'Rm', label: '*R*_{m}', html: '<i>R</i><sub>m</sub>', title: 'Tensile strength', mark: 'cross', markSym: '×', cls: 'curve-rm', dash: null, lx: 225, lyOff: -24 },
+    { key: 'Re', label: '*R*_{e}', html: '<i>R</i><sub>e</sub>', title: 'Yield strength', mark: 'circle', markSym: '○', cls: 'curve-re', dash: '9 5', lx: 225, lyOff: -22 },
+    { key: 'Rp', label: '*R*_{e2}', html: '<i>R</i><sub>e2</sub>', title: 'Material 2', mark: 'square', markSym: '□', cls: 'curve-rp', dash: '10 4 2 4', lx: 225, lyOff: -22 }
   ];
 
   const RULES = [
-    ['scatter', 'Streuende Messwerte', 'Bei stark streuenden Messwerten erhält jede Kennlinie ein eigenes Zeichen, z. B. ○, ×, □.'],
-    ['symbols', 'Formelzeichen an der Linie', 'Bei derselben Linienart werden die Kennlinien durch die Namen oder Formelzeichen der Veränderlichen (<i>R</i><sub>m</sub>, <i>R</i><sub>e</sub>) gekennzeichnet.'],
-    ['colors', 'Unterschiedliche Farben', 'Alternativ oder ergänzend unterscheiden Farben die Kennlinien (im Buch: <i>R</i><sub>m</sub> rot, <i>R</i><sub>e</sub> blau).'],
-    ['linetypes', 'Unterschiedliche Linienarten', 'Volllinie, Strichlinie oder Strichpunktlinie trennen die Kennlinien auch im Schwarz-Weiß-Druck eindeutig.'],
-    ['units', 'Einheit & Skalenbeginn', 'Einheiten (°C, N/mm²) stehen zwischen den letzten beiden Zahlen; die Ordinate beginnt hier bei 200 N/mm².']
+    ['scatter', 'Scattered measurements', 'When data show wide scatter, each curve is assigned its own distinct marker, e.g. ○, ×, □.'],
+    ['symbols', 'Symbols at the curve', 'When curves share the same line type, they are labeled with quantity names or symbols (<i>R</i><sub>m</sub>, <i>R</i><sub>e</sub>).'],
+    ['colors', 'Distinct colors', 'Alternatively or additionally, colors distinguish the curves (in the book: <i>R</i><sub>m</sub> red, <i>R</i><sub>e</sub> blue).'],
+    ['linetypes', 'Distinct line types', 'Solid, dashed, or dash-dot lines keep curves unambiguously distinguishable even in black-and-white print.'],
+    ['units', 'Units & scale origin', 'Units (°C, N/mm²) replace the second-to-last scale tick; here the vertical axis starts at 200 N/mm².']
   ];
 
   const st = {
@@ -57,7 +57,7 @@
     SVG.clear(svg);
     SVG.background(svg, W, H);
 
-    // Netzlinien und Kasten wie im Buch (0 … 600 °C, 200 … 1800 N/mm²)
+    // Grid lines and frame matching the book (0 … 600 °C, 200 … 1800 N/mm²)
     const gGrid = el(svg, 'g', { class: 'grid' });
     for (const t of Core.ticks(0, 600, 100)) {
       el(gGrid, 'line', { x1: X(t), y1: PY0, x2: X(t), y2: PY1, 'stroke-width': 0.65, opacity: 0.65 });
@@ -66,13 +66,13 @@
       el(gGrid, 'line', { x1: PX0, y1: Y(f), x2: PX1, y2: Y(f), 'stroke-width': 0.65, opacity: 0.65 });
     }
 
-    // Achsen (unten bei 200 N/mm², links bei 0 °C)
+    // Axes (bottom at 200 N/mm², left at 0 °C)
     el(svg, 'line', { x1: PX0, y1: PY0, x2: PX1, y2: PY0, class: 'ax', 'stroke-width': 1.4 });
     el(svg, 'line', { x1: PX0, y1: PY0, x2: PX0, y2: PY1, class: 'ax', 'stroke-width': 1.4 });
 
-    // Zahlenwerte und Einheiten genau wie auf S. 59:
-    // Abszisse: 0, 100, 200, 300, 400, °C (bei 500), 600
-    // Ordinate: 200, 400, 600, 800, 1000, 1200, N/mm² (bei 1400), 1600
+    // Scale values and units matching p. 59:
+    // Abscissa: 0, 100, 200, 300, 400, °C (at 500), 600
+    // Ordinate: 200, 400, 600, 800, 1000, 1200, N/mm² (at 1400), 1600
     const hlUnit = hl === 'units' ? ' hl-text' : '';
     for (const t of Core.ticks(0, 600, 100)) {
       const isUnit = t === 500;
@@ -87,15 +87,15 @@
       });
     }
 
-    // Achsbenennungen mit parallelen Pfeilen wie im Buch
+    // Axis titles with parallel arrows matching the book
     const xm = (PX0 + PX1) / 2;
-    SVG.text(svg, xm + 18, PY0 + 54, 'Temperatur', { 'text-anchor': 'end', 'font-size': 15 });
+    SVG.text(svg, xm + 18, PY0 + 54, 'Temperature', { 'text-anchor': 'end', 'font-size': 15 });
     SVG.arrow(svg, xm + 28, PY0 + 49, xm + 86, PY0 + 49, { w: 1.2, l: 11, b: 3.6 });
     const ym = (PY0 + PY1) / 2;
-    SVG.text(svg, 28, ym + 42, 'Festigkeit', { 'text-anchor': 'start', 'font-size': 15, transform: `rotate(-90 28 ${ym + 42})` });
+    SVG.text(svg, 28, ym + 42, 'Strength', { 'text-anchor': 'start', 'font-size': 15, transform: `rotate(-90 28 ${ym + 42})` });
     SVG.arrow(svg, 23, ym - 46, 23, ym - 104, { w: 1.2, l: 11, b: 3.6 });
 
-    // Streubänder (wenn gewählt)
+    // Scatter bands (when selected)
     const series = activeSeries();
     if (st.fit === 'band') {
       for (const s of series) {
@@ -111,7 +111,7 @@
       }
     }
 
-    // Kennlinien zeichnen
+    // Draw characteristic curves
     for (const s of series) {
       const f = fnOf(s.key);
       const useColor = st.idMode !== 'dash';
@@ -138,7 +138,7 @@
         'stroke-dasharray': useDash && s.dash ? s.dash : null
       });
 
-      // Formelzeichen mit kurzer Hinweislinie wie im Buch (bei ~ 230 °C)
+      // Quantity symbols with short callout line as in the book (around 230 °C)
       if (st.idMode !== 'dash' || hl === 'symbols') {
         const tx = X(s.lx), ty = Y(f(s.lx)) + s.lyOff;
         const ax = X(s.lx + 24), ay = Y(f(s.lx + 24));
@@ -150,7 +150,7 @@
       }
     }
 
-    // Streuende Messwerte (×, ○, □) und Zieh-Trefferflächen
+    // Scattered data markers (×, ○, □) and drag hit targets
     if (st.marks || hl === 'scatter') {
       for (const s of series) {
         const useColor = st.idMode !== 'dash';
@@ -168,10 +168,10 @@
       }
     }
 
-    // Legende oben rechts bei Linienarten-Darstellung oder 3. Kennlinie
+    // Legend top right when using line types or 3rd curve
     if (st.idMode !== 'color' || st.third) {
-      const lx = PX1 - 185, ly = PY1 + 10;
-      el(svg, 'rect', { x: lx - 8, y: ly - 4, width: 185, height: series.length * 22 + 10, rx: 5, class: 'legend-box' });
+      const lx = PX1 - 205, ly = PY1 + 10;
+      el(svg, 'rect', { x: lx - 8, y: ly - 4, width: 205, height: series.length * 22 + 10, rx: 5, class: 'legend-box' });
       series.forEach((s, idx) => {
         const y = ly + 11 + idx * 22;
         const useColor = st.idMode !== 'dash';
@@ -187,7 +187,7 @@
       });
     }
 
-    // Ableselinie bei Temperatur st.T (in der Übung erst nach Beantwortung)
+    // Reading line at temperature st.T (hidden during quiz until answered)
     if ((st.showRead && !st.quiz) || (st.quiz && st.quiz.done)) {
       const T = st.quiz ? st.quiz.T : st.T;
       const x = X(T);
@@ -209,7 +209,7 @@
     const fRm = fnOf('Rm'), fRe = fnOf('Re'), fRp = fnOf('Rp');
     if (st.quiz && !st.quiz.done) {
       $('m-result').textContent = '–';
-      $('m-details').innerHTML = '<span>Während der Aufgabe ausgeblendet</span><span></span>';
+      $('m-details').innerHTML = '<span>Hidden during exercise</span><span></span>';
       return;
     }
     const T = st.T;
@@ -217,17 +217,17 @@
     const idx = TEMPS.findIndex(t => Math.abs(t - T) < 1e-6);
     $('m-result').innerHTML = `<i>T</i> = ${fmt(T, 0)} °C → <i>R</i><sub>m</sub> ≈ ${fmt(Math.round(rm / 10) * 10, 0)} N/mm², <i>R</i><sub>e</sub> ≈ ${fmt(Math.round(re / 10) * 10, 0)} N/mm²`;
     const kv = [
-      ['Zugfestigkeit <i>R</i><sub>m</sub> (×)', `${fmt(rm, 0)} N/mm²`],
-      ['Streckgrenze <i>R</i><sub>e</sub> (○)', `${fmt(re, 0)} N/mm²`],
-      ['Abstand <i>R</i><sub>m</sub> − <i>R</i><sub>e</sub>', `${fmt(rm - re, 0)} N/mm²`],
-      ['Verhältnis <i>R</i><sub>e</sub> / <i>R</i><sub>m</sub>', fmt(re / rm, 2)]
+      ['Tensile strength <i>R</i><sub>m</sub> (×)', `${fmt(rm, 0)} N/mm²`],
+      ['Yield strength <i>R</i><sub>e</sub> (○)', `${fmt(re, 0)} N/mm²`],
+      ['Margin <i>R</i><sub>m</sub> − <i>R</i><sub>e</sub>', `${fmt(rm - re, 0)} N/mm²`],
+      ['Ratio <i>R</i><sub>e</sub> / <i>R</i><sub>m</sub>', fmt(re / rm, 2)]
     ];
-    if (st.third) kv.splice(2, 0, ['Werkstoff 2 <i>R</i><sub>e2</sub> (□)', `${fmt(fRp(T), 0)} N/mm²`]);
+    if (st.third) kv.splice(2, 0, ['Material 2 <i>R</i><sub>e2</sub> (□)', `${fmt(fRp(T), 0)} N/mm²`]);
     if (idx >= 0) {
       const [rm0, rm1] = st.data.Rm[idx], [re0, re1] = st.data.Re[idx];
       kv.push(
-        [`Streuung <i>R</i><sub>m</sub> bei ${T} °C`, `${fmt(rm0, 0)}…${fmt(rm1, 0)} (Δ = ${fmt(rm1 - rm0, 0)}) N/mm²`],
-        [`Streuung <i>R</i><sub>e</sub> bei ${T} °C`, `${fmt(re0, 0)}…${fmt(re1, 0)} (Δ = ${fmt(re1 - re0, 0)}) N/mm²`]
+        [`Scatter <i>R</i><sub>m</sub> at ${T} °C`, `${fmt(rm0, 0)}…${fmt(rm1, 0)} (Δ = ${fmt(rm1 - rm0, 0)}) N/mm²`],
+        [`Scatter <i>R</i><sub>e</sub> at ${T} °C`, `${fmt(re0, 0)}…${fmt(re1, 0)} (Δ = ${fmt(re1 - re0, 0)}) N/mm²`]
       );
     }
     $('m-details').innerHTML = kv.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
@@ -264,7 +264,7 @@
     render();
   });
 
-  // Ziehen im Diagramm: entweder einzelnen Messpunkt (vertikal) oder Temperatur-Ableselinie (horizontal)
+  // Dragging in chart: either individual data point (vertical) or temperature reading line (horizontal)
   svg.addEventListener('pointerdown', e => {
     if (st.quiz) return;
     const X = Core.linScale(0, 600, PX0, PX1);
@@ -291,7 +291,7 @@
     SVG.startDrag(svg, e, move);
   });
 
-  // ---------------------------------------------------------------- Übung
+  // ---------------------------------------------------------------- Practice
   function newQuiz() {
     const fRm = fnOf('Rm'), fRe = fnOf('Re');
     const types = ['rm', 're', 'diff', 'temp'];
@@ -299,22 +299,22 @@
     let T = UI.rnd(50, 550, 50), truth, unit = 'N/mm²', tol = 40, text = '';
     if (kind === 'rm') {
       truth = fRm(T);
-      text = `Lies die Zugfestigkeit <i>R</i><sub>m</sub> (×) bei <i>T</i> = ${T} °C ab (Toleranz ± ${tol} N/mm²).`;
+      text = `Read tensile strength <i>R</i><sub>m</sub> (×) at <i>T</i> = ${T} °C (tolerance ± ${tol} N/mm²).`;
     } else if (kind === 're') {
       truth = fRe(T);
-      text = `Lies die Streckgrenze <i>R</i><sub>e</sub> (○) bei <i>T</i> = ${T} °C ab (Toleranz ± ${tol} N/mm²).`;
+      text = `Read yield strength <i>R</i><sub>e</sub> (○) at <i>T</i> = ${T} °C (tolerance ± ${tol} N/mm²).`;
     } else if (kind === 'diff') {
       T = UI.rnd(0, 500, 100);
       truth = fRm(T) - fRe(T);
       tol = 50;
-      text = `Wie groß ist der Festigkeitsabstand <i>R</i><sub>m</sub> − <i>R</i><sub>e</sub> bei <i>T</i> = ${T} °C (Toleranz ± ${tol} N/mm²)?`;
+      text = `What is the strength margin <i>R</i><sub>m</sub> − <i>R</i><sub>e</sub> at <i>T</i> = ${T} °C (tolerance ± ${tol} N/mm²)?`;
     } else {
       const target = UI.rnd(600, 1500, 100);
       truth = Core.invert(fRm, target, 0, 600);
       T = Math.round(truth);
       unit = '°C';
       tol = 22;
-      text = `Bei welcher Temperatur <i>T</i> sinkt die Zugfestigkeit <i>R</i><sub>m</sub> auf ${target} N/mm² (Toleranz ± ${tol} °C)?`;
+      text = `At what temperature <i>T</i> does tensile strength <i>R</i><sub>m</sub> drop to ${target} N/mm² (tolerance ± ${tol} °C)?`;
     }
     st.quiz = { kind, T, truth, tol, unit, done: false };
     $('m-task').innerHTML = text;
@@ -331,13 +331,13 @@
     const q = st.quiz;
     if (!q || q.done) return;
     const a = Core.parseNum($('m-ans').value);
-    if (!isFinite(a)) { feedback('m-feedback', 'Bitte eine Zahl eingeben.', false); return; }
+    if (!isFinite(a)) { feedback('m-feedback', 'Please enter a number.', false); return; }
     const ok = Math.abs(a - q.truth) <= q.tol + 1e-9;
     q.done = true;
     st.score[1]++;
     if (ok) st.score[0]++;
-    $('m-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
-    feedback('m-feedback', `${ok ? 'Richtig' : 'Daneben'}: Ausgleichskurve liefert ${fmt(q.truth, 0)} ${q.unit}, eingegeben ${fmt(a, 0)} ${q.unit}.`, ok);
+    $('m-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
+    feedback('m-feedback', `${ok ? 'Correct' : 'Off target'}: Fitted curve gives ${fmt(q.truth, 0)} ${q.unit}, entered ${fmt(a, 0)} ${q.unit}.`, ok);
     $('m-ans-row').hidden = true;
     st.T = Math.round(q.T / 10) * 10;
     syncSlider();

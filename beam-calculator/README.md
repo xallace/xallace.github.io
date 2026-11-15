@@ -52,5 +52,5 @@ For a simply supported beam with span $L$ under uniform distributed load $w$:
 ### 👤 Author
 
 Developed by **Walter Lehn (@xallace)**  
-*Technischer Produktdesigner (IHK) · Mechanical & Computational Systems*  
+*Technical Product Designer (IHK) · Mechanical & Computational Systems*  
 Portfolio: [xallace.github.io](https://xallace.github.io)

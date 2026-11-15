@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLA-100 — Präzisions-Linearachse · Interaktiver 3D CAD-Inspektor</title>
-  <meta name="description" content="Interaktiver WebGL 3D-CAD-Viewer der modularen Präzisions-Linearachse PLA-100 von Walter Lehn (@xallace). Hub-Kinematik, Spindelrotation, Schnittansicht A-A, Explosion & DIN EN ISO 1101 GPS.">
+  <title>PLA-100 — Precision Linear Axis · Interactive 3D CAD Inspector</title>
+  <meta name="description" content="Interactive WebGL 3D CAD viewer of the modular precision linear axis PLA-100 by Walter Lehn (@xallace). Stroke kinematics, spindle rotation, section view A-A, exploded assembly & DIN EN ISO 1101 GPS.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -242,17 +242,17 @@
   <!-- Top App Navigation -->
   <header class="viewer-header">
     <div class="viewer-title-group">
-      <a href="index.html" class="viewer-back-btn" title="Zurück zum Portfolio">
+      <a href="index.html" class="viewer-back-btn" title="Back to Portfolio">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         <span>Portfolio</span>
       </a>
       <div class="viewer-title-text">
         <h1>
-          <span>PLA-100 · Modulare Präzisions-Linearachse</span>
+          <span>PLA-100 · Modular Precision Linear Axis</span>
           <span class="embed-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">🚧 Work in Progress</span>
           <span class="embed-badge" style="background: rgba(56,189,248,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">14 Solids · STEP AP214</span>
         </h1>
-        <p>Nutzhub 100 mm · KGT Ø12x4 · 2x MGN12H · NEMA 23 · <em>Hinweis: Linearantrieb befindet sich aktiv in Konstruktion &amp; Detaillierung (WIP)</em></p>
+        <p>Usable Stroke 100 mm · Ball Screw Ø12×4 · 2× MGN12H · NEMA 23 · <em>Note: Linear drive actively in design &amp; detailing (WIP)</em></p>
       </div>
     </div>
 
@@ -268,7 +268,7 @@
   <div id="viewport-container">
     <div id="loading-spinner">
       <div class="spinner-ring"></div>
-      <div class="spinner-text">Lade Baugruppe (13 Solids & Kinematik)...</div>
+      <div class="spinner-text">Loading assembly (13 solids &amp; kinematics)...</div>
     </div>
     <canvas id="cad-canvas"></canvas>
 
@@ -280,74 +280,74 @@
       <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
         <div style="display: flex; align-items: center; gap: 0.35rem;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          <span id="specs-heading">Konstruktionsdaten</span>
+          <span id="specs-heading">Design Specifications</span>
         </div>
         <span style="font-size: 0.68rem; color: #f59e0b; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 3px; font-weight: 600;">WIP</span>
       </div>
       <div id="specs-content">
-        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detaillierung (WIP)</span></div>
-        <div class="specs-row"><span class="specs-label">Nutzhub:</span> <span class="specs-val">100,0 mm (X: 70...170 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Max. Freihub:</span> <span class="specs-val">144,0 mm (X: 48...192 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Führung:</span> <span class="specs-val">2x MGN12 (Spur 55 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Spindeltrieb:</span> <span class="specs-val">KGT Ø12 x 4 mm (IT5)</span></div>
-        <div class="specs-row"><span class="specs-label">Festlager:</span> <span class="specs-val">2x 7001-B (O-Anordn.)</span></div>
-        <div class="specs-row"><span class="specs-label">Loslager:</span> <span class="specs-val">1x 6001 (+0,5 mm Axial)</span></div>
-        <div class="specs-row"><span class="specs-label">Werkstoffe:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
-        <div class="specs-row"><span class="specs-label">Systemmasse:</span> <span class="specs-val">ca. 2,15 kg</span></div>
+        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detailing (WIP)</span></div>
+        <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70...170 mm)</span></div>
+        <div class="specs-row"><span class="specs-label">Max. Free Travel:</span> <span class="specs-val">144.0 mm (X: 48...192 mm)</span></div>
+        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12 (55 mm track)</span></div>
+        <div class="specs-row"><span class="specs-label">Lead Screw:</span> <span class="specs-val">Ball Screw Ø12 × 4 mm (IT5)</span></div>
+        <div class="specs-row"><span class="specs-label">Fixed Bearing:</span> <span class="specs-val">2× 7001-B (Back-to-back O)</span></div>
+        <div class="specs-row"><span class="specs-label">Floating Bearing:</span> <span class="specs-val">1× 6001 (+0.5 mm axial)</span></div>
+        <div class="specs-row"><span class="specs-label">Materials:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
+        <div class="specs-row"><span class="specs-label">System Mass:</span> <span class="specs-val">approx. 2.15 kg</span></div>
       </div>
     </div>
 
     <!-- Interactive HUD (Bottom Left) -->
     <div class="cad-hud">
       <div class="hud-tabs">
-        <button class="hud-tab-btn active" onclick="switchTab('kinematik')">Kinematik</button>
-        <button class="hud-tab-btn" onclick="switchTab('explosion')">Explosion</button>
-        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Schnitt & GPS</button>
-        <button class="hud-tab-btn" onclick="switchTab('stueckliste')">Stückliste</button>
+        <button class="hud-tab-btn active" onclick="switchTab('kinematik')">Kinematics</button>
+        <button class="hud-tab-btn" onclick="switchTab('explosion')">Exploded</button>
+        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Section &amp; GPS</button>
+        <button class="hud-tab-btn" onclick="switchTab('stueckliste')">BOM</button>
       </div>
 
-      <!-- Tab 1: Kinematik -->
+      <!-- Tab 1: Kinematics -->
       <div id="tab-kinematik" class="tab-content active">
         <div class="hud-title">
-          <span>Hub-Steuerung & Spindel-Kopplung</span>
+          <span>Stroke Control &amp; Spindle Coupling</span>
           <span id="pos-display" style="font-family: var(--font-mono); color: var(--text-primary);">X = 120.0 mm</span>
         </div>
 
         <div class="hud-slider-group">
           <div class="hud-slider-header">
-            <span>48.0 mm (Stop Vorn)</span>
-            <span>192.0 mm (Stop Heck)</span>
+            <span>48.0 mm (Front Stop)</span>
+            <span>192.0 mm (Rear Stop)</span>
           </div>
           <input type="range" id="stroke-slider" class="hud-slider" min="48" max="192" step="0.5" value="120">
           <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; font-family: var(--font-mono);">
-            <span id="hub-display">Relativer Hub: 72.0 mm / 144.0 mm</span>
-            <span id="rot-display" style="color: var(--accent-cyan);">Spindel: 18.00 U</span>
+            <span id="hub-display">Relative Stroke: 72.0 mm / 144.0 mm</span>
+            <span id="rot-display" style="color: var(--accent-cyan);">Spindle: 18.00 rev</span>
           </div>
         </div>
 
         <div class="hud-presets">
-          <button class="hud-preset-btn" onclick="goToPosition(48.0)">48 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Stop Vorn</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Nutz-Min</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(120.0)">120 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Mitte</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(170.0)">170 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Nutz-Max</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(192.0)">192 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Stop Heck</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(48.0)">48 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Front Stop</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Use Min</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(120.0)">120 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Center</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(170.0)">170 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Use Max</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(192.0)">192 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Rear Stop</small></button>
         </div>
 
         <div class="hud-btn-grid">
           <button class="hud-btn active" onclick="setCameraView('iso')">ISO</button>
           <button class="hud-btn" onclick="setCameraView('top')">TOP</button>
           <button class="hud-btn" onclick="setCameraView('front')">FRONT</button>
-          <button class="hud-btn" onclick="setCameraView('side')">SEITE</button>
+          <button class="hud-btn" onclick="setCameraView('side')">SIDE</button>
         </div>
 
         <div class="hud-actions-row">
           <button id="btn-cycle" class="hud-action-btn" onclick="toggleAutoCycle()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <span id="cycle-label">Dauerhub</span>
+            <span id="cycle-label">Auto Cycle</span>
           </button>
           <button id="btn-wireframe" class="hud-action-btn" onclick="toggleWireframe()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-            <span>Drahtgitter</span>
+            <span>Wireframe</span>
           </button>
           <button class="hud-action-btn" onclick="resetAll()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"></path><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
@@ -359,14 +359,14 @@
       <!-- Tab 2: Explosion -->
       <div id="tab-explosion" class="tab-content">
         <div class="hud-title">
-          <span>Explosionsdarstellung & Montage</span>
+          <span>Exploded View &amp; Assembly</span>
           <span id="explode-display" style="font-family: var(--font-mono); color: var(--text-primary);">0 %</span>
         </div>
 
         <div class="hud-slider-group">
           <div class="hud-slider-header">
-            <span>0% Montiert</span>
-            <span>100% Explodiert</span>
+            <span>0% Assembled</span>
+            <span>100% Exploded</span>
           </div>
           <input type="range" id="explode-slider" class="hud-slider" min="0" max="100" step="1" value="0">
         </div>
@@ -378,33 +378,33 @@
           <button class="hud-btn" onclick="setExplode(100)">100%</button>
         </div>
         <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
-          Trennt Motor (-X), Lagerböcke (±X), Schlitten (+Z) und Schienen (±Y) entlang ihrer Montageachsen.
+          Separates motor (-X), bearing housings (±X), carriage (+Z), and rails (±Y) along their assembly axes.
         </p>
       </div>
 
-      <!-- Tab 3: Schnitt & GPS -->
+      <!-- Tab 3: Section & GPS -->
       <div id="tab-schnitt" class="tab-content">
         <div class="hud-title">
-          <span>Schnittansicht & DIN ISO 1101 GPS</span>
+          <span>Section View &amp; DIN ISO 1101 GPS</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem;">
           <button id="btn-section" class="hud-action-btn" onclick="toggleSectionView()" style="width: 100%;">
-            <span>✂️ Längsschnitt A-A (Spindelachse Y=0)</span>
+            <span>✂️ Longitudinal Section A-A (Spindle Axis Y=0)</span>
           </button>
           <button id="btn-gps" class="hud-action-btn active-cycle" onclick="toggleGPSHotspots()" style="width: 100%;">
-            <span>📐 3D-GPS Annotation-Pins umschalten</span>
+            <span>📐 Toggle 3D GPS Annotation Pins</span>
           </button>
         </div>
         <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
-          Schnitt A-A legt die Schrägkugellagerung 7001-B im Festlagerbock, die Flanschmutter und das Loslagerspiel 6001 frei.
+          Section A-A exposes the 7001-B angular contact bearings in the fixed housing, the flanged ball nut, and the 6001 floating bearing axial clearance.
         </p>
       </div>
 
-      <!-- Tab 4: Stückliste (BOM) -->
+      <!-- Tab 4: BOM -->
       <div id="tab-stueckliste" class="tab-content">
         <div class="hud-title">
-          <span>Stückliste (13 Solids)</span>
-          <button onclick="clearPartSelection()" style="background:none; border:none; color:var(--text-muted); font-size:0.7rem; cursor:pointer; font-family:var(--font-mono);">Alle anzeigen</button>
+          <span>Bill of Materials (13 Solids)</span>
+          <button onclick="clearPartSelection()" style="background:none; border:none; color:var(--text-muted); font-size:0.7rem; cursor:pointer; font-family:var(--font-mono);">Show all</button>
         </div>
         <div class="bom-list" id="bom-list-container"></div>
       </div>
@@ -440,29 +440,29 @@
 
     // Assembly Part Definitions
     const PARTS = {
-      base: { file: 'models/pla100_base.stl', name: 'Grundkörper-Profil', pos: 1, mat: 'base', delta: [0, 0, 0], standard: 'Werknorm', matName: 'EN AW-6082 T6', desc: 'CNC-überfrästes Führungsprofil (L=240 mm). Bezug A gefräst Ra 0,8.' },
-      rail_left: { file: 'models/pla100_rail_left.stl', name: 'Linearführung links', pos: 2, mat: 'steel', delta: [0, -16, 0], standard: 'MGN12 - L230', matName: '100Cr6 gehärtet', desc: 'Präzisions-Miniaturschiene, geschliffene Laufflächen.' },
-      rail_right: { file: 'models/pla100_rail_right.stl', name: 'Linearführung rechts', pos: 3, mat: 'steel', delta: [0, 16, 0], standard: 'MGN12 - L230', matName: '100Cr6 gehärtet', desc: 'Parallelität ∥ 0,008 mm zu Anschlagkante Bezug B ausgerichtet.' },
-      fixed_bearing: { file: 'models/pla100_fixed_bearing.stl', name: 'Festlagergehäuse', pos: 8, mat: 'bearing', delta: [-22, 0, 0], standard: 'Werknorm', matName: 'EN AW-6082 T6', desc: 'Aufnahme für 2x 7001-B O-Anordnung (Lagersitz ∅ 28 H7, ⟂ 0,01 A).' },
-      floating_bearing: { file: 'models/pla100_floating_bearing.stl', name: 'Loslagergehäuse', pos: 9, mat: 'bearing', delta: [38, 0, 0], standard: 'Werknorm', matName: 'EN AW-6082 T6', desc: 'Aufnahme für Rillenkugellager 6001 (∅ 28 H7, +0,5 mm Axialspiel).' },
-      motor: { file: 'models/pla100_motor.stl', name: 'Schrittmotor NEMA 23', pos: 10, mat: 'motor', delta: [-75, 0, 0], standard: 'NEMA 23 (□ 57 mm)', matName: 'Alu-Druckguss / Lamellen', desc: 'Haltemoment 1,26 Nm, 1,8° Schrittwinkel, Wellen-∅ 6,35 mm.' },
-      coupling: { file: 'models/pla100_coupling.stl', name: 'Klauenkupplung', pos: 11, mat: 'coupling', delta: [-42, 0, 0], rotAxis: true, standard: 'D25 L30 spielfrei', matName: 'Alu / PUR 98 Sh-A', desc: 'Spielfreie Wellenkupplung, dämpft Torsionsschwingungen.' },
-      sensor_bracket: { file: 'models/pla100_sensor_bracket.stl', name: 'Endschalterkonsole', pos: 12, mat: 'bearing', delta: [0, 26, 0], standard: 'Werknorm', matName: 'EN AW-6082 T6', desc: 'Aufnahme für induktiven M8-Näherungssensor.' },
-      spindle: { file: 'models/pla100_spindle.stl', name: 'Kugelgewindespindel', pos: 5, mat: 'steel', delta: [0, 0, 0], rotAxis: true, standard: 'KGT Ø12 x 4 (IT5)', matName: 'CF53 / 100Cr6', desc: 'Steigung Ph = 4,0 mm. Reif für bis zu 200 mm/s Verfahrgeschwindigkeit.' },
+      base: { file: 'models/pla100_base.stl', name: 'Base Profile', pos: 1, mat: 'base', delta: [0, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'CNC-milled guide profile (L=240 mm). Datum A face-milled Ra 0.8.' },
+      rail_left: { file: 'models/pla100_rail_left.stl', name: 'Left Linear Rail', pos: 2, mat: 'steel', delta: [0, -16, 0], standard: 'MGN12 - L230', matName: '100Cr6 hardened', desc: 'Precision miniature rail with ground raceways.' },
+      rail_right: { file: 'models/pla100_rail_right.stl', name: 'Right Linear Rail', pos: 3, mat: 'steel', delta: [0, 16, 0], standard: 'MGN12 - L230', matName: '100Cr6 hardened', desc: 'Parallelism ∥ 0.008 mm aligned to reference edge Datum B.' },
+      fixed_bearing: { file: 'models/pla100_fixed_bearing.stl', name: 'Fixed Bearing Housing', pos: 8, mat: 'bearing', delta: [-22, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Bore for 2× 7001-B back-to-back O-arrangement (seat ∅ 28 H7, ⟂ 0.01 A).' },
+      floating_bearing: { file: 'models/pla100_floating_bearing.stl', name: 'Floating Bearing Housing', pos: 9, mat: 'bearing', delta: [38, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Bore for deep groove ball bearing 6001 (∅ 28 H7, +0.5 mm axial float).' },
+      motor: { file: 'models/pla100_motor.stl', name: 'NEMA 23 Stepper Motor', pos: 10, mat: 'motor', delta: [-75, 0, 0], standard: 'NEMA 23 (□ 57 mm)', matName: 'Die-cast Al / Laminations', desc: 'Holding torque 1.26 Nm, 1.8° step angle, shaft ∅ 6.35 mm.' },
+      coupling: { file: 'models/pla100_coupling.stl', name: 'Jaw Coupling', pos: 11, mat: 'coupling', delta: [-42, 0, 0], rotAxis: true, standard: 'D25 L30 zero-backlash', matName: 'Al / PUR 98 Sh-A', desc: 'Zero-backlash shaft coupling damping torsional vibration.' },
+      sensor_bracket: { file: 'models/pla100_sensor_bracket.stl', name: 'Limit Switch Bracket', pos: 12, mat: 'bearing', delta: [0, 26, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Mount for M8 inductive proximity sensor.' },
+      spindle: { file: 'models/pla100_spindle.stl', name: 'Ball Screw Spindle', pos: 5, mat: 'steel', delta: [0, 0, 0], rotAxis: true, standard: 'Ball Screw Ø12 × 4 (IT5)', matName: 'CF53 / 100Cr6', desc: 'Lead Ph = 4.0 mm. Rated for traverse speeds up to 200 mm/s.' },
       // Carriage Group (moves with X)
-      table: { file: 'models/pla100_table.stl', name: 'Schlittentisch', pos: 7, mat: 'table', isCarriage: true, delta: [0, 0, 45], standard: 'Werknorm', matName: 'EN AW-7075 T6 eloxiert', desc: 'Aufspannfläche 90x76 mm mit M5-Raster (25x25 mm).' },
-      nut: { file: 'models/pla100_nut.stl', name: 'KGT-Flanschmutter', pos: 6, mat: 'nut', isCarriage: true, delta: [0, 0, 0], standard: 'DIN 69051 ähnlich', matName: '16MnCr5 einsatzgehärtet', desc: 'Spielfreie Flanschmutter mit axialer Kugelrückführung.' },
-      blocks: { file: 'models/pla100_blocks.stl', name: '4x Führungswagen', pos: 4, mat: 'blocks', isCarriage: true, delta: [0, 0, 0], standard: 'MGN12H (verlängert)', matName: '100Cr6 / POM-Käfig', desc: 'Vorspannklasse Z1 (0,02 C). Dynamische Tragzahl C = 3,8 kN.' },
-      flag: { file: 'models/pla100_flag.stl', name: 'Schaltfahne', pos: 13, mat: 'nut', isCarriage: true, delta: [0, 20, 45], standard: 'DIN EN 10130', matName: 'Stahl DC01 verzinkt', desc: 'Auslöseblech für berührungslose induktive Endlagen.' }
+      table: { file: 'models/pla100_table.stl', name: 'Carriage Table', pos: 7, mat: 'table', isCarriage: true, delta: [0, 0, 45], standard: 'Custom', matName: 'EN AW-7075 T6 anodized', desc: 'Mounting surface 90×76 mm with M5 grid (25×25 mm).' },
+      nut: { file: 'models/pla100_nut.stl', name: 'Flanged Ball Nut', pos: 6, mat: 'nut', isCarriage: true, delta: [0, 0, 0], standard: 'DIN 69051 equiv.', matName: '16MnCr5 case-hardened', desc: 'Preloaded zero-backlash flanged nut with internal ball recirculation.' },
+      blocks: { file: 'models/pla100_blocks.stl', name: '4× Linear Carriages', pos: 4, mat: 'blocks', isCarriage: true, delta: [0, 0, 0], standard: 'MGN12H (long)', matName: '100Cr6 / POM cage', desc: 'Preload class Z1 (0.02 C). Dynamic load rating C = 3.8 kN.' },
+      flag: { file: 'models/pla100_flag.stl', name: 'Trigger Flag', pos: 13, mat: 'nut', isCarriage: true, delta: [0, 20, 45], standard: 'DIN EN 10130', matName: 'Galvanized DC01 steel', desc: 'Target plate for non-contact inductive end-stop sensing.' }
     };
 
     // 3D-GPS Annotation Hotspots
     const HOTSPOTS = [
-      { id: 'gps-a', pos: new THREE.Vector3(120, 0, 0), tag: 'Bezug A', title: 'DIN EN ISO 1101 · Bezugsebene A', desc: 'Aufspannfläche Grundkörper: Ebenheit ⏥ 0,01. Primäre Montageebene.' },
-      { id: 'gps-b', pos: new THREE.Vector3(120, 21.5, 27), tag: 'Bezug B', title: 'DIN EN ISO 1101 · Führungsbezug B', desc: 'Geschliffene Anschlagkante: Parallelität ∥ 0,008 A zur Führungsschiene.' },
-      { id: 'gps-fixed', pos: new THREE.Vector3(-10, 0, 20), tag: 'Festlager 7001-B', title: 'Festlagerung (O-Anordnung)', desc: '2x Schrägkugellager 7001-B angestellt. Lagersitz ∅ 28 H7, ⟂ 0,01 A.' },
-      { id: 'gps-spindle', pos: new THREE.Vector3(0, 0, 20), tag: 'KGT Ø12x4', title: 'Kugelgewindetrieb IT5', desc: 'Steigung Ph = 4,0 mm. Spindelsitz ∅ 12 k5/h6 für axiale Vorspannung.' },
-      { id: 'gps-float', pos: new THREE.Vector3(247, 0, 20), tag: 'Loslager 6001', title: 'Loslagerung', desc: 'Rillenkugellager 6001 in ∅ 28 H7 mit +0,5 mm Axialspiel zur Wärmekompensation.' }
+      { id: 'gps-a', pos: new THREE.Vector3(120, 0, 0), tag: 'Datum A', title: 'DIN EN ISO 1101 · Datum Plane A', desc: 'Base mounting face: flatness ⏥ 0.01. Primary mounting datum.' },
+      { id: 'gps-b', pos: new THREE.Vector3(120, 21.5, 27), tag: 'Datum B', title: 'DIN EN ISO 1101 · Guide Datum B', desc: 'Ground reference shoulder: parallelism ∥ 0.008 A to linear rail.' },
+      { id: 'gps-fixed', pos: new THREE.Vector3(-10, 0, 20), tag: 'Fixed 7001-B', title: 'Fixed Bearing (O-Arrangement)', desc: '2× angular contact bearings 7001-B preloaded. Seat ∅ 28 H7, ⟂ 0.01 A.' },
+      { id: 'gps-spindle', pos: new THREE.Vector3(0, 0, 20), tag: 'Ball Screw Ø12×4', title: 'Ball Screw Drive IT5', desc: 'Lead Ph = 4.0 mm. Journal ∅ 12 k5/h6 for axial preload.' },
+      { id: 'gps-float', pos: new THREE.Vector3(247, 0, 20), tag: 'Floating 6001', title: 'Floating Bearing', desc: 'Deep groove bearing 6001 in ∅ 28 H7 with +0.5 mm axial float for thermal expansion.' }
     ];
 
     const materials = {};
@@ -613,7 +613,7 @@
 
       const relHub = currentStroke - MIN_STROKE;
       const hubDisplay = document.getElementById('hub-display');
-      if (hubDisplay) hubDisplay.textContent = `Relativer Hub: ${relHub.toFixed(1)} mm / 144.0 mm`;
+      if (hubDisplay) hubDisplay.textContent = `Relative Stroke: ${relHub.toFixed(1)} mm / 144.0 mm`;
 
       // Spindle & Coupling Synchronous Rotation (Lead Ph = 4.0 mm)
       const turns = relHub / 4.0;
@@ -623,7 +623,7 @@
       if (meshes.coupling) meshes.coupling.rotation.x = angle;
 
       const rotDisplay = document.getElementById('rot-display');
-      if (rotDisplay) rotDisplay.textContent = `Spindel: ${turns.toFixed(2)} U`;
+      if (rotDisplay) rotDisplay.textContent = `Spindle: ${turns.toFixed(2)} rev`;
     }
 
     function setExplode(percent) {
@@ -656,10 +656,10 @@
 
       if (isSectionActive) {
         btn.classList.add('active-cycle');
-        btn.innerHTML = '<span>✂️ Schnittansicht A-A: AKTIV (Y=0)</span>';
+        btn.innerHTML = '<span>✂️ Section View A-A: ACTIVE (Y=0)</span>';
       } else {
         btn.classList.remove('active-cycle');
-        btn.innerHTML = '<span>✂️ Längsschnitt A-A (Spindelachse Y=0)</span>';
+        btn.innerHTML = '<span>✂️ Longitudinal Section A-A (Spindle Axis Y=0)</span>';
       }
     }
 
@@ -690,22 +690,22 @@
       c.innerHTML = `
         <div style="font-weight:700; color:var(--accent-cyan); margin-bottom:0.4rem;">${h.title}</div>
         <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0 0 0.5rem 0;">${h.desc}</p>
-        <button onclick="resetSpecsBox()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Standard-Werte</button>
+        <button onclick="resetSpecsBox()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Default Specs</button>
       `;
     }
 
     function resetSpecsBox() {
-      document.getElementById('specs-heading').textContent = 'Konstruktionsdaten';
+      document.getElementById('specs-heading').textContent = 'Design Specifications';
       document.getElementById('specs-content').innerHTML = `
-        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detaillierung (WIP)</span></div>
-        <div class="specs-row"><span class="specs-label">Nutzhub:</span> <span class="specs-val">100,0 mm (X: 70...170 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Max. Freihub:</span> <span class="specs-val">144,0 mm (X: 48...192 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Führung:</span> <span class="specs-val">2x MGN12 (Spur 55 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Spindeltrieb:</span> <span class="specs-val">KGT Ø12 x 4 mm (IT5)</span></div>
-        <div class="specs-row"><span class="specs-label">Festlager:</span> <span class="specs-val">2x 7001-B (O-Anordn.)</span></div>
-        <div class="specs-row"><span class="specs-label">Loslager:</span> <span class="specs-val">1x 6001 (+0,5 mm Axial)</span></div>
-        <div class="specs-row"><span class="specs-label">Werkstoffe:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
-        <div class="specs-row"><span class="specs-label">Systemmasse:</span> <span class="specs-val">ca. 2,15 kg</span></div>
+        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detailing (WIP)</span></div>
+        <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70...170 mm)</span></div>
+        <div class="specs-row"><span class="specs-label">Max. Free Travel:</span> <span class="specs-val">144.0 mm (X: 48...192 mm)</span></div>
+        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12 (55 mm track)</span></div>
+        <div class="specs-row"><span class="specs-label">Lead Screw:</span> <span class="specs-val">Ball Screw Ø12 × 4 mm (IT5)</span></div>
+        <div class="specs-row"><span class="specs-label">Fixed Bearing:</span> <span class="specs-val">2× 7001-B (Back-to-back O)</span></div>
+        <div class="specs-row"><span class="specs-label">Floating Bearing:</span> <span class="specs-val">1× 6001 (+0.5 mm axial)</span></div>
+        <div class="specs-row"><span class="specs-label">Materials:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
+        <div class="specs-row"><span class="specs-label">System Mass:</span> <span class="specs-val">approx. 2.15 kg</span></div>
       `;
     }
 
@@ -747,10 +747,10 @@
       const info = PARTS[key];
       document.getElementById('specs-heading').textContent = `Pos. ${info.pos}: ${info.name}`;
       document.getElementById('specs-content').innerHTML = `
-        <div class="specs-row"><span class="specs-label">Norm/Bauart:</span> <span class="specs-val">${info.standard}</span></div>
-        <div class="specs-row"><span class="specs-label">Werkstoff:</span> <span class="specs-val" style="color:var(--accent-cyan);">${info.matName}</span></div>
+        <div class="specs-row"><span class="specs-label">Std./Type:</span> <span class="specs-val">${info.standard}</span></div>
+        <div class="specs-row"><span class="specs-label">Material:</span> <span class="specs-val" style="color:var(--accent-cyan);">${info.matName}</span></div>
         <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0.5rem 0 0.5rem 0;">${info.desc}</p>
-        <button onclick="clearPartSelection()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Auswahl aufheben</button>
+        <button onclick="clearPartSelection()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Clear selection</button>
       `;
     }
 
@@ -795,7 +795,7 @@
         label.textContent = 'Pause';
       } else {
         btn.classList.remove('active-cycle');
-        label.textContent = 'Dauerhub';
+        label.textContent = 'Auto Cycle';
       }
     }
 

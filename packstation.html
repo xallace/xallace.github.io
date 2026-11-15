@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packstation &amp; Palettier-Roboter · Digitaler Zwilling (Three.js + Rapier.js)</title>
-  <meta name="description" content="Physikbasierter digitaler Zwilling einer automatisierten Paket-Sortieranlage mit PLA-100 Weiche, Scanner, Dual-Knickarm-Robotern, Three.js und Rapier.js WASM.">
+  <title>Packstation &amp; Palletizing Robots · Digital Twin (Three.js + Rapier.js)</title>
+  <meta name="description" content="Physics-based digital twin of an automated parcel sorting cell with PLA-100 diverter, barcode scanner, dual articulated robots, Three.js, and Rapier.js WASM.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1120'/%3E%3Cpath d='M16 5l10 5.5v11L16 27 6 21.5v-11z' fill='none' stroke='%2338bdf8' stroke-width='2.2'/%3E%3Cpath d='M6 10.5L16 16l10-5.5M16 16v11' fill='none' stroke='%232dd4bf' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,17 +235,17 @@
 
   <header class="viewer-header">
     <div class="viewer-title-group">
-      <a href="index.html" class="viewer-back-btn" title="Zurück zum Portfolio">
+      <a href="index.html" class="viewer-back-btn" title="Back to portfolio">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         <span>Portfolio</span>
       </a>
       <div class="viewer-title-text">
         <h1>
-          <span>Packstation<span class="title-sub-hide-xs"> &amp; Palettier-Roboter</span></span>
-          <span class="status-badge">Digitaler Zwilling</span>
+          <span>Packstation<span class="title-sub-hide-xs"> &amp; Palletizing Robots</span></span>
+          <span class="status-badge">Digital Twin</span>
           <span class="status-badge badge-hide-sm" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border-color: var(--accent-cyan);">Three.js + Rapier.js WASM</span>
         </h1>
-        <p>Einspeisung · Barcode-Scanner · PLA-100 Weiche · 2× Knickarm-Roboter &amp; Europalettierung</p>
+        <p>Infeed · Barcode Scanner · PLA-100 Diverter · 2× Articulated Robots &amp; Euro-Palletizing</p>
       </div>
     </div>
 
@@ -260,7 +260,7 @@
   <div id="viewport-container">
     <div id="loading-spinner">
       <div class="spinner-ring"></div>
-      <div class="spinner-text">Initialisiere Rapier 3D Physik-Engine (WASM)...</div>
+      <div class="spinner-text">Initializing Rapier 3D Physics Engine (WASM)...</div>
     </div>
     <canvas id="cad-canvas"></canvas>
 
@@ -269,24 +269,24 @@
       <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.45rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
         <div style="display: flex; align-items: center; gap: 0.35rem;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          <span>Leitstand / SPS-Telemetrie</span>
+          <span>Control Desk / PLC Telemetry</span>
         </div>
         <span id="telemetry-live-badge" style="font-size: 0.65rem; color: var(--accent-teal); background: rgba(45, 212, 191, 0.15); border: 1px solid var(--accent-teal); padding: 1px 5px; border-radius: 3px; font-weight: 700;">LIVE</span>
       </div>
 
-      <div class="stats-row"><span class="stats-label">Pakete (Aufg. / Pal.):</span> <span class="stats-val" id="stat-total">0 / 0</span></div>
-      <div class="stats-row"><span class="stats-label">Roboter A (Express):</span> <span class="stats-val" style="color: var(--accent-cyan);" id="stat-robot-a">BEREIT · 0/8</span></div>
-      <div class="stats-row"><span class="stats-label">Roboter B (Standard):</span> <span class="stats-val" style="color: #f59e0b;" id="stat-robot-b">BEREIT · 0/8</span></div>
-      <div class="stats-row stats-row-desktop"><span class="stats-label">Taktrate / Puffer:</span> <span class="stats-val" id="stat-rate">25 Pkt/min</span></div>
-      <div class="stats-row stats-row-desktop"><span class="stats-label">PLA-100 Weiche:</span> <span class="stats-val" style="color: var(--accent-emerald);" id="stat-pusher">BEREIT</span></div>
+      <div class="stats-row"><span class="stats-label">Parcels (Fed / Pal.):</span> <span class="stats-val" id="stat-total">0 / 0</span></div>
+      <div class="stats-row"><span class="stats-label">Robot A (Express):</span> <span class="stats-val" style="color: var(--accent-cyan);" id="stat-robot-a">READY · 0/8</span></div>
+      <div class="stats-row"><span class="stats-label">Robot B (Standard):</span> <span class="stats-val" style="color: #f59e0b;" id="stat-robot-b">READY · 0/8</span></div>
+      <div class="stats-row stats-row-desktop"><span class="stats-label">Throughput / Buffer:</span> <span class="stats-val" id="stat-rate">25 pkg/min</span></div>
+      <div class="stats-row stats-row-desktop"><span class="stats-label">PLA-100 Diverter:</span> <span class="stats-val" style="color: var(--accent-emerald);" id="stat-pusher">READY</span></div>
 
       <div class="scanner-feed">
         <div class="feed-header">
-          <span>OPTISCHER SCANNER</span>
+          <span>OPTICAL SCANNER</span>
           <span id="scan-indicator" style="font-size: 0.65rem; color: var(--text-muted);">STANDBY</span>
         </div>
         <div class="feed-body" id="scan-body">
-          Warte auf eingehendes Packgut...
+          Waiting for incoming parcel...
         </div>
       </div>
     </div>
@@ -294,17 +294,17 @@
     <!-- Floating HUD -->
     <div class="sim-hud">
       <div class="hud-title">
-        <span>Anlagensteuerung &amp; Simulation</span>
+        <span>Cell Control &amp; Simulation</span>
         <span style="font-size: 0.7rem; color: var(--accent-cyan); font-family: var(--font-mono);">Rapier3D WASM</span>
       </div>
 
       <div class="hud-controls-row">
         <button id="btn-spawn" class="hud-btn active" onclick="spawnSinglePackage()">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          <span>Paket</span>
+          <span>Parcel</span>
         </button>
         <button id="btn-auto" class="hud-btn active" onclick="toggleAutoSpawn()">
-          <span id="auto-label">Auto: AN</span>
+          <span id="auto-label">Auto: ON</span>
         </button>
         <button id="btn-pause" class="hud-btn" onclick="togglePause()">
           <span id="pause-label">Pause</span>
@@ -316,7 +316,7 @@
 
       <div class="hud-slider-group">
         <div class="hud-slider-header">
-          <span>Fördergeschwindigkeit</span>
+          <span>Conveyor Speed</span>
           <span id="speed-val">1.2 m/s</span>
         </div>
         <input type="range" id="belt-speed" class="hud-slider" min="0.5" max="2.5" step="0.1" value="1.2">
@@ -324,7 +324,7 @@
 
       <div class="hud-slider-group">
         <div class="hud-slider-header">
-          <span>Sortier-Modus</span>
+          <span>Sorting Mode</span>
           <span id="mode-val" style="color: var(--accent-cyan);">Mix 50/50</span>
         </div>
         <div style="display: flex; gap: 0.35rem;">
@@ -337,7 +337,7 @@
       <div class="hud-controls-row" style="margin-bottom: 0;">
         <button class="hud-btn active" id="cam-iso" onclick="setCamView('iso')">ISO</button>
         <button class="hud-btn" id="cam-scanner" onclick="setCamView('scanner')">Scanner</button>
-        <button class="hud-btn" id="cam-pusher" onclick="setCamView('pusher')">Weiche</button>
+        <button class="hud-btn" id="cam-pusher" onclick="setCamView('pusher')">Diverter</button>
         <button class="hud-btn" id="cam-robotA" onclick="setCamView('robotA')">Robot A</button>
         <button class="hud-btn" id="cam-robotB" onclick="setCamView('robotB')">Robot B</button>
       </div>
@@ -390,12 +390,12 @@
     function updateRateStat() {
       const rateEl = document.getElementById('stat-rate');
       if (isPaused) {
-        rateEl.textContent = 'PAUSIERT';
+        rateEl.textContent = 'PAUSED';
       } else if (!autoSpawn) {
-        rateEl.textContent = 'Manuell';
+        rateEl.textContent = 'Manual';
       } else {
         const pktPerMin = Math.round(60 / getEffectiveSpawnInterval());
-        rateEl.textContent = `${pktPerMin} Pkt/min`;
+        rateEl.textContent = `${pktPerMin} pkg/min`;
       }
     }
 
@@ -512,7 +512,7 @@
       } catch (err) {
         console.error('Simulation Init Error:', err);
         const sp = document.getElementById('loading-spinner');
-        if (sp) sp.innerHTML = `<div class="spinner-text" style="color:#f87171;">Fehler beim Start: ${err.message}</div>`;
+        if (sp) sp.innerHTML = `<div class="spinner-text" style="color:#f87171;">Startup error: ${err.message}</div>`;
       }
     }
 
@@ -587,13 +587,13 @@
     }
 
     function buildFloorLabels() {
-      addFloorLabel('EINSPEISUNG', -2.6, 0.88, '#94a3b8', 1.45);
+      addFloorLabel('INFEED', -2.6, 0.88, '#94a3b8', 1.45);
       addFloorLabel('SCANNER', 0.2, 0.88, '#38bdf8', 1.15);
-      addFloorLabel('PLA-100 WEICHE', 1.7, -1.55, '#38bdf8', 1.55);
+      addFloorLabel('PLA-100 DIVERTER', 1.7, -1.55, '#38bdf8', 1.55);
       addFloorLabel('EXPRESS A', 0.82, 2.3, '#38bdf8', 1.35);
       addFloorLabel('STANDARD B', 4.7, 0.88, '#f59e0b', 1.45);
-      addFloorLabel('PALETTE A · EXPRESS', 1.70, 6.32, '#38bdf8', 1.7);
-      addFloorLabel('PALETTE B · STANDARD', 7.95, 0.92, '#f59e0b', 1.75);
+      addFloorLabel('PALLET A · EXPRESS', 1.70, 6.32, '#38bdf8', 1.7);
+      addFloorLabel('PALLET B · STANDARD', 7.95, 0.92, '#f59e0b', 1.75);
     }
 
     // =========================================================================
@@ -815,10 +815,10 @@
     }
 
     function buildConveyorSystem() {
-      createConveyorBelt(-2.0, 0, 4.4, 0.7, 0.9, 1.0, 0.0, 'Einspeisung');
-      createConveyorBelt(1.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Weichenbereich', { gapLeft: true, gapRight: true });
-      createConveyorBelt(4.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Standardband B');
-      createConveyorBelt(1.7, 2.0, 0.7, 3.3, 0.9, 0.0, 1.0, 'Expressband A');
+      createConveyorBelt(-2.0, 0, 4.4, 0.7, 0.9, 1.0, 0.0, 'Infeed');
+      createConveyorBelt(1.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Diverter Zone', { gapLeft: true, gapRight: true });
+      createConveyorBelt(4.7, 0, 3.0, 0.7, 0.9, 1.0, 0.0, 'Standard Line B');
+      createConveyorBelt(1.7, 2.0, 0.7, 3.3, 0.9, 0.0, 1.0, 'Express Line A');
 
       // Transfer dead plate at junction (x=1.7, z=0.35) with physics bridge
       const transMesh = new THREE.Mesh(
@@ -1263,7 +1263,7 @@
       const btn = document.getElementById('btn-auto');
       const label = document.getElementById('auto-label');
       btn.classList.toggle('active', autoSpawn);
-      label.textContent = autoSpawn ? 'Auto: AN' : 'Auto: AUS';
+      label.textContent = autoSpawn ? 'Auto: ON' : 'Auto: OFF';
       updateRateStat();
     };
 
@@ -1273,9 +1273,9 @@
       const lbl = document.getElementById('pause-label');
       const badge = document.getElementById('telemetry-live-badge');
       btn.classList.toggle('warn-active', isPaused);
-      lbl.textContent = isPaused ? 'Weiter' : 'Pause';
+      lbl.textContent = isPaused ? 'Resume' : 'Pause';
       if (isPaused) {
-        badge.textContent = 'PAUSE';
+        badge.textContent = 'PAUSED';
         badge.style.color = '#f59e0b';
         badge.style.borderColor = '#f59e0b';
         badge.style.background = 'rgba(245, 158, 11, 0.15)';
@@ -1307,7 +1307,7 @@
         pusherMesh.position.z = pusherMinZ;
         pusherBody.setNextKinematicTranslation({ x: 1.7, y: 1.00, z: pusherMinZ });
       }
-      document.getElementById('stat-pusher').textContent = 'BEREIT';
+      document.getElementById('stat-pusher').textContent = 'READY';
       document.getElementById('stat-pusher').style.color = 'var(--accent-emerald)';
 
       for (const [rob, elId] of [[robotA, 'stat-robot-a'], [robotB, 'stat-robot-b']]) {
@@ -1317,11 +1317,11 @@
         rob.clearing = false;
         rob.targetPackage = null;
         rob.beaconMat.color.setHex(0x34d399);
-        document.getElementById(elId).textContent = 'BEREIT · 0/8';
+        document.getElementById(elId).textContent = 'READY · 0/8';
       }
 
       updateTotalStat();
-      document.getElementById('scan-body').textContent = 'Warte auf eingehendes Packgut...';
+      document.getElementById('scan-body').textContent = 'Waiting for incoming parcel...';
       document.getElementById('scan-indicator').textContent = 'STANDBY';
       document.getElementById('scan-indicator').style.color = 'var(--text-muted)';
     };
@@ -1332,7 +1332,7 @@
       const activeBtn = document.getElementById(`mode-${m}`);
       if (activeBtn) activeBtn.classList.add('active');
       document.getElementById('mode-val').textContent =
-        m === 'express' ? 'Nur Express' : m === 'standard' ? 'Nur Standard' : 'Mix 50/50';
+        m === 'express' ? 'Express Only' : m === 'standard' ? 'Standard Only' : 'Mix 50/50';
     };
 
     const CAM_PRESETS = {
@@ -1414,7 +1414,7 @@
       if (robot.clearing) {
         applyRobotPose(robot, readyHoverPos, 0);
         robot.beaconMat.color.setHex(0xf59e0b);
-        statElem.textContent = 'VOLL · ABTRANSPORT (8/8)';
+        statElem.textContent = 'FULL · DISPATCHING (8/8)';
         return;
       }
 
@@ -1423,7 +1423,7 @@
         robot.currentPos.copy(readyHoverPos);
         robot.ledMat.color.setHex(robot.colorAccent);
         robot.beaconMat.color.setHex(0x34d399);
-        statElem.textContent = `BEREIT · ${robot.palletCount}/8`;
+        statElem.textContent = `READY · ${robot.palletCount}/8`;
 
         const candidate = packages.find(p => {
           if (p.type !== targetType || p.inRobot || p.placed) return false;
@@ -1442,7 +1442,7 @@
           const pos = candidate.body.translation();
           robot.targetPos.set(pos.x, pos.y + candidate.sy / 2, pos.z);
           robot.beaconMat.color.setHex(robot.colorAccent);
-          statElem.textContent = `GREIFEN · ${robot.palletCount}/8`;
+          statElem.textContent = `PICKING · ${robot.palletCount}/8`;
         }
       }
       else if (robot.state === 'MOVE_DOWN') {
@@ -1469,7 +1469,7 @@
           robot.timer = 0;
           robot.startPos.copy(robot.currentPos);
           robot.targetPos.set(robot.currentPos.x, 1.52, robot.currentPos.z);
-          statElem.textContent = `HEBEN · ${robot.palletCount}/8`;
+          statElem.textContent = `LIFTING · ${robot.palletCount}/8`;
         }
       }
       else if (robot.state === 'LIFT') {
@@ -1488,7 +1488,7 @@
           robot.targetPos.set(slotPos.x, 1.52, slotPos.z);
           robot.swingStartYaw = 0;
           robot.swingEndYaw = palletYaw;
-          statElem.textContent = `PALETTIEREN · ${robot.palletCount}/8`;
+          statElem.textContent = `PALLETIZING · ${robot.palletCount}/8`;
         }
       }
       else if (robot.state === 'SWING') {
@@ -1544,7 +1544,7 @@
 
           const curLayer = Math.floor((robot.palletCount - 1) / 4) + 1;
           const curSlot = ((robot.palletCount - 1) % 4) + 1;
-          statElem.textContent = `Lage ${curLayer} [${curSlot}/4] · ${robot.palletCount}/8`;
+          statElem.textContent = `Layer ${curLayer} [${curSlot}/4] · ${robot.palletCount}/8`;
 
           if (robot.palletCount >= 8) {
             robot.clearing = true;
@@ -1557,7 +1557,7 @@
               robot.palletCount = 0;
               robot.clearing = false;
               robot.beaconMat.color.setHex(0x34d399);
-              statElem.textContent = 'BEREIT · 0/8';
+              statElem.textContent = 'READY · 0/8';
             }, 2200);
             dispatchTimers.push(tid);
           }
@@ -1595,7 +1595,7 @@
 
         if (progress >= 1.0) {
           robot.state = 'IDLE';
-          statElem.textContent = `BEREIT · ${robot.palletCount}/8`;
+          statElem.textContent = `READY · ${robot.palletCount}/8`;
         }
       }
     }
@@ -1669,8 +1669,8 @@
               ind.textContent = isExp ? 'EXPRESS [ROUTE A]' : 'STANDARD [ROUTE B]';
               ind.style.color = isExp ? 'var(--accent-cyan)' : '#f59e0b';
               document.getElementById('scan-body').innerHTML = `
-                <strong>ID #${p.id}</strong> · Barcode erfasst<br/>
-                Ziel: <span style="color:${isExp ? 'var(--accent-cyan)' : '#f59e0b'}; font-weight:700;">${isExp ? 'Roboter A (Express 90°)' : 'Roboter B (Standard)'}</span>
+                <strong>ID #${p.id}</strong> · Barcode scanned<br/>
+                Target: <span style="color:${isExp ? 'var(--accent-cyan)' : '#f59e0b'}; font-weight:700;">${isExp ? 'Robot A (Express 90°)' : 'Robot B (Standard)'}</span>
               `;
             }
 
@@ -1679,7 +1679,7 @@
               if (pusherState === 'idle') {
                 p.sorted = true;
                 pusherState = 'extending';
-                document.getElementById('stat-pusher').textContent = 'AUSSTOSS';
+                document.getElementById('stat-pusher').textContent = 'DIVERTING';
                 document.getElementById('stat-pusher').style.color = 'var(--accent-cyan)';
               }
             }
@@ -1760,7 +1760,7 @@
           if (pusherCurrentZ <= pusherMinZ) {
             pusherCurrentZ = pusherMinZ;
             pusherState = 'idle';
-            document.getElementById('stat-pusher').textContent = 'BEREIT';
+            document.getElementById('stat-pusher').textContent = 'READY';
             document.getElementById('stat-pusher').style.color = 'var(--accent-emerald)';
           }
         }

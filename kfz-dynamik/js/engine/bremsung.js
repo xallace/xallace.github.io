@@ -1,19 +1,19 @@
-/* Teil II – Bremsung (Kap. 9).
-   Achslasten (9.44)/(9.45), Kraftschluss (9.46), ideale Bremskraftverteilung (9.54)/(9.56),
-   feste Bremskraftverteilung, Gütegrad zmax/μh (9.40), Anhalteweg (9.17)/(9.18). */
+/* Part II – Braking (Ch. 9).
+   Axle loads (9.44)/(9.45), friction utilization (9.46), ideal brake force distribution (9.54)/(9.56),
+   fixed distribution, braking efficiency zmax/μh (9.40), stopping distance (9.17)/(9.18). */
 (function (root) {
   'use strict';
   const K = root.KfzDyn;
   const { G: g } = K.core;
 
-  // Fahrzeug aus Abb. 9.12; φ = 0,76 ergibt die Zahlen im Text S. 227 (μV = μH = 0,8 bei z = 0,8)
+  // Vehicle from Fig. 9.12; φ = 0.76 yields the textbook numbers on p. 227 (μV = μH = 0.8 at z = 0.8)
   const DEFAULTS = {
     m: 880,         // kg
     lVrel: 0.42,    // lV/l
     hRel: 0.225,    // h/l
-    phi: 0.76,      // BV/(BV + BH), feste Verteilung
-    muH: 0.8,       // Haftbeiwert der Straße
-    // Anhalteweg, Beispiel S. 217 / Tab. 9.1
+    phi: 0.76,      // BV/(BV + BH), fixed distribution
+    muH: 0.8,       // road friction coefficient
+    // Stopping distance, example p. 217 / Table 9.1
     vA: 80 / 3.6, decel: 5.8, tr: 0.64, ta: 0.05, ts: 0.17,
   };
 
@@ -21,25 +21,25 @@
     return Object.assign({}, DEFAULTS, params);
   }
 
-  // bezogene Achslasten FzV/G, FzH/G bei Abbremsung z
+  // normalized axle loads FzV/G, FzH/G at deceleration z
   function axleLoads(p, z) {
     const lH = 1 - p.lVrel;
     return { V: lH + p.hRel * z, H: p.lVrel - p.hRel * z };
   }
 
-  // ideale Bremskräfte BVid/G, BHid/G (9.56)
+  // ideal brake forces BVid/G, BHid/G (9.56)
   function ideal(p, z) {
     const a = axleLoads(p, z);
     return { BV: z * a.V, BH: z * a.H };
   }
 
-  // Kraftschlussbeanspruchung bei fester Verteilung (9.46)
+  // friction utilization with fixed distribution (9.46)
   function utilization(p, z) {
     const a = axleLoads(p, z);
     return { muV: a.V > 0 ? p.phi * z / a.V : Infinity, muH: a.H > 0 ? (1 - p.phi) * z / a.H : Infinity };
   }
 
-  // Abbremsung, bei der Vorder- bzw. Hinterachse den Haftbeiwert μh erreicht
+  // Deceleration at which front or rear axle reaches available friction μh
   function lockLimits(p, mu) {
     const lH = 1 - p.lVrel;
     // φ·z = μ·(lH + h·z)  →  z = μ·lH / (φ − μ·h)
@@ -47,23 +47,23 @@
     // (1−φ)·z = μ·(lV − h·z)  →  z = μ·lV / ((1−φ) + μ·h)
     const zH = mu * p.lVrel / ((1 - p.phi) + mu * p.hRel);
     const zmax = Math.min(zV, zH);
-    return { zV, zH, zmax, first: zV <= zH ? 'Vorderachse' : 'Hinterachse', guete: zmax / mu };
+    return { zV, zH, zmax, first: zV <= zH ? 'front axle' : 'rear axle', guete: zmax / mu };
   }
 
-  // Abbremsung, bei der die feste Verteilung die ideale schneidet (μV = μH)
+  // Deceleration at which fixed distribution intersects ideal distribution (μV = μH)
   function criticalZ(p) {
     // φ·z/(lH + h z) = (1−φ)·z/(lV − h z)  →  φ(lV − h z) = (1−φ)(lH + h z)
     const lH = 1 - p.lVrel;
     return (p.phi * p.lVrel - (1 - p.phi) * lH) / p.hRel;
   }
 
-  // ideale Verteilung als Anteil φid(z) = BVid/(BVid+BHid)
+  // ideal distribution as front share φid(z) = BVid/(BVid+BHid)
   function idealPhi(p, z) {
     return axleLoads(p, z).V;
   }
 
-  /* Anhalteweg nach Gl. (9.17): Reaktion tr, Ansprechen ta, Schwellen ts (linearer Anstieg),
-     danach Vollverzögerung. Liefert Gesamtwerte und den Zeitverlauf (Abb. 9.4). */
+  /* Stopping distance per Eq. (9.17): reaction tr, response ta, buildup ts (linear ramp),
+     then full deceleration. Returns summary values and time series (Fig. 9.4). */
   function stopping(params) {
     const p = withDefaults(params);
     const vA = p.vA, a = p.decel, { tr, ta, ts } = p;
@@ -73,7 +73,7 @@
     const t = tr + ta + ts / 2 + vA / a;                                            // (9.19a)
     const parts = { s1: vA * (tr + ta), s2: vA * ts - a / 6 * ts * ts };
     parts.s3 = s - parts.s1 - parts.s2;
-    // Zeitverlauf
+    // Time series
     const T = [], V = [], X = [], A = [];
     const dt = 0.005;
     let v = vA, x = 0;

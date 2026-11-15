@@ -1,8 +1,8 @@
-/* Reiter 2: Halbieren einer Strecke (Tabellenbuch Metall S. 60, 2. Zeile)
-   Gegeben: Strecke AB
-   1. Kreisbogen 1 mit Radius r um A; r > 1/2 AB.
-   2. Kreisbogen 2 mit gleichem Radius r um B.
-   3. Die Verbindungslinie der Kreisschnittpunkte ist die Mittelsenkrechte bzw. die Halbierende der Strecke AB. */
+/* Tab 2: Bisecting a line segment (Tabellenbuch Metall p. 60, row 2)
+   Given: segment AB
+   1. Arc 1 of radius r around A; r > 1/2 AB.
+   2. Arc 2 of the same radius r around B.
+   3. The line connecting the intersections is the perpendicular bisector of segment AB. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -11,9 +11,9 @@
 
   const W = 640, H = 460, SCALE = 4; // 4 px = 1 mm
   const STEPS = [
-    [1, 'Kreisbogen 1 um A', 'Kreisbogen 1 mit Radius <i>r</i> um A schlagen; Bedingung: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
-    [2, 'Kreisbogen 2 um B', 'Kreisbogen 2 mit gleichem Radius <i>r</i> um B schlagen (zwei Kreisschnittpunkte S₁ und S₂).'],
-    [3, 'Mittelsenkrechte ziehen', 'Die Verbindungslinie 3 der Kreisschnittpunkte ist die Mittelsenkrechte bzw. Halbierende der Strecke <span class="overline">AB</span> (Mittelpunkt M).']
+    [1, 'Arc 1 around A', 'Strike arc 1 of radius <i>r</i> centered at A; condition: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
+    [2, 'Arc 2 around B', 'Strike arc 2 of the same radius <i>r</i> centered at B (yielding intersections S₁ and S₂).'],
+    [3, 'Draw perpendicular bisector', 'Connecting line 3 through the two intersections is the perpendicular bisector of segment <span class="overline">AB</span> (midpoint M).']
   ];
 
   const BOOK_STATE = () => ({
@@ -45,24 +45,24 @@
     const { A, B, M } = res;
     const baseDeg = SVG.screenAngle(A, B);
 
-    // Gegebene Strecke AB mit Endstrichen
+    // Given segment AB with end ticks
     SVG.segmentWithTicks(svg, A, B, { w: 2.5 });
     SVG.text(svg, A.x - 16, A.y + 5, 'A', { 'text-anchor': 'end', 'font-size': 16 });
     SVG.text(svg, B.x + 16, B.y + 5, 'B', { 'text-anchor': 'start', 'font-size': 16 });
 
     if (!res.ok) {
-      // Anschauliche Darstellung bei Verletzung der Bedingung r > 1/2 AB
+      // Visual warning when the condition r > 1/2 AB is violated
       if (st.step >= 1) SVG.compassArc(svg, A, rPx, baseDeg - 65, baseDeg + 65, { cls: 'warn-arc' });
       if (st.step >= 2) SVG.compassArc(svg, B, rPx, baseDeg + 115, baseDeg + 245, { cls: 'warn-arc' });
       SVG.text(svg, M.x, M.y - 95,
         res.reason === 'tangent_equal_half'
-          ? 'r = ½ AB: Nur 1 Berührpunkt M – keine Richtung für die Mittelsenkrechte!'
-          : 'r < ½ AB: Die beiden Kreisbögen schneiden sich nicht!',
+          ? 'r = ½ AB: Only 1 tangent point M – no direction for the perpendicular bisector!'
+          : 'r < ½ AB: The two circular arcs do not intersect!',
         { 'text-anchor': 'middle', 'font-size': 14.5, class: 'halo step-num' });
     } else {
       const { S1, S2 } = res;
 
-      // Optional: Symmetrie-Raute AS1BS2
+      // Optional: symmetry rhombus AS1BS2
       if (st.showProof && st.step >= 2) {
         el(svg, 'polygon', {
           points: `${A.x.toFixed(1)},${A.y.toFixed(1)} ${S1.x.toFixed(1)},${S1.y.toFixed(1)} ${B.x.toFixed(1)},${B.y.toFixed(1)} ${S2.x.toFixed(1)},${S2.y.toFixed(1)}`,
@@ -71,7 +71,7 @@
         if (st.step >= 3) SVG.rightAngle(svg, M, S2, B, 18);
       }
 
-      // Schritt 1: Kreisbogen 1 um A
+      // Step 1: Arc 1 around A
       if (st.step >= 1) {
         const cls1 = 'arc-line' + (hl === 1 ? ' hl' : '');
         SVG.arcBetweenPoints(svg, A, rPx, S2, S1, 14, { cls: cls1 });
@@ -83,7 +83,7 @@
         SVG.stepNum(svg, pNum1.x + 4, pNum1.y + 5, 1, { hl: hl === 1 });
       }
 
-      // Schritt 2: Kreisbogen 2 um B
+      // Step 2: Arc 2 around B
       if (st.step >= 2) {
         const cls2 = 'arc-line' + (hl === 2 ? ' hl' : '');
         SVG.arcBetweenPoints(svg, B, rPx, S1, S2, 14, { cls: cls2 });
@@ -95,7 +95,7 @@
         SVG.stepNum(svg, pNum2.x - 4, pNum2.y + 5, 2, { hl: hl === 2 });
       }
 
-      // Schritt 3: Verbindungslinie der Kreisschnittpunkte = Mittelsenkrechte
+      // Step 3: Line connecting the arc intersections = perpendicular bisector
       if (st.step >= 3) {
         const u = unit(sub(S1, S2));
         const pTop = sub(S2, scale(u, 28));
@@ -112,7 +112,7 @@
           class: 'halo step-num' + (hl === 3 ? ' hl-text' : '')
         });
 
-        // Teilmaße AM = MB
+        // Sub-lengths AM = MB
         if (st.showDims) {
           const halfMm = fmt((abPx / 2) / SCALE, 1);
           SVG.text(svg, (A.x + M.x) / 2, (A.y + M.y) / 2 - 10, `${halfMm} mm`, {
@@ -125,7 +125,7 @@
       }
     }
 
-    // Ziehpunkte A und B
+    // Draggable endpoints A and B
     el(svg, 'circle', { cx: A.x.toFixed(1), cy: A.y.toFixed(1), r: 14, class: 'pt-hit', 'data-drag': 'A' });
     el(svg, 'circle', { cx: B.x.toFixed(1), cy: B.y.toFixed(1), r: 14, class: 'pt-hit', 'data-drag': 'B' });
 
@@ -141,19 +141,19 @@
     const resEl = $('bis-result');
     if (!res.ok) {
       resEl.className = 'result warn';
-      resEl.innerHTML = `Ungültig: <i>r</i> = ${fmt(rMm, 1)} mm ≤ ½ <span class="overline">AB</span> (${fmt(halfMm, 1)} mm)`;
+      resEl.innerHTML = `Invalid: <i>r</i> = ${fmt(rMm, 1)} mm ≤ ½ <span class="overline">AB</span> (${fmt(halfMm, 1)} mm)`;
     } else {
       resEl.className = 'result';
       resEl.innerHTML = `<span class="overline">AM</span> = <span class="overline">MB</span> = ${fmt(halfMm, 1)} mm &nbsp;·&nbsp; 90°`;
     }
     $('bis-details').innerHTML = [
-      ['Strecke <span class="overline">AB</span>', `${fmt(abMm, 1)} mm`],
-      ['Mindestradius ½ <span class="overline">AB</span>', `&gt; ${fmt(halfMm, 1)} mm`],
-      ['Gewählter Zirkelradius <i>r</i>', `${fmt(rMm, 1)} mm (${fmt(st.ratio * 100, 0)} %)`],
-      ['Halbstrecken <span class="overline">AM</span> = <span class="overline">MB</span>', `${fmt(halfMm, 1)} mm`],
-      ['Schnittpunkt-Abstand <i>h</i> von M', res.ok ? `${fmt(res.heightH / SCALE, 1)} mm` : '–']
+      ['Segment <span class="overline">AB</span>', `${fmt(abMm, 1)} mm`],
+      ['Minimum radius ½ <span class="overline">AB</span>', `&gt; ${fmt(halfMm, 1)} mm`],
+      ['Chosen compass radius <i>r</i>', `${fmt(rMm, 1)} mm (${fmt(st.ratio * 100, 0)} %)`],
+      ['Half-segments <span class="overline">AM</span> = <span class="overline">MB</span>', `${fmt(halfMm, 1)} mm`],
+      ['Intersection offset <i>h</i> from M', res.ok ? `${fmt(res.heightH / SCALE, 1)} mm` : '–']
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
-    $('bis-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('bis-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   svg.addEventListener('pointerdown', e => {
@@ -187,12 +187,12 @@
     const kind = Math.random() < 0.5 ? 'half' : 'height';
     if (kind === 'half') {
       st.quiz = { abMm, truth: abMm / 2, answered: false, kind };
-      $('bis-task').innerHTML = `Eine Strecke <span class="overline">AB</span> = <b>${fmt(abMm, 0)} mm</b> soll halbiert werden. Welchen Wert (in mm) muss der Zirkelradius <i>r</i> <b>mindestens überschreiten</b> (Grenzwert ½ <span class="overline">AB</span>)?`;
+      $('bis-task').innerHTML = `A segment <span class="overline">AB</span> = <b>${fmt(abMm, 0)} mm</b> is to be bisected. Which value (in mm) must the compass radius <i>r</i> <b>strictly exceed</b> (threshold ½ <span class="overline">AB</span>)?`;
     } else {
       const triples = [[60, 50, 40], [80, 50, 30], [48, 40, 32], [72, 45, 27]];
       const [ab, r, h] = triples[Math.floor(Math.random() * triples.length)];
       st.quiz = { abMm: ab, rMm: r, truth: h, answered: false, kind };
-      $('bis-task').innerHTML = `Gegeben: <span class="overline">AB</span> = <b>${ab} mm</b> (also <span class="overline">AM</span> = ${ab / 2} mm) und Zirkelradius <i>r</i> = <b>${r} mm</b>. Wie weit liegt der obere Kreisschnittpunkt S₁ vom Mittelpunkt M entfernt ($h = \\sqrt{r^2 - (\\overline{AB}/2)^2}$)?`;
+      $('bis-task').innerHTML = `Given: <span class="overline">AB</span> = <b>${ab} mm</b> (so <span class="overline">AM</span> = ${ab / 2} mm) and compass radius <i>r</i> = <b>${r} mm</b>. How far is the upper intersection S₁ from midpoint M (<i>h</i> = √(<i>r</i><sup>2</sup> − (<span class="overline">AB</span>/2)<sup>2</sup>))?`;
     }
     $('bis-ans-unit').textContent = 'mm';
     $('bis-ans').value = '';
@@ -203,15 +203,15 @@
   function checkQuiz() {
     if (!st.quiz || st.quiz.answered) return;
     const v = Core.parseNum($('bis-ans').value);
-    if (!isFinite(v)) { feedback('bis-feedback', 'Bitte eine Zahl in mm eingeben.', false); return; }
+    if (!isFinite(v)) { feedback('bis-feedback', 'Please enter a number in mm.', false); return; }
     const ok = Math.abs(v - st.quiz.truth) <= 0.25;
     st.quiz.answered = true;
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('bis-feedback', ok
-      ? `Richtig: ${fmt(st.quiz.truth, 1)} mm!`
-      : `Erwartet: ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('bis-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct: ${fmt(st.quiz.truth, 1)} mm!`
+      : `Expected: ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('bis-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('bis-quiz').addEventListener('click', newQuiz);

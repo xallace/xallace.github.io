@@ -379,9 +379,9 @@ function recalculate() {
   document.getElementById('disp-w').textContent = `${state.w.toFixed(2)} ${isMetric ? 'kN/m' : 'lbf/ft'}`;
   document.getElementById('disp-x').textContent = `${state.x.toFixed(2)} ${isMetric ? 'm' : 'ft'} (${((state.x / state.L) * 100).toFixed(0)}% L)`;
   document.getElementById('disp-E').textContent = `${modE} ${isMetric ? 'GPa' : 'ksi'}`;
-  document.getElementById('disp-I').textContent = `${secProp.Iy.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${isMetric ? 'cm⁴' : 'in⁴'}`;
-  document.getElementById('disp-W').textContent = `${secProp.Wy.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${isMetric ? 'cm³' : 'in³'}`;
-  document.getElementById('disp-A').textContent = `${secProp.A.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${isMetric ? 'cm²' : 'in²'}`;
+  document.getElementById('disp-I').textContent = `${secProp.Iy.toLocaleString('en-US', { maximumFractionDigits: 1 })} ${isMetric ? 'cm⁴' : 'in⁴'}`;
+  document.getElementById('disp-W').textContent = `${secProp.Wy.toLocaleString('en-US', { maximumFractionDigits: 1 })} ${isMetric ? 'cm³' : 'in³'}`;
+  document.getElementById('disp-A').textContent = `${secProp.A.toLocaleString('en-US', { maximumFractionDigits: 1 })} ${isMetric ? 'cm²' : 'in²'}`;
 
   // 5. Update KPI Cards
   document.getElementById('kpi-R').textContent = solution.R_A.toFixed(2);
@@ -440,10 +440,10 @@ function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
     step1El.innerHTML = `
       <div class="subst-step-label">
         <span class="step-num">1</span>
-        <strong>Support Reaction Forces (Auflagerkräfte):</strong>
+        <strong>Support Reaction Forces:</strong>
       </div>
       <div class="subst-step-eq" id="subst-eq-1"></div>
-      <div class="subst-step-sub">Symmetrie bedingt: Gleichmäßige Lastaufteilung auf beide Lager A und B (\(R_A + R_B = W_{\\text{total}} = ${(sol.w * sol.L).toFixed(2)}\\text{ ${isMetric ? 'kN' : 'lbf'}}\)).</div>
+      <div class="subst-step-sub">By symmetry, total load is distributed equally across supports A and B (\(R_A + R_B = W_{\\text{total}} = ${(sol.w * sol.L).toFixed(2)}\\text{ ${isMetric ? 'kN' : 'lbf'}}\)).</div>
     `;
     const latex1 = `R_A = R_B = \\frac{w \\cdot L}{2} = \\frac{${sol.w.toFixed(2)} \\cdot ${sol.L.toFixed(2)}}{2} = \\mathbf{${sol.R_A.toFixed(2)} \\text{ ${uR}}}`;
     renderLatex(document.getElementById('subst-eq-1'), latex1, true);
@@ -456,10 +456,10 @@ function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
     step2El.innerHTML = `
       <div class="subst-step-label">
         <span class="step-num">2</span>
-        <strong>Maximum Bending Moment (Maximales Biegemoment bei x = L/2):</strong>
+        <strong>Maximum Bending Moment (at x = L/2):</strong>
       </div>
       <div class="subst-step-eq" id="subst-eq-2"></div>
-      <div class="subst-step-sub">Parabolischer Verlauf mit Scheitelpunkt in Trägermitte bei Feldmitte \(x = ${(sol.L / 2).toFixed(2)}\\text{ ${isMetric ? 'm' : 'ft'}}\).</div>
+      <div class="subst-step-sub">Parabolic distribution peaking at midspan \(x = ${(sol.L / 2).toFixed(2)}\\text{ ${isMetric ? 'm' : 'ft'}}\).</div>
     `;
     const latex2 = `M_{\\max} = \\frac{w \\cdot L^2}{8} = \\frac{${sol.w.toFixed(2)} \\cdot (${sol.L.toFixed(2)})^2}{8} = \\frac{${sol.w.toFixed(2)} \\cdot ${(sol.L * sol.L).toFixed(2)}}{8} = \\mathbf{${sol.M_max.toFixed(2)} \\text{ ${uM}}}`;
     renderLatex(document.getElementById('subst-eq-2'), latex2, true);
@@ -472,12 +472,12 @@ function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
     step3El.innerHTML = `
       <div class="subst-step-label">
         <span class="step-num">3</span>
-        <strong>Max Elastic Deflection (Biegelinie nach Euler-Bernoulli bei x = L/2):</strong>
+        <strong>Max Elastic Deflection (Euler-Bernoulli at x = L/2):</strong>
       </div>
       <div class="subst-step-eq" id="subst-eq-3"></div>
-      <div class="subst-step-sub">Biegesteifigkeit: \(E = ${modE}\\text{ ${isMetric ? 'GPa' : 'ksi'}}\), \(I_y = ${secProp.Iy.toLocaleString(undefined, { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm⁴' : 'in⁴'}}\). Verhältnis: \(L / ${sol.ratio_max}\).</div>
+      <div class="subst-step-sub">Flexural rigidity: \(E = ${modE}\\text{ ${isMetric ? 'GPa' : 'ksi'}}\), \(I_y = ${secProp.Iy.toLocaleString('en-US', { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm⁴' : 'in⁴'}}\). Span-to-deflection ratio: \(L / ${sol.ratio_max}\).</div>
     `;
-    const latex3 = `\\delta_{\\max} = \\frac{5 \\cdot w \\cdot L^4}{384 \\cdot E \\cdot I_y} = \\mathbf{${sol.delta_max.toFixed(3)} \\text{ ${uDef}}} \\quad \\left[\\text{Gebrauchstauglichkeit: } \\frac{L}{${sol.ratio_max}}\\right]`;
+    const latex3 = `\\delta_{\\max} = \\frac{5 \\cdot w \\cdot L^4}{384 \\cdot E \\cdot I_y} = \\mathbf{${sol.delta_max.toFixed(3)} \\text{ ${uDef}}} \\quad \\left[\\text{Serviceability: } \\frac{L}{${sol.ratio_max}}\\right]`;
     renderLatex(document.getElementById('subst-eq-3'), latex3, true);
     renderMath(step3El.querySelector('.subst-step-sub'));
   }
@@ -488,10 +488,10 @@ function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
     step4El.innerHTML = `
       <div class="subst-step-label">
         <span class="step-num">4</span>
-        <strong>Internal Forces at Evaluation Point (Schnittgrößen bei x = ${sol.x.toFixed(2)} ${isMetric ? 'm' : 'ft'}):</strong>
+        <strong>Internal Forces at Evaluation Point (x = ${sol.x.toFixed(2)} ${isMetric ? 'm' : 'ft'}):</strong>
       </div>
       <div class="subst-step-eq" id="subst-eq-4"></div>
-      <div class="subst-step-sub">Lokale Querkraft \(V(x)\), Biegemoment \(M(x)\) und elastische Absenkung \(\\delta(x)\) am Tastpunkt.</div>
+      <div class="subst-step-sub">Local shear force \(V(x)\), bending moment \(M(x)\), and elastic deflection \(\\delta(x)\) at the probe position.</div>
     `;
     const latex4 = `x = ${sol.x.toFixed(2)} \\text{ ${uL}} \\implies \\begin{cases} V(x) = w \\cdot \\left(\\frac{L}{2} - x\\right) = \\mathbf{${sol.V_x.toFixed(2)} \\text{ ${uR}}} \\\\[4pt] M(x) = \\frac{w \\cdot x}{2} \\cdot (L - x) = \\mathbf{${sol.M_x.toFixed(2)} \\text{ ${uM}}} \\\\[4pt] \\delta(x) = \\frac{w \\cdot x}{24 E I_y} \\left(L^3 - 2Lx^2 + x^3\\right) = \\mathbf{${sol.delta_x.toFixed(3)} \\text{ ${uDef}}} \\end{cases}`;
     renderLatex(document.getElementById('subst-eq-4'), latex4, true);
@@ -507,10 +507,10 @@ function updateLiveSubstitution(sol, modE, secProp, yieldVal = 235) {
     step5El.innerHTML = `
       <div class="subst-step-label">
         <span class="step-num">5</span>
-        <strong>Maximum Bending Stress &amp; Section Modulus (Biegespannungsnachweis):</strong>
+        <strong>Maximum Bending Stress &amp; Section Modulus:</strong>
       </div>
       <div class="subst-step-eq" id="subst-eq-5"></div>
-      <div class="subst-step-sub">Widerstandsmoment: \(W_y = ${secProp.Wy.toLocaleString(undefined, { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm³' : 'in³'}}\), Fließgrenze: \(f_y = ${yieldVal}\\text{ ${isMetric ? 'MPa' : 'ksi'}}\).</div>
+      <div class="subst-step-sub">Section modulus: \(W_y = ${secProp.Wy.toLocaleString('en-US', { maximumFractionDigits: 1 })}\\text{ ${isMetric ? 'cm³' : 'in³'}}\), yield strength: \(f_y = ${yieldVal}\\text{ ${isMetric ? 'MPa' : 'ksi'}}\).</div>
     `;
     const latex5 = `\\sigma_{\\max} = \\frac{M_{\\max}}{W_y} = \\frac{${sol.M_max.toFixed(2)} \\text{ ${uM}}}{${secProp.Wy.toFixed(1)} \\text{ ${uWy}}} = \\mathbf{${sol.sigma_max.toFixed(1)} \\text{ ${uSig}}} \\quad \\left[\\mathbf{${statusText}}\\right]`;
     renderLatex(document.getElementById('subst-eq-5'), latex5, true);

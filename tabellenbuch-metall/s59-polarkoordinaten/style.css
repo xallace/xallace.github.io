@@ -1,10 +1,10 @@
-/* Tabellenbuch Metall S. 59 · Polarkoordinatensysteme, Flächendiagramme –
-   Design wie S. 58: Blueprint-Dunkelmodus als Standard, helles Königsblau-Design umschaltbar */
+/* Tabellenbuch Metall p. 59 · Polar Coordinate Systems, Area Charts –
+   Design matching p. 58: Blueprint dark mode by default, switchable to royal-blue light theme */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
-  --accent: #c8102e;          /* Kennlinie Rm rot wie im Buch */
-  --accent-blue: #0066b3;     /* Kennlinie Re / Polarkurve blau wie im Buch */
+  --accent: #c8102e;          /* Curve Rm in red as in the book */
+  --accent-blue: #0066b3;     /* Curve Re / polar curve in blue as in the book */
   --accent-green: #15803d;
   --accent-2: #d97706;
   --ok: #15803d;
@@ -31,7 +31,7 @@
   --dia-plain: #eef0f3;
   --pt-fill: #ffffff;
   --mono: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
-  /* Buchfarben für Säulen- und Kreisflächendiagramme */
+  /* Book colors for bar and pie charts */
   --bar-fill: #f0b875;
   --sec-yellow: #f4eec7;
   --sec-blue: #60aee0;
@@ -78,7 +78,7 @@ body.theme-blueprint {
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* Kopf wie das Buch: blaue Leiste mit Seitenzahl 59 */
+/* Book-style header: blue bar with page badge 59 */
 .tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
 body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
 .tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -110,7 +110,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--primary); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
 .side .card h3 { font-size: 0.9rem; }
 
-/* Diagrammfläche */
+/* Diagram canvas */
 .dia { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; font-family: var(--font-dia); --halo: var(--dia-bottom); }
 #p-svg, #r-svg, #c-pie-svg { --halo: var(--dia-plain); }
 .dia text { fill: var(--ink); }
@@ -130,7 +130,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia .band.curve-re { fill: var(--accent-blue); fill-opacity: 0.14; stroke: none; }
 .dia .band.curve-rp { fill: var(--accent-green); fill-opacity: 0.14; stroke: none; }
 
-/* Messwertzeichen (×, ○, □) */
+/* Data point markers (×, ○, □) */
 .dia .pt-mark { stroke-width: 1.6; }
 .dia .pt-mark.curve-rm { stroke: var(--accent); }
 .dia .pt-mark.curve-re { stroke: var(--accent-blue); }
@@ -162,7 +162,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia text.lbl-strong { font-weight: 700; }
 .dia text.lbl-muted { fill: var(--muted); }
 
-/* Rundheitsprüfung: Toleranzband & Spannbacken */
+/* Roundness testing: tolerance band & chuck jaws */
 .dia .tol-band-ok { fill: var(--ok); fill-opacity: 0.12; }
 .dia .tol-band-bad { fill: var(--bad); fill-opacity: 0.12; }
 .dia .tol-line-ok { stroke: var(--ok); stroke-width: 1.3; stroke-dasharray: 4 3; }
@@ -170,7 +170,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia .jaw-arrow { stroke: var(--accent-2); }
 .dia .jaw-head { fill: var(--accent-2); }
 
-/* Flächendiagramme: Kreissektoren & Säulen */
+/* Area charts: pie sectors & bars */
 .dia .pie-sec { stroke: var(--ink); stroke-width: 1.3; transition: opacity 0.12s; }
 .dia .pie-sec:hover { opacity: 0.92; }
 .dia .pie-sec.sel { stroke-width: 2.1; }
@@ -181,7 +181,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia .sec-purple { fill: var(--sec-purple); }
 .dia .bar-rect { fill: var(--bar-fill); stroke: var(--ink); stroke-width: 1.3; }
 
-/* Bedienelemente */
+/* Controls */
 .ctl-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
 .seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
@@ -202,7 +202,7 @@ input.num { width: 84px; }
 input.txt { width: 155px; }
 input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
 
-/* Regeln / Merksätze */
+/* Rules / key takeaways */
 .rules { list-style: none; margin: 0; padding: 0; }
 .rules li { border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.85rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: default; }
 .rules li b { color: var(--text); }
@@ -210,14 +210,14 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 .rules li.hover-able:hover, .rules li.active { border-left-color: var(--hl); background: var(--primary-light); }
 .note { font-size: 0.82rem; color: var(--muted); margin: 8px 0 0; }
 
-/* Punktliste & Tabellen */
+/* Point list & tables */
 .pt-list { list-style: none; margin: 0; padding: 0; }
 .pt-list li { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 4px 0; border-bottom: 1px solid var(--border-subtle); font: 0.88rem var(--mono); cursor: pointer; }
 .pt-list li.cur { font-weight: 700; color: var(--primary); }
 .pt-list button { appearance: none; border: 0; background: none; color: var(--bad); cursor: pointer; font-size: 1rem; }
 .quad { font-size: 0.8rem; color: var(--muted); font-family: var(--font); }
 
-/* Beispielkasten wie im Buch (grüner Balken links) */
+/* Book-style example box (green bar on left) */
 .example { background: var(--example-bg); border-left: 5px solid var(--example-border); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 14px; }
 .example h3 { color: var(--text); }
 .vtable { border-collapse: collapse; font-size: 0.86rem; margin: 6px 0; width: 100%; }
@@ -228,7 +228,7 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 .vtable input:focus { outline: 2px solid var(--primary); }
 .vtable-wrap { overflow-x: auto; }
 
-/* Bruchdarstellung für die Mittelpunktswinkel-Formel */
+/* Fraction rendering for the central angle formula */
 .formula-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font: 0.96rem var(--mono); margin: 8px 0; padding: 8px 10px; background: var(--bg-alt); border-radius: 6px; border: 1px solid var(--border-subtle); }
 .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.2; font-size: 0.9em; }
 .frac > span:first-child { border-bottom: 1.5px solid var(--text); padding: 0 4px 2px; }

@@ -1,24 +1,24 @@
-/* Teil IV – Lineares Einspurmodell (Kap. 20–22).
-   Differenzialgleichungen (20.25)/(20.26) mit δL* = δL/iL und c′αV nach (20.27),
-   Kreisfahrt (Tab. 21.2/21.3), Stabilität, Eigenfrequenz und Dämpfung (22.4)–(22.6),
-   Zeitverläufe für Lenkwinkeleingaben, Frequenzgänge (Tab. 22.1). */
+/* Part IV – Linear Single-Track Model (Ch. 20–22).
+   Differential equations (20.25)/(20.26) with δL* = δL/iL and c′αV per (20.27),
+   steady-state cornering (Tables 21.2/21.3), stability, natural frequency and damping (22.4)–(22.6),
+   time responses to steering inputs, frequency responses (Table 22.1). */
 (function (root) {
   'use strict';
   const K = root.KfzDyn;
   const { G: g, C, DEG, rk4Step, logspace } = K.core;
 
-  // Fahrzeug 1 aus Tab. 21.7: l = 2,5 m, iL = 19, VL = 1, i/l = 0,46
+  // Vehicle 1 from Table 21.7: l = 2.5 m, iL = 19, VL = 1, i/l = 0.46
   const DEFAULTS = {
     m: 1000,         // kg
     l: 2.5,          // m
     lVrel: 0.5,      // lV/l
-    caV: 50000,      // N/rad  Seitenkraftbeiwert Vorderachse (beide Reifen)
+    caV: 50000,      // N/rad  front axle cornering stiffness (both tires)
     caH: 50000,      // N/rad
-    nV: 0.06,        // m      Gesamtnachlauf
-    CL: 10000,       // Nm/rad Lenkungssteifigkeit
-    iL: 19,          // –      Lenkübersetzung
-    VL: 1,           // –      Lenkverstärkung
-    iRel: 0.46,      // –      bezogener Trägheitsradius i/l, Jz = m·i²
+    nV: 0.06,        // m      total caster trail
+    CL: 10000,       // Nm/rad steering stiffness
+    iL: 19,          // –      steering ratio
+    VL: 1,           // –      steering boost gain
+    iRel: 0.46,      // –      normalized radius of gyration i/l, Jz = m·i²
     v: 22.2,         // m/s
   };
 
@@ -31,17 +31,17 @@
     const lV = p.lVrel * p.l, lH = p.l - lV;
     const caV1 = p.caV / (1 + p.caV * p.nV / p.CL);                // (20.27)
     const Jz = p.m * Math.pow(p.iRel * p.l, 2);
-    const G = p.m * g, FzV = G * lH / p.l, FzH = G * lV / p.l;     // (20.5) ohne Auftrieb
-    const EK = p.caH * lH - caV1 * lV;                            // Zählerterm cαH·lH − c′αV·lV
-    const vch2 = caV1 * p.caH * p.l * p.l / (p.m * EK);           // Tab. 21.2 (2a)
+    const G = p.m * g, FzV = G * lH / p.l, FzH = G * lV / p.l;     // (20.5) without aero lift
+    const EK = p.caH * lH - caV1 * lV;                            // numerator term cαH·lH − c′αV·lV
+    const vch2 = caV1 * p.caH * p.l * p.l / (p.m * EK);           // Table 21.2 (2a)
     const SQ = (caV1 / FzV) / (p.caH / FzH);                      // (4c)
     return { p, lV, lH, caV1, Jz, G, FzV, FzH, EK, vch2, SQ,
       vch: vch2 > 0 ? Math.sqrt(vch2) : NaN, vkrit: vch2 < 0 ? Math.sqrt(-vch2) : NaN,
-      // Eigenlenkgradient dδL/d(ay) in rad/(m/s²), Tab. 21.2 (1a) ohne den Anteil iL·l/ρ
+      // understeer gradient dδL/d(ay) in rad/(m/s²), Table 21.2 (1a) excluding the iL·l/ρ term
       EGrad: p.m * p.iL * EK / (caV1 * p.caH * p.l) };
   }
 
-  // stationäre Kreisfahrt auf Radius ρ, Tab. 21.2
+  // Steady-state cornering on radius ρ, Table 21.2
   function steadyCircle(params, rho, ay) {
     const d = derived(params), p = d.p;
     const dL = p.iL * p.l / rho + p.m * p.iL * d.EK / (d.caV1 * p.caH * p.l) * ay;                 // (1a)
@@ -51,7 +51,7 @@
     return { dL, dV, beta, ML };
   }
 
-  // Kreisfahrtwerte (Verstärkungsfaktoren) über v, Tab. 21.3
+  // Steady-state gains vs. v, Table 21.3
   function gains(params, v) {
     const d = derived(params), p = d.p;
     const q = 1 + v * v / d.vch2;
@@ -63,7 +63,7 @@
     };
   }
 
-  // charakteristische Gleichung s² + 2σf s + νf² = 0, (22.4)–(22.6)
+  // Characteristic equation s² + 2σf s + νf² = 0, (22.4)–(22.6)
   function eigen(params, v) {
     const d = derived(params), p = d.p;
     const twoSigma = (p.m * (d.caV1 * d.lV * d.lV + p.caH * d.lH * d.lH) + d.Jz * (d.caV1 + p.caH)) / (d.Jz * p.m * v);
@@ -80,7 +80,7 @@
       fDamped: disc < 0 ? Math.sqrt(-disc) / (2 * Math.PI) : 0, stable, roots };
   }
 
-  // Zustandsraum ẋ = A x + B δL mit x = [β, ψ̇]
+  // State-space form ẋ = A x + B δL with x = [β, ψ̇]
   function stateSpace(params, v) {
     const d = derived(params), p = d.p;
     const mv = p.m * v;
@@ -92,7 +92,7 @@
     return { A, B, d };
   }
 
-  // Lenkradwinkel-Eingaben δL(t) in rad
+  // Steering wheel angle inputs δL(t) in rad
   function steerInput(kind, opts) {
     const amp = opts.amplitude;
     switch (kind) {
@@ -133,7 +133,7 @@
         out.aV.push(-x[0] + dV - d.lV * x[1] / v);                         // (20.19a)
         out.aH.push(-x[0] + d.lH * x[1] / v);                              // (20.19b)
       }
-      // Bahnkurve des Schwerpunkts (20.16)
+      // CG trajectory (20.16)
       const xn = rk4Step(f, t, x, dt);
       const course = psi + x[0];
       X += v * Math.cos(course) * dt; Y += v * Math.sin(course) * dt;
@@ -143,7 +143,7 @@
     return out;
   }
 
-  // Kennwerte der Sprungantwort bzw. Rampenantwort (Tab. 22.4)
+  // Step / ramp response metrics (Table 22.4)
   function responseMetrics(series, input50Time) {
     const r = series.yawRate;
     let iMax = 0;
@@ -156,7 +156,7 @@
     };
   }
 
-  // Frequenzgänge H(jω) = C (jωI − A)⁻¹ B für ψ̇, β, ÿ bezogen auf δL (Tab. 22.1)
+  // Frequency responses H(jω) = C (jωI − A)⁻¹ B for ψ̇, β, ÿ per δL (Table 22.1)
   function frequencyResponse(params, fMin = 0.05, fMax = 5, n = 300) {
     const p = withDefaults(params);
     const { A, B } = stateSpace(p, p.v);

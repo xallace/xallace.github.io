@@ -1,4 +1,4 @@
-/* Reiterwechsel per Adress-Hash, Blueprint-Modus, Buchwerte für Tabellenbuch Metall S. 59 */
+/* Hash-based tab routing, Blueprint Mode, and book defaults for Tabellenbuch Metall p. 59 */
 (() => {
   'use strict';
   const { $, tabs } = UI;
@@ -18,13 +18,13 @@
 
   function setTheme(dark) {
     document.body.classList.toggle('theme-blueprint', dark);
-    $('theme-label').textContent = dark ? 'Heller Modus' : 'Blueprint-Modus';
-    try { localStorage.setItem('tbb59-theme', dark ? 'dark' : 'light'); } catch (e) { /* ohne Speicher weiter */ }
+    $('theme-label').textContent = dark ? 'Light Mode' : 'Blueprint Mode';
+    try { localStorage.setItem('tbb59-theme', dark ? 'dark' : 'light'); } catch (e) { /* continue without storage */ }
   }
   $('btn-theme').addEventListener('click', () => setTheme(!document.body.classList.contains('theme-blueprint')));
-  // Blueprint ist Standard (Klasse steht schon im <body>); hell nur nach Umschalten oder mit ?theme=light
+  // Blueprint is default (class already set on <body>); switch to light only when toggled or via ?theme=light
   let saved = null;
-  try { saved = localStorage.getItem('tbb59-theme'); } catch (e) { /* ohne Speicher weiter */ }
+  try { saved = localStorage.getItem('tbb59-theme'); } catch (e) { /* continue without storage */ }
   const forced = /[?&]theme=(dark|light)/.exec(location.search);
   setTheme((forced ? forced[1] : saved) !== 'light');
 

@@ -1,5 +1,5 @@
-/* Reiter 3: Beispiel Polarkoordinatensystem – Rundheitsprüfung einer gedrehten Buchse
-   Maßstab 10 mm ≙ 5 µm, Unrundheit durch zu starkes Spannen im Backenfutter */
+/* Tab 3: Polar Coordinate Example – Roundness Testing of a Turned Bushing
+   Scale 10 mm ≙ 5 µm, out-of-roundness caused by excessive chuck clamping */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback } = UI;
@@ -7,11 +7,11 @@
   const el = SVG.el;
 
   const W = 640, H = 500, CX = 310, CY = 252;
-  const RING_PX = 36;           // 1 Kreisring-Abstand im Diagramm ≙ 10 mm auf dem Messschrieb
-  const REF_RING = 3;           // 3. Kreis von innen = gestrichelter Referenz-/Sollkreis (Δr = 0 µm)
+  const RING_PX = 36;           // 1 ring spacing in diagram ≙ 10 mm on the chart paper
+  const REF_RING = 3;           // 3rd circle from center = dashed nominal reference circle (Δr = 0 µm)
   const MAX_RINGS = 5;
 
-  // Backen an den Erhebungen des Messschriebs (siehe Core.roundnessDelta)
+  // Jaws aligned with the high spots of the trace (see Core.roundnessDelta)
   const JAW_ANGLES = {
     book: [90, 210, 330],
     oval: [0, 180],
@@ -21,10 +21,10 @@
 
   const st = {
     kind: 'book',               // 'book' | 'oval' | '3jaw' | '4jaw'
-    umPer10mm: 5,               // Buchwert: 10 mm ≙ 5 µm
-    amp: 4.0,                   // Verformungsamplitude in µm
-    tol: 6.0,                   // geforderte Rundheitstoleranz t in µm (Band ± t/2)
-    deg: 90,                    // Ablesewinkel φ
+    umPer10mm: 5,               // Book value: 10 mm ≙ 5 µm
+    amp: 4.0,                   // Deformation amplitude in µm
+    tol: 6.0,                   // Required roundness tolerance t in µm (band ± t/2)
+    deg: 90,                    // Probe angle φ
     showTol: true,
     showJaws: true,
     quiz: null,
@@ -32,7 +32,7 @@
   };
   const svg = $('r-svg');
 
-  // Radius in Pixel für eine Abweichung Δr in µm
+  // Radius in pixels for a deviation Δr in µm
   function deltaToPx(um) {
     const mm = umToMm(um, st.umPer10mm);
     const rings = REF_RING + mm / 10;
@@ -48,8 +48,8 @@
     const stats = roundnessStats(st.kind, st.amp);
     const inTol = stats.ront <= st.tol + 1e-6;
 
-    // 1. Toleranzband: zwei konzentrische Kreise im Abstand t, mittig zwischen größter und kleinster
-    //    Abweichung. So liegt die Kurve genau dann im Band, wenn die Unrundheit ≤ t ist.
+    // 1. Tolerance band: two concentric circles spaced by t, centered midway between peak and valley.
+    //    The trace lies inside the band if and only if out-of-roundness RONt ≤ t.
     if (st.showTol) {
       const mid = (stats.max + stats.min) / 2;
       const rOuterTol = deltaToPx(mid + st.tol / 2);
@@ -65,7 +65,7 @@
       el(svg, 'circle', { cx: CX, cy: CY, r: rInnerTol, class: inTol ? 'tol-line-ok' : 'tol-line-bad', fill: 'none' });
     }
 
-    // 2. Konzentrische Kreise im Abstand 10 mm (≙ umPer10mm µm)
+    // 2. Concentric circles spaced by 10 mm (≙ umPer10mm µm)
     const gRings = el(svg, 'g', { class: 'grid' });
     for (let k = 1; k <= MAX_RINGS; k++) {
       const isRef = k === REF_RING;
@@ -80,12 +80,12 @@
       if (k > 1) {
         const [rx, ry] = polarToScreen(CX, CY, k * RING_PX - 4, 312);
         SVG.text(svg, rx, ry,
-          umVal === 0 ? 'Soll (0 µm)' : `${fmt(umVal, 1, { plus: true })} µm`,
+          umVal === 0 ? 'Nominal (0 µm)' : `${fmt(umVal, 1, { plus: true })} µm`,
           { 'font-size': 11.5, class: 'halo lbl-muted' });
       }
     }
 
-    // 3. Waagrechte und senkrechte Achse (in der Mitte für den Maßstabstext unterbrochen wie im Buch)
+    // 3. Horizontal and vertical axes (broken in the middle for the scale text, as in the book)
     const axExt = outerPx + 8;
     const gap = RING_PX * 0.92;
     el(svg, 'line', { x1: CX - axExt, y1: CY, x2: CX - gap, y2: CY, class: 'ax', 'stroke-width': 1.2 });
@@ -95,12 +95,12 @@
     el(svg, 'line', { x1: CX - 4, y1: CY, x2: CX + 4, y2: CY, class: 'ax', 'stroke-width': 1.1 });
     el(svg, 'line', { x1: CX, y1: CY - 4, x2: CX, y2: CY + 4, class: 'ax', 'stroke-width': 1.1 });
 
-    // Maßstabsangabe im inneren Kreis genau wie im Buch: „10 mm ≙ 5 µm“
+    // Scale label inside inner circle matching the book: "10 mm ≙ 5 µm"
     SVG.text(svg, CX, CY - 4, `10 mm ≙ ${fmt(st.umPer10mm, 1)} µm`, {
       'text-anchor': 'middle', 'font-size': 13.5, class: 'halo lbl-strong'
     });
 
-    // 4. Hauptwinkel-Beschriftungen: 0° (360°), 90°, 180°, 270° – nach außen gerückt, wo ein Backenpfeil sitzt
+    // 4. Primary angle labels: 0° (360°), 90°, 180°, 270° – shifted outward where a jaw arrow is placed
     const jawAt = d => st.showJaws && (JAW_ANGLES[st.kind] || []).includes(d);
     const lblPad = jawAt(0) ? 42 : 24;
     SVG.text(svg, CX + axExt + lblPad, CY - 4, '0°', { 'text-anchor': 'middle', 'font-size': 15 });
@@ -109,7 +109,7 @@
     SVG.text(svg, CX - axExt - (jawAt(180) ? 30 : 8), CY + 5, '180°', { 'text-anchor': 'end', 'font-size': 15 });
     SVG.text(svg, CX, CY + axExt + (jawAt(270) ? 38 : 20), '270°', { 'text-anchor': 'middle', 'font-size': 15 });
 
-    // 5. Spannbacken-Symbolik am Außenrand (zeigt, wo das Backenfutter drückt)
+    // 5. Chuck jaw symbols at outer rim (showing where the chuck jaws compress the part)
     if (st.showJaws) {
       const jaws = JAW_ANGLES[st.kind] || [0, 180];
       const gJaws = el(svg, 'g', {});
@@ -120,11 +120,11 @@
       }
     }
 
-    // 6. Blaue Rundheits-Kennlinie r(φ)
+    // 6. Blue roundness trace r(φ)
     const dCurve = SVG.plotPolar(deg => roundnessDelta(deg, st.kind, st.amp), CX, CY, deltaToPx, 240);
     el(svg, 'path', { d: dCurve, class: 'curve-re', fill: 'none', 'stroke-width': 2.5 });
 
-    // 7. Messtaster / Ablesestelle bei Winkel φ
+    // 7. Probe / reading position at angle φ
     const curDeg = st.quiz && !st.quiz.done && st.quiz.deg != null ? st.quiz.deg : st.deg;
     const curUm = roundnessDelta(curDeg, st.kind, st.amp);
     const curPx = deltaToPx(curUm);
@@ -150,20 +150,20 @@
   function updateSide(stats, curDeg, curUm, inTol) {
     if (st.quiz && !st.quiz.done) {
       $('r-result').textContent = '–';
-      $('r-details').innerHTML = '<span>Während der Aufgabe ausgeblendet</span><span></span>';
+      $('r-details').innerHTML = '<span>Hidden during exercise</span><span></span>';
       return;
     }
     const curMm = umToMm(curUm, st.umPer10mm);
     const rontMm = umToMm(stats.ront, st.umPer10mm);
-    $('r-result').innerHTML = `Unrundheit Δ<i>r</i><sub>ges</sub> = ${fmt(stats.ront, 1)} µm `
-      + `<span class="badge ${inTol ? 'ok' : 'bad'}">${inTol ? 'innerhalb Toleranz' : 'Toleranz überschritten'}</span>`;
+    $('r-result').innerHTML = `Out-of-roundness Δ<i>r</i><sub>total</sub> = ${fmt(stats.ront, 1)} µm `
+      + `<span class="badge ${inTol ? 'ok' : 'bad'}">${inTol ? 'within tolerance' : 'tolerance exceeded'}</span>`;
     const kv = [
-      ['Maßstab im Diagramm', `10 mm ≙ ${fmt(st.umPer10mm, 1)} µm (${magnification(st.umPer10mm)} : 1)`],
-      [`Ablesung bei <i>φ</i> = ${fmt(curDeg, 0)}°`, `${fmt(curUm, 2, { plus: true })} µm (${fmt(curMm, 1, { plus: true })} mm)`],
-      [`Größte Ausbauchung (${stats.maxDeg}°)`, `${fmt(stats.max, 2, { plus: true })} µm`],
-      [`Größte Einschnürung (${stats.minDeg}°)`, `${fmt(stats.min, 2, { plus: true })} µm`],
-      ['Unrundheit (Max − Min)', `${fmt(stats.ront, 2)} µm (≙ ${fmt(rontMm, 1)} mm)`],
-      ['Geforderte Toleranz <i>t</i>', `${fmt(st.tol, 1)} µm (± ${fmt(st.tol / 2, 1)} µm)`]
+      ['Chart scale', `10 mm ≙ ${fmt(st.umPer10mm, 1)} µm (${magnification(st.umPer10mm)} : 1)`],
+      [`Reading at <i>φ</i> = ${fmt(curDeg, 0)}°`, `${fmt(curUm, 2, { plus: true })} µm (${fmt(curMm, 1, { plus: true })} mm)`],
+      [`Maximum high spot (${stats.maxDeg}°)`, `${fmt(stats.max, 2, { plus: true })} µm`],
+      [`Deepest valley (${stats.minDeg}°)`, `${fmt(stats.min, 2, { plus: true })} µm`],
+      ['Out-of-roundness (Max − Min)', `${fmt(stats.ront, 2)} µm (≙ ${fmt(rontMm, 1)} mm)`],
+      ['Required tolerance <i>t</i>', `${fmt(st.tol, 1)} µm (± ${fmt(st.tol / 2, 1)} µm)`]
     ];
     $('r-details').innerHTML = kv.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
   }
@@ -193,7 +193,7 @@
     SVG.startDrag(svg, e, move);
   });
 
-  // ---------------------------------------------------------------- Übung
+  // ---------------------------------------------------------------- Practice
   function newQuiz() {
     const types = ['mmToUm', 'umToMm', 'ront', 'readDeg'];
     const kind = types[Math.floor(Math.random() * types.length)];
@@ -202,18 +202,18 @@
       const mm = UI.rnd(2, 16, 2);
       truth = mmToUm(mm, st.umPer10mm);
       tol = 0.1;
-      text = `Maßstab <b>10 mm ≙ ${fmt(st.umPer10mm, 1)} µm</b>: Die Kennlinie weicht im Diagramm um <b>${mm} mm</b> vom Sollkreis ab. Wie vielen <b>µm</b> entspricht das an der Buchse?`;
+      text = `Scale <b>10 mm ≙ ${fmt(st.umPer10mm, 1)} µm</b>: The trace deviates by <b>${mm} mm</b> on the chart from the nominal circle. How many <b>µm</b> is that on the bushing?`;
     } else if (kind === 'umToMm') {
       const um = UI.rnd(1, 8, 1);
       truth = umToMm(um, st.umPer10mm);
       unit = 'mm';
       tol = 0.2;
-      text = `Maßstab <b>10 mm ≙ ${fmt(st.umPer10mm, 1)} µm</b>: Eine Abweichung von <b>${um} µm</b> wird im Diagramm als welcher Abstand (in <b>mm</b>) vom Sollkreis gezeichnet?`;
+      text = `Scale <b>10 mm ≙ ${fmt(st.umPer10mm, 1)} µm</b>: A deviation of <b>${um} µm</b> is plotted at what radial distance (in <b>mm</b>) from the nominal circle?`;
     } else if (kind === 'ront') {
       const stats = roundnessStats(st.kind, st.amp);
       truth = stats.ront;
       tol = 0.6;
-      text = `Wie groß ist die gesamte Unrundheit Δ<i>r</i><sub>max</sub> − Δ<i>r</i><sub>min</sub> der gezeigten Kennlinie (in <b>µm</b>, Toleranz ± ${fmt(tol, 1)} µm)?`;
+      text = `What is the total out-of-roundness Δ<i>r</i><sub>max</sub> − Δ<i>r</i><sub>min</sub> of the displayed trace (in <b>µm</b>, tolerance ± ${fmt(tol, 1)} µm)?`;
     } else {
       const angles = [0, 90, 180, 270];
       deg = angles[Math.floor(Math.random() * angles.length)];
@@ -221,7 +221,7 @@
       syncSliders();
       truth = Math.abs(roundnessDelta(deg, st.kind, st.amp));
       tol = 0.5;
-      text = `Wie groß ist der Betrag der Abweichung |Δ<i>r</i>| bei <b><i>φ</i> = ${deg}°</b> (in <b>µm</b>, Toleranz ± ${fmt(tol, 1)} µm)?`;
+      text = `What is the magnitude of the deviation |Δ<i>r</i>| at <b><i>φ</i> = ${deg}°</b> (in <b>µm</b>, tolerance ± ${fmt(tol, 1)} µm)?`;
     }
     st.quiz = { kind, deg, truth, tol, unit, done: false };
     $('r-task').innerHTML = text;
@@ -238,13 +238,13 @@
     const q = st.quiz;
     if (!q || q.done) return;
     const a = Core.parseNum($('r-ans').value);
-    if (!isFinite(a)) { feedback('r-feedback', 'Bitte eine Zahl eingeben.', false); return; }
+    if (!isFinite(a)) { feedback('r-feedback', 'Please enter a number.', false); return; }
     const ok = Math.abs(a - q.truth) <= q.tol + 1e-9;
     q.done = true;
     st.score[1]++;
     if (ok) st.score[0]++;
-    $('r-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
-    feedback('r-feedback', `${ok ? 'Richtig' : 'Daneben'}: Gesucht war ${fmt(q.truth, 2)} ${q.unit}, eingegeben ${fmt(a, 2)} ${q.unit}.`, ok);
+    $('r-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
+    feedback('r-feedback', `${ok ? 'Correct' : 'Off target'}: Target value was ${fmt(q.truth, 2)} ${q.unit}, entered ${fmt(a, 2)} ${q.unit}.`, ok);
     $('r-ans-row').hidden = true;
     render();
   }

@@ -1,15 +1,15 @@
-/* 3D-Ansicht Rad und Fahrbahn nach Abb. 2.1 (S. 10).
-   Fahrbahnfestes System i*, j*, k* im Latschmittelpunkt, radfestes System i_R, j_R, k_R,
-   Sturzwinkel γ, Kurswinkel ψ + δ gegen i0, Schräglaufwinkel α zwischen i* und v,
-   Kräfte Fx, Fy, Fz und Rückstellmoment Mz auf das Rad (Abb. 2.1b) oder auf die Fahrbahn (Abb. 2.1c).
-   Die Fahrbahn läuft in Zeitlupe unter dem Rad durch; Schlupf und Schräglauf sieht man daran,
-   dass Radumfang und Fahrbahn verschieden schnell bzw. schräg zueinander laufen.
-   Achsen: Buch (i, j, k) → three.js (x, z = −j, y = k). */
+/* 3D view of wheel and road per Fig. 2.1 (p. 10).
+   Road-fixed frame i*, j*, k* at contact-patch center, wheel-fixed frame i_R, j_R, k_R,
+   camber angle γ, heading angle ψ + δ relative to i0, slip angle α between i* and v,
+   forces Fx, Fy, Fz and aligning torque Mz acting on the wheel (Fig. 2.1b) or on the road (Fig. 2.1c).
+   The road moves beneath the wheel in slow motion; slip and slip angle appear as mismatched
+   circumferential vs. road speed and oblique grid motion.
+   Axes: book (i, j, k) → three.js (x, z = −j, y = k). */
 (function (root) {
   'use strict';
 
-  const SLOWMO = 0.06;          // Zeitlupe für die Bewegung
-  const F_SCALE = 0.11 / 1000;  // m Pfeillänge je N
+  const SLOWMO = 0.06;          // slow-motion factor for animation
+  const F_SCALE = 0.11 / 1000;  // arrow length in m per N
   const COL = { i: 0xf87171, j: 0x34d399, k: 0x38bdf8, iR: 0xfca5a5, jR: 0x6ee7b7, kR: 0x7dd3fc,
     v: 0xf59e0b, F: 0xe2e8f0, M: 0xa78bfa, zero: 0x94a3b8 };
 
@@ -25,7 +25,7 @@
   function create(container) {
     const T = root.THREE;
     if (!T || !hasWebGL()) {
-      container.innerHTML = '<p class="note" style="padding:16px">Die 3D-Ansicht braucht WebGL, das in diesem Browser nicht verfügbar ist.</p>';
+      container.innerHTML = '<p class="note" style="padding:16px">The 3D view requires WebGL, which is not available in this browser.</p>';
       return { update() {}, setMode() {}, start() {}, stop() {} };
     }
 
@@ -37,7 +37,7 @@
     container.appendChild(labelLayer);
     const hint = document.createElement('div');
     hint.className = 'vp-hint';
-    hint.textContent = 'Ziehen: drehen · Rad: zoomen · Rechts ziehen: schieben';
+    hint.textContent = 'Drag: orbit · Scroll: zoom · Right-drag: pan';
     container.appendChild(hint);
 
     const scene = new T.Scene();
@@ -56,7 +56,7 @@
     sun.position.set(2, 3, 1.5);
     scene.add(sun);
 
-    // Fahrbahn mit mitlaufendem Raster
+    // Road surface with scrolling grid
     const CELL = 0.2;
     const road = new T.Mesh(new T.PlaneGeometry(8, 8), new T.MeshBasicMaterial({ color: 0x0c1322, transparent: true, opacity: 0.85 }));
     road.rotation.x = -Math.PI / 2;
@@ -65,7 +65,7 @@
     const grid = new T.GridHelper(8, 40, 0x334155, 0x1e293b);
     scene.add(grid);
 
-    // inertiales System i0, j0, k0 (fest)
+    // Inertial frame i0, j0, k0 (fixed)
     const origin0 = B(-0.45, -0.5, 0);
     const inertial = new T.Group();
     inertial.position.copy(origin0);
@@ -73,20 +73,20 @@
     const arrow = (dir, len, color, head = 0.045, width = 0.025) => new T.ArrowHelper(dir.clone().normalize(), new T.Vector3(), len, color, head, width);
     inertial.add(arrow(B(1, 0, 0), 0.25, COL.zero), arrow(B(0, 1, 0), 0.25, COL.zero), arrow(B(0, 0, 1), 0.25, COL.zero));
 
-    // Kursrichtung ψ + δ: dreht Rad und fahrbahnfestes System um k*
+    // Heading ψ + δ: rotates wheel and road-fixed frame around k*
     const heading = new T.Group();
     scene.add(heading);
     const axI = arrow(B(1, 0, 0), 0.62, COL.i), axJ = arrow(B(0, 1, 0), 0.42, COL.j), axK = arrow(B(0, 0, 1), 0.78, COL.k);
     heading.add(axI, axJ, axK);
 
-    // Latsch
+    // Contact patch
     const patchMat = new T.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.35, side: T.DoubleSide });
     const patch = new T.Mesh(new T.PlaneGeometry(1, 1), patchMat);
     patch.rotation.x = -Math.PI / 2;
     patch.position.y = 0.002;
     heading.add(patch);
 
-    // Sturz: kippt das Rad um i* im Latschmittelpunkt
+    // Camber: tilts the wheel about i* at the contact-patch center
     const camberG = new T.Group();
     heading.add(camberG);
     const axKR = arrow(B(0, 0, 1), 0.5, COL.kR, 0.035, 0.02);
@@ -121,14 +121,14 @@
         s.rotation.z = a;
         parts.push(s);
       }
-      // Markierung auf der Lauffläche, damit die Drehung sichtbar ist
+      // Marker on tread so wheel rotation is clearly visible
       const tread = new T.Mesh(new T.BoxGeometry(0.03, 0.012, width * 1.02), markMat);
       tread.position.set(0, R0 - 0.004, 0);
       parts.push(tread);
       parts.forEach((m) => { spin.add(m); wheelMeshes.push(m); });
     }
 
-    // Geschwindigkeit v im Latsch, Winkelbögen α und γ, Kraftpfeile, Momentbogen
+    // Velocity v at contact patch, angle arcs α and γ, force vectors, torque arc
     const vArrow = arrow(B(1, 0, 0), 0.5, COL.v, 0.05, 0.03);
     heading.add(vArrow);
     const lineMat = (c) => new T.LineBasicMaterial({ color: c });
@@ -144,7 +144,7 @@
     const mzHead = new T.Mesh(new T.ConeGeometry(0.018, 0.05, 12), new T.MeshBasicMaterial({ color: COL.M }));
     heading.add(mzLine, mzHead);
 
-    // HTML-Beschriftungen an 3D-Punkten
+    // HTML labels projected onto 3D anchor points
     const labels = [];
     function label(html, color, getPos) {
       const d = document.createElement('div');
@@ -198,7 +198,7 @@
       return pts;
     }
 
-    const fmtKN = (v) => (v / 1000).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtKN = (v) => (v / 1000).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     function update(s) {
       state.s = s;
@@ -208,7 +208,7 @@
       hub.position.set(0, s.R0, 0);
       patch.scale.set(Math.max(2 * s.lL, 0.01), 0.17, 1);
 
-      // Geschwindigkeit: um α gegen i* gedreht, Querkomponente zur −j*-Seite
+      // Velocity: rotated by α from i*, lateral component toward −j*
       const vDir = B(Math.cos(s.alpha), -Math.sin(s.alpha), 0);
       setArrow(vArrow, vDir, 0.55);
       state.vTip = vDir.clone().multiplyScalar(0.6);
@@ -224,7 +224,7 @@
       lab.a.el.style.display = Math.abs(s.alpha) > 0.005 ? '' : 'none';
       lab.g.el.style.display = Math.abs(s.gamma) > 0.005 ? '' : 'none';
 
-      // Kräfte: aufs Rad (Abb. 2.1b) oder Reaktion auf die Fahrbahn (Abb. 2.1c)
+      // Forces: acting on wheel (Fig. 2.1b) or reaction on road (Fig. 2.1c)
       const sg = state.mode === 'rad' ? 1 : -1;
       const pre = state.mode === 'rad' ? '' : '−';
       const lx = sg * s.Fx * F_SCALE, ly = sg * s.Fy * F_SCALE, lz = s.Fz * F_SCALE;
@@ -243,7 +243,7 @@
       lab.Fx.el.style.display = Math.abs(lx) > 0.01 ? '' : 'none';
       lab.Fy.el.style.display = Math.abs(ly) > 0.01 ? '' : 'none';
 
-      // Rückstellmoment um k*: Bogen, Winkel ∝ |Mz|
+      // Aligning torque about k*: arc with sweep ∝ |Mz|
       const Mz = sg * s.Mz;
       const span = Math.min(Math.abs(Mz) / 120, 1) * 1.6 * Math.PI * Math.sign(Mz);
       const rM = 0.13, hM = 0.012;
@@ -300,12 +300,12 @@
       state.last = now;
       const s = state.s;
       if (s) {
-        // Umfangsgeschwindigkeit aus dem Schlupf (Tab. 2.3): Antrieb v/(1 − Sx), Bremsen v·(1 − |Sx|)
+        // Circumferential speed from slip (Table 2.3): driving v/(1 − Sx), braking v·(1 − |Sx|)
         const sx = Math.max(-0.999, Math.min(0.95, s.Sx));
         const vr = sx >= 0 ? s.v / (1 - sx) : s.v * (1 + sx);
         state.phi += vr * SLOWMO / s.R0 * dt;
         spin.rotation.z = -state.phi;
-        // Fahrbahn läuft relativ zum Rad mit −v unter der Kursrichtung ψ + δ − α durch
+        // Road moves relative to wheel at −v along heading ψ + δ − α
         const course = s.delta - s.alpha;
         const d = s.v * SLOWMO * dt;
         state.roadX = (state.roadX - d * Math.cos(course)) % CELL;

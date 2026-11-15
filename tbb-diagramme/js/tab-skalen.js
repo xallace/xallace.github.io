@@ -1,15 +1,15 @@
-/* Reiter 3: Diagramm-Ausschnitt (Wärmedehnung) und lineare/logarithmische Teilung (Drehzahldiagramm) */
+/* Tab 3: Diagram window (thermal expansion) and linear/logarithmic graduation (speed chart) */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk } = UI;
   const { fmt } = Core;
   const el = SVG.el;
 
-  // Achsen mit Teilung, Zahlenwerten, Einheit zwischen den letzten beiden Zahlen,
-  // Formelzeichen mit parallelem Pfeil. Linienbreiten Netz : Achse : Kennlinie = 0,6 : 1,2 : 2,4.
+  // Axes with ticks, numerical values, unit between the last two numbers,
+  // formula symbol with parallel arrow. Line widths grid : axis : curve = 0.6 : 1.2 : 2.4.
   // o: { xt, yt: [{v, label}], xMinor, yMinor, grid, xSym, ySym, xUnit, yUnit, frame }
   function axes(svg, X, Y, o) {
-    const [x0, x1] = X.range, [y0, y1] = Y.range;           // y0 unten, y1 oben
+    const [x0, x1] = X.range, [y0, y1] = Y.range;           // y0 bottom, y1 top
     const g = el(svg, 'g', {});
     if (o.grid) {
       const gg = el(g, 'g', { class: 'grid' });
@@ -31,11 +31,11 @@
       el(g, 'line', { x1: x0 - 5, y1: Y(t.v), x2: x0, y2: Y(t.v), class: 'tick', 'stroke-width': 1 });
       SVG.text(g, x0 - 8, Y(t.v) + 4.5, t.label, { 'text-anchor': 'end', 'font-size': 13 });
     }
-    // Einheit zwischen den beiden letzten Zahlen (bei log-Teilung: geometrische Mitte)
+    // Unit placed between the last two numbers (on log scale: geometric midpoint)
     const n = o.xt.length, m = o.yt.length;
     SVG.text(g, (X(o.xt[n - 2].v) + X(o.xt[n - 1].v)) / 2, y0 + 20, o.xUnit, { 'text-anchor': 'middle', 'font-size': 13 });
     SVG.text(g, x0 - 8, (Y(o.yt[m - 2].v) + Y(o.yt[m - 1].v)) / 2 + 4.5, o.yUnit, { 'text-anchor': 'end', 'font-size': 13 });
-    // Formelzeichen vor Pfeilen parallel zu den Achsen
+    // Formula symbols ahead of arrows parallel to the axes
     const xm = (x0 + x1) / 2, ya = y0 + 40;
     SVG.arrow(g, xm + 6, ya, xm + 60, ya, { w: 1.1, l: 10, b: 3.5 });
     SVG.text(g, xm, ya + 5, o.xSym, { 'text-anchor': 'end', 'font-size': 15 });
@@ -46,7 +46,7 @@
 
   const linTicks = (a, b, step, dec, group) => Core.ticks(a, b, step).map(v => ({ v, label: Core.tickLabel(v, dec, { group }) }));
 
-  // ================================================================ Ausschnitt
+  // ================================================================ Cropped Window
   const L0 = 1000, T0 = 20;
   const ex = { alpha: 12, grid: true, hover: null };
   const len = t => L0 * (1 + ex.alpha * 1e-6 * (t - T0));
@@ -66,7 +66,7 @@
 
   function renderCut() {
     $('s-alpha-out').textContent = fmt(ex.alpha, 1) + ' · 10⁻⁶/K';
-    // Mit Nullpunkt
+    // With zero origin
     SVG.clear(svgFull);
     SVG.background(svgFull, 440, 360);
     let X = Core.linScale(0, 120, 82, 410), Y = Core.linScale(0, 1200, 290, 30);
@@ -77,9 +77,9 @@
     const top = Math.min(Y(r.hi), Y(r.lo) - 5);
     el(svgFull, 'rect', { x: X(20) - 3, y: top - 3, width: X(120) - X(20) + 6, height: Y(r.lo) - top + 6, class: 'target' });
     el(svgFull, 'line', { x1: X(70), y1: Y(r.lo) + 4, x2: X(70), y2: Y(720) - 16, class: 'callout' });
-    SVG.text(svgFull, X(70), Y(720), 'Ausschnitt rechts', { 'text-anchor': 'middle', 'font-size': 14, class: 'callout-text halo' });
+    SVG.text(svgFull, X(70), Y(720), 'Cropped view on right', { 'text-anchor': 'middle', 'font-size': 14, class: 'callout-text halo' });
 
-    // Ausschnitt mit unterdrücktem Nullpunkt
+    // Cropped window with suppressed zero origin
     SVG.clear(svgCut);
     SVG.background(svgCut, 440, 360);
     X = Core.linScale(20, 120, 82, 410);
@@ -95,7 +95,7 @@
       el(svgCut, 'circle', { cx: X(t), cy: Y(l), r: 4.5, class: 'pt sel' });
       $('s-readout').innerHTML = `<i>ϑ</i> = ${fmt(t, 0)} °C → <i>l</i> = ${fmt(l, 3, { keepZeros: true })} mm`;
     } else {
-      $('s-readout').innerHTML = `Δ<i>l</i> bei 100 K: ${fmt(len(120) - L0, 2)} mm`;
+      $('s-readout').innerHTML = `Δ<i>l</i> over 100 K: ${fmt(len(120) - L0, 2)} mm`;
     }
     svgCut._X = X;
   }
@@ -115,7 +115,7 @@
   seg('s-preset', v => { ex.alpha = +v; $('s-alpha').value = v; renderCut(); });
   chk('s-grid', v => { ex.grid = v; renderCut(); });
 
-  // ================================================================ Lineare / logarithmische Teilung
+  // ================================================================ Linear / Logarithmic Scales
   const VC = [25, 50, 100, 200];
   const lg = { xs: 'log', ys: 'log', vc: 100, hover: null };
   const svgLog = $('l-svg');
@@ -148,7 +148,7 @@
     }
     el(g, 'path', { d: SVG.plotFn(d => Core.drehzahl(lg.vc, d), dMin, 1000, X, Y, 400), class: 'curve', 'stroke-width': 2.4 });
 
-    // Direkte Beschriftung am rechten Ende, wo die Linien getrennt liegen (nur doppelt logarithmisch)
+    // Direct curve labels at the right edge where lines separate cleanly (log-log only)
     if (X.log && Y.log) {
       for (const vc of VC) {
         SVG.text(svgLog, PX1 + 8, Y(Core.drehzahl(vc, 1000)) + 4, String(vc),
@@ -157,7 +157,7 @@
       SVG.text(svgLog, PX1 + 8, Y(Core.drehzahl(200, 1000)) - 14, '*v*_{c} in m/min', { 'font-size': 12, class: 'lbl-muted' });
     }
 
-    // Legende oben rechts
+    // Legend top right
     const lgX = PX1 - 150, lgY = PY1 + 12;
     el(svgLog, 'rect', { x: lgX - 10, y: lgY - 4, width: 160, height: VC.length * 20 + 12, rx: 5, class: 'legend-box' });
     VC.forEach((vc, i) => {
@@ -166,7 +166,7 @@
       SVG.text(svgLog, lgX + 36, y + 4.5, `*v*_{c} = ${vc} m/min`, { 'font-size': 13, class: on ? 'lbl-strong' : 'lbl-muted' });
     });
 
-    // Ablesung unter dem Zeiger
+    // Cursor readout
     if (lg.hover != null) {
       const d = lg.hover, n = Core.drehzahl(lg.vc, d);
       const inY = n >= Y.domain[0] && n <= Y.domain[1];
@@ -177,7 +177,7 @@
         el(svgLog, 'circle', { cx: X(d), cy: yy, r: 4.5, class: 'pt sel' });
       }
       $('l-readout').innerHTML = `<i>d</i> = ${fmt(d, d < 10 ? 1 : 0)} mm, <i>v</i><sub>c</sub> = ${lg.vc} m/min → <i>n</i> = ${fmt(n, 0, { group: true })} 1/min`
-        + (inY ? '' : ' (außerhalb der Skala)');
+        + (inY ? '' : ' (outside scale)');
     } else {
       $('l-readout').textContent = '';
     }
@@ -188,7 +188,7 @@
     if (p.x < PX0 || p.x > PX1 || p.y < PY1 - 10 || p.y > PY0 + 10) { if (lg.hover != null) { lg.hover = null; renderLog(); } return; }
     const { X } = scales();
     let d = X.inv(p.x);
-    // auf gut ablesbare Werte runden: 2 signifikante Stellen
+    // Round to easy-to-read 2 significant digits
     const mag = Math.pow(10, Math.floor(Math.log10(d)) - 1);
     d = Math.max(1, Math.round(d / mag) * mag);
     if (d !== lg.hover) { lg.hover = +d.toPrecision(6); renderLog(); }

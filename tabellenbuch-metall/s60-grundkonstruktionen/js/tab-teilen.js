@@ -1,9 +1,9 @@
-/* Reiter 6: Teilen einer Strecke (Tabellenbuch Metall S. 60 unten)
-   Gegeben: Strecke AB soll in 5 (allgemein n) gleiche Teile geteilt werden.
-   1. Strahl von A unter beliebigem Winkel.
-   2. Auf dem Strahl von A aus mit dem Zirkel 5 beliebige, aber gleich große Teile abtragen (1'…5').
-   3. Endpunkt 5' mit B verbinden.
-   4. Parallelen zu 5'B durch die anderen Teilpunkte ziehen (ergibt 1…5 auf AB). */
+/* Tab 6: Dividing a line segment (Tabellenbuch Metall p. 60 bottom)
+   Given: segment AB to be divided into 5 (generally n) equal parts.
+   1. Ray from A at an arbitrary angle.
+   2. Step off 5 arbitrary but equal intervals along the ray from A (1'…5').
+   3. Connect endpoint 5' to B.
+   4. Draw parallels to 5'B through the other division marks (yielding 1…5 on AB). */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460, SCALE = 4; // 4 px = 1 mm
   const STEPS = [
-    [1, 'Hilfsstrahl ab A', 'Strahl von A unter beliebigem spitzen Winkel <i>β</i> ziehen.'],
-    [2, 'Gleiche Teile abtragen', 'Auf dem Strahl von A aus mit dem Zirkel <i>n</i> beliebige, aber gleich große Teile 1′…<i>n</i>′ abtragen.'],
-    [3, 'Endpunkt verbinden', 'Endpunkt <i>n</i>′ (im Buch 5′) mit dem Streckenendpunkt B verbinden.'],
-    [4, 'Parallelen ziehen', 'Parallelen zu <span class="overline"><i>n</i>′B</span> durch die übrigen Teilpunkte ziehen (ergibt die Teilpunkte 1…<i>n</i> auf <span class="overline">AB</span>).']
+    [1, 'Auxiliary ray from A', 'Draw a ray from A at an arbitrary acute angle <i>β</i>.'],
+    [2, 'Step off equal parts', 'Use the compass to step off <i>n</i> arbitrary but equal intervals 1′…<i>n</i>′ along the ray from A.'],
+    [3, 'Connect endpoint', 'Connect endpoint <i>n</i>′ (5′ in the handbook) to segment endpoint B.'],
+    [4, 'Draw parallels', 'Draw parallels to <span class="overline"><i>n</i>′B</span> through the remaining marks (yielding division points 1…<i>n</i> on <span class="overline">AB</span>).']
   ];
 
   const BOOK_STATE = () => ({
@@ -43,16 +43,16 @@
     el(svg, 'rect', { x: 0, y: 0, width: W, height: H, class: 'bg-plain' });
 
     const stepPx = st.spanMm * SCALE;
-    // In SVG-Koordinaten (y nach unten) bedeutet +rayDeg einen Strahl nach rechts-unten wie im Buch
+    // In SVG coordinates (y downward), +rayDeg yields a ray going down-right as in the handbook
     const res = Core.constructDivideSegment(st.A, st.B, st.n, st.rayDeg, stepPx);
     const { A, B, n, rayPts, divPts } = res;
 
-    // Gegebene Strecke AB mit Endstrichen
+    // Given segment AB with end ticks
     SVG.segmentWithTicks(svg, A, B, { w: 2.5 });
     SVG.text(svg, A.x - 14, A.y + 5, 'A', { 'text-anchor': 'end', 'font-size': 16 });
     SVG.text(svg, B.x + 14, B.y + 5, 'B', { 'text-anchor': 'start', 'font-size': 16 });
 
-    // Schritt 1: Hilfsstrahl von A unter beliebigem Winkel β
+    // Step 1: Auxiliary ray from A at arbitrary angle β
     if (st.step >= 1) {
       const endRay = rayPts[n - 1].pt;
       const uRay = unit(sub(endRay, A));
@@ -65,7 +65,7 @@
       });
     }
 
-    // Schritt 2: Auf dem Strahl n gleiche Zirkelteile 1' .. n' abtragen (mit kleinen Zirkelbögen und Pfeilen wie im Buch)
+    // Step 2: Step off n equal compass spans 1' .. n' along ray (with small compass arcs and arrows as in handbook)
     if (st.step >= 2) {
       const rayScreenDeg = SVG.screenAngle(A, rayPts[0].pt);
       const cls2 = 'arc-line' + (hl === 2 ? ' hl' : '');
@@ -90,12 +90,12 @@
           'text-anchor': 'middle', 'font-size': 14.5, class: 'halo' + (hl === 2 ? ' hl-text' : '')
         });
       }
-      // Ziehbarer Endpunkt n' auf dem Hilfsstrahl
+      // Draggable endpoint n' on auxiliary ray
       const lastRay = rayPts[n - 1].pt;
       el(svg, 'circle', { cx: lastRay.x.toFixed(1), cy: lastRay.y.toFixed(1), r: 16, class: 'pt-hit', 'data-drag': 'ray' });
     }
 
-    // Schritt 3: Endpunkt n' mit B verbinden
+    // Step 3: Connect endpoint n' to B
     if (st.step >= 3) {
       const lastRay = rayPts[n - 1].pt;
       const uPar = unit(sub(B, lastRay));
@@ -112,7 +112,7 @@
       }
     }
 
-    // Schritt 4: Parallelen zu n'B durch die anderen Teilpunkte 1'...(n-1)' ziehen
+    // Step 4: Draw parallels to n'B through the remaining division marks 1'...(n-1)'
     if (st.step >= 4) {
       const lastRay = rayPts[n - 1].pt;
       const uPar = unit(sub(B, lastRay));
@@ -129,7 +129,7 @@
             'stroke-width': 1.5
           });
         }
-        // Kurzer Teilstrich auf AB & rote Teilpunktnummer 1..n wie im Buch
+        // Short tick mark on AB & red division number 1..n as in handbook
         el(svg, 'line', {
           x1: dPt.x.toFixed(1), y1: (dPt.y - 5).toFixed(1),
           x2: dPt.x.toFixed(1), y2: (dPt.y + 5).toFixed(1),
@@ -138,7 +138,7 @@
         SVG.stepNum(svg, dPt.x, dPt.y - 12, i + 1, { hl: hl === 4 });
       }
 
-      // Optionale Teilmaße Δl zwischen den Teilpunkten
+      // Optional sub-lengths Δl between division points
       if (st.showDims) {
         const partMm = fmt(res.partLen / SCALE, 1);
         for (let i = 0; i < n; i++) {
@@ -151,7 +151,7 @@
       }
     }
 
-    // Ziehpunkt B
+    // Draggable point B
     el(svg, 'circle', { cx: B.x.toFixed(1), cy: B.y.toFixed(1), r: 15, class: 'pt-hit', 'data-drag': 'B' });
 
     updateSide(res);
@@ -164,17 +164,17 @@
     $('tei-angle-out').textContent = `${fmt(st.rayDeg, 0)}°`;
     $('tei-span').value = st.spanMm;
     $('tei-span-out').textContent = `${fmt(st.spanMm, 1)} mm`;
-    $('tei-given').innerHTML = `<b>Gegeben:</b> Strecke <span class="overline">AB</span> soll in ${st.n} gleiche Teile geteilt werden.`;
+    $('tei-given').innerHTML = `<b>Given:</b> Segment <span class="overline">AB</span> to be divided into ${st.n} equal parts.`;
     $('tei-result').innerHTML = `Δ<i>l</i> = <span class="overline">AB</span> / ${st.n} = ${fmt(partMm, 2)} mm`;
     $('tei-details').innerHTML = [
-      ['Gesamtstrecke <span class="overline">AB</span>', `${fmt(abMm, 1)} mm`],
-      ['Anzahl gleicher Teile <i>n</i>', `${st.n}`],
-      ['Teillänge Δ<i>l</i> = <span class="overline">AB</span> / <i>n</i>', `${fmt(partMm, 2)} mm`],
-      ['Zirkelspanne <i>s</i> auf Hilfsstrahl', `${fmt(st.spanMm, 1)} mm`],
-      ['Hilfsstrahl-Gesamtlänge <i>n</i> · <i>s</i>', `${fmt(st.n * st.spanMm, 1)} mm`],
-      ['1. Strahlensatz <span class="overline">A1</span> / <span class="overline">AB</span> = <span class="overline">A1′</span> / <span class="overline">A' + st.n + '′</span>', `1 / ${st.n} = ${fmt(100 / st.n, 1)} %`]
+      ['Total segment <span class="overline">AB</span>', `${fmt(abMm, 1)} mm`],
+      ['Number of equal parts <i>n</i>', `${st.n}`],
+      ['Part length Δ<i>l</i> = <span class="overline">AB</span> / <i>n</i>', `${fmt(partMm, 2)} mm`],
+      ['Compass span <i>s</i> on aux. ray', `${fmt(st.spanMm, 1)} mm`],
+      ['Total auxiliary ray length <i>n</i> · <i>s</i>', `${fmt(st.n * st.spanMm, 1)} mm`],
+      ['Intercept ratio <span class="overline">A1</span> / <span class="overline">AB</span> = <span class="overline">A1′</span> / <span class="overline">A' + st.n + '′</span>', `1 / ${st.n} = ${fmt(100 / st.n, 1)} %`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
-    $('tei-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('tei-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   svg.addEventListener('pointerdown', e => {
@@ -214,9 +214,10 @@
     const kind = Math.random() < 0.5 ? 'part' : 'kth';
     const truth = kind === 'part' ? part : +(k * part).toFixed(1);
     st.quiz = { n, abMm, k, truth, answered: false };
+    const ord = k === 1 ? '1st' : k === 2 ? '2nd' : k === 3 ? '3rd' : k + 'th';
     $('tei-task').innerHTML = kind === 'part'
-      ? `Eine Flanschleiste der Länge <span class="overline">AB</span> = <b>${fmt(abMm, 1)} mm</b> wird nach dem Strahlensatz in <b><i>n</i> = ${n}</b> gleiche Teile geteilt. Wie lang ist ein einzelner Abschnitt Δ<i>l</i>?`
-      : `Eine Strecke <span class="overline">AB</span> = <b>${fmt(abMm, 1)} mm</b> wird in <b><i>n</i> = ${n}</b> gleiche Teile geteilt. In welchem Abstand <span class="overline">A${k}</span> vom Punkt A liegt der <b>${k}. Teilpunkt</b>?`;
+      ? `A flange strip of length <span class="overline">AB</span> = <b>${fmt(abMm, 1)} mm</b> is divided into <b><i>n</i> = ${n}</b> equal parts using the intercept theorem. How long is a single segment Δ<i>l</i>?`
+      : `A segment <span class="overline">AB</span> = <b>${fmt(abMm, 1)} mm</b> is divided into <b><i>n</i> = ${n}</b> equal parts. At what distance <span class="overline">A${k}</span> from point A does the <b>${ord} division point</b> lie?`;
     $('tei-ans-unit').textContent = 'mm';
     $('tei-ans').value = '';
     $('tei-ans-row').hidden = false;
@@ -226,15 +227,15 @@
   function checkQuiz() {
     if (!st.quiz || st.quiz.answered) return;
     const v = Core.parseNum($('tei-ans').value);
-    if (!isFinite(v)) { feedback('tei-feedback', 'Bitte eine Länge in mm eingeben.', false); return; }
+    if (!isFinite(v)) { feedback('tei-feedback', 'Please enter a length in mm.', false); return; }
     const ok = Math.abs(v - st.quiz.truth) <= 0.2;
     st.quiz.answered = true;
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('tei-feedback', ok
-      ? `Richtig: ${fmt(st.quiz.truth, 1)} mm!`
-      : `Erwartet: ${fmt(st.quiz.truth, 1)} mm (Einzelabschnitt Δl = ${fmt(st.quiz.abMm / st.quiz.n, 1)} mm).`, ok);
-    $('tei-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct: ${fmt(st.quiz.truth, 1)} mm!`
+      : `Expected: ${fmt(st.quiz.truth, 1)} mm (single part Δl = ${fmt(st.quiz.abMm / st.quiz.n, 1)} mm).`, ok);
+    $('tei-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('tei-quiz').addEventListener('click', newQuiz);

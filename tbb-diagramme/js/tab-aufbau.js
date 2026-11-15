@@ -1,4 +1,4 @@
-/* Reiter 2: Aufbau eines Diagramms – Regeln, Hervorhebung, Linienbreiten, Fehlerbilder */
+/* Tab 2: Diagram structure – rules, highlighting, line widths, fault inspection */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback } = UI;
@@ -6,28 +6,28 @@
   const el = SVG.el;
 
   const W = 640, H = 460;
-  const MM = 2.4;                                   // 1 mm Linienbreite ≙ 2,4 viewBox-Einheiten
-  const sig = e => 140 * Math.tanh(e / 0.16);       // Beispielkurve σ(ε), kein Werkstoff
+  const MM = 2.4;                                   // 1 mm line width ≙ 2.4 viewBox units
+  const sig = e => 140 * Math.tanh(e / 0.16);       // Sample curve σ(ε), no specific material
 
   const RULES = [
-    ['axes', 'Achsen', 'Abszisse waagrecht, Ordinate senkrecht; sie schneiden sich im Nullpunkt.'],
-    ['dir', 'Positive Richtung', 'nach rechts bzw. oben, gekennzeichnet durch Pfeilspitzen an den Achsen oder Pfeile parallel zu ihnen.'],
-    ['sym', 'Formelzeichen', 'kursiv; an der Abszisse unter der Pfeilspitze, an der Ordinate links daneben, sonst vor den parallelen Pfeilen.'],
-    ['nums', 'Zahlenwerte', 'an den Teilstrichen; negative Werte immer mit Minuszeichen.'],
-    ['unit', 'Einheit', 'zwischen den beiden letzten positiven Zahlen oder hinter dem Formelzeichen.'],
-    ['scale', 'Skala', 'meist linear geteilt (gleicher Wertschritt, gleicher Abstand), manchmal logarithmisch.'],
-    ['grid', 'Netzlinien', 'erleichtern das Eintragen und Ablesen der Werte.'],
-    ['curve', 'Kennlinie', 'verbindet die eingetragenen Werte.'],
-    ['widths', 'Linienbreiten', 'Netzlinie : Achse : Kennlinie = 1 : 2 : 4.']
+    ['axes', 'Axes', 'Abscissa horizontal, ordinate vertical; they intersect at the zero origin.'],
+    ['dir', 'Positive direction', 'Rightward and upward, indicated by arrowheads on the axes or arrows parallel to them.'],
+    ['sym', 'Formula symbols', 'Italicized; on the abscissa below the arrowhead, on the ordinate to the left, or in front of parallel direction arrows.'],
+    ['nums', 'Numerical values', 'At the tick marks; negative values always carry a minus sign.'],
+    ['unit', 'Unit', 'Placed between the last two positive numbers or behind the formula symbol.'],
+    ['scale', 'Scale', 'Usually linearly graduated (equal step, equal spacing), occasionally logarithmic.'],
+    ['grid', 'Grid lines', 'Assist with plotting and reading values.'],
+    ['curve', 'Characteristic curve', 'Connects the plotted data values.'],
+    ['widths', 'Line widths', 'Grid line : axis : curve = 1 : 2 : 4.']
   ];
   const FAULTS = [
-    ['noDir', 'Positive Achsrichtungen nicht gekennzeichnet'],
-    ['upright', 'Formelzeichen nicht kursiv'],
-    ['symPos', 'Formelzeichen an der falschen Stelle'],
-    ['noMinus', 'Negative Zahlenwerte ohne Minuszeichen'],
-    ['unitPos', 'Einheiten an der falschen Stelle'],
-    ['reversed', 'Positive Werte nach links abgetragen'],
-    ['widths', 'Linienbreiten nicht im Verhältnis 1 : 2 : 4']
+    ['noDir', 'Positive axis directions not marked'],
+    ['upright', 'Formula symbols not italicized'],
+    ['symPos', 'Formula symbols in the wrong position'],
+    ['noMinus', 'Negative numbers missing minus signs'],
+    ['unitPos', 'Units placed in the wrong position'],
+    ['reversed', 'Positive values plotted toward the left'],
+    ['widths', 'Line widths not in a 1 : 2 : 4 ratio']
   ];
 
   const st = { dir: 'parallel', unit: 'between', callouts: true, grid: false, b: 0.25, hover: null, pin: null,
@@ -48,12 +48,12 @@
     const wAx = has('widths') ? 3 * st.b * MM : 2 * st.b * MM;
     const wCurve = has('widths') ? st.b * MM : 4 * st.b * MM;
     const hlText = k => (hl === k ? ' hl-text' : '');
-    const A = {};                                   // Ankerpunkte für die Beschriftungen
+    const A = {};                                   // Anchor points for callouts
 
     SVG.clear(svg);
     SVG.background(svg, W, H);
 
-    // Netzlinien
+    // Grid lines
     const showGrid = st.grid || hl === 'grid' || hl === 'widths';
     if (showGrid) {
       const g = el(svg, 'g', { class: 'grid' + (hl === 'grid' ? ' hl-lines' : '') });
@@ -62,10 +62,10 @@
       A.grid = [X(-0.3), Y(-50)];
     }
 
-    // Achsen
+    // Axes
     const xEnd = X(0.4) + sx * (heads && arrows ? 32 : 16), xStart = X(-0.4) - sx * 12;
     const yTop = Y(200) - (heads && arrows ? 32 : 16), yBot = Y(-150) + 12;
-    const gCurve = el(svg, 'g', {});                // Kennlinie unter Achsen und Zahlen
+    const gCurve = el(svg, 'g', {});                // Curve under axes and numbers
     const gAx = el(svg, 'g', {});
     if (hl === 'axes') {
       el(gAx, 'line', { x1: xStart, y1: Y0, x2: xEnd, y2: Y0, class: 'hl', 'stroke-width': 8 });
@@ -74,7 +74,7 @@
     el(gAx, 'line', { x1: xStart, y1: Y0, x2: xEnd - (heads && arrows ? sx * 9 : 0), y2: Y0, class: 'ax', 'stroke-width': wAx });
     el(gAx, 'line', { x1: X0, y1: yBot, x2: X0, y2: yTop + (heads && arrows ? 9 : 0), class: 'ax', 'stroke-width': wAx });
 
-    // Teilstriche, Zahlenwerte, Einheiten
+    // Ticks, numerical values, units
     const tickCls = 'tick' + (hl === 'scale' ? ' hl-tick' : '');
     const lab = v => fmt(v, 1, { noMinus: has('noMinus') });
     for (const v of Core.ticks(-0.4, 0.4, 0.1)) {
@@ -95,7 +95,7 @@
         SVG.arrow(svg, X(v + 0.05), Y0 - 14, X(v + 0.1) - sx * 2, Y0 - 14, { lineCls: 'hl-thin', headCls: 'hl-fill', l: 6, b: 2.5 });
         SVG.arrow(svg, X(v + 0.05), Y0 - 14, X(v) + sx * 2, Y0 - 14, { lineCls: 'hl-thin', headCls: 'hl-fill', l: 6, b: 2.5 });
       }
-      SVG.text(svg, X(0.25), Y0 - 22, 'gleiche Abstände je 0,1 %', { 'text-anchor': 'middle', 'font-size': 13, class: 'halo hl-text' });
+      SVG.text(svg, X(0.25), Y0 - 22, 'equal spacing per 0.1 %', { 'text-anchor': 'middle', 'font-size': 13, class: 'halo hl-text' });
     }
 
     let unitY = '', unitX = '';
@@ -114,12 +114,12 @@
       unitX = ' in %';
     }
 
-    // Kennzeichnung der Richtung und Formelzeichen
+    // Direction indication and formula symbols
     const S = s => (has('upright') ? s : '*' + s + '*');
     const symCls = 'halo' + hlText('sym');
     const dirArrow = { lineCls: 'ax' + (hl === 'dir' ? ' hl-stroke' : ''), headCls: 'ax-head' + (hl === 'dir' ? ' hl-fill' : ''), w: 1.4, l: 12, b: 4 };
     if (has('symPos')) {
-      // Fehlerbild: Formelzeichen am negativen Achsende
+      // Fault demonstration: formula symbols at negative axis ends
       if (arrows) { SVG.arrowHead(gAx, xEnd, Y0, rev ? 180 : 0, 13, 4.5, dirArrow.headCls); SVG.arrowHead(gAx, X0, yTop, -90, 13, 4.5, dirArrow.headCls); }
       SVG.text(gAx, xStart - sx * 8, Y0 + 6, S('ε') + unitX, { 'text-anchor': rev ? 'start' : 'end', 'font-size': 18, class: symCls });
       SVG.text(gAx, X0, yBot + 22, S('σ') + unitY, { 'text-anchor': 'middle', 'font-size': 18, class: symCls });
@@ -127,8 +127,8 @@
       if (unitY) { A.unitY = [X0 + 20, yBot + 26]; A.unitX = [xStart - sx * 30, Y0 + 10]; }
     } else if (heads) {
       if (arrows) { SVG.arrowHead(gAx, xEnd, Y0, rev ? 180 : 0, 13, 4.5, dirArrow.headCls); SVG.arrowHead(gAx, X0, yTop, -90, 13, 4.5, dirArrow.headCls); }
-      // Stelle der Pfeilspitze, auch wenn sie im Fehlerbild fehlt; mit Einheit beginnt der Text
-      // unter der Spitze, damit die letzte Zahl frei bleibt
+      // Arrowhead position even if omitted in fault mode; with unit text begins
+      // below the tip so the last scale number stays clear
       const xTip = X(0.4) + sx * 32, yTip = Y(200) - 32;
       SVG.text(gAx, xTip - sx * (unitX ? 12 : 4), Y0 + 30, S('ε') + unitX,
         { 'text-anchor': unitX ? (rev ? 'end' : 'start') : 'middle', 'font-size': 18, class: symCls });
@@ -149,8 +149,8 @@
       if (unitY) { A.unitY = [xa - 30, Y(35) + 30]; A.unitX = [X(0.24) - sx * 30, ya + 12]; }
     }
 
-    // Kennlinie
-    const d =SVG.plotFn(sig, -0.38, 0.38, X, Y, 120);
+    // Characteristic curve
+    const d = SVG.plotFn(sig, -0.38, 0.38, X, Y, 120);
     if (hl === 'curve') el(gCurve, 'path', { d, class: 'hl', 'stroke-width': wCurve + 6 });
     el(gCurve, 'path', { d, class: 'curve', 'stroke-width': wCurve });
     A.curve = [X(0.16), Y(sig(0.16))];
@@ -159,13 +159,13 @@
     widthLegend(wGrid, wAx, wCurve, hl === 'widths');
   }
 
-  // Linienbreiten unter dem Diagramm (im Fehlerbild ausgeblendet, sonst verrät sie den Fehler)
+  // Line-width legend beneath diagram (hidden in fault mode so it doesn't give away the answer)
   function widthLegend(wg, wa, wc, active) {
     const leg = $('a-legend');
     leg.hidden = !!st.faults;
     leg.classList.toggle('active', active);
-    const k = 1.4;                                  // Bildschirmmaßstab des Diagramms
-    leg.innerHTML = [['Netzlinie', wg, 'grid'], ['Achse', wa, 'ax'], ['Kennlinie', wc, 'curve']].map(([n, w, c]) =>
+    const k = 1.4;                                  // On-screen scaling factor of the diagram
+    leg.innerHTML = [['Grid line', wg, 'grid'], ['Axis', wa, 'ax'], ['Curve', wc, 'curve']].map(([n, w, c]) =>
       `<span><svg width="44" height="12" aria-hidden="true"><line x1="2" y1="6" x2="42" y2="6" class="${c}" stroke-width="${(w * k).toFixed(2)}"/></svg>`
       + `${n} ${fmt(w / MM, 2)} mm</span>`).join('')
       + `<span class="ratio">= ${fmt(1)} : ${fmt(wa / wg, 1)} : ${fmt(wc / wg, 1)}</span>`;
@@ -178,23 +178,23 @@
       const lines = str.split('\n');
       lines.forEach((s, i) => SVG.text(g, tx, ty + i * 18, s, { 'text-anchor': anchor, 'font-size': 16, class: 'callout-text halo' }));
     };
-    // Einheit an der Ordinate und an der Abszisse
-    if (A.unitY) call(26, Y(175) + 5, 'start', 'Einheit', [[90, Y(175), A.unitY[0], A.unitY[1]]]);
-    if (A.unitX) call(X(0.31), Y(62), 'middle', 'Einheit', [[X(0.32), Y(62) + 6, A.unitX[0], A.unitX[1]]]);
-    // Formelzeichen (bei Pfeilspitzen oben, damit sich die Hinweislinien nicht kreuzen)
+    // Unit on ordinate and on abscissa
+    if (A.unitY) call(26, Y(175) + 5, 'start', 'Unit', [[64, Y(175), A.unitY[0], A.unitY[1]]]);
+    if (A.unitX) call(X(0.31), Y(62), 'middle', 'Unit', [[X(0.32), Y(62) + 6, A.unitX[0], A.unitX[1]]]);
+    // Formula symbol (above when using arrowheads so leader lines don't cross)
     const fy = st.dir === 'heads' ? 30 : Y(95);
-    call(26, fy, 'start', 'Formel-\nzeichen', [[100, fy + 4, A.symY[0], A.symY[1]]]);
-    // Kennlinie
-    call(X(0.1), Y(186), 'middle', 'Kennlinie', [[X(0.115), Y(186) + 6, A.curve[0], A.curve[1]]]);
-    // Größe der Zahlenwerte
-    call(X(0.08), Y(-102), 'start', 'Größe der\nZahlenwerte', [
+    call(26, fy, 'start', 'Formula\nsymbol', [[88, fy + 4, A.symY[0], A.symY[1]]]);
+    // Characteristic curve
+    call(X(0.1), Y(186), 'middle', 'Curve', [[X(0.115), Y(186) + 6, A.curve[0], A.curve[1]]]);
+    // Size of numerical values
+    call(X(0.08), Y(-102), 'start', 'Size of\nnumbers', [
       [X(0.1) + 10, Y(-102) - 16, A.nums[0][0], A.nums[0][1]],
       [X(0.08) - 6, Y(-102) - 5, A.nums[1][0], A.nums[1][1]]
     ]);
-    if (showGrid && A.grid) call(26, Y(-48) , 'start', 'Netzlinien', [[105, Y(-48) - 4, X(-0.2), Y(-75)], [105, Y(-48) - 4, X(-0.3), Y(-100)]]);
+    if (showGrid && A.grid) call(26, Y(-48), 'start', 'Grid lines', [[100, Y(-48) - 4, X(-0.2), Y(-75)], [100, Y(-48) - 4, X(-0.3), Y(-100)]]);
   }
 
-  // ---------------------------------------------------------------- Regeln und Fehlerbilder
+  // ---------------------------------------------------------------- Rules and Fault Mode
   function renderRules() {
     $('a-rules').innerHTML = RULES.map(([k, t, s]) =>
       `<li class="hover-able${st.pin === k ? ' active' : ''}" data-key="${k}"><b>${t}</b> ${s}</li>`).join('');
@@ -223,7 +223,7 @@
     $('a-faults').hidden = false;
     $('a-check').hidden = false;
     $('a-fix').hidden = false;
-    $('a-quiz-intro').textContent = 'Welche Regeln verletzt dieses Diagramm? Zutreffendes ankreuzen.';
+    $('a-quiz-intro').textContent = 'Which rules does this diagram violate? Check all that apply.';
     feedback('a-feedback', '');
     renderFaults();
     render();
@@ -234,9 +234,9 @@
       let state = '';
       if (st.done) {
         const real = st.faults.has(k), ticked = st.checked.has(k);
-        state = real && ticked ? '<span class="state ok">gefunden</span>'
-          : real ? '<span class="state bad">übersehen</span>'
-          : ticked ? '<span class="state bad">kein Fehler</span>' : '';
+        state = real && ticked ? '<span class="state ok">found</span>'
+          : real ? '<span class="state bad">missed</span>'
+          : ticked ? '<span class="state bad">not an error</span>' : '';
       }
       return `<li><label class="chk"><input type="checkbox" data-k="${k}"${st.checked.has(k) ? ' checked' : ''}${st.done ? ' disabled' : ''}> ${t}</label>${state}</li>`;
     }).join('');
@@ -256,9 +256,9 @@
     const ok = found === st.faults.size && !wrong;
     st.score[1]++;
     if (ok) st.score[0]++;
-    $('a-score').textContent = `${st.score[0]} / ${st.score[1]} fehlerfrei`;
-    feedback('a-feedback', ok ? 'Alle Fehler gefunden.'
-      : `${found} von ${st.faults.size} Fehlern gefunden${wrong ? `, ${wrong} Fehlalarm${wrong > 1 ? 'e' : ''}` : ''}.`, ok);
+    $('a-score').textContent = `${st.score[0]} / ${st.score[1]} error-free`;
+    feedback('a-feedback', ok ? 'All errors found.'
+      : `${found} of ${st.faults.size} errors found${wrong ? `, ${wrong} false positive${wrong > 1 ? 's' : ''}` : ''}.`, ok);
     $('a-check').hidden = true;
     renderFaults();
   }
@@ -269,7 +269,7 @@
     $('a-faults').hidden = true;
     $('a-check').hidden = true;
     $('a-fix').hidden = true;
-    $('a-quiz-intro').textContent = 'Erzeugt ein Diagramm mit zwei bis drei Regelverstößen.';
+    $('a-quiz-intro').textContent = 'Generates a diagram with two to three rule violations.';
     feedback('a-feedback', '');
     render();
   }

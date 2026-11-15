@@ -1,9 +1,9 @@
-/* Reiter 3: Fällen eines Lotes (Tabellenbuch Metall S. 60, 3. Zeile)
-   Gegeben: Gerade g und Punkt P
-   1. Beliebiger Kreisbogen 1 um P ergibt Schnittpunkte A und B.
-   2. Kreisbogen 2 mit Radius r um A; r > 1/2 AB.
-   3. Kreisbogen 3 mit gleichem Radius r um B (Schnittpunkt C).
-   4. Die Verbindungslinie des Schnittpunktes C mit P ist das gesuchte Lot. */
+/* Tab 3: Dropping a perpendicular (Tabellenbuch Metall p. 60, row 3)
+   Given: line g and point P
+   1. Arbitrary arc 1 around P yields intersections A and B.
+   2. Arc 2 of radius r around A; r > 1/2 AB.
+   3. Arc 3 of the same radius r around B (intersection C).
+   4. The line connecting intersection C and P is the desired perpendicular. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460, SCALE = 4; // 4 px = 1 mm
   const STEPS = [
-    [1, 'Kreisbogen 1 um P', 'Beliebiger Kreisbogen 1 um P (Radius größer als Lotabstand) ergibt die Schnittpunkte A und B auf der Geraden g.'],
-    [2, 'Kreisbogen 2 um A', 'Kreisbogen 2 mit Radius <i>r</i> um A schlagen; Bedingung: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
-    [3, 'Kreisbogen 3 um B', 'Kreisbogen 3 mit gleichem Radius <i>r</i> um B schlagen (Schnittpunkt C).'],
-    [4, 'Lot verbinden', 'Die Verbindungslinie 4 des Schnittpunktes C mit P ist das gesuchte Lot auf die Gerade g.']
+    [1, 'Arc 1 around P', 'An arbitrary arc 1 around P (radius larger than perpendicular distance) gives intersections A and B on line g.'],
+    [2, 'Arc 2 around A', 'Strike arc 2 of radius <i>r</i> centered at A; condition: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
+    [3, 'Arc 3 around B', 'Strike arc 3 of the same radius <i>r</i> centered at B (intersection C).'],
+    [4, 'Connect perpendicular', 'Line 4 connecting intersection C and P is the desired perpendicular onto line g.']
   ];
 
   const BOOK_STATE = () => ({
@@ -46,7 +46,7 @@
     const r2Px = st.r2Mm * SCALE;
     const res = Core.constructDropPerp(st.G1, st.G2, st.P, r1Px, r2Px);
 
-    // Gegebene Gerade g
+    // Given line g
     el(svg, 'line', {
       x1: st.G1.x.toFixed(1), y1: st.G1.y.toFixed(1),
       x2: st.G2.x.toFixed(1), y2: st.G2.y.toFixed(1),
@@ -58,7 +58,7 @@
       if (res.stepFailed === 1) {
         SVG.compassArc(svg, st.P, r1Px, 25, 155, { cls: 'warn-arc' });
         SVG.text(svg, st.P.x, st.G1.y + 45,
-          `Bogen 1 erreicht Gerade g nicht: r₁ (${fmt(st.r1Mm, 0)} mm) muss > Lotabstand d (${fmt(res.distP / SCALE, 1)} mm) sein!`,
+          `Arc 1 does not reach line g: r₁ (${fmt(st.r1Mm, 0)} mm) must be > perpendicular distance d (${fmt(res.distP / SCALE, 1)} mm)!`,
           { 'text-anchor': 'middle', 'font-size': 14, class: 'halo step-num' });
       } else {
         const { A, B } = res;
@@ -68,7 +68,7 @@
         SVG.compassArc(svg, A, r2Px, -15, 75, { cls: 'warn-arc' });
         SVG.compassArc(svg, B, r2Px, 105, 195, { cls: 'warn-arc' });
         SVG.text(svg, (A.x + B.x) / 2, st.G1.y + 115,
-          `Bögen 2 & 3 schneiden sich nicht: r (${fmt(st.r2Mm, 0)} mm) muss > ½ AB (${fmt(res.halfAB / SCALE, 1)} mm) sein!`,
+          `Arcs 2 & 3 do not intersect: r (${fmt(st.r2Mm, 0)} mm) must be > ½ AB (${fmt(res.halfAB / SCALE, 1)} mm)!`,
           { 'text-anchor': 'middle', 'font-size': 14, class: 'halo step-num' });
       }
       SVG.point(svg, st.P, { drag: 'P', label: 'P', dx: 14, dy: 5 });
@@ -78,7 +78,7 @@
 
     const { P, A, B, C, foot } = res;
 
-    // Optional: Symmetrie-Drachenviereck PACB & rechter Winkel
+    // Optional: symmetry kite PACB & right angle
     if (st.showProof && st.step >= 3) {
       el(svg, 'polygon', {
         points: `${P.x.toFixed(1)},${P.y.toFixed(1)} ${A.x.toFixed(1)},${A.y.toFixed(1)} ${C.x.toFixed(1)},${C.y.toFixed(1)} ${B.x.toFixed(1)},${B.y.toFixed(1)}`,
@@ -87,7 +87,7 @@
       if (st.step >= 4) SVG.rightAngle(svg, foot, P, B, 18);
     }
 
-    // Schritt 1: Kreisbogen 1 um P ergibt Schnittpunkte A und B
+    // Step 1: Arc 1 around P gives intersections A and B
     if (st.step >= 1) {
       const cls1 = 'arc-line' + (hl === 1 ? ' hl' : '');
       SVG.arcBetweenPoints(svg, P, r1Px, B, A, 10, { cls: cls1 });
@@ -97,7 +97,7 @@
       SVG.point(svg, B, { label: 'B', dx: 6, dy: -12, labelCls: hl === 1 ? 'hl-text' : '' });
     }
 
-    // Schritt 2: Kreisbogen 2 mit Radius r um A
+    // Step 2: Arc 2 of radius r around A
     if (st.step >= 2) {
       const cls2 = 'arc-line' + (hl === 2 ? ' hl' : '');
       const angAC = SVG.screenAngle(A, C);
@@ -109,7 +109,7 @@
       SVG.stepNum(svg, pNum2.x + 12, pNum2.y, 2, { hl: hl === 2 });
     }
 
-    // Schritt 3: Kreisbogen 3 mit gleichem Radius r um B (Schnittpunkt C)
+    // Step 3: Arc 3 of same radius r around B (intersection C)
     if (st.step >= 3) {
       const cls3 = 'arc-line' + (hl === 3 ? ' hl' : '');
       const angBC = SVG.screenAngle(B, C);
@@ -122,7 +122,7 @@
       SVG.text(svg, C.x, C.y + 24, 'C', { 'text-anchor': 'middle', 'font-size': 15.5, class: 'halo' + (hl === 3 ? ' hl-text' : '') });
     }
 
-    // Schritt 4: Verbindungslinie C mit P ist das gesuchte Lot
+    // Step 4: Line connecting C and P is the desired perpendicular
     if (st.step >= 4) {
       const u = unit(sub(C, P));
       const pTop = sub(P, scale(u, 14));
@@ -136,7 +136,7 @@
       SVG.stepNum(svg, P.x + 14, (P.y + foot.y) / 2, 4, { hl: hl === 4 });
     }
 
-    // Ziehpunkt P
+    // Draggable point P
     SVG.point(svg, P, { drag: 'P', label: 'P', dx: 14, dy: 5 });
 
     updateSide(res);
@@ -151,22 +151,22 @@
     if (!res.ok) {
       resEl.className = 'result warn';
       resEl.innerHTML = res.stepFailed === 1
-        ? `Schritt 1: <i>r</i><sub>1</sub> ≤ Lotabstand <i>d</i> (${fmt(res.distP / SCALE, 1)} mm)`
-        : `Schritt 2: <i>r</i> ≤ ½ <span class="overline">AB</span> (${fmt(res.halfAB / SCALE, 1)} mm)`;
+        ? `Step 1: <i>r</i><sub>1</sub> ≤ perp. distance <i>d</i> (${fmt(res.distP / SCALE, 1)} mm)`
+        : `Step 2: <i>r</i> ≤ ½ <span class="overline">AB</span> (${fmt(res.halfAB / SCALE, 1)} mm)`;
     } else {
       resEl.className = 'result';
-      resEl.innerHTML = `<span class="overline">PC</span> ⊥ g &nbsp;·&nbsp; Winkel = ${fmt(res.perpAngleDeg, 1)}°`;
+      resEl.innerHTML = `<span class="overline">PC</span> ⊥ g &nbsp;·&nbsp; Angle = ${fmt(res.perpAngleDeg, 1)}°`;
     }
     const dMm = res.distP / SCALE;
     const abMm = res.ok || res.abLen ? (res.abLen / SCALE) : 0;
     $('lot-details').innerHTML = [
-      ['Lotabstand <i>d</i>(P, g)', `${fmt(dMm, 1)} mm`],
-      ['Bogen 1 um P (<i>r</i><sub>1</sub> &gt; <i>d</i>)', `${fmt(st.r1Mm, 0)} mm`],
-      ['Sehne <span class="overline">AB</span> auf Gerade g', abMm ? `${fmt(abMm, 1)} mm` : '–'],
-      ['Mindestradius ½ <span class="overline">AB</span>', abMm ? `&gt; ${fmt(abMm / 2, 1)} mm` : '–'],
-      ['Bögen 2 &amp; 3 um A, B (<i>r</i>)', `${fmt(st.r2Mm, 0)} mm`]
+      ['Perpendicular distance <i>d</i>(P, g)', `${fmt(dMm, 1)} mm`],
+      ['Arc 1 around P (<i>r</i><sub>1</sub> &gt; <i>d</i>)', `${fmt(st.r1Mm, 0)} mm`],
+      ['Chord <span class="overline">AB</span> on line g', abMm ? `${fmt(abMm, 1)} mm` : '–'],
+      ['Minimum radius ½ <span class="overline">AB</span>', abMm ? `&gt; ${fmt(abMm / 2, 1)} mm` : '–'],
+      ['Arcs 2 &amp; 3 around A, B (<i>r</i>)', `${fmt(st.r2Mm, 0)} mm`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
-    $('lot-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('lot-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   svg.addEventListener('pointerdown', e => {
@@ -186,15 +186,15 @@
   chk('lot-proof', v => { st.showProof = v; render(); });
 
   function newQuiz() {
-    // Pythagoreische Tripel (d, halfAB, r1)
+    // Pythagorean triples (d, halfAB, r1)
     const cases = [[36, 48, 60], [40, 30, 50], [24, 32, 40], [45, 60, 75]];
     const [d, half, r1] = cases[Math.floor(Math.random() * cases.length)];
     const ask = Math.random() < 0.5 ? 'ab' : 'minR';
     const truth = ask === 'ab' ? 2 * half : half;
     st.quiz = { d, half, r1, truth, answered: false };
     $('lot-task').innerHTML = ask === 'ab'
-      ? `Punkt P hat von der Geraden g den Lotabstand <i>d</i> = <b>${d} mm</b>. Kreisbogen 1 um P wird mit <i>r</i><sub>1</sub> = <b>${r1} mm</b> geschlagen. Wie lang ist die ausgeschnittene Strecke <span class="overline">AB</span> auf g ($\overline{AB} = 2\\sqrt{r_1^2 - d^2}$)?`
-      : `Kreisbogen 1 um P schneidet auf der Geraden g die Punkte A und B im Abstand <span class="overline">AB</span> = <b>${2 * half} mm</b> aus. Welchen Wert (in mm) muss der Radius <i>r</i> der Bögen 2 und 3 mindestens überschreiten?`;
+      ? `Point P has perpendicular distance <i>d</i> = <b>${d} mm</b> from line g. Arc 1 around P is struck with radius <i>r</i><sub>1</sub> = <b>${r1} mm</b>. What is the length of chord <span class="overline">AB</span> cut off on g (<span class="overline">AB</span> = 2·√(<i>r</i><sub>1</sub><sup>2</sup> − <i>d</i><sup>2</sup>))?`
+      : `Arc 1 around P cuts points A and B on line g at distance <span class="overline">AB</span> = <b>${2 * half} mm</b>. What value (in mm) must the radius <i>r</i> of arcs 2 and 3 strictly exceed?`;
     $('lot-ans-unit').textContent = 'mm';
     $('lot-ans').value = '';
     $('lot-ans-row').hidden = false;
@@ -204,15 +204,15 @@
   function checkQuiz() {
     if (!st.quiz || st.quiz.answered) return;
     const v = Core.parseNum($('lot-ans').value);
-    if (!isFinite(v)) { feedback('lot-feedback', 'Bitte eine Zahl in mm eingeben.', false); return; }
+    if (!isFinite(v)) { feedback('lot-feedback', 'Please enter a number in mm.', false); return; }
     const ok = Math.abs(v - st.quiz.truth) <= 0.25;
     st.quiz.answered = true;
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('lot-feedback', ok
-      ? `Richtig: ${fmt(st.quiz.truth, 0)} mm!`
-      : `Erwartet: ${fmt(st.quiz.truth, 0)} mm (halbe Sehne = ${st.quiz.half} mm, ganze Sehne AB = ${2 * st.quiz.half} mm).`, ok);
-    $('lot-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct: ${fmt(st.quiz.truth, 0)} mm!`
+      : `Expected: ${fmt(st.quiz.truth, 0)} mm (half-chord = ${st.quiz.half} mm, full chord AB = ${2 * st.quiz.half} mm).`, ok);
+    $('lot-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('lot-quiz').addEventListener('click', newQuiz);

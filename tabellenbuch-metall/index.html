@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tabellenbuch Metall • Interaktive Lehrmodelle</title>
-  <meta name="description" content="Interaktive digitale Lehrmodelle zum Tabellenbuch Metall (48. Auflage): Seite 14 (Formeln, Gleichungen, Diagramme), Seite 58 (Kartesisches Koordinatensystem, DIN 461, Federkennlinie), Seite 59 (Polarkoordinaten, Rundheitsprüfung, Flächendiagramme), Seite 60 (Geometrische Grundkonstruktionen: Strecken, Lote, Winkel), Seite 61 (Tangenten, Kreisbögen, Vielecke) und Seite 62 (Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale).">
+  <title>Engineering Tables (Tabellenbuch Metall) • Interactive Learning Models</title>
+  <meta name="description" content="Interactive digital learning models for Tabellenbuch Metall (48th ed.): Page 14 (Formulas, Equations, Diagrams), Page 58 (Cartesian Coordinate System, DIN 461, Spring Characteristic), Page 59 (Polar Coordinates, Roundness Inspection, Area Charts), Page 60 (Basic Geometric Constructions: Line Segments, Perpendiculars, Angles), Page 61 (Tangents, Circular Arcs, Polygons) and Page 62 (Incircle, Circumcircle, Circle Center, Ellipse, Spiral).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cpath d='M6 25V7M6 25h20' stroke='white' stroke-width='2.2' fill='none'/%3E%3Cpath d='M7 24C12 13 18 10 25 8' stroke='%23f87171' stroke-width='2.4' fill='none'/%3E%3Ccircle cx='20' cy='18' r='5' stroke='%23fbbf24' stroke-width='2' fill='none'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-blueprint">
-  <!-- Gemeinsamer SVG-Farbverlauf für die Diagrammvorschauen -->
+  <!-- Shared SVG gradient for diagram previews -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="hubDiaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -19,129 +19,129 @@
     </defs>
   </svg>
 
-  <!-- ================= Kopfzeile im Stil des Tabellenbuchs ================= -->
+  <!-- ================= Engineering Tables Styled Header ================= -->
   <header class="tbb-header">
     <div class="tbb-top">
       <div class="tbb-meta">
         <span class="book-badge">TBB 48</span>
         <div class="subject-badges" aria-hidden="true">
-          <span class="subject-tag tag-m" title="Technische Mathematik">M</span>
-          <span class="subject-tag tag-k" title="Technische Kommunikation">K</span>
+          <span class="subject-tag tag-m" title="Technical Mathematics">M</span>
+          <span class="subject-tag tag-k" title="Technical Communication">K</span>
         </div>
         <div>
-          <h1>Tabellenbuch Metall • Interaktive Lehrmodelle</h1>
-          <div class="sub">48. Auflage • Kap. 1.2 Formeln (S. 14), Kap. 3.1 Diagramme (S. 58–59) &amp; Kap. 3.2 Grundkonstruktionen (S. 60–62) • DIN 461, DIN ISO 128</div>
+          <h1>Tabellenbuch Metall • Interactive Learning Models</h1>
+          <div class="sub">48th ed. • Ch. 1.2 Formulas (p. 14), Ch. 3.1 Diagrams (pp. 58–59) &amp; Ch. 3.2 Basic Constructions (pp. 60–62) • DIN 461, DIN ISO 128</div>
         </div>
       </div>
       <div class="tbb-tools">
         <a href="../" class="back-link">← Portfolio (@xallace)</a>
         <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall" target="_blank" rel="noopener noreferrer" class="back-link">GitHub Source ↗</a>
-        <button class="btn-header" id="btn-theme" title="Zwischen hellem Königsblau-Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+        <button class="btn-header" id="btn-theme" title="Toggle between light royal-blue theme and blueprint dark mode">◐ <span id="theme-label">Light Mode</span></button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- ================= Übersicht & Kennzahlen ================= -->
+    <!-- ================= Overview & Key Metrics ================= -->
     <section class="hub-hero">
       <div>
         <div class="hero-eyebrow">
-          <span>📐 Digitale Zwillinge &amp; Interaktive Tafeln</span>
+          <span>📐 Digital Twins &amp; Interactive Charts</span>
         </div>
-        <h2>Mathematik, Diagramme &amp; Grundkonstruktionen aus dem Tabellenbuch Metall</h2>
+        <h2>Mathematics, Diagrams &amp; Basic Constructions from Tabellenbuch Metall</h2>
         <p>
-          Eigenständig erstellte interaktive Lern-, Konstruktions- und Rechenmodelle zu den Grundlagenseiten des <strong>Tabellenbuchs Metall</strong> (48. Auflage, Europa-Lehrmittel).
-          Jede Buchseite ist als eigenständige, sofort im Browser lauffähige Anwendung mit interaktiven Vektordiagrammen, den Original-Zahlenbeispielen und Diagnose-Übungen umgesetzt.
+          Independently built interactive learning, construction, and calculation models for the foundational pages of <strong>Tabellenbuch Metall</strong> (48th ed., Europa-Lehrmittel).
+          Each book page is implemented as a standalone, browser-ready application with interactive vector diagrams, the original worked numerical examples, and diagnostic exercises.
         </p>
       </div>
       <div class="hero-stats">
         <div class="stat-box">
-          <span class="stat-val">6 Seiten</span>
-          <span class="stat-lbl">S. 14 · S. 58 · S. 59 · S. 60 · S. 61 · S. 62</span>
+          <span class="stat-val">6 Pages</span>
+          <span class="stat-lbl">p. 14 · p. 58 · p. 59 · p. 60 · p. 61 · p. 62</span>
         </div>
         <div class="stat-box">
-          <span class="stat-val">31 Reiter</span>
-          <span class="stat-lbl">Interaktive Module</span>
+          <span class="stat-val">31 Tabs</span>
+          <span class="stat-lbl">Interactive Modules</span>
         </div>
         <div class="stat-box">
           <span class="stat-val">253 Checks</span>
-          <span class="stat-lbl">Geprüfte Buchwerte</span>
+          <span class="stat-lbl">Verified Book Values</span>
         </div>
       </div>
     </section>
 
-    <!-- ================= Filter & Seitensprung ================= -->
+    <!-- ================= Filter & Page Jump Strip ================= -->
     <div class="hub-toolbar">
-      <div class="filter-group" id="chapter-filter" role="tablist" aria-label="Kapitel filtern">
-        <button class="filter-btn active" data-filter="all">Alle Projekte (6)</button>
-        <button class="filter-btn" data-filter="K">K · Technische Kommunikation (S. 58–62)</button>
-        <button class="filter-btn" data-filter="M">M · Technische Mathematik (S. 14)</button>
+      <div class="filter-group" id="chapter-filter" role="tablist" aria-label="Filter chapters">
+        <button class="filter-btn active" data-filter="all">All Projects (6)</button>
+        <button class="filter-btn" data-filter="K">K · Technical Communication (pp. 58–62)</button>
+        <button class="filter-btn" data-filter="M">M · Technical Mathematics (p. 14)</button>
       </div>
       <div class="page-jump-strip">
-        <a href="s14-formeln/" class="page-pill"><span class="p-num">S. 14</span> Formeln &amp; Gleichungen</a>
-        <a href="s58-diagramme/" class="page-pill"><span class="p-num">S. 58</span> Kartesische Diagramme</a>
-        <a href="s59-polarkoordinaten/" class="page-pill"><span class="p-num">S. 59</span> Polar- &amp; Flächendiagramme</a>
-        <a href="s60-grundkonstruktionen/" class="page-pill"><span class="p-num">S. 60</span> Grundkonstruktionen</a>
-        <a href="s61-tangenten-vielecke/" class="page-pill"><span class="p-num">S. 61</span> Tangenten &amp; Vielecke</a>
-        <a href="s62-kreise-ellipse-spirale/" class="page-pill"><span class="p-num">S. 62</span> Inkreis, Ellipse, Spirale</a>
+        <a href="s14-formeln/" class="page-pill"><span class="p-num">p. 14</span> Formulas &amp; Equations</a>
+        <a href="s58-diagramme/" class="page-pill"><span class="p-num">p. 58</span> Cartesian Diagrams</a>
+        <a href="s59-polarkoordinaten/" class="page-pill"><span class="p-num">p. 59</span> Polar &amp; Area Charts</a>
+        <a href="s60-grundkonstruktionen/" class="page-pill"><span class="p-num">p. 60</span> Basic Constructions</a>
+        <a href="s61-tangenten-vielecke/" class="page-pill"><span class="p-num">p. 61</span> Tangents &amp; Polygons</a>
+        <a href="s62-kreise-ellipse-spirale/" class="page-pill"><span class="p-num">p. 62</span> Incircle, Ellipse, Spiral</a>
       </div>
     </div>
 
-    <!-- ================= Projektkarten ================= -->
+    <!-- ================= Project Cards ================= -->
     <div class="tbb-cards-grid" id="cards-grid">
 
       <!-- =====================================================================
-           PROJEKT 1: SEITE 58 — 3.1 Diagramme (Kartesisches Koordinatensystem)
+           PROJECT 1: PAGE 58 — 3.1 Diagrams (Cartesian Coordinate System)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="K">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 58</span>
-            <span class="card-subj" title="Technische Kommunikation">K</span>
-            <span class="card-chap">3.1 Diagramme</span>
+            <span class="card-page-badge">p. 58</span>
+            <span class="card-subj" title="Technical Communication">K</span>
+            <span class="card-chap">3.1 Diagrams</span>
           </div>
           <span class="card-norm-badge">DIN 461 · ISO 80000-2</span>
         </div>
 
         <div class="card-preview">
-          <a href="s58-diagramme/" aria-label="Seite 58 öffnen: Kartesisches Koordinatensystem und Federkennlinie">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 58: Kartesisches Koordinatensystem und Tellerfeder-Kennlinie F(s)">
+          <a href="s58-diagramme/" aria-label="Open Page 58: Cartesian Coordinate System and Spring Characteristic Curve">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 58: Cartesian coordinate system and disc-spring characteristic F(s)">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Linke Hälfte: Kartesisches Koordinatensystem P1(3,5; 1,5), P2(-2; -1) -->
+              <!-- Left half: Cartesian coordinate system P1(3.5; 1.5), P2(-2; -1) -->
               <g transform="translate(14, 12)">
                 <line x1="12" y1="82" x2="178" y2="82" class="ax"/>
                 <line x1="95" y1="152" x2="95" y2="12" class="ax"/>
                 <polygon points="182,82 173,78.5 173,85.5" fill="var(--ink)"/>
                 <polygon points="95,8 91.5,17 98.5,17" fill="var(--ink)"/>
-                <!-- Projektionslinien P1(3,5; 1,5) -->
+                <!-- Projection lines P1(3.5; 1.5) -->
                 <polyline points="95,52 155,52 155,82" fill="none" stroke="var(--accent-red)" stroke-width="1.3" stroke-dasharray="3 2"/>
                 <circle cx="155" cy="52" r="4" fill="var(--bg-card)" stroke="var(--ink)" stroke-width="1.6"/>
-                <text x="122" y="43" font-size="11" font-weight="700">P₁(3,5; 1,5)</text>
-                <!-- Projektionslinien P2(-2; -1) -->
+                <text x="122" y="43" font-size="11" font-weight="700">P₁(3.5; 1.5)</text>
+                <!-- Projection lines P2(-2; -1) -->
                 <polyline points="95,104 59,104 59,82" fill="none" stroke="var(--accent-amber)" stroke-width="1.3" stroke-dasharray="3 2"/>
                 <circle cx="59" cy="104" r="4" fill="var(--bg-card)" stroke="var(--ink)" stroke-width="1.6"/>
                 <text x="18" y="122" font-size="11" font-weight="700">P₂(−2; −1)</text>
                 <text x="172" y="97" font-size="11" font-style="italic">x</text>
                 <text x="103" y="19" font-size="11" font-style="italic">y</text>
               </g>
-              <!-- Trennlinie -->
+              <!-- Divider line -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Tellerfeder-Kennlinie F(s) mit Ablesung s = 0,9 mm -> F ≈ 1250 N -->
+              <!-- Right half: Disc-spring characteristic F(s) with reading s = 0.9 mm -> F ≈ 1250 N -->
               <g transform="translate(226, 16)">
                 <line x1="22" y1="138" x2="174" y2="138" class="ax"/>
                 <line x1="22" y1="138" x2="22" y2="14" class="ax"/>
-                <!-- Netzlinien -->
+                <!-- Grid lines -->
                 <line x1="22" y1="100" x2="170" y2="100" class="grid"/>
                 <line x1="22" y1="62" x2="170" y2="62" class="grid"/>
                 <line x1="22" y1="24" x2="170" y2="24" class="grid"/>
-                <!-- Ablesepfeile s = 0,9 mm -> Punkt A -> F ≈ 1250 N -->
+                <!-- Reading arrows s = 0.9 mm -> Point A -> F ≈ 1250 N -->
                 <line x1="118" y1="138" x2="118" y2="39" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4 2"/>
                 <line x1="118" y1="39" x2="22" y2="39" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dasharray="4 2"/>
-                <!-- PCHIP Kennlinie -->
+                <!-- PCHIP curve -->
                 <path d="M 22,138 C 52,85 88,52 128,35 C 145,28 158,25 168,23" fill="none" stroke="var(--accent-red)" stroke-width="2.6"/>
                 <circle cx="118" cy="39" r="4.2" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.4"/>
                 <text x="124" y="34" font-size="11" font-weight="700">A (1250 N)</text>
-                <text x="98" y="154" font-size="10.5">s = 0,9 mm</text>
+                <text x="98" y="154" font-size="10.5">s = 0.9 mm</text>
                 <text x="28" y="20" font-size="10.5" font-weight="700">F in N</text>
               </g>
             </svg>
@@ -150,49 +150,49 @@
 
         <div class="card-body">
           <h3 class="card-title">
-            <a href="s58-diagramme/">Tabellenbuch Metall • Diagramme (S. 58)</a>
+            <a href="s58-diagramme/">Tabellenbuch Metall • Diagrams (p. 58)</a>
           </h3>
           <p class="card-desc">
-            Kartesisches Koordinatensystem mit allen drei Punktschreibweisen (<code>P(x; y)</code>, <code>P(x | y)</code>, <code>P(x, y)</code>),
-            interaktiver Diagrammaufbau nach DIN 461 mit Fehlersuchmodus, Koordinatenausschnitt mit und ohne Nullpunkt,
-            logarithmische Drehzahlskalen (<i>n</i> = <i>v</i><sub>c</sub> / (&pi; · <i>d</i>)) sowie Ablesung an der Tellerfeder-Kennlinie (PCHIP vs. Polygonzug).
+            Cartesian coordinate system with all three point notations (<code>P(x; y)</code>, <code>P(x | y)</code>, <code>P(x, y)</code>),
+            interactive diagram layout per DIN 461 with error-inspection mode, coordinate window with and without zero origin,
+            logarithmic speed scales (<i>n</i> = <i>v</i><sub>c</sub> / (&pi; · <i>d</i>)), and reading values from the disc-spring characteristic curve (PCHIP vs. polyline).
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den 4 Reitern springen</span>
-              <span>41 Prüfungen ✓</span>
+              <span>Jump directly to the 4 tabs</span>
+              <span>41 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s58-diagramme/#koordinaten" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Koordinatensystem</span>
+                <span>Coordinate System</span>
               </a>
               <a href="s58-diagramme/#aufbau" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Diagrammaufbau &amp; DIN 461</span>
+                <span>Diagram Layout &amp; DIN 461</span>
               </a>
               <a href="s58-diagramme/#skalen" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Ausschnitt &amp; Log-Skalen</span>
+                <span>Window &amp; Log Scales</span>
               </a>
               <a href="s58-diagramme/#feder" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Federkennlinie <i>F</i>(<i>s</i>)</span>
+                <span>Spring Curve <i>F</i>(<i>s</i>)</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill">P₁(3,5; 1,5) · P₂(−2; −1)</span>
-            <span class="spec-pill">Liniengruppe 1 : 2 : 4</span>
-            <span class="spec-pill">s = 0,9 mm → F ≈ 1250 N</span>
-            <span class="spec-pill">PCHIP-Interpolation</span>
+            <span class="spec-pill">P₁(3.5; 1.5) · P₂(−2; −1)</span>
+            <span class="spec-pill">Line Group 1 : 2 : 4</span>
+            <span class="spec-pill">s = 0.9 mm → F ≈ 1250 N</span>
+            <span class="spec-pill">PCHIP Interpolation</span>
           </div>
 
           <div class="card-actions">
             <a href="s58-diagramme/" class="btn-open">
-              <span>Projekt S. 58 öffnen</span>
+              <span>Open Project p. 58</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s58-diagramme" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -203,52 +203,52 @@
       </article>
 
       <!-- =====================================================================
-           PROJEKT 2: SEITE 59 — 3.1 Diagramme (Polarkoordinaten & Flächendiagramme)
+           PROJECT 2: PAGE 59 — 3.1 Diagrams (Polar Coordinates & Area Charts)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="K">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 59</span>
-            <span class="card-subj" title="Technische Kommunikation">K</span>
-            <span class="card-chap">3.1 Diagramme</span>
+            <span class="card-page-badge">p. 59</span>
+            <span class="card-subj" title="Technical Communication">K</span>
+            <span class="card-chap">3.1 Diagrams</span>
           </div>
-          <span class="card-norm-badge">DIN 461 · Rundheit &amp; Flächen</span>
+          <span class="card-norm-badge">DIN 461 · Roundness &amp; Areas</span>
         </div>
 
         <div class="card-preview">
-          <a href="s59-polarkoordinaten/" aria-label="Seite 59 öffnen: Polarkoordinatensysteme und Flächendiagramme">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 59: Polardiagramm einer Rundheitsprüfung und Kreisflächendiagramm CuZn36Pb3">
+          <a href="s59-polarkoordinaten/" aria-label="Open Page 59: Polar Coordinate Systems and Area Charts">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 59: Polar roundness chart and CuZn36Pb3 pie/area chart">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Linke Hälfte: Polarkoordinaten & Rundheitsprüfung (10 mm ≙ 5 µm, 3-Backen-Gleichdick) -->
+              <!-- Left half: Polar coordinates & roundness test (10 mm ≙ 5 µm, 3-jaw lobing) -->
               <g transform="translate(105, 93)">
                 <circle cx="0" cy="0" r="64" class="grid"/>
                 <circle cx="0" cy="0" r="44" class="grid"/>
                 <circle cx="0" cy="0" r="24" class="grid"/>
                 <line x1="-72" y1="0" x2="72" y2="0" class="ax"/>
                 <line x1="0" y1="-72" x2="0" y2="72" class="ax"/>
-                <!-- 3-Backen-Rundheitsschrieb (Erhebungen bei 90°, 210°, 330°) -->
+                <!-- 3-jaw roundness trace (lobes at 90°, 210°, 330°) -->
                 <path d="M 48,0 C 48,-18 28,-54 0,-56 C -28,-54 -38,-18 -38,0 C -38,18 -46,42 -48,28 C -50,14 -20,38 0,38 C 20,38 48,46 48,27 C 48,14 48,8 48,0 Z" fill="rgba(248, 113, 113, 0.16)" stroke="var(--accent-red)" stroke-width="2.3"/>
-                <!-- Polar-Vektor r, +φ -->
+                <!-- Polar vector r, +φ -->
                 <line x1="0" y1="0" x2="38" y2="-32" stroke="var(--accent-amber)" stroke-width="2"/>
                 <circle cx="38" cy="-32" r="3.8" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.3"/>
                 <text x="44" y="-34" font-size="10.5" font-weight="700">P(r; +φ)</text>
                 <text x="52" y="13" font-size="10">0°</text>
                 <text x="-48" y="76" font-size="10" font-weight="700">10 mm ≙ 5 µm</text>
               </g>
-              <!-- Trennlinie -->
+              <!-- Divider line -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Kreisflächendiagramm CuZn36Pb3 (Cu 61 %, Zn 36 %, Pb 3 % -> 10,8°) & Säulen -->
+              <!-- Right half: Pie chart CuZn36Pb3 (Cu 61 %, Zn 36 %, Pb 3 % -> 10.8°) & columns -->
               <g transform="translate(292, 90)">
                 <circle cx="0" cy="0" r="54" fill="rgba(56, 189, 248, 0.25)" stroke="var(--ink)" stroke-width="1.5"/>
-                <!-- Sektor Zn 36 % (129,6°) -->
+                <!-- Sector Zn 36 % (129.6°) -->
                 <path d="M 0,0 L 54,0 A 54,54 0 0,0 -34.4,-41.6 Z" fill="rgba(251, 191, 36, 0.42)" stroke="var(--ink)" stroke-width="1.4"/>
-                <!-- Sektor Pb 3 % (10,8°) -->
+                <!-- Sector Pb 3 % (10.8°) -->
                 <path d="M 0,0 L 54,0 A 54,54 0 0,1 53.0,10.1 Z" fill="rgba(248, 113, 113, 0.75)" stroke="var(--ink)" stroke-width="1.4"/>
                 <text x="-28" y="24" font-size="10.5" font-weight="700">Cu 61 %</text>
                 <text x="-18" y="-16" font-size="10.5" font-weight="700">Zn 36 %</text>
-                <text x="20" y="70" font-size="10.5" font-weight="700">Pb 3 % → α = 10,8°</text>
+                <text x="20" y="70" font-size="10.5" font-weight="700">Pb 3 % → α = 10.8°</text>
               </g>
-              <!-- Mini-Säulen rechts außen -->
+              <!-- Mini columns far right -->
               <g transform="translate(364, 34)">
                 <rect x="0" y="34" width="9" height="56" fill="var(--primary)" rx="1.5"/>
                 <rect x="13" y="46" width="9" height="44" fill="var(--primary)" opacity="0.75" rx="1.5"/>
@@ -261,49 +261,49 @@
 
         <div class="card-body">
           <h3 class="card-title">
-            <a href="s59-polarkoordinaten/">Tabellenbuch Metall • Polarkoordinaten &amp; Flächendiagramme (S. 59)</a>
+            <a href="s59-polarkoordinaten/">Tabellenbuch Metall • Polar Coordinates &amp; Area Charts (p. 59)</a>
           </h3>
           <p class="card-desc">
-            Warmfestigkeitsdiagramm (<i>R</i><sub>m</sub>, <i>R</i><sub>e</sub> über Temperatur <i>T</i>) mit streuenden Messwerten (&times;, &bigcirc;, &square;),
-            Polarkoordinatensystem mit 360°-Teilung (Pol, Winkel +<i>&phi;</i>, Radius <i>r</i>),
-            Rundheitsprüfung einer im Backenfutter gedrehten Buchse im Maßstab 10 mm &mathrel{&#8793;} 5 &mu;m (2000 : 1) sowie Säulen-, Balken- und Kreisflächendiagramme.
+            Elevated-temperature strength diagram (<i>R</i><sub>m</sub>, <i>R</i><sub>e</sub> vs. temperature <i>T</i>) with scattered test data (&times;, &bigcirc;, &square;),
+            polar coordinate system with 360° graduation (pole, angle +<i>&phi;</i>, radius <i>r</i>),
+            roundness inspection of a bushing turned in a jaw chuck at 10 mm ≙ 5 &mu;m (2000 : 1) scale, plus column, bar, and pie/area charts.
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den 4 Reitern springen</span>
-              <span>52 Prüfungen ✓</span>
+              <span>Jump directly to the 4 tabs</span>
+              <span>52 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s59-polarkoordinaten/#kennlinien" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Mehrere Kennlinien (<i>R</i><sub>m</sub>/<i>R</i><sub>e</sub>)</span>
+                <span>Multiple Curves (<i>R</i><sub>m</sub>/<i>R</i><sub>e</sub>)</span>
               </a>
               <a href="s59-polarkoordinaten/#polar" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Polarkoordinaten <i>P</i>(<i>r</i>; <i>&phi;</i>)</span>
+                <span>Polar Coordinates <i>P</i>(<i>r</i>; <i>&phi;</i>)</span>
               </a>
               <a href="s59-polarkoordinaten/#rundheit" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Rundheitsprüfung (2000 : 1)</span>
+                <span>Roundness Inspection (2000 : 1)</span>
               </a>
               <a href="s59-polarkoordinaten/#flaechen" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Flächendiagramme (&alpha; = 10,8°)</span>
+                <span>Area Charts (&alpha; = 10.8°)</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
             <span class="spec-pill">Rm / Re (0…600 °C)</span>
-            <span class="spec-pill">Polarkoordinaten (360°)</span>
+            <span class="spec-pill">Polar Coordinates (360°)</span>
             <span class="spec-pill">10 mm ≙ 5 µm</span>
-            <span class="spec-pill">CuZn36Pb3 (α = 10,8°)</span>
+            <span class="spec-pill">CuZn36Pb3 (α = 10.8°)</span>
           </div>
 
           <div class="card-actions">
             <a href="s59-polarkoordinaten/" class="btn-open">
-              <span>Projekt S. 59 öffnen</span>
+              <span>Open Project p. 59</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s59-polarkoordinaten" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -314,31 +314,31 @@
       </article>
 
       <!-- =====================================================================
-           PROJEKT 3: SEITE 60 — 3.2 Geometrische Grundkonstruktionen (Strecken, Lote, Winkel)
+           PROJECT 3: PAGE 60 — 3.2 Basic Geometric Constructions (Segments, Perpendiculars, Angles)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="K">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 60</span>
-            <span class="card-subj" title="Technische Kommunikation">K</span>
-            <span class="card-chap">3.2 Grundkonstruktionen</span>
+            <span class="card-page-badge">p. 60</span>
+            <span class="card-subj" title="Technical Communication">K</span>
+            <span class="card-chap">3.2 Basic Constructions</span>
           </div>
-          <span class="card-norm-badge">Strecken · Lote · Winkel</span>
+          <span class="card-norm-badge">Segments · Perpendiculars · Angles</span>
         </div>
 
         <div class="card-preview">
-          <a href="s60-grundkonstruktionen/" aria-label="Seite 60 öffnen: Geometrische Grundkonstruktionen – Strecken, Lote, Winkel">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 60: Halbieren einer Strecke mit Zirkelbögen und Teilen einer Strecke nach dem Strahlensatz">
+          <a href="s60-grundkonstruktionen/" aria-label="Open Page 60: Basic Geometric Constructions – Segments, Perpendiculars, Angles">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 60: Bisecting a segment with compass arcs and dividing a segment via intercept theorem">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Linke Hälfte: Halbieren einer Strecke AB (Mittelsenkrechte) -->
+              <!-- Left half: Bisecting segment AB (perpendicular bisector) -->
               <g transform="translate(18, 12)">
                 <line x1="22" y1="82" x2="162" y2="82" class="ax" stroke-width="2.2"/>
                 <line x1="22" y1="76" x2="22" y2="88" class="ax"/>
                 <line x1="162" y1="76" x2="162" y2="88" class="ax"/>
-                <!-- Kreisbogen 1 um A und Kreisbogen 2 um B -->
+                <!-- Compass arc 1 around A and arc 2 around B -->
                 <path d="M 78,18 A 95,95 0 0,1 78,146" fill="none" stroke="var(--primary)" stroke-width="1.4"/>
                 <path d="M 106,18 A 95,95 0 0,0 106,146" fill="none" stroke="var(--primary)" stroke-width="1.4"/>
-                <!-- Mittelsenkrechte 3 durch M -->
+                <!-- Perpendicular bisector 3 through M -->
                 <line x1="92" y1="12" x2="92" y2="152" stroke="var(--accent-red)" stroke-width="2"/>
                 <text x="8" y="86" font-size="11" font-weight="700">A</text>
                 <text x="167" y="86" font-size="11" font-weight="700">B</text>
@@ -346,14 +346,14 @@
                 <text x="98" y="64" font-size="11" font-weight="700" fill="var(--accent-red)">3</text>
                 <text x="115" y="42" font-size="10.5" font-style="italic">r &gt; ½ AB</text>
               </g>
-              <!-- Trennlinie -->
+              <!-- Divider line -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Teilen einer Strecke AB in 5 gleiche Teile (Strahlensatz) -->
+              <!-- Right half: Dividing segment AB into 5 equal parts (intercept theorem) -->
               <g transform="translate(226, 22)">
                 <line x1="16" y1="24" x2="166" y2="24" class="ax" stroke-width="2.2"/>
-                <!-- Hilfsstrahl ab A -->
+                <!-- Auxiliary ray from A -->
                 <line x1="16" y1="24" x2="146" y2="134" stroke="var(--ink)" stroke-width="1.3"/>
-                <!-- 5 Parallelen -->
+                <!-- 5 parallels -->
                 <line x1="40" y1="44" x2="46" y2="24" stroke="var(--primary)" stroke-width="1.3"/>
                 <line x1="64" y1="65" x2="76" y2="24" stroke="var(--primary)" stroke-width="1.3"/>
                 <line x1="88" y1="85" x2="106" y2="24" stroke="var(--primary)" stroke-width="1.3"/>
@@ -374,56 +374,56 @@
 
         <div class="card-body">
           <h3 class="card-title">
-            <a href="s60-grundkonstruktionen/">Tabellenbuch Metall • Geometrische Grundkonstruktionen (S. 60)</a>
+            <a href="s60-grundkonstruktionen/">Tabellenbuch Metall • Basic Geometric Constructions (p. 60)</a>
           </h3>
           <p class="card-desc">
-            Alle sechs klassischen Zirkel- und Linealkonstruktionen zu <strong>Strecken, Loten und Winkeln</strong> mit Schritt-für-Schritt-Animation, ziehbaren Punkten und geometrischen Beweisen:
-            Parallele zu einer Strecke (Raute <i>ACDP</i>), Halbieren einer Strecke (<i>r</i> &gt; &frac12;&thinsp;<span style="text-decoration:overline">AB</span>), Fällen eines Lotes, Errichten einer Senkrechten im Punkt <i>P</i> (Satz des Thales), Winkelhalbierende sowie Streckenteilung in <i>n</i> = 5 gleiche Teile.
+            All six classical compass-and-straightedge constructions for <strong>segments, perpendiculars, and angles</strong> with step-by-step animation, draggable points, and geometric proofs:
+            parallel to a line segment (rhombus <i>ACDP</i>), bisecting a segment (<i>r</i> &gt; &frac12;&thinsp;<span style="text-decoration:overline">AB</span>), dropping a perpendicular, erecting a perpendicular at point <i>P</i> (Thales's theorem), bisecting an angle, and dividing a segment into <i>n</i> = 5 equal parts.
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den 6 Reitern springen</span>
-              <span>62 Prüfungen ✓</span>
+              <span>Jump directly to the 6 tabs</span>
+              <span>62 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s60-grundkonstruktionen/#parallele" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Parallele zu <span style="text-decoration:overline">AB</span></span>
+                <span>Parallel to <span style="text-decoration:overline">AB</span></span>
               </a>
               <a href="s60-grundkonstruktionen/#halbieren" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Strecke halbieren</span>
+                <span>Bisect Segment</span>
               </a>
               <a href="s60-grundkonstruktionen/#lot" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Fällen eines Lotes</span>
+                <span>Drop Perpendicular</span>
               </a>
               <a href="s60-grundkonstruktionen/#senkrechte" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Senkrechte in <i>P</i></span>
+                <span>Perpendicular at <i>P</i></span>
               </a>
               <a href="s60-grundkonstruktionen/#winkel" class="reiter-link">
                 <span class="reiter-num">5</span>
-                <span>Winkel halbieren</span>
+                <span>Bisect Angle</span>
               </a>
               <a href="s60-grundkonstruktionen/#teilen" class="reiter-link">
                 <span class="reiter-num">6</span>
-                <span>Strecke in 5 Teile</span>
+                <span>Divide into 5 Parts</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill">Parallele g′ ∥ AB</span>
-            <span class="spec-pill">Mittelsenkrechte r &gt; ½ AB</span>
-            <span class="spec-pill">Lot &amp; Thaleskreis (90°)</span>
-            <span class="spec-pill">Strahlensatz (n = 5)</span>
+            <span class="spec-pill">Parallel g′ ∥ AB</span>
+            <span class="spec-pill">Perp. Bisector r &gt; ½ AB</span>
+            <span class="spec-pill">Perp. &amp; Thales Circle (90°)</span>
+            <span class="spec-pill">Intercept Theorem (n = 5)</span>
           </div>
 
           <div class="card-actions">
             <a href="s60-grundkonstruktionen/" class="btn-open">
-              <span>Projekt S. 60 öffnen</span>
+              <span>Open Project p. 60</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s60-grundkonstruktionen" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -434,38 +434,38 @@
       </article>
 
       <!-- =====================================================================
-           PROJEKT 5: SEITE 61 — 3.2 Grundkonstruktionen (Tangenten, Kreisbögen, Vielecke)
+           PROJECT 4: PAGE 61 — 3.2 Basic Constructions (Tangents, Circular Arcs, Polygons)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="K">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 61</span>
-            <span class="card-subj" title="Technische Kommunikation">K</span>
-            <span class="card-chap">3.2 Grundkonstruktionen</span>
+            <span class="card-page-badge">p. 61</span>
+            <span class="card-subj" title="Technical Communication">K</span>
+            <span class="card-chap">3.2 Basic Constructions</span>
           </div>
           <span class="card-norm-badge">DIN ISO 128 &amp; DIN EN ISO 4014</span>
         </div>
 
         <div class="card-preview">
-          <a href="s61-tangenten-vielecke/" aria-label="Seite 61 öffnen: Tangenten, Kreisbögen, Vielecke">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 61: Tangenten an Kreis, Ausrundungsbögen, regelmäßiges Fünfeck und Sechskant">
+          <a href="s61-tangenten-vielecke/" aria-label="Open Page 61: Tangents, Circular Arcs, Polygons">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 61: Tangents to a circle, fillet arcs, regular pentagon and hexagon">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Hilfslinien & Kreis links -->
+              <!-- Construction lines & circle left -->
               <circle cx="85" cy="95" r="45" fill="none" stroke="var(--ink)" stroke-width="1.8"/>
               <line x1="85" y1="95" x2="160" y2="40" stroke="var(--muted)" stroke-width="1.1" stroke-dasharray="4 3"/>
-              <!-- Tangente im Kreispunkt P -->
+              <!-- Tangent at circle point P -->
               <circle cx="120" cy="69" r="3.2" fill="var(--primary)" stroke="var(--ink)" stroke-width="1.2"/>
               <line x1="95" y1="36" x2="155" y2="114" stroke="var(--primary)" stroke-width="2.4"/>
-              <!-- Thaleskreis & Tangente von außen -->
+              <!-- Thales circle & external tangent -->
               <circle cx="140" cy="120" r="2.8" fill="var(--pt-fill)" stroke="var(--ink)" stroke-width="1.4"/>
-              <!-- Ausrundung am Winkel Mitte -->
+              <!-- Angle fillet center -->
               <path d="M190 40 L230 110 L300 110" fill="none" stroke="var(--ink)" stroke-width="2.0"/>
               <path d="M208 72 A 32 32 0 0 0 248 110" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
               <circle cx="232" cy="78" r="2.5" fill="var(--hl)"/>
-              <!-- Regelmäßiges Fünfeck & Sechseck rechts -->
+              <!-- Regular pentagon & hexagon right -->
               <circle cx="355" cy="95" r="44" fill="none" stroke="var(--muted)" stroke-width="1.1" stroke-dasharray="3 3"/>
               <polygon points="355,51 396,81 380,131 330,131 314,81" fill="rgba(56, 189, 248, 0.12)" stroke="var(--primary)" stroke-width="2.2"/>
-              <!-- Schrittzahlen 1..6 -->
+              <!-- Step numbers 1..6 -->
               <text x="135" y="52" fill="var(--accent)" font-size="12" font-weight="800">1</text>
               <text x="242" y="72" fill="var(--accent)" font-size="12" font-weight="800">3</text>
               <text x="355" y="44" fill="var(--accent)" font-size="12" font-weight="800">5</text>
@@ -475,57 +475,57 @@
 
         <div class="card-body">
           <div class="card-title-row">
-            <h3>Tangenten, Kreisbögen, Vielecke</h3>
-            <span class="card-tag">6 Module</span>
+            <h3>Tangents, Circular Arcs, Polygons</h3>
+            <span class="card-tag">6 Modules</span>
           </div>
 
           <p class="card-desc">
-            Interaktive Simulation aller 6 Konstruktionen von Seite 61: Tangente im Kreispunkt, Tangente von außen (Satz des Thales), Ausrundung am Winkel, Verbindung zweier Kreise durch Innen-/Außenbögen (Nockenkontur), universelle Vieleck-Näherung nach Bion (Fünfeck 99,15 % Genauigkeit) und Sechseck/Zwölfeck im Umkreis mit Schlüsselweiten-Bemaßung (DIN EN ISO 4014).
+            Interactive simulation of all 6 constructions from page 61: tangent at a circle point, tangent from an external point (Thales's theorem), fillet arc at an angle, joining two circles with internal/external tangent arcs (cam profile), universal polygon approximation by Bion (pentagon 99.15 % accuracy), and hexagon/dodecagon in circumcircle with width-across-flats dimensioning (DIN EN ISO 4014).
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den 6 Reitern springen</span>
-              <span>24 Prüfungen ✓</span>
+              <span>Jump directly to the 6 tabs</span>
+              <span>24 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s61-tangenten-vielecke/#tangente-p" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Tangente in <i>P</i></span>
+                <span>Tangent at <i>P</i></span>
               </a>
               <a href="s61-tangenten-vielecke/#tangente-aussen" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Tangente von <i>P</i></span>
+                <span>Tangent from <i>P</i></span>
               </a>
               <a href="s61-tangenten-vielecke/#rundung-winkel" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Rundung am Winkel</span>
+                <span>Angle Fillet</span>
               </a>
               <a href="s61-tangenten-vielecke/#kreisverbindung" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Kreisverbindung (<i>R</i><sub>i</sub>, <i>R</i><sub>a</sub>)</span>
+                <span>Circle Blend (<i>R</i><sub>i</sub>, <i>R</i><sub>a</sub>)</span>
               </a>
               <a href="s61-tangenten-vielecke/#vieleck-umkreis" class="reiter-link">
                 <span class="reiter-num">5</span>
-                <span>Vieleck im Umkreis</span>
+                <span>Inscribed Polygon</span>
               </a>
               <a href="s61-tangenten-vielecke/#sechseck-zwoelfeck" class="reiter-link">
                 <span class="reiter-num">6</span>
-                <span>Sechseck, Zwölfeck</span>
+                <span>Hexagon, Dodecagon</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill">Tangente &amp; Thaleskreis (90°)</span>
-            <span class="spec-pill">Rundung t = r / tan(α/2)</span>
-            <span class="spec-pill">Nockenkontur (R_i, R_a)</span>
-            <span class="spec-pill">Bion-Vieleck &amp; Sechskant SW</span>
+            <span class="spec-pill">Tangent &amp; Thales Circle (90°)</span>
+            <span class="spec-pill">Fillet t = r / tan(α/2)</span>
+            <span class="spec-pill">Cam Profile (R_i, R_a)</span>
+            <span class="spec-pill">Bion Polygon &amp; Hex Flats</span>
           </div>
 
           <div class="card-actions">
             <a href="s61-tangenten-vielecke/" class="btn-open">
-              <span>Projekt S. 61 öffnen</span>
+              <span>Open Project p. 61</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s61-tangenten-vielecke" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -536,29 +536,29 @@
       </article>
 
       <!-- =====================================================================
-           PROJEKT 5: SEITE 62 — 3.2 Grundkonstruktionen (Inkreis, Umkreis, Ellipse, Spirale)
+           PROJECT 5: PAGE 62 — 3.2 Basic Constructions (Incircle, Circumcircle, Ellipse, Spiral)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="K">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 62</span>
-            <span class="card-subj" title="Technische Kommunikation">K</span>
-            <span class="card-chap">3.2 Grundkonstruktionen</span>
+            <span class="card-page-badge">p. 62</span>
+            <span class="card-subj" title="Technical Communication">K</span>
+            <span class="card-chap">3.2 Basic Constructions</span>
           </div>
           <span class="card-norm-badge">DIN ISO 128 &amp; DIN ISO 5456-3</span>
         </div>
 
         <div class="card-preview">
-          <a href="s62-kreise-ellipse-spirale/" aria-label="Seite 62 öffnen: Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 62: Dreiecks-Inkreis, Scheitelkreis-Ellipse und 4-Zentren-Spirale">
+          <a href="s62-kreise-ellipse-spirale/" aria-label="Open Page 62: Incircle, Circumcircle, Circle Center, Ellipse, Spiral">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 62: Triangle incircle, two-circle ellipse, and 4-center spiral">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Linke Hälfte: Inkreis eines Dreiecks ABC -->
+              <!-- Left half: Incircle of triangle ABC -->
               <g transform="translate(18, 12)">
                 <polygon points="12,142 168,142 48,28" fill="none" stroke="var(--ink)" stroke-width="2"/>
-                <!-- Winkelhalbierende wa und wb gestrichelt -->
+                <!-- Angle bisectors wa and wb dashed -->
                 <line x1="12" y1="142" x2="108" y2="76" stroke="var(--primary)" stroke-width="1.2" stroke-dasharray="3 2"/>
                 <line x1="168" y1="142" x2="34" y2="84" stroke="var(--primary)" stroke-width="1.2" stroke-dasharray="3 2"/>
-                <!-- Inkreismittelpunkt M & Inkreis -->
+                <!-- Incenter M & incircle -->
                 <circle cx="68" cy="106" r="36" fill="none" stroke="var(--accent-red)" stroke-width="2"/>
                 <circle cx="68" cy="106" r="3" fill="var(--ink)"/>
                 <text x="4" y="152" font-size="11" font-weight="700">A</text>
@@ -567,20 +567,20 @@
                 <text x="74" y="112" font-size="11" font-weight="700" fill="var(--accent-red)">M</text>
                 <text x="110" y="116" font-size="10.5" font-style="italic">r = A / s</text>
               </g>
-              <!-- Trennlinie -->
+              <!-- Divider line -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Ellipse aus zwei Kreisen & 4-Zentren-Spirale -->
+              <!-- Right half: Ellipse from two circles & 4-center spiral -->
               <g transform="translate(226, 14)">
-                <!-- Ellipsen-Scheitelkreise -->
+                <!-- Auxiliary vertex circles -->
                 <circle cx="95" cy="85" r="74" fill="none" stroke="var(--primary)" stroke-width="1.2" stroke-dasharray="4 2"/>
                 <circle cx="95" cy="85" r="44" fill="none" stroke="var(--primary)" stroke-width="1.2" stroke-dasharray="4 2"/>
-                <!-- Voll-Ellipse -->
+                <!-- Full ellipse -->
                 <ellipse cx="95" cy="85" rx="74" ry="44" fill="none" stroke="var(--accent-red)" stroke-width="2.2"/>
-                <!-- Zentralquadrat s = a/4 & Spirale Bogen -->
+                <!-- Center square s = a/4 & spiral arc -->
                 <rect x="91" y="81" width="8" height="8" fill="rgba(56, 189, 248, 0.3)" stroke="var(--ink)" stroke-width="1.1"/>
-                <!-- Spiralbogen 1 & 2 -->
+                <!-- Spiral arcs 1 & 2 -->
                 <path d="M 91,81 A 8,8 0 0,1 99,73 A 16,16 0 0,1 115,89" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
-                <text x="95" y="17" font-size="10.5" font-weight="700" text-anchor="middle">Ellipse (2 Kreise) &amp; Spirale</text>
+                <text x="95" y="17" font-size="10.5" font-weight="700" text-anchor="middle">Ellipse (2 Circles) &amp; Spiral</text>
                 <text x="135" y="148" font-size="10.5" font-style="italic">a = 4·s</text>
               </g>
             </svg>
@@ -589,61 +589,61 @@
 
         <div class="card-body">
           <h3 class="card-title">
-            <a href="s62-kreise-ellipse-spirale/">Tabellenbuch Metall • Inkreis, Umkreis, Ellipse, Spirale (S. 62)</a>
+            <a href="s62-kreise-ellipse-spirale/">Tabellenbuch Metall • Incircle, Circumcircle, Ellipse, Spiral (p. 62)</a>
           </h3>
           <p class="card-desc">
-            Sechs fundamentale Konstruktionen zu Dreiecken, Kreisen und Kurven:
-            <strong>Inkreis eines Dreiecks</strong> (Winkelhalbierende, <i>r</i> = <i>A</i>/<i>s</i>),
-            <strong>Umkreis eines Dreiecks</strong> (Mittelsenkrechte, <i>R</i> = <i>abc</i>/4<i>A</i>, Satz des Thales),
-            <strong>Bestimmung des Kreismittelpunktes</strong> (Sehnenverfahren),
-            <strong>Ellipsenkonstruktion aus zwei Kreisen</strong> (Scheitelkreismethode),
-            <strong>Ellipse im Parallelogramm</strong> (Axonometrie &amp; Isometrie nach DIN ISO 5456-3) sowie die
-            <strong>Spirale</strong> als Zirkelnäherung mit tangential stetigen <i>C</i>¹-Bögen.
+            Six fundamental constructions for triangles, circles, and curves:
+            <strong>Triangle Incircle</strong> (angle bisectors, <i>r</i> = <i>A</i>/<i>s</i>),
+            <strong>Triangle Circumcircle</strong> (perpendicular bisectors, <i>R</i> = <i>abc</i>/4<i>A</i>, Thales's theorem),
+            <strong>Finding a Circle Center</strong> (chord method),
+            <strong>Ellipse from Two Circles</strong> (auxiliary circles method),
+            <strong>Ellipse in a Parallelogram</strong> (axonometry &amp; isometry per DIN ISO 5456-3), and the
+            <strong>Spiral</strong> as a compass approximation with tangent-continuous <i>C</i>¹ arcs.
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den 6 Reitern springen</span>
-              <span>25 Prüfungen ✓</span>
+              <span>Jump directly to the 6 tabs</span>
+              <span>25 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s62-kreise-ellipse-spirale/#inkreis" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Inkreis Dreieck</span>
+                <span>Triangle Incircle</span>
               </a>
               <a href="s62-kreise-ellipse-spirale/#umkreis" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Umkreis Dreieck</span>
+                <span>Triangle Circumcircle</span>
               </a>
               <a href="s62-kreise-ellipse-spirale/#kreismittelpunkt" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Kreismittelpunkt</span>
+                <span>Circle Center</span>
               </a>
               <a href="s62-kreise-ellipse-spirale/#ellipse-kreise" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Ellipse (Zwei Kreise)</span>
+                <span>Ellipse (Two Circles)</span>
               </a>
               <a href="s62-kreise-ellipse-spirale/#ellipse-parallelogramm" class="reiter-link">
                 <span class="reiter-num">5</span>
-                <span>Ellipse (Parallelogramm)</span>
+                <span>Ellipse (Parallelogram)</span>
               </a>
               <a href="s62-kreise-ellipse-spirale/#spirale" class="reiter-link">
                 <span class="reiter-num">6</span>
-                <span>Spirale (Zirkel)</span>
+                <span>Spiral (Compass)</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill">Inkreis r = A / s</span>
-            <span class="spec-pill">Umkreis R = abc / 4A</span>
+            <span class="spec-pill">Incircle r = A / s</span>
+            <span class="spec-pill">Circumcircle R = abc / 4A</span>
             <span class="spec-pill">Ellipse x²/a² + y²/b² = 1</span>
-            <span class="spec-pill">Spirale C¹-stetig (s = a/4)</span>
+            <span class="spec-pill">Spiral C¹-continuous (s = a/4)</span>
           </div>
 
           <div class="card-actions">
             <a href="s62-kreise-ellipse-spirale/" class="btn-open">
-              <span>Projekt S. 62 öffnen</span>
+              <span>Open Project p. 62</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s62-kreise-ellipse-spirale" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -654,54 +654,54 @@
       </article>
 
       <!-- =====================================================================
-           PROJEKT 3: SEITE 14 — 1.2 Formeln (Formeln, Gleichungen, Diagramme)
+           PROJECT 6: PAGE 14 — 1.2 Formulas (Formulas, Equations, Diagrams)
            ===================================================================== -->
       <article class="tbb-project-card" data-subject="M">
         <div class="card-page-bar">
           <div class="card-page-left">
-            <span class="card-page-badge">S. 14</span>
-            <span class="card-subj" title="Technische Mathematik">M</span>
-            <span class="card-chap">1.2 Formeln</span>
+            <span class="card-page-badge">p. 14</span>
+            <span class="card-subj" title="Technical Mathematics">M</span>
+            <span class="card-chap">1.2 Formulas</span>
           </div>
-          <span class="card-norm-badge">Größen- &amp; Zahlenwertgleichungen</span>
+          <span class="card-norm-badge">Quantity &amp; Numerical-Value Equations</span>
         </div>
 
         <div class="card-preview">
-          <a href="s14-formeln/" aria-label="Seite 14 öffnen: Formeln, Gleichungen, Diagramme">
-            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Vorschau Seite 14: Schnittgeschwindigkeit vc = pi * d * n und Diagramm Kosten, Erlös, Gewinnschwelle">
+          <a href="s14-formeln/" aria-label="Open Page 14: Formulas, Equations, Diagrams">
+            <svg class="preview-svg" viewBox="0 0 420 185" role="img" aria-label="Preview Page 14: Cutting speed vc = pi * d * n and Cost, Revenue, Break-Even Diagram">
               <rect width="420" height="185" fill="url(#hubDiaGrad)"/>
-              <!-- Linke Hälfte: Schnittgeschwindigkeit vc = π · d · n (Drehteil-Querschnitt) -->
+              <!-- Left half: Cutting speed vc = π · d · n (turned part cross section) -->
               <g transform="translate(88, 96)">
                 <circle cx="0" cy="0" r="46" fill="rgba(56, 189, 248, 0.18)" stroke="var(--ink)" stroke-width="2"/>
                 <circle cx="0" cy="0" r="6" fill="var(--ink)"/>
-                <!-- Durchmesserlinie d -->
+                <!-- Diameter line d -->
                 <line x1="-46" y1="0" x2="46" y2="0" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="4 2"/>
-                <!-- Tangentialer Schnittgeschwindigkeitsvektor vc -->
+                <!-- Tangential cutting speed vector vc -->
                 <line x1="46" y1="0" x2="46" y2="-54" stroke="var(--accent-red)" stroke-width="2.5"/>
                 <polygon points="46,-60 41.5,-50 50.5,-50" fill="var(--accent-red)"/>
                 <text x="52" y="-40" font-size="10.5" font-weight="700"><tspan font-style="italic">v</tspan><tspan font-size="8" dy="3">c</tspan><tspan dy="-3"> = π·</tspan><tspan font-style="italic">d</tspan>·<tspan font-style="italic">n</tspan></text>
                 <text x="-14" y="-8" font-size="10.5" font-weight="700">Ø <tspan font-style="italic">d</tspan></text>
                 <text x="-48" y="68" font-size="10.5" font-weight="700"><tspan font-style="italic">M</tspan> = 9550 · <tspan font-style="italic">P</tspan> / <tspan font-style="italic">n</tspan></text>
               </g>
-              <!-- Trennlinie -->
+              <!-- Divider line -->
               <line x1="210" y1="16" x2="210" y2="169" stroke="var(--border)" stroke-dasharray="4 3"/>
-              <!-- Rechte Hälfte: Gesamtkosten KG = Kv · M + Kf durchgezogen, Erlös E gestrichelt (wie im Buch) -->
+              <!-- Right half: Total cost KG = Kv · M + Kf solid, Revenue E dashed (as in the book) -->
               <g transform="translate(228, 18)">
                 <line x1="20" y1="136" x2="174" y2="136" class="ax"/>
                 <line x1="20" y1="136" x2="20" y2="14" class="ax"/>
-                <!-- Fixkosten Kf (waagrecht) -->
+                <!-- Fixed cost Kf (horizontal) -->
                 <line x1="20" y1="98" x2="168" y2="98" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3"/>
-                <!-- Gesamtkosten KG = Kv · M + Kf -->
+                <!-- Total cost KG = Kv · M + Kf -->
                 <line x1="20" y1="98" x2="168" y2="38" stroke="var(--accent-red)" stroke-width="2.2"/>
-                <!-- Erlösgerade E = E/Stück · M -->
+                <!-- Revenue line E = E/unit · M -->
                 <line x1="20" y1="136" x2="168" y2="18" stroke="var(--accent-red)" stroke-width="2.2" stroke-dasharray="7 4"/>
-                <!-- Gewinnschwelle Gs (Schnittpunkt bei x=104, y=64) -->
+                <!-- Break-even point BEP (intersection at x=101, y=65) -->
                 <circle cx="101" cy="65" r="4.5" fill="var(--accent-amber)" stroke="var(--ink)" stroke-width="1.4"/>
                 <line x1="101" y1="65" x2="101" y2="136" stroke="var(--accent-amber)" stroke-width="1.3" stroke-dasharray="3 2"/>
-                <text x="108" y="80" font-size="10.5" font-weight="700">Gs</text>
+                <text x="108" y="80" font-size="10.5" font-weight="700">BEP</text>
                 <text x="140" y="28" font-size="10.5" font-weight="700" font-style="italic">E</text>
                 <text x="140" y="62" font-size="10.5" font-weight="700"><tspan font-style="italic">K</tspan><tspan font-size="8" dy="3">G</tspan></text>
-                <text x="82" y="152" font-size="10">Menge <tspan font-style="italic">M</tspan></text>
+                <text x="76" y="152" font-size="10">Quantity <tspan font-style="italic">M</tspan></text>
               </g>
             </svg>
           </a>
@@ -709,49 +709,49 @@
 
         <div class="card-body">
           <h3 class="card-title">
-            <a href="s14-formeln/">Tabellenbuch Metall • Formeln, Gleichungen, Diagramme (S. 14)</a>
+            <a href="s14-formeln/">Tabellenbuch Metall • Formulas, Equations, Diagrams (p. 14)</a>
           </h3>
           <p class="card-desc">
-            Methodisches Fundament aus Kapitel 1.2: Größengleichungen mit Einheitenführung am Beispiel der Schnittgeschwindigkeit
-            (<i>v</i><sub>c</sub> = &pi; · <i>d</i> · <i>n</i>, Drehen und Fräsen als bewegtes Bild), Zahlenwertgleichung des Drehmoments
-            (<i>M</i> = 9550 · <i>P</i> / <i>n</i>) mit vorgeschriebenen Einheiten und Fehlerbild, lineare Funktion (<i>y</i> = <i>m</i> · <i>x</i> + <i>b</i>) mit Steigungsdreieck sowie Kosten, Erlös und Gewinnschwelle (<i>K</i><sub>G</sub> = <i>E</i>).
+            Methodological foundation from Chapter 1.2: quantity equations with explicit unit tracking using cutting speed
+            (<i>v</i><sub>c</sub> = &pi; · <i>d</i> · <i>n</i>, animated turning and milling views), numerical-value equation for torque
+            (<i>M</i> = 9550 · <i>P</i> / <i>n</i>) with prescribed units and error demonstration, linear function (<i>y</i> = <i>m</i> · <i>x</i> + <i>b</i>) with slope triangle, plus cost, revenue, and break-even point (<i>K</i><sub>G</sub> = <i>E</i>).
           </p>
 
           <div class="reiter-box">
             <div class="reiter-label">
-              <span>Direkt zu den Reitern springen</span>
-              <span>49 Prüfungen ✓</span>
+              <span>Jump directly to the tabs</span>
+              <span>49 checks ✓</span>
             </div>
             <div class="reiter-links">
               <a href="s14-formeln/#formeln" class="reiter-link">
                 <span class="reiter-num">1</span>
-                <span>Formeln (<i>v</i><sub>c</sub>)</span>
+                <span>Formulas (<i>v</i><sub>c</sub>)</span>
               </a>
               <a href="s14-formeln/#zahlenwert" class="reiter-link">
                 <span class="reiter-num">2</span>
-                <span>Zahlenwertgleichungen (<i>M</i>)</span>
+                <span>Numerical-Value Eq. (<i>M</i>)</span>
               </a>
               <a href="s14-formeln/#linear" class="reiter-link">
                 <span class="reiter-num">3</span>
-                <span>Lineare Funktion</span>
+                <span>Linear Function</span>
               </a>
               <a href="s14-formeln/#kosten" class="reiter-link">
                 <span class="reiter-num">4</span>
-                <span>Kosten &amp; Gewinnschwelle</span>
+                <span>Cost &amp; Break-Even</span>
               </a>
             </div>
           </div>
 
           <div class="spec-pills">
-            <span class="spec-pill"><i>v</i><sub>c</sub> = 395,84 m/min</span>
+            <span class="spec-pill"><i>v</i><sub>c</sub> = 395.84 m/min</span>
             <span class="spec-pill"><i>M</i> = 191 N · m</span>
-            <span class="spec-pill"><i>y</i> = 0,5 · <i>x</i> + 1</span>
-            <span class="spec-pill">Gewinnschwelle 4000 Stück</span>
+            <span class="spec-pill"><i>y</i> = 0.5 · <i>x</i> + 1</span>
+            <span class="spec-pill">Break-even 4000 units</span>
           </div>
 
           <div class="card-actions">
             <a href="s14-formeln/" class="btn-open">
-              <span>Projekt S. 14 öffnen</span>
+              <span>Open Project p. 14</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall/s14-formeln" target="_blank" rel="noopener noreferrer" class="btn-code">
@@ -763,21 +763,21 @@
 
     </div>
 
-    <!-- ================= Technische & Didaktische Hinweise ================= -->
+    <!-- ================= Technical & Didactic Notes ================= -->
     <section class="hub-notes">
-      <h3>Methodik, Normbezug &amp; Eigenständigkeit</h3>
+      <h3>Methodology, Standards &amp; Independence</h3>
       <div class="notes-grid">
         <div class="note-item">
           <strong>DIN 461 &amp; DIN EN ISO 80000-2</strong>
-          Achsenbeschriftung, Einheitenklammerung bzw. Platzierung zwischen den beiden letzten Zahlen, Liniengruppen im Verhältnis 1 : 2 : 4 sowie positiver Winkelabtrag im Polarkoordinatensystem folgen den im Buch zitierten Normen.
+          Axis labeling, unit brackets or placement between the last two scale numbers, line-width ratios of 1 : 2 : 4, and positive angle orientation in polar coordinates follow the standards cited in the book.
         </div>
         <div class="note-item">
-          <strong>Urheberrechtlich sauber &amp; eigenständig</strong>
-          Sämtliche Texte, Erklärungen und SVG-/Canvas-Grafiken sind eigenständig programmiert. Aus dem Tabellenbuch Metall (48. Auflage) stammen lediglich die sinngemäßen Regeln und die Zahlenwerte der Rechenbeispiele.
+          <strong>Original &amp; Copyright-Clean</strong>
+          All explanations, text, and SVG/Canvas graphics are independently programmed. Only the underlying rules and numerical parameters of the worked examples are drawn from Tabellenbuch Metall (48th ed.).
         </div>
         <div class="note-item">
-          <strong>100 % Offline-fähig &amp; deterministisch geprüft</strong>
-          Alle sechs Anwendungen laufen ohne Backend und ohne externe Laufzeit-Abhängigkeiten direkt im Browser. Die Rechenkerne zu S. 58 (41 Checks), S. 59 (52 Checks), S. 60 (62 Checks), S. 61 (24 Checks) und S. 62 (25 Checks) sind per Node-Prüfskript gegen die Buchwerte verifiziert.
+          <strong>100 % Offline &amp; Deterministically Tested</strong>
+          All six applications run directly in the browser with no backend and no external runtime dependencies. The calculation cores for p. 14 (49 checks), p. 58 (41 checks), p. 59 (52 checks), p. 60 (62 checks), p. 61 (24 checks), and p. 62 (25 checks) are verified against the textbook values via Node test scripts.
         </div>
       </div>
     </section>
@@ -785,15 +785,15 @@
 
   <footer class="hub-footer">
     <div>
-      <strong>Tabellenbuch Metall • Interaktive Lehrmodelle</strong> · Erstellt von <a href="../">Walter (@xallace)</a>
+      <strong>Tabellenbuch Metall • Interactive Learning Models</strong> · Created by <a href="../">Walter (@xallace)</a>
     </div>
     <div>
-      <a href="s14-formeln/">Seite 14 (Formeln)</a> ·
-      <a href="s58-diagramme/">Seite 58 (Kartesische Diagramme)</a> ·
-      <a href="s59-polarkoordinaten/">Seite 59 (Polar- &amp; Flächendiagramme)</a> ·
-      <a href="s60-grundkonstruktionen/">Seite 60 (Grundkonstruktionen)</a> ·
-      <a href="s61-tangenten-vielecke/">Seite 61 (Tangenten &amp; Vielecke)</a> ·
-      <a href="s62-kreise-ellipse-spirale/">Seite 62 (Inkreis, Ellipse, Spirale)</a>
+      <a href="s14-formeln/">Page 14 (Formulas)</a> ·
+      <a href="s58-diagramme/">Page 58 (Cartesian Diagrams)</a> ·
+      <a href="s59-polarkoordinaten/">Page 59 (Polar &amp; Area Charts)</a> ·
+      <a href="s60-grundkonstruktionen/">Page 60 (Basic Constructions)</a> ·
+      <a href="s61-tangenten-vielecke/">Page 61 (Tangents &amp; Polygons)</a> ·
+      <a href="s62-kreise-ellipse-spirale/">Page 62 (Incircle, Ellipse, Spiral)</a>
     </div>
   </footer>
 
@@ -805,7 +805,7 @@
 
       function setTheme(dark) {
         document.body.classList.toggle('theme-blueprint', dark);
-        themeLabel.textContent = dark ? 'Heller Modus' : 'Blueprint-Modus';
+        themeLabel.textContent = dark ? 'Light Mode' : 'Blueprint Mode';
         try {
           localStorage.setItem('tbb58-theme', dark ? 'dark' : 'light');
         } catch (e) { /* ignore storage restrictions */ }
@@ -820,7 +820,7 @@
       const forced = /[?&]theme=(dark|light)/.exec(location.search);
       setTheme((forced ? forced[1] : saved) !== 'light');
 
-      // Kapitel-Filter (Alle / K / M)
+      // Chapter filter (All / K / M)
       const filterBtns = document.querySelectorAll('#chapter-filter .filter-btn');
       const cards = document.querySelectorAll('#cards-grid .tbb-project-card');
       filterBtns.forEach(btn => {

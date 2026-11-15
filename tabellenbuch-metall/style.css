@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Tabellenbuch Metall • Interaktive Lehrmodelle & Digitale Zwillinge (Hub)
-   48. Auflage • Technische Mathematik (M) & Technische Kommunikation (K)
+   Tabellenbuch Metall • Interactive Learning Models & Digital Twins (Hub)
+   48th Edition • Technical Mathematics (M) & Technical Communication (K)
    ========================================================================== */
 
 :root {
@@ -73,7 +73,7 @@ body {
 }
 
 /* ==========================================================================
-   Header Bar (Tabellenbuch Metall Kopfzeile)
+   Header Bar (Tabellenbuch Metall Header)
    ========================================================================== */
 .tbb-header {
   background: #004b87;
@@ -371,7 +371,7 @@ body.theme-blueprint .page-pill .p-num {
 }
 
 /* ==========================================================================
-   Project Cards Grid (S. 14, S. 58, S. 59)
+   Project Cards Grid (p. 14, p. 58, p. 59)
    ========================================================================== */
 .tbb-cards-grid {
   display: grid;
@@ -407,9 +407,10 @@ body.theme-blueprint .page-pill .p-num {
   color: #ffffff;
   padding: 10px 18px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px 10px;
 }
 
 body.theme-blueprint .card-page-bar {
@@ -431,6 +432,8 @@ body.theme-blueprint .card-page-bar {
   font-size: 1rem;
   padding: 2px 9px;
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .card-subj {
@@ -516,7 +519,7 @@ body.theme-blueprint .card-page-bar {
   color: var(--muted);
 }
 
-/* Deep-Link Reiter List */
+/* Deep-link tab list */
 .reiter-box {
   background: var(--bg-alt);
   border: 1px solid var(--border-subtle);

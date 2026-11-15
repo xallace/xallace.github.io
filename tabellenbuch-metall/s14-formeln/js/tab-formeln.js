@@ -1,29 +1,29 @@
-/* Reiter 1: Formeln – Schnittgeschwindigkeit vc = π · d · n, Einheitenumformung im Rechengang, Übung */
+/* Tab 1: Formulas – Cutting speed vc = π · d · n, explicit unit conversions, interactive exercise */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, frac, q, ln } = UI;
   const { fmt } = Core;
   const el = SVG.el;
 
-  const W = 640, H = 400, SLOW = 50;   // Drehbewegung 50-fach verlangsamt
+  const W = 640, H = 400, SLOW = 50;   // Rotation slowed down 50x
   const reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  // Intern: d in mm, n in 1/min, vc in m/min
+  // Internal units: d in mm, n in 1/min, vc in m/min
   const BOOK = () => ({ goal: 'vc', op: 'drehen', dUnit: 'mm', nUnit: '1/min', d: 200, n: 630, vc: Core.schnittgeschwindigkeit(0.2, 630) });
   const st = Object.assign(BOOK(), { anim: !reduced, angle: 0, quiz: null, score: [0, 0] });
   const svg = $('f-svg'), tab = $('tab-formeln');
   let rot = null, raf = 0, last = 0;
 
-  // Formelbausteine mit ihrer Rolle (Formelzeichen, Operator, Konstante, Zahl) für die Hervorhebung
+  // Formula building blocks tagged with their role (symbol, operator, constant, number) for highlighting
   const S = h => `<span data-p="sym">${h}</span>`;
   const O = h => `<span data-p="op">${h}</span>`;
   const K = h => `<span data-p="const">${h}</span>`;
   const N = h => `<span data-p="num">${h}</span>`;
   const VC = S('<i>v</i><sub>c</sub>'), D = S('<i>d</i>'), NN = S('<i>n</i>'), PI = K('π'), DOT = ` ${O('·')} `;
-  const fr = (a, b) => frac(a, b, ' data-p="op"');      // Bruchstrich als Operator
+  const fr = (a, b) => frac(a, b, ' data-p="op"');      // Fraction bar as division operator
   const why = (txt, cls = '') => `<div class="why ${cls}">${txt}</div>`;
   const res = h => `<span class="res">${h}</span>`;
 
-  // Anzeige in der gewählten Einheit
+  // Display in the selected unit
   const dIn = (dmm, u) => dmm * 0.001 / Core.D_UNIT[u];
   const nIn = (n, u) => n / Core.N_UNIT[u];
   const dTxt = (dmm, u) => fmt(dIn(dmm, u), u === 'm' ? 4 : 2);
@@ -38,7 +38,7 @@
     else st.d = Core.durchmesserAusVc(st.vc, st.n) * 1000;
   }
 
-  // ---------------------------------------------------------------- Rechengang wie auf der Buchseite
+  // ---------------------------------------------------------------- Step-by-step calculation as in the book
   const dConv = u => (u === 'm' ? '' : DOT + fr(q(N('1'), 'm'), q(N(u === 'mm' ? '1000' : '100'), u)));
   const nConv = u => (u === '1/s' ? DOT + fr(q(N('60'), 's'), q(N('1'), 'min')) : '');
 
@@ -56,7 +56,7 @@
       out.push(ln('', `${PI}${DOT}${dq}${DOT}${nq}`));
       if (convNote.length) {
         out.push(ln('', `${PI}${DOT}${dq}${dConv(dU)}${DOT}${nq}${nConv(nU)}`));
-        out.push(why(`Einheiten umformen (${convNote.join(', ')}), damit sich ${[dU !== 'm' ? dU : '', nU === '1/s' ? 's' : ''].filter(Boolean).join(' und ')} wegkürzt und m/min übrig bleibt.`));
+        out.push(why(`Convert units (${convNote.join(', ')}) so ${[dU !== 'm' ? dU : '', nU === '1/s' ? 's' : ''].filter(Boolean).join(' and ')} cancel out, leaving m/min.`));
       }
       out.push(ln('', res(`${vcTxt(st.vc)}&#8239;${mPerMin}`)));
     } else if (st.goal === 'n') {
@@ -64,7 +64,7 @@
       out.push(ln('', fr(vcq, `${PI}${DOT}${dq}`)));
       if (dU !== 'm') {
         out.push(ln('', fr(vcq, `${PI}${DOT}${dq}${dConv(dU)}`)));
-        out.push(why(`Einheiten umformen (${convNote[0]}), damit sich m wegkürzt und 1/min übrig bleibt.`));
+        out.push(why(`Convert units (${convNote[0]}) so m cancels out, leaving 1/min.`));
       }
       if (nU === '1/s') {
         out.push(ln('', `${N(fmt(st.n, 1))}&#8239;${perMin}${DOT}${fr(q(N('1'), 'min'), q(N('60'), 's'))}`));
@@ -79,7 +79,7 @@
         out.push(ln('', `${q(N(fmt(dm, 4)), 'm')}${DOT}${fr(q(N(dU === 'mm' ? '1000' : '100'), dU), q(N('1'), 'm'))}`));
         out.push(ln('', res(q(dTxt(st.d, dU), dU))));
       }
-      out.push(why('min kürzt sich weg: (m/min) : (1/min) = m.'));
+      out.push(why('min cancels out: (m/min) ÷ (1/min) = m.'));
     }
     return out.join('');
   }
@@ -90,7 +90,7 @@
     return `${D} = ${fr(VC, PI + DOT + NN)}`;
   }
 
-  // ---------------------------------------------------------------- Zeichnung
+  // ---------------------------------------------------------------- Drawing
   const P = (cx, cy, r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy + r * Math.sin(deg * Math.PI / 180)];
   const pts = list => list.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
 
@@ -99,7 +99,7 @@
     el(svg, 'line', { x1: cx, y1: cy - r - 16, x2: cx, y2: cy + r + 16, class: 'cl' });
   }
 
-  // Drehrichtung: im Uhrzeigersinn (Winkel wächst im Bildschirm-Koordinatensystem)
+  // Rotation direction: clockwise (angles increase in screen coordinates)
   function nArrow(cx, cy, R, a0, a1, lblDeg) {
     const [x0, y0] = P(cx, cy, R, a0), [x1, y1] = P(cx, cy, R, a1 - 5);
     el(svg, 'path', { d: `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`, class: 'n-arc' });
@@ -109,7 +109,7 @@
     SVG.text(svg, lx, ly + 5, `*n* = ${nTxt(st.n, st.nUnit)}${st.nUnit === '1/s' ? '/s' : '/min'}`, { 'font-size': 15, 'text-anchor': lx < cx - 5 ? 'end' : lx > cx + 5 ? 'start' : 'middle', class: 'lbl-n halo' });
   }
 
-  // Durchmesser-Maß schräg durch die Mitte, Text auf der unteren linken Hälfte
+  // Diameter dimension slanted through the center, label on lower-left half
   function diameter(cx, cy, r) {
     const a = 35 * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
     const A = [cx - r * c, cy + r * s], B = [cx + r * c, cy - r * s];
@@ -134,12 +134,12 @@
       el(rot, 'line', { x1, y1, x2, y2, class: 'work-mark' });
     }
     centerLines(cx, cy, r);
-    // Drehmeißel: Spanfläche in Mittenhöhe, Schneide am Umfang
+    // Turning tool: rake face on centerline, cutting edge at circumference
     const x0 = cx + r + 1;
     el(svg, 'rect', { x: x0 + 36, y: cy, width: W - 12 - (x0 + 36), height: 26, class: 'shank' });
     el(svg, 'polygon', { points: pts([[x0, cy], [x0 + 42, cy], [x0 + 42, cy + 26], [x0 + 16, cy + 26]]), class: 'tool' });
     el(svg, 'path', { d: `M${x0 + 14} ${cy - 1} c 3 -13 17 -20 25 -12 c 5 6 -2 12 -8 8`, class: 'chip' });
-    // Der Werkstoff läuft am Umfang mit vc auf die Schneide zu
+    // Workpiece surface moves past cutting edge at tangential speed vc
     SVG.arrow(svg, x0 + 4, cy - 84, x0 + 4, cy - 5, { lineCls: 'vc', headCls: 'vc-head', l: 13, b: 5 });
     SVG.text(svg, x0 + 12, cy - 56, '*v*_{c}', { 'font-size': 18, class: 'lbl-vc halo' });
     nArrow(cx, cy, r + 16, -150, -40, -95);
@@ -151,7 +151,7 @@
     r = Math.min(r, 120);
     const cx = 230, cy = Math.max(60 + r, 160), ae = 0.25 * r;
     const yc = cy + r, yu = cy + r - ae, xe = cx + Math.sqrt(r * r - (r - ae) * (r - ae));
-    // Werkstück: links bereits gefräst, rechts noch volle Höhe; Übergang folgt dem Fräserumfang
+    // Workpiece: left side already milled, right side full height; shoulder follows cutter arc
     el(svg, 'path', { d: `M16 ${yc} L${cx} ${yc} A ${r} ${r} 0 0 0 ${xe.toFixed(1)} ${yu.toFixed(1)} L${W - 16} ${yu.toFixed(1)} L${W - 16} ${H - 14} L16 ${H - 14} Z`, class: 'work' });
     el(svg, 'circle', { cx, cy, r, class: 'cutter' });
     rot = el(svg, 'g', {});
@@ -162,7 +162,7 @@
     }
     el(svg, 'circle', { cx, cy, r: Math.max(6, r * 0.22), class: 'work' });
     centerLines(cx, cy, r);
-    // vc am Umfang: oben tangential nach rechts
+    // vc at circumference: top tangent pointing right
     SVG.arrow(svg, cx, cy - r - 7, cx + 80, cy - r - 7, { lineCls: 'vc', headCls: 'vc-head', l: 13, b: 5 });
     SVG.text(svg, cx + 86, cy - r - 2, '*v*_{c}', { 'font-size': 18, class: 'lbl-vc halo' });
     nArrow(cx, cy, r + 16, 175, 240, 205);
@@ -173,9 +173,9 @@
   function drawInfo() {
     const x = 392, y = 12, w = 236, h = 84;
     el(svg, 'rect', { x, y, width: w, height: h, rx: 6, class: 'legend-box' });
-    SVG.text(svg, x + 10, y + 22, `1 Umdrehung: *U* = π · *d* = ${fmt(Math.PI * st.d, 1)} mm`, { 'font-size': 13.5 });
-    SVG.text(svg, x + 10, y + 46, `*n* = ${fmt(st.n, 1)} Umdrehungen je min`, { 'font-size': 13.5 });
-    SVG.text(svg, x + 10, y + 70, `*v*_{c} = *U* · *n* = ${vcTxt(st.vc)} m/min`, { 'font-size': 13.5, class: 'lbl-vc' });
+    SVG.text(svg, x + 10, y + 22, `1 rev: *C* = π · *d* = ${fmt(Math.PI * st.d, 1)} mm`, { 'font-size': 13.5 });
+    SVG.text(svg, x + 10, y + 46, `*n* = ${fmt(st.n, 1)} rev per min`, { 'font-size': 13.5 });
+    SVG.text(svg, x + 10, y + 70, `*v*_{c} = *C* · *n* = ${vcTxt(st.vc)} m/min`, { 'font-size': 13.5, class: 'lbl-vc' });
   }
 
   let center = [0, 0];
@@ -188,20 +188,20 @@
     drawInfo();
 
     $('f-formula').innerHTML = formulaHtml();
-    $('f-flabel').textContent = st.goal === 'vc' ? 'Formel für die Schnittgeschwindigkeit' : `Formel nach ${st.goal === 'n' ? 'n' : 'd'} umgestellt`;
+    $('f-flabel').textContent = st.goal === 'vc' ? 'Formula for Cutting Speed' : `Formula rearranged for ${st.goal === 'n' ? 'n' : 'd'}`;
     $('f-calc').innerHTML = calcHtml();
     $('f-details').innerHTML = [
-      ['Umfang <i>U</i> = π · <i>d</i>', fmt(Math.PI * st.d, 1) + ' mm'],
+      ['Circumference <i>C</i> = π · <i>d</i>', fmt(Math.PI * st.d, 1) + ' mm'],
       ['<i>v</i><sub>c</sub> in m/s', fmt(st.vc / 60, 2) + ' m/s'],
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
     const isBook = st.goal === 'vc' && st.dUnit === 'mm' && st.nUnit === '1/min' && st.d === 200 && st.n === 630;
     $('f-book').innerHTML = isBook
-      ? 'Buchbeispiel: <i>d</i> = 200 mm und <i>n</i> = 630/min ergeben <i>v</i><sub>c</sub> = 395,84 m/min.'
-      : 'Eigene Werte. „Buchwerte laden“ stellt das Beispiel der Seite wieder her.';
+      ? 'Book example: <i>d</i> = 200 mm and <i>n</i> = 630/min yield <i>v</i><sub>c</sub> = 395.84 m/min.'
+      : 'Custom values. "Load Book Values" restores the worked example from the page.';
     startAnim();
   }
 
-  // ---------------------------------------------------------------- Bewegung
+  // ---------------------------------------------------------------- Animation
   function loop(t) {
     raf = 0;
     if (!st.anim || !tab.classList.contains('active') || !rot) return;
@@ -215,7 +215,7 @@
     if (!raf && st.anim && tab.classList.contains('active')) { last = 0; raf = requestAnimationFrame(loop); }
   }
 
-  // ---------------------------------------------------------------- Regler
+  // ---------------------------------------------------------------- Controls
   function syncSliders() {
     $('f-row-d').hidden = st.goal === 'd';
     $('f-row-n').hidden = st.goal === 'n';
@@ -236,7 +236,7 @@
   seg('f-nunit', v => { st.nUnit = v; update(); });
   chk('f-anim', v => { st.anim = v; startAnim(); });
 
-  // Bestandteile der Formel: Zeigen hebt hervor, Antippen hält die Hervorhebung fest
+  // Components of a formula: hover highlights temporarily, click pins highlight
   let pinned = null;
   const parts = $('f-parts');
   function showHl(p) {
@@ -252,25 +252,25 @@
     showHl(pinned);
   });
 
-  // ---------------------------------------------------------------- Übung
+  // ---------------------------------------------------------------- Exercise
   function newQuiz() {
     const t = UI.pick(['n', 'vc', 'd']);
     let z;
     if (t === 'n') {
       const d = UI.rnd(20, 160, 5), vc = UI.rnd(60, 300, 10);
       z = { t, d, vc, truth: Core.drehzahlAusVc(vc, d / 1000), unit: '1/min', dec: 0,
-        text: `Eine Welle mit <i>d</i> = ${d} mm wird mit <i>v</i><sub>c</sub> = ${vc} m/min gedreht. Welche Drehzahl <i>n</i> in 1/min ist einzustellen?` };
+        text: `A shaft with <i>d</i> = ${d} mm is turned at <i>v</i><sub>c</sub> = ${vc} m/min. What rotational speed <i>n</i> in 1/min must be set?` };
     } else if (t === 'vc') {
       const d = UI.rnd(6, 40, 1), n = UI.rnd(500, 8000, 100);
       z = { t, d, n, truth: Core.schnittgeschwindigkeit(d / 1000, n), unit: 'm/min', dec: 1,
-        text: `Ein Schaftfräser mit <i>d</i> = ${d} mm läuft mit <i>n</i> = ${n}/min. Wie groß ist die Schnittgeschwindigkeit <i>v</i><sub>c</sub> in m/min?` };
+        text: `An end mill with <i>d</i> = ${d} mm runs at <i>n</i> = ${n}/min. What is the cutting speed <i>v</i><sub>c</sub> in m/min?` };
     } else {
       const vc = UI.rnd(80, 250, 10), n = UI.rnd(200, 2000, 10);
       z = { t, vc, n, truth: Core.durchmesserAusVc(vc, n) * 1000, unit: 'mm', dec: 1,
-        text: `Bei <i>n</i> = ${n}/min soll am Umfang <i>v</i><sub>c</sub> = ${vc} m/min erreicht werden. Welcher Durchmesser <i>d</i> in mm gehört dazu?` };
+        text: `At <i>n</i> = ${n}/min, a cutting speed <i>v</i><sub>c</sub> = ${vc} m/min is to be reached at the circumference. What diameter <i>d</i> in mm corresponds to this?` };
     }
     st.quiz = z;
-    $('f-task').innerHTML = z.text + ' (Toleranz ± 1 %)';
+    $('f-task').innerHTML = z.text + ' (Tolerance ± 1 %)';
     $('f-ans-unit').textContent = z.unit;
     $('f-ans').value = '';
     $('f-ans-row').hidden = false;
@@ -289,13 +289,13 @@
     const z = st.quiz;
     if (!z) return;
     const a = Core.parseNum($('f-ans').value);
-    if (!isFinite(a)) { feedback('f-feedback', 'Bitte eine Zahl eingeben.', false); return; }
+    if (!isFinite(a)) { feedback('f-feedback', 'Please enter a number.', false); return; }
     const ok = Math.abs(a - z.truth) <= 0.01 * z.truth;
     const off1000 = !ok && [1000, 0.001].some(f => Math.abs(a / (z.truth * f) - 1) < 0.01);
     st.score[1]++;
     if (ok) st.score[0]++;
-    $('f-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
-    const head = ok ? 'Richtig.' : off1000 ? 'Um den Faktor 1000 daneben: Millimeter in Meter umrechnen (1 m = 1000 mm).' : `Nicht richtig, eingegeben ${fmt(a, 2)} ${z.unit}.`;
+    $('f-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
+    const head = ok ? 'Correct.' : off1000 ? 'Off by a factor of 1000: convert millimeters to meters (1 m = 1000 mm).' : `Incorrect, entered ${fmt(a, 2)} ${z.unit}.`;
     feedback('f-feedback', `${head}<div class="calc">${solution(z)}</div>`, ok);
     $('f-ans-row').hidden = true;
     st.quiz = null;

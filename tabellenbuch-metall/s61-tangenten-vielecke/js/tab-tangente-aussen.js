@@ -1,9 +1,9 @@
-/* Reiter 2: Tangente von einem Punkt P an den Kreis (Tabellenbuch Metall S. 61, 2. Zeile)
-   Gegeben: Kreis und Punkt P außerhalb
-   1. MP halbieren. A ist Mittelpunkt.
-   2. Kreis um A mit Radius r = AM. T ist Tangentenpunkt.
-   3. T mit P verbinden.
-   4. MT ist senkrecht zu PT. */
+/* Tab 2: Tangent from an External Point P to a Circle (Tabellenbuch Metall p. 61, row 2)
+   Given: Circle and external point P
+   1. Bisect MP. A is the midpoint.
+   2. Circle centered at A with radius r = AM. T is the tangency point.
+   3. Connect T to P.
+   4. MT is perpendicular to PT. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460, SCALE = 3.0; // 3 px = 1 mm
   const STEPS = [
-    [1, 'MP halbieren (A)', 'Strecke <span class="overline">MP</span> halbieren; der Mittelpunkt von <span class="overline">MP</span> ist A.'],
-    [2, 'Thaleskreis um A (T)', 'Kreis um A mit Radius <i>r</i> = <span class="overline">AM</span> schlagen; schneidet den Kreis im Tangentenpunkt T.'],
-    [3, 'Tangente PT verbinden', 'Punkt T mit P verbinden; ergibt die gesuchte Tangente <span class="overline">PT</span> an den Kreis.'],
-    [4, 'Satz des Thales (MT ⊥ PT)', 'Radius <span class="overline">MT</span> einzeichnen; nach dem Satz des Thales steht <span class="overline">MT</span> senkrecht auf <span class="overline">PT</span> (90°).']
+    [1, 'Bisect MP (A)', 'Bisect segment <span class="overline">MP</span>; the midpoint of <span class="overline">MP</span> is A.'],
+    [2, 'Thales circle at A (T)', 'Draw a circle centered at A with radius <i>r</i> = <span class="overline">AM</span>; it intersects the circle at tangency point T.'],
+    [3, 'Connect tangent PT', 'Connect point T to P; yields the required tangent <span class="overline">PT</span> to the circle.'],
+    [4, 'Thales’ theorem (MT ⊥ PT)', 'Draw radius <span class="overline">MT</span>; by Thales’ theorem, <span class="overline">MT</span> is perpendicular to <span class="overline">PT</span> (90°).']
   ];
 
   const BOOK_STATE = () => ({
@@ -44,12 +44,12 @@
     const RPx = st.RMm * SCALE;
     const res = Core.constructTangentFromPoint(st.M, RPx, st.P);
 
-    // Gegebener Kreis um M
+    // Given circle centered at M
     SVG.circle(svg, st.M, RPx, { cls: 'given-line', w: 2.3 });
     SVG.centerMark(svg, st.M, 14);
     SVG.point(svg, st.M, { label: 'M', dx: -14, dy: 16 });
 
-    // Verbindungslinie MP (Achse)
+    // Connecting line MP (axis)
     el(svg, 'line', {
       x1: st.M.x.toFixed(1), y1: st.M.y.toFixed(1),
       x2: st.P.x.toFixed(1), y2: st.P.y.toFixed(1),
@@ -58,24 +58,24 @@
 
     if (!res.ok) {
       SVG.point(svg, st.P, { drag: 'P', label: 'P', dx: 14, dy: -8, sel: true });
-      SVG.text(svg, W / 2, H / 2, 'Punkt P muss außerhalb des Kreises liegen!', { 'text-anchor': 'middle', class: 'halo step-num' });
+      SVG.text(svg, W / 2, H / 2, 'Point P must lie outside the circle!', { 'text-anchor': 'middle', class: 'halo step-num' });
       updateSide(res);
       return;
     }
 
     const { A, rA, T1, T2 } = res;
 
-    // Schritt 1: MP halbieren. A ist Mittelpunkt.
+    // Step 1: Bisect MP. A is the midpoint.
     if (st.step >= 1) {
       const isHl = hl === 1;
       if (st.showBisectArcs) {
-        // Hilfsbögen zur Mittelsenkrechten um M und P
+        // Auxiliary arcs for perpendicular bisector centered at M and P
         const rBisect = rA * 1.15;
         SVG.arcThroughPoint(svg, st.M, rBisect, pt(A.x, A.y - 40), 22, { cls: 'thin-arc' });
         SVG.arcThroughPoint(svg, st.M, rBisect, pt(A.x, A.y + 40), 22, { cls: 'thin-arc' });
         SVG.arcThroughPoint(svg, st.P, rBisect, pt(A.x, A.y - 40), 22, { cls: 'thin-arc' });
         SVG.arcThroughPoint(svg, st.P, rBisect, pt(A.x, A.y + 40), 22, { cls: 'thin-arc' });
-        // Mittelsenkrechte
+        // Perpendicular bisector
         el(svg, 'line', {
           x1: A.x.toFixed(1), y1: (A.y - 50).toFixed(1),
           x2: A.x.toFixed(1), y2: (A.y + 50).toFixed(1),
@@ -86,7 +86,7 @@
       SVG.stepNum(svg, A.x + 8, A.y + 45, 1, { hl: isHl });
     }
 
-    // Schritt 2: Kreis (Thaleskreis) um A mit Radius r = AM. T ist Tangentenpunkt.
+    // Step 2: Circle (Thales circle) centered at A with radius r = AM. T is the tangency point.
     if (st.step >= 2) {
       const isHl = hl === 2;
       if (st.showThales) {
@@ -96,7 +96,7 @@
           dash: '5 3'
         });
       } else {
-        // Zirkelbögen durch T1 und T2
+        // Compass arcs through T1 and T2
         SVG.arcThroughPoint(svg, A, rA, T1, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.2 });
         if (st.showBoth) {
           SVG.arcThroughPoint(svg, A, rA, T2, 30, { cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.2 });
@@ -107,10 +107,10 @@
       SVG.stepNum(svg, (A.x + st.P.x) / 2 + 10, A.y - rA + 12, 2, { hl: isHl });
     }
 
-    // Schritt 3: T mit P verbinden (Tangente PT)
+    // Step 3: Connect T to P (tangent PT)
     if (st.step >= 3) {
       const isHl = hl === 3;
-      // Tangente über T hinaus verlängern
+      // Extend tangent beyond T
       const uPT1 = unit(sub(T1, st.P));
       const t1End = add(T1, scale(uPT1, 45));
       el(svg, 'line', {
@@ -133,7 +133,7 @@
       }
     }
 
-    // Schritt 4: MT ist senkrecht zu PT (Satz des Thales)
+    // Step 4: MT is perpendicular to PT (Thales' theorem)
     if (st.step >= 4) {
       const isHl = hl === 4;
       el(svg, 'line', {
@@ -155,7 +155,7 @@
       }
     }
 
-    // Ziehbarer Punkt P
+    // Draggable point P
     SVG.point(svg, st.P, { drag: 'P', label: 'P', dx: 14, dy: -8, sel: true });
 
     updateSide(res);
@@ -165,27 +165,27 @@
     const resEl = $('tana-result');
     if (!res.ok) {
       resEl.className = 'result warn';
-      resEl.innerHTML = `Punkt P liegt im Kreisinneren (Abstand ≤ ${fmt(st.RMm, 0)} mm)`;
+      resEl.innerHTML = `Point P lies inside the circle (distance ≤ ${fmt(st.RMm, 0)} mm)`;
     } else {
       resEl.className = 'result';
-      resEl.innerHTML = `<span class="overline">MT</span> ⊥ <span class="overline">PT</span> &nbsp;·&nbsp; Thales-Winkel = ${fmt(res.angleMTPDeg1, 1)}°`;
+      resEl.innerHTML = `<span class="overline">MT</span> ⊥ <span class="overline">PT</span> &nbsp;·&nbsp; Thales angle = ${fmt(res.angleMTPDeg1, 1)}°`;
     }
 
     const dMm = res.ok ? res.d / SCALE : 0;
     const lMm = res.ok ? res.tangentLen / SCALE : 0;
     $('tana-details').innerHTML = [
-      ['Kreisradius <i>R</i>', `${fmt(st.RMm, 0)} mm`],
-      ['Abstand <span class="overline">MP</span>', dMm ? `${fmt(dMm, 1)} mm` : '–'],
-      ['Thalesradius <i>r</i> = ½ <span class="overline">MP</span>', dMm ? `${fmt(dMm / 2, 1)} mm` : '–'],
-      ['Tangentenlänge <span class="overline">PT</span>', lMm ? `${fmt(lMm, 1)} mm` : '–'],
-      ['Öffnungswinkel <i>α</i>', res.ok ? `${fmt(res.apexAngleDeg, 1)}°` : '–'],
-      ['Pythagoras-Prüfung', res.ok ? `<i>R</i>² + <i>L</i>² = <span class="overline">MP</span>² ✓` : '–']
+      ['Circle radius <i>R</i>', `${fmt(st.RMm, 0)} mm`],
+      ['Distance <span class="overline">MP</span>', dMm ? `${fmt(dMm, 1)} mm` : '–'],
+      ['Thales radius <i>r</i> = ½ <span class="overline">MP</span>', dMm ? `${fmt(dMm / 2, 1)} mm` : '–'],
+      ['Tangent length <span class="overline">PT</span>', lMm ? `${fmt(lMm, 1)} mm` : '–'],
+      ['Included angle <i>α</i>', res.ok ? `${fmt(res.apexAngleDeg, 1)}°` : '–'],
+      ['Pythagoras check', res.ok ? `<i>R</i>² + <i>L</i>² = <span class="overline">MP</span>² ✓` : '–']
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
 
-    $('tana-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('tana-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
-  // Ziehen von Punkt P im Zeichenfeld (außerhalb des Kreises)
+  // Dragging point P on the canvas (outside the circle)
   svg.addEventListener('pointerdown', e => {
     const hit = e.target.closest('[data-drag="P"]');
     if (!hit) return;
@@ -208,7 +208,7 @@
   $('tana-r').addEventListener('input', e => {
     st.RMm = +e.target.value;
     $('tana-r-out').textContent = `${st.RMm} mm`;
-    // P sicherstellen außerhalb
+    // Ensure P remains outside
     const d = dist(st.M, st.P) / SCALE;
     if (d < st.RMm + 15) {
       const u = unit(sub(st.P, st.M));
@@ -232,7 +232,7 @@
   chk('tana-bisect', v => { st.showBisectArcs = v; render(); });
 
   function newQuiz() {
-    // Pythagoreische Tripel (R, L, d): (30, 40, 50), (60, 80, 100), (50, 120, 130), (45, 60, 75)
+    // Pythagorean triples (R, L, d): (30, 40, 50), (60, 80, 100), (50, 120, 130), (45, 60, 75)
     const triples = [[30, 40, 50], [60, 80, 100], [50, 120, 130], [45, 60, 75]];
     const [R, L, d] = triples[Math.floor(Math.random() * triples.length)];
     const ask = Math.random() < 0.5 ? 'L' : 'rA';
@@ -240,8 +240,8 @@
 
     st.quiz = { R, L, d, truth, ask, answered: false };
     $('tana-task').innerHTML = ask === 'L'
-      ? `Ein Kreis hat den Radius <i>R</i> = <b>${R} mm</b>. Punkt P befindet sich im Abstand <span class="overline">MP</span> = <b>${d} mm</b>. Wie lang ist die Tangentenstrecke <span class="overline">PT</span> ($L = \\sqrt{\\overline{MP}^2 - R^2}$)?`
-      : `Der Abstand vom Kreismittelpunkt M zum äußeren Punkt P beträgt <span class="overline">MP</span> = <b>${d} mm</b>. Welchen Radius <i>r</i> hat der Thaleskreis um den Mittelpunkt A?`;
+      ? `A circle has radius <i>R</i> = <b>${R} mm</b>. Point P is at distance <span class="overline">MP</span> = <b>${d} mm</b>. How long is tangent segment <span class="overline">PT</span> (<i>L</i> = √(<span class="overline">MP</span>² − <i>R</i>²))?`
+      : `The distance from circle center M to external point P is <span class="overline">MP</span> = <b>${d} mm</b>. What is the radius <i>r</i> of the Thales circle centered at midpoint A?`;
 
     $('tana-ans-unit').textContent = 'mm';
     $('tana-ans').value = '';
@@ -253,7 +253,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('tana-ans').value);
     if (isNaN(val)) {
-      feedback('tana-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('tana-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.2;
@@ -261,9 +261,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('tana-feedback', ok
-      ? `Richtig! Ergebnis: ${fmt(st.quiz.truth, 1)} mm.`
-      : `Leider falsch. Richtig wäre: ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('tana-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Result: ${fmt(st.quiz.truth, 1)} mm.`
+      : `Incorrect. Correct answer: ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('tana-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('tana-quiz').addEventListener('click', newQuiz);

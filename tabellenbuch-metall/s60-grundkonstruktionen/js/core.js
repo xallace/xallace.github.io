@@ -1,12 +1,12 @@
-/* Geometrischer Rechenkern ohne DOM für Tabellenbuch Metall S. 60:
-   „3.2 Geometrische Grundkonstruktionen – Strecken, Lote, Winkel“
-   1. Parallele zu einer Strecke
-   2. Halbieren einer Strecke (Mittelsenkrechte)
-   3. Fällen eines Lotes
-   4. Errichten einer Senkrechten im Punkt P (60°-Bögen / Satz des Thales)
-   5. Halbieren eines Winkels (Winkelhalbierende)
-   6. Teilen einer Strecke in n gleiche Teile (Strahlensatz)
-   Läuft im Browser (window.Core) und in Node (module.exports) für tests/verify.js. */
+/* DOM-free geometric calculation core for Mechanical & Metal Trades Handbook (Tabellenbuch Metall) p. 60:
+   "3.2 Basic Geometric Constructions – Segments, Perpendiculars, Angles"
+   1. Parallel line to a line segment
+   2. Bisecting a line segment (perpendicular bisector)
+   3. Dropping a perpendicular
+   4. Erecting a perpendicular at point P (60° arcs / Thales' theorem)
+   5. Bisecting an angle (angle bisector)
+   6. Dividing a line segment into n equal parts (intercept theorem)
+   Runs in the browser (window.Core) and in Node (module.exports) for tests/verify.js. */
 (function (root) {
   'use strict';
 
@@ -15,7 +15,7 @@
   const DEG = Math.PI / 180;
   const RAD = 180 / Math.PI;
 
-  // Zahl im deutschen Format: Dezimalkomma, echtes Minuszeichen, ohne überflüssige Nullen.
+  // Format number: English decimal point, true minus sign, trailing zeros trimmed by default.
   function fmt(v, dec = 1, opts = {}) {
     if (!isFinite(v)) return '–';
     if (Math.abs(v) < 0.5 * Math.pow(10, -dec)) v = 0;
@@ -23,7 +23,7 @@
     if (!opts.keepZeros && s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
     let [int, frac] = s.split('.');
     if (opts.group && int.length > 4) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
-    s = frac ? int + ',' + frac : int;
+    s = frac ? int + '.' + frac : int;
     const sign = v < 0 && !opts.noMinus ? MINUS : (v > 0 && opts.plus ? '+' : '');
     return sign + s;
   }
@@ -34,9 +34,9 @@
     return Number(s);
   }
 
-  // ================================================================ Euklidische 2D-Vektorgeometrie
-  // Mathematisches Koordinatensystem (x nach rechts, y nach oben) oder Bildschirmkoordinaten:
-  // Alle rein metrischen Größen (Abstände, Teilverhältnisse, Orthogonalität) sind koordinatenunabhängig.
+  // ================================================================ Euclidean 2D Vector Geometry
+  // Mathematical coordinate system (x right, y up) or screen coordinates:
+  // All purely metric quantities (distances, division ratios, orthogonality) are coordinate-independent.
   function pt(x, y) { return { x: +x, y: +y }; }
   function add(a, b) { return { x: a.x + b.x, y: a.y + b.y }; }
   function sub(a, b) { return { x: a.x - b.x, y: a.y - b.y }; }
@@ -53,7 +53,7 @@
     return l < 1e-12 ? { x: 1, y: 0 } : { x: v.x / l, y: v.y / l };
   }
 
-  // Drehung um +90° im mathematischen Sinn: (-y, x)
+  // +90° counterclockwise rotation in mathematical coordinates: (-y, x)
   function perp(v) { return { x: -v.y, y: v.x }; }
 
   function normDeg(deg) {
@@ -61,18 +61,18 @@
     return Math.abs(d - 360) < 1e-9 || Math.abs(d) < 1e-9 ? 0 : +d.toFixed(8);
   }
 
-  // Punkt in Richtung deg (mathematisch: 0° rechts, +90° oben) im Abstand r von c
+  // Point at distance r from c in direction deg (math convention: 0° right, +90° up)
   function polarPt(c, r, deg) {
     const a = deg * DEG;
     return { x: c.x + r * Math.cos(a), y: c.y + r * Math.sin(a) };
   }
 
-  // Winkel von c nach p in Grad [0, 360) im mathematischen Sinn (y nach oben)
+  // Angle from c to p in degrees [0, 360) in math convention (y up)
   function angleBetween(c, p) {
     return normDeg(Math.atan2(p.y - c.y, p.x - c.x) * RAD);
   }
 
-  // Kleinster ungerichteter Winkel zwischen zwei Vektoren u und v in Grad [0, 180]
+  // Smallest undirected angle between vectors u and v in degrees [0, 180]
   function angleVectorsDeg(u, v) {
     const lu = len(u), lv = len(v);
     if (lu < 1e-12 || lv < 1e-12) return 0;
@@ -80,7 +80,7 @@
     return +(Math.acos(c) * RAD).toFixed(8);
   }
 
-  // Orthogonalprojection von P auf die Gerade durch A und B
+  // Orthogonal projection of P onto the line through A and B
   function projectPointOnLine(P, A, B) {
     const ab = sub(B, A);
     const l2 = dot(ab, ab);
@@ -93,8 +93,8 @@
     return { foot, t, dist: d, signedDist };
   }
 
-  // Schnittpunkte zweier Kreise (c1, r1) und (c2, r2).
-  // Liefert { ok, reason, d, points: [pLeft, pRight] } bezogen auf den gerichteten Vektor c1 -> c2.
+  // Intersection points of two circles (c1, r1) and (c2, r2).
+  // Returns { ok, reason, d, points: [pLeft, pRight] } relative to the directed vector c1 -> c2.
   function intersectCircles(c1, r1, c2, r2) {
     const dVec = sub(c2, c1);
     const d = len(dVec);
@@ -105,15 +105,15 @@
     const h2 = Math.max(0, r1 * r1 - a * a);
     const h = Math.sqrt(h2);
     const u = scale(dVec, 1 / d);
-    const n = perp(u); // links von c1 -> c2 (im math. System: +y bei waagrechtem c1->c2)
+    const n = perp(u); // left of c1 -> c2 (math convention: +y when c1->c2 is horizontal)
     const base = add(c1, scale(u, a));
     const p1 = add(base, scale(n, h));
     const p2 = sub(base, scale(n, h));
     return { ok: h > 1e-7, tangent: h <= 1e-7, reason: h > 1e-7 ? 'two_points' : 'tangent', d, a, h, base, points: [p1, p2] };
   }
 
-  // Schnittpunkte eines Kreises (center, r) mit der Geraden durch A und B.
-  // Die beiden Schnittpunkte sind entlang der Richtung A -> B sortiert (t1 <= t2).
+  // Intersection points of circle (center, r) with the line through A and B.
+  // The two intersections are ordered along direction A -> B (t1 <= t2).
   function intersectCircleLine(center, r, A, B) {
     const pr = projectPointOnLine(center, A, B);
     if (pr.dist > r + 1e-9) return { ok: false, reason: 'too_small', minRadius: pr.dist, foot: pr.foot, points: [] };
@@ -133,15 +133,15 @@
     };
   }
 
-  // ================================================================ 1. Parallele zu einer Strecke (S. 60 oben)
-  // Gegeben: Strecke AB und Punkt P auf gesuchter Parallele g'.
-  // 1. Kreisbogen mit Radius r um A ergibt Schnittpunkt C (auf AB).
-  //    Im Buch ist r = |AP| gewählt, sodass Kreisbogen 1 durch P und C verläuft (Raute ACDP).
-  //    Wird ein eigener Radius r >= Abstand(P, AB) übergeben, entspricht das der verallgemeinerten Rauten-/Parallelogramm-Konstruktion:
-  //    Bei Buch-Standard (r == null) ist r = |AP|.
-  // 2. Kreisbogen mit Radius r um P.
-  // 3. Kreisbogen mit Radius r um C ergibt Schnittpunkt D.
-  // 4. Verbindungslinie PD ist Parallele g' zu AB.
+  // ================================================================ 1. Parallel line to a line segment (p. 60 top)
+  // Given: segment AB and point P on the desired parallel line g'.
+  // 1. Arc of radius r around A gives intersection C (on AB).
+  //    In the handbook, r = |AP| is chosen so arc 1 passes through P and C (rhombus ACDP).
+  //    If a custom radius r >= dist(P, AB) is supplied, this generalizes to a parallelogram/rhombus construction:
+  //    With the handbook default (r == null), r = |AP|.
+  // 2. Arc of radius r around P.
+  // 3. Arc of radius r around C gives intersection D.
+  // 4. Line PD is the parallel line g' to AB.
   function constructParallel(A, B, P, rCustom = null) {
     const abLen = dist(A, B);
     const u = unit(sub(B, A));
@@ -150,17 +150,17 @@
     if (r < pr.dist - 1e-7 || r <= 0) {
       return { ok: false, reason: 'radius_too_small', minRadius: pr.dist, distH: pr.dist };
     }
-    // 1. Schnittpunkt C auf dem Strahl A -> B im Abstand r von A
+    // 1. Intersection C on ray A -> B at distance r from A
     const C = add(A, scale(u, r));
-    // Bei r == |AP| (Buch): P, A, C, D bilden eine Raute der Seitenlänge r, und D = P + (C - A).
-    // Bei beliebigem r: Kreisbogen 1 mit Radius r um A -> C; falls r != |AP|, schneidet Bogen 2 (Radius |AP| oder r) ...
-    // Damit Schritt 1..3 exakt mit einem einzigen Zirkelradius r funktioniert, ist im Buch r = |AP|!
-    // Falls rCustom gesetzt wird, verschieben wir P entlang des Strahls AP auf Abstand rCustom oder berechnen den Kreisschnitt (P, r) mit (C, r).
+    // When r == |AP| (handbook): P, A, C, D form a rhombus of side r, and D = P + (C - A).
+    // For arbitrary r: arc 1 of radius r around A -> C; if r != |AP|, arc 2 (radius |AP| or r)...
+    // To keep steps 1..3 working with a single compass radius r, the handbook uses r = |AP|.
+    // When rCustom is set, we intersect circle (P, r) with circle (C, r).
     const inter = intersectCircles(P, r, C, r);
     if (!inter.ok && !inter.tangent) {
       return { ok: false, reason: 'arcs_do_not_meet', r, C, distH: pr.dist };
     }
-    // Wähle den Schnittpunkt D, für den PD in Richtung AB zeigt (dot(D - P, u) > 0)
+    // Select intersection D so that PD points in the direction of AB (dot(D - P, u) > 0)
     const [d1, d2] = inter.points;
     const D = dot(sub(d1, P), u) >= dot(sub(d2, P), u) ? d1 : d2;
     const angleDiff = angleVectorsDeg(sub(B, A), sub(D, P));
@@ -181,11 +181,11 @@
     };
   }
 
-  // ================================================================ 2. Halbieren einer Strecke (Mittelsenkrechte)
-  // Gegeben: Strecke AB.
-  // 1. Kreisbogen 1 mit Radius r um A; r > 1/2 AB.
-  // 2. Kreisbogen 2 mit gleichem Radius r um B (ergibt Schnittpunkte S1 und S2).
-  // 3. Verbindungslinie S1-S2 ist die Mittelsenkrechte bzw. Halbierende der Strecke AB (Mittelpunkt M).
+  // ================================================================ 2. Bisecting a line segment (perpendicular bisector)
+  // Given: segment AB.
+  // 1. Arc 1 of radius r around A; r > 1/2 AB.
+  // 2. Arc 2 of the same radius r around B (gives intersections S1 and S2).
+  // 3. Line S1-S2 is the perpendicular bisector dividing segment AB at midpoint M.
   function constructBisector(A, B, r) {
     const abLen = dist(A, B);
     const halfAB = abLen / 2;
@@ -198,7 +198,7 @@
       };
     }
     const inter = intersectCircles(A, r, B, r);
-    const [S1, S2] = inter.points; // S1 oben (links von A->B), S2 unten
+    const [S1, S2] = inter.points; // S1 above (left of A->B), S2 below
     const h = Math.sqrt(Math.max(0, r * r - halfAB * halfAB));
     const angleDeg = angleVectorsDeg(sub(B, A), sub(S1, S2));
     return {
@@ -214,12 +214,12 @@
     };
   }
 
-  // ================================================================ 3. Fällen eines Lotes (von Punkt P auf Gerade g)
-  // Gegeben: Gerade g (durch G1, G2) und Punkt P.
-  // 1. Beliebiger Kreisbogen 1 (Radius r1) um P ergibt Schnittpunkte A und B auf g.
-  // 2. Kreisbogen 2 mit Radius r2 um A; r2 > 1/2 AB.
-  // 3. Kreisbogen 3 mit gleichem Radius r2 um B (Schnittpunkt C).
-  // 4. Die Verbindungslinie des Schnittpunktes C mit P ist das gesuchte Lot (Lotfußpunkt F auf g).
+  // ================================================================ 3. Dropping a perpendicular (from point P to line g)
+  // Given: line g (through G1, G2) and point P.
+  // 1. Arbitrary arc 1 (radius r1) around P gives intersections A and B on g.
+  // 2. Arc 2 of radius r2 around A; r2 > 1/2 AB.
+  // 3. Arc 3 of the same radius r2 around B (intersection C).
+  // 4. Line connecting intersection C and P is the desired perpendicular (foot F on g).
   function constructDropPerp(G1, G2, P, r1, r2) {
     const pr = projectPointOnLine(P, G1, G2);
     const d = pr.dist;
@@ -248,7 +248,7 @@
       };
     }
     const inter = intersectCircles(A, r2, B, r2);
-    // Wähle C auf der P gegenüberliegenden Seite der Geraden g (wie im Buch)
+    // Choose C on the opposite side of line g from P (as in the handbook)
     const [c1, c2] = inter.points;
     const C = dist(c1, P) >= dist(c2, P) ? c1 : c2;
     const perpDeg = angleVectorsDeg(sub(G2, G1), sub(P, C));
@@ -266,24 +266,24 @@
     };
   }
 
-  // ================================================================ 4. Errichten einer Senkrechten im Punkt P
-  // Gegeben: Gerade g und Punkt P auf g.
-  // 1. Kreisbogen 1 um P mit beliebigem Radius r ergibt Schnittpunkt A auf g.
-  // 2. Kreisbogen 2 mit gleichem Radius r um Punkt A ergibt Schnittpunkt B auf Kreisbogen 1 (gleichseitiges Dreieck PAB, 60°).
-  // 3. Kreisbogen 3 mit gleichem Radius r um B.
-  // 4. A und B verbinden und Gerade verlängern (Schnittpunkt C auf Kreisbogen 3, |BC| = r, Thaleskreis um B).
-  // 5. Punkt C mit Punkt P verbinden (Senkrechte in P, |PC| = r * sqrt(3)).
+  // ================================================================ 4. Erecting a perpendicular at point P
+  // Given: line g and point P on g.
+  // 1. Arc 1 around P with arbitrary radius r gives intersection A on g.
+  // 2. Arc 2 of the same radius r around A gives intersection B on arc 1 (equilateral triangle PAB, 60°).
+  // 3. Arc 3 of the same radius r around B.
+  // 4. Connect A and B and extend the line (intersection C on arc 3, |BC| = r, Thales circle around B).
+  // 5. Connect point C to point P (perpendicular at P, |PC| = r * sqrt(3)).
   function constructErectPerp(P, lineDeg = 0, r = 100, side = 'left', up = 1) {
     if (r <= 0) return { ok: false, reason: 'invalid_radius' };
-    // Im Buch liegt A links von P auf der waagrechten Geraden g (side === 'left' -> Richtung lineDeg + 180°)
+    // In the handbook, A lies to the left of P on horizontal line g (side === 'left' -> direction lineDeg + 180°)
     const dirA = side === 'left' ? lineDeg + 180 : lineDeg;
     const A = polarPt(P, r, dirA);
-    // B bildet mit P und A ein gleichseitiges Dreieck (60° von PA in die obere Halbebene):
-    // Wenn A links von P liegt (180°), liegt B bei 120° von P aus (bzw. 60° von A aus).
+    // B forms an equilateral triangle with P and A (60° from PA into the upper half-plane):
+    // When A lies left of P (180°), B lies at 120° from P (i.e., 60° from A).
     const sign = (side === 'left' ? -1 : 1) * (up >= 0 ? 1 : -1);
     const degBFromP = dirA + sign * 60;
     const B = polarPt(P, r, degBFromP);
-    // 4. Gerade A -> B über B hinaus um r verlängern ergibt C auf Kreisbogen 3 um B:
+    // 4. Extending ray A -> B past B by r yields C on arc 3 around B:
     const uAB = unit(sub(B, A));
     const C = add(B, scale(uAB, r));
     const vecG = polarPt({ x: 0, y: 0 }, 1, lineDeg);
@@ -305,12 +305,12 @@
     };
   }
 
-  // ================================================================ 5. Halbieren eines Winkels
-  // Gegeben: Winkel α am Scheitelpunkt S (zwischen Schenkel 1 unter startDeg und Schenkel 2 unter startDeg + alphaDeg).
-  // 1. Beliebiger Kreisbogen 1 (Radius r1) um S ergibt Schnittpunkte A und B.
-  // 2. Kreisbogen 2 mit Radius r2 um A; r2 > 1/2 AB.
-  // 3. Kreisbogen 3 mit gleichem Radius r2 um B ergibt Schnittpunkt C.
-  // 4. Verbindungslinie SC ist die gesuchte Winkelhalbierende (teilt α in α/2 und α/2).
+  // ================================================================ 5. Bisecting an angle
+  // Given: angle α at vertex S (between leg 1 at startDeg and leg 2 at startDeg + alphaDeg).
+  // 1. Arbitrary arc 1 (radius r1) around S gives intersections A and B.
+  // 2. Arc 2 of radius r2 around A; r2 > 1/2 AB.
+  // 3. Arc 3 of the same radius r2 around B gives intersection C.
+  // 4. Line SC is the desired angle bisector (divides α into α/2 and α/2).
   function constructAngleBisector(S, startDeg, alphaDeg, r1, r2) {
     if (alphaDeg <= 0 || alphaDeg >= 180) {
       return { ok: false, reason: 'invalid_angle', alphaDeg };
@@ -332,7 +332,7 @@
       };
     }
     const inter = intersectCircles(B, r2, A, r2);
-    // Wähle den weiter vom Scheitel S entfernten Schnittpunkt C in Richtung Winkelmitte
+    // Choose the intersection C farther from vertex S along the angle midpoint direction
     const midDeg = startDeg + alphaDeg / 2;
     const midDir = polarPt({ x: 0, y: 0 }, 1, midDeg);
     const [c1, c2] = inter.points;
@@ -354,12 +354,12 @@
     };
   }
 
-  // ================================================================ 6. Teilen einer Strecke (Strahlensatz)
-  // Gegeben: Strecke AB soll in n gleiche Teile geteilt werden (im Buch: n = 5).
-  // 1. Strahl von A unter beliebigem Winkel β (im Buch nach rechts-unten).
-  // 2. Auf dem Strahl von A aus mit dem Zirkel n beliebige, aber gleich große Teile (Schrittweite s) abtragen -> 1', 2', ..., n'.
-  // 3. Endpunkt n' mit B verbinden.
-  // 4. Parallelen zu n'B durch die anderen Teilpunkte 1'...(n-1)' ziehen -> Teilpunkte 1..n auf AB.
+  // ================================================================ 6. Dividing a line segment (intercept theorem)
+  // Given: segment AB to be divided into n equal parts (in the handbook: n = 5).
+  // 1. Ray from A at an arbitrary angle β (down-right in the handbook).
+  // 2. Step off n arbitrary but equal intervals (step length s) along the ray from A -> 1', 2', ..., n'.
+  // 3. Connect endpoint n' to B.
+  // 4. Draw parallels to n'B through the other division points 1'...(n-1)' -> division points 1..n on AB.
   function constructDivideSegment(A, B, n = 5, rayAngleDeg = -32, stepLen = 30) {
     const count = Math.max(2, Math.min(20, Math.round(n)));
     const abLen = dist(A, B);
@@ -367,7 +367,7 @@
     const lineDeg = angleBetween(A, B);
     const absRayDeg = lineDeg + rayAngleDeg;
     const rayPts = []; // 1' .. n'
-    const divPts = []; // 1 .. n (wobei n = B)
+    const divPts = []; // 1 .. n (where n = B)
     for (let k = 1; k <= count; k++) {
       rayPts.push({
         k,

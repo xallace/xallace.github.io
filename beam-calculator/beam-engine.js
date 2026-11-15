@@ -32,7 +32,7 @@ export const MATERIALS = {
     density_metric: 7900, // kg/m3
   },
   aluminum_6082: {
-    name: "Aluminium (EN AW-6082 T6 / 6061-T6)",
+    name: "Aluminum (EN AW-6082 T6 / 6061-T6)",
     E_metric: 70, // GPa
     E_imperial: 10150, // ksi
     yield_metric: 260, // MPa

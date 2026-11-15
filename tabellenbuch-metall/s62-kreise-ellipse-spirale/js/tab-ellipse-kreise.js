@@ -1,8 +1,8 @@
-/* Reiter 4: Ellipsenkonstruktion aus zwei Kreisen (Tabellenbuch Metall S. 62, 4. Zeile)
-   Gegeben: Achsen AB und CD
-   1. Zwei Kreise um M mit den Durchmessern AB und CD.
-   2. Durch M mehrere Strahlen ziehen, die die beiden Kreise schneiden (E, F).
-   3. Parallelen zu den beiden Hauptachsen AB und CD durch E und F ziehen. Schnittpunkte sind Ellipsenpunkte. */
+/* Tab 4: Ellipse Construction from Two Circles (Tabellenbuch Metall p. 62, row 4)
+   Given: Axes AB and CD
+   1. Two circles centered at M with diameters AB and CD.
+   2. Draw several rays through M intersecting the two circles (E, F).
+   3. Draw parallels to the two principal axes AB and CD through E and F. Their intersections are ellipse points. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -11,9 +11,9 @@
 
   const W = 640, H = 460;
   const STEPS = [
-    [1, 'Zwei Kreise um M', 'Zwei konzentrische Kreise um den Mittelpunkt M schlagen: den großen Scheitelkreis mit Durchmesser d = AB und den kleinen mit d = CD.'],
-    [2, 'Strahlen durch M ziehen', 'Vom Mittelpunkt M mehrere Strahlen unter verschiedenen Winkeln ziehen. Jeder Strahl schneidet den inneren Kreis in E und den äußeren in F.'],
-    [3, 'Parallelen zu den Achsen', 'Durch F eine Parallele zur kleinen Achse CD (senkrecht) und durch E eine Parallele zur großen Achse AB (waagerecht) ziehen. Schnittpunkt ist ein Ellipsenpunkt!']
+    [1, 'Two circles at M', 'Draw two concentric circles centered at M: the major circle with diameter d = AB and the minor circle with d = CD.'],
+    [2, 'Draw rays through M', 'Draw several rays from center M at various angles. Each ray intersects the inner circle at E and the outer circle at F.'],
+    [3, 'Parallels to the axes', 'Through F draw a parallel to minor axis CD (vertical), and through E draw a parallel to major axis AB (horizontal). Their intersection is an ellipse point!']
   ];
 
   const BOOK_STATE = () => ({
@@ -57,13 +57,13 @@
 
     const res = Core.constructEllipseFromTwoCircles(st.M, aPx, bPx, angles);
 
-    // Hauptachsen AB und CD
+    // Principal axes AB and CD
     const A = { x: st.M.x - aPx, y: st.M.y };
     const B = { x: st.M.x + aPx, y: st.M.y };
     const C = { x: st.M.x, y: st.M.y - bPx };
     const D = { x: st.M.x, y: st.M.y + bPx };
 
-    // Achsenlinien
+    // Centerlines
     SVG.line(svg, { x: A.x - 20, y: A.y }, { x: B.x + 20, y: B.y }, { cls: 'thin-line', dash: '6 3' });
     SVG.line(svg, { x: C.x, y: C.y - 20 }, { x: D.x, y: D.y + 20 }, { cls: 'thin-line', dash: '6 3' });
 
@@ -75,7 +75,7 @@
     SVG.centerMark(svg, st.M, 14);
     SVG.point(svg, st.M, { label: 'M', dx: -14, dy: 14 });
 
-    // Schritt 1: Zwei Kreise um M mit Durchmessern AB und CD
+    // Step 1: Two circles centered at M with diameters AB and CD
     if (st.step >= 1) {
       const isHl = hl === 1;
       SVG.circle(svg, st.M, aPx, { cls: isHl ? 'hl-line' : 'thin-line', w: isHl ? 2.2 : 1.3 });
@@ -83,7 +83,7 @@
       SVG.stepNum(svg, st.M.x - aPx * 0.72, st.M.y - aPx * 0.72, 1, { hl: isHl });
     }
 
-    // Schritt 2: Strahlen durch M
+    // Step 2: Rays through M
     if (st.step >= 2) {
       const isHl = hl === 2;
       for (const ray of res.rays) {
@@ -95,7 +95,7 @@
         });
       }
 
-      // Aktiver Strahl: Punkte E und F hervorheben
+      // Active ray: highlight points E and F
       const actRay = res.rays.find(r => r.deg === st.activeAngleDeg) || res.rays[0];
       if (actRay) {
         SVG.point(svg, actRay.E, { label: 'E', dx: -12, dy: -6, r: 3 });
@@ -105,30 +105,30 @@
       SVG.stepNum(svg, (st.M.x + actRay.F.x) / 2 + 10, (st.M.y + actRay.F.y) / 2 - 10, 2, { hl: isHl });
     }
 
-    // Schritt 3: Parallelen zu den beiden Achsen durch E und F
+    // Step 3: Parallels to the two axes through E and F
     if (st.step >= 3) {
       const isHl = hl === 3;
 
-      // Parallelen für alle Strahlen
+      // Parallels for all rays
       for (const ray of res.rays) {
         const isAct = ray.deg === st.activeAngleDeg;
-        // Senkrecht durch F zu P
+        // Vertical through F to P
         SVG.line(svg, ray.F, ray.P, {
           cls: isAct ? 'hl-line' : 'thin-line',
           w: isAct ? 1.8 : 0.8,
           dash: '2 2'
         });
-        // Waagerecht durch E zu P
+        // Horizontal through E to P
         SVG.line(svg, ray.E, ray.P, {
           cls: isAct ? 'hl-line' : 'thin-line',
           w: isAct ? 1.8 : 0.8,
           dash: '2 2'
         });
-        // Ellipsenpunkt
+        // Ellipse point
         SVG.point(svg, ray.P, { r: isAct ? 4 : 2.5, sel: isAct });
       }
 
-      // Vollständige Ellipsenlinie
+      // Full ellipse curve
       const pathPts = [];
       for (let th = 0; th <= 360; th += 2) {
         const rad = th * Core.DEG;
@@ -144,7 +144,7 @@
       SVG.stepNum(svg, actRay.P.x + 14, actRay.P.y - 12, 3, { hl: isHl });
     }
 
-    // Brennpunkte F1, F2
+    // Foci F1, F2
     if (st.showFoci && st.step >= 1) {
       SVG.point(svg, res.F1, { label: 'F₁', dx: -12, dy: 14, r: 3 });
       SVG.point(svg, res.F2, { label: 'F₂', dx: 8, dy: 14, r: 3 });
@@ -159,20 +159,20 @@
     const periMm = res.perimeter / SCALE_MM;
 
     $('ellk-result').innerHTML = `
-      <b>Halbachsen:</b> <i>a</i> = <b>${fmt(st.aMm, 1)} mm</b>, <i>b</i> = <b>${fmt(st.bMm, 1)} mm</b><br>
-      <span style="font-size:0.8rem;color:var(--muted)">Lineare Exzentrizität: <i>e</i> = <b>${fmt(eMm, 1)} mm</b> (Fokusabstand)</span>
+      <b>Semi-axes:</b> <i>a</i> = <b>${fmt(st.aMm, 1)} mm</b>, <i>b</i> = <b>${fmt(st.bMm, 1)} mm</b><br>
+      <span style="font-size:0.8rem;color:var(--muted)">Linear eccentricity: <i>e</i> = <b>${fmt(eMm, 1)} mm</b> (focus offset)</span>
     `;
 
     $('ellk-details').innerHTML = `
-      <dt>Große Achse <i>AB</i> (2<i>a</i>):</dt><dd>${fmt(st.aMm * 2, 1)} mm</dd>
-      <dt>Kleine Achse <i>CD</i> (2<i>b</i>):</dt><dd>${fmt(st.bMm * 2, 1)} mm</dd>
-      <dt>Achsenverhältnis <i>b</i> / <i>a</i>:</dt><dd>${fmt(st.bMm / st.aMm, 3)}</dd>
-      <dt>Lineare Exzentrizität <i>e</i> = √(<i>a</i>² − <i>b</i>²):</dt><dd>${fmt(eMm, 2)} mm</dd>
-      <dt>Numerische Exzentrizität ε = <i>e</i> / <i>a</i>:</dt><dd>${fmt(res.eps, 3)}</dd>
-      <dt>Ellipsenfläche <i>A</i> = π · <i>a</i> · <i>b</i>:</dt><dd>${fmt(areaMm2, 1)} mm²</dd>
-      <dt>Umfang <i>U</i> (Ramanujan):</dt><dd>${fmt(periMm, 1)} mm</dd>
-      <dt>Aktiver Strahlwinkel φ:</dt><dd>${fmt(st.activeAngleDeg, 0)}°</dd>
-      <dt>Gleichungsprüfung (<i>x</i>²/<i>a</i>² + <i>y</i>²/<i>b</i>²):</dt><dd>1,0000 ✓</dd>
+      <dt>Major axis <i>AB</i> (2<i>a</i>):</dt><dd>${fmt(st.aMm * 2, 1)} mm</dd>
+      <dt>Minor axis <i>CD</i> (2<i>b</i>):</dt><dd>${fmt(st.bMm * 2, 1)} mm</dd>
+      <dt>Axis ratio <i>b</i> / <i>a</i>:</dt><dd>${fmt(st.bMm / st.aMm, 3)}</dd>
+      <dt>Linear eccentricity <i>e</i> = √(<i>a</i>² − <i>b</i>²):</dt><dd>${fmt(eMm, 2)} mm</dd>
+      <dt>Numerical eccentricity ε = <i>e</i> / <i>a</i>:</dt><dd>${fmt(res.eps, 3)}</dd>
+      <dt>Ellipse area <i>A</i> = π · <i>a</i> · <i>b</i>:</dt><dd>${fmt(areaMm2, 1)} mm²</dd>
+      <dt>Perimeter <i>U</i> (Ramanujan):</dt><dd>${fmt(periMm, 1)} mm</dd>
+      <dt>Active ray angle φ:</dt><dd>${fmt(st.activeAngleDeg, 0)}°</dd>
+      <dt>Equation check (<i>x</i>²/<i>a</i>² + <i>y</i>²/<i>b</i>²):</dt><dd>1.0000 ✓</dd>
     `;
   }
 
@@ -199,7 +199,7 @@
     const b = Math.floor(Math.random() * 2 + 2) * 10; // 20, 30 mm
     const area = Math.round(Math.PI * a * b * 10) / 10;
     st.quiz = { truth: area, answered: false };
-    $('ellk-task').innerHTML = `Gegeben ist eine Ellipse mit den Halbachsen <i>a</i> = <b>${a} mm</b> und <i>b</i> = <b>${b} mm</b>. Berechnen Sie die Ellipsenfläche $A = \\pi \\cdot a \\cdot b$ (in mm²)!`;
+    $('ellk-task').innerHTML = `Given an ellipse with semi-axes <i>a</i> = <b>${a} mm</b> and <i>b</i> = <b>${b} mm</b>, calculate the ellipse area <i>A</i> = π · <i>a</i> · <i>b</i> (in mm²)!`;
     $('ellk-ans').value = '';
     $('ellk-ans-row').hidden = false;
     feedback('ellk-feedback', '');
@@ -209,7 +209,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('ellk-ans').value);
     if (isNaN(val)) {
-      feedback('ellk-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('ellk-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 1.5;
@@ -217,9 +217,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('ellk-feedback', ok
-      ? `Richtig! Ellipsenfläche A = ${fmt(st.quiz.truth, 1)} mm².`
-      : `Leider falsch. Richtig wäre A = ${fmt(st.quiz.truth, 1)} mm².`, ok);
-    $('ellk-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Ellipse area A = ${fmt(st.quiz.truth, 1)} mm².`
+      : `Incorrect. Correct answer: A = ${fmt(st.quiz.truth, 1)} mm².`, ok);
+    $('ellk-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('ellk-quiz').addEventListener('click', newQuiz);

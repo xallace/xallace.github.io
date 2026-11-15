@@ -1,5 +1,5 @@
-/* Reiter 2: Polarkoordinatensystem nach DIN 461 –
-   360°-Teilung, Nullpunkt (Pol), 0° rechts waagrecht, +φ gegen Uhrzeigersinn, Radius r, konzentrische Kreise */
+/* Tab 2: Polar Coordinate System per DIN 461 –
+   360° graduation, origin (pole), 0° horizontal right, +φ counterclockwise, radius r, concentric circles */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, nameHtml } = UI;
@@ -13,11 +13,11 @@
   ];
 
   const RULES = [
-    ['div360', '360°-Teilung', 'Polarkoordinatensysteme besitzen eine 360°-Kreisteilung (hier mit 15°-, 30°- oder 45°-Strahlen).'],
-    ['pole', 'Nullpunkt (Pol)', 'Der Schnittpunkt von waagrechter und senkrechter Achse ist der Nullpunkt (Pol).'],
-    ['zero', 'Winkelzuordnung (0°)', 'Die waagrechte Achse rechts vom Nullpunkt wird dem Winkel 0° (360°) zugeordnet.'],
-    ['ccw', 'Winkelabtrag (+φ)', 'Positive Winkel werden entgegen dem Uhrzeigersinn (mathematisch positiv) abgetragen.'],
-    ['radius', 'Radius r & Kreise', 'Der Radius entspricht der Größe des abzutragenden Wertes; konzentrische Kreise erleichtern das Abtragen.']
+    ['div360', '360° graduation', 'Polar coordinate systems use a 360° circular scale (shown here with 15°, 30°, or 45° rays).'],
+    ['pole', 'Origin (pole)', 'The intersection of the horizontal and vertical axes forms the origin (pole).'],
+    ['zero', 'Angle reference (0°)', 'The horizontal axis to the right of the origin is assigned 0° (360°).'],
+    ['ccw', 'Angle direction (+φ)', 'Positive angles are measured counterclockwise (mathematically positive).'],
+    ['radius', 'Radius r & circles', 'The radius represents the magnitude to be plotted; concentric circles aid reading and plotting.']
   ];
 
   const st = {
@@ -48,7 +48,7 @@
     SVG.clear(svg);
     el(svg, 'rect', { x: 0, y: 0, width: W, height: H, class: 'bg-plain' });
 
-    // 1. Konzentrische Kreise (Radius-Ringe r = 1 … 5)
+    // 1. Concentric circles (radius rings r = 1 … 5)
     const gRings = el(svg, 'g', { class: 'grid' + (hl === 'radius' ? ' hl-lines' : '') });
     for (let r = 1; r <= RMAX; r++) {
       const isRef = r === 2 && st.showCurve && !quiz;
@@ -61,7 +61,7 @@
       });
     }
 
-    // 2. Sektorstrahlen (360°-Teilung)
+    // 2. Sector rays (360° division)
     const step = quiz ? 15 : st.sectorStep;
     const gRays = el(svg, 'g', { class: 'grid' + (hl === 'div360' ? ' hl-lines' : '') });
     for (let d = 0; d < 360; d += step) {
@@ -78,22 +78,22 @@
       }
     }
 
-    // 3. Waagrechte und senkrechte Hauptachse durch den Pol
+    // 3. Horizontal and vertical main axes through the pole
     const axExt = RMAX * U + 10;
     el(svg, 'line', { x1: CX - axExt, y1: CY, x2: CX + axExt, y2: CY, class: 'ax', 'stroke-width': 1.3 });
     el(svg, 'line', { x1: CX, y1: CY - axExt, x2: CX, y2: CY + axExt, class: 'ax', 'stroke-width': 1.3 });
 
-    // Hervorhebung der 0°-Achse rechts vom Nullpunkt
+    // Highlight 0° axis to the right of the origin
     if (hl === 'zero') {
       el(svg, 'line', { x1: CX, y1: CY, x2: CX + axExt + 6, y2: CY, class: 'hl', 'stroke-width': 7 });
     }
-    // Hervorhebung des Nullpunkts (Pol)
+    // Highlight origin (pole)
     if (hl === 'pole') {
       el(svg, 'circle', { cx: CX, cy: CY, r: 10, class: 'hl-ring' });
-      SVG.text(svg, CX - 14, CY + 24, 'Nullpunkt (Pol)', { 'text-anchor': 'end', 'font-size': 14, class: 'halo hl-text' });
+      SVG.text(svg, CX - 14, CY + 24, 'Origin (pole)', { 'text-anchor': 'end', 'font-size': 14, class: 'halo hl-text' });
     }
 
-    // 4. Hauptwinkel-Beschriftungen wie im Buch: 0° (360°), 90°, 180°, 270°
+    // 4. Primary angle labels as in the book: 0° (360°), 90°, 180°, 270°
     const zeroCls = (hl === 'zero' || hl === 'div360') ? 'hl-text' : '';
     const d360Cls = hl === 'div360' ? 'hl-text' : '';
     SVG.text(svg, CX + axExt + 24, CY - 4, '0°', { 'text-anchor': 'middle', 'font-size': 15, class: zeroCls });
@@ -102,7 +102,7 @@
     SVG.text(svg, CX - axExt - 8, CY + 5, '180°', { 'text-anchor': 'end', 'font-size': 15, class: d360Cls });
     SVG.text(svg, CX, CY + axExt + 20, '270°', { 'text-anchor': 'middle', 'font-size': 15, class: d360Cls });
 
-    // Radiusskala an der 270°-/0°-Achse
+    // Radius scale along 0° axis
     if (st.showNums || quiz || hl === 'radius') {
       for (let r = 1; r <= RMAX; r++) {
         SVG.text(svg, CX + r * U - 3, CY + 15, String(r), {
@@ -112,7 +112,7 @@
       }
     }
 
-    // 5. Geschlossene blaue Beispiel-Kennlinie r(φ) wie im oberen Polardiagramm des Buchs
+    // 5. Closed blue example curve r(φ) from the upper polar diagram in the book
     if (st.showCurve && !quiz) {
       const dPath = SVG.plotPolar(Core.upperPolarCurve, CX, CY, r => r * U, 240);
       el(svg, 'path', { d: dPath, class: 'curve-re', fill: 'none', 'stroke-width': 2.3 });
@@ -120,11 +120,11 @@
       el(svg, 'circle', { cx: sx, cy: sy, r: 3.5, class: 'pt' });
     }
 
-    // 6. Punkte oder Übungsaufgabe zeichnen
+    // 6. Draw points or exercise task
     if (quiz) drawQuiz();
     else drawPoints(hl);
 
-    // Kleiner Polpunkt im Ursprung
+    // Small pole dot at origin
     el(svg, 'circle', { cx: CX, cy: CY, r: 3, class: 'ax-head' });
 
     updateSide();
@@ -135,7 +135,7 @@
     if (sel) {
       const [px, py] = polarToScreen(CX, CY, sel.r * U, sel.deg);
 
-      // Kartesisches Stützdreieck (x = r·cos φ, y = r·sin φ) falls eingeschaltet
+      // Cartesian reference triangle (x = r·cos φ, y = r·sin φ) when enabled
       if (st.showCart && sel.r > 0) {
         el(svg, 'line', { x1: CX, y1: CY, x2: px, y2: CY, class: 'proj', 'stroke-dasharray': '4 3' });
         el(svg, 'line', { x1: px, y1: CY, x2: px, y2: py, class: 'proj', 'stroke-dasharray': '4 3' });
@@ -144,7 +144,7 @@
         SVG.text(svg, px + (c.x >= 0 ? 8 : -8), (CY + py) / 2 + 4, `*y* = ${fmt(c.y, 2)}`, { 'text-anchor': c.x >= 0 ? 'start' : 'end', 'font-size': 13, class: 'halo' });
       }
 
-      // Winkelbogen +φ entgegen dem Uhrzeigersinn (auf dem inneren Referenzkreis, damit außen keine Winkelzahlen überdeckt werden)
+      // Angle arc +φ counterclockwise (on inner reference circle so outer angle numbers remain unobstructed)
       if (sel.deg > 0 && sel.r > 0) {
         const arcR = 2.0 * U;
         SVG.angleArc(svg, CX, CY, arcR, 0, sel.deg, {
@@ -160,7 +160,7 @@
         });
       }
 
-      // Radius-Pfeil r vom Pol zum Punkt
+      // Radius vector arrow r from pole to point
       if (sel.r > 0) {
         if (hl === 'radius') el(svg, 'line', { x1: CX, y1: CY, x2: px, y2: py, class: 'hl', 'stroke-width': 7 });
         SVG.arrow(svg, CX, CY, px, py, {
@@ -176,7 +176,7 @@
       }
     }
 
-    // Alle Punkte
+    // All points
     for (const p of st.pts) {
       const [px, py] = polarToScreen(CX, CY, p.r * U, p.deg);
       const isSel = p.name === st.sel;
@@ -230,19 +230,19 @@
     if (p) {
       const c = polarToCart(p.r, p.deg);
       $('p-region').textContent = Core.polarRegion(p.r, p.deg);
-      $('p-readout').innerHTML = `<b>${nameHtml(p.name)}</b>: Radius <i>r</i> = <code>${fmt(p.r, 2)}</code>, Winkel <i>φ</i> = <code>${fmt(p.deg, 0)}°</code>`;
-      $('p-cart-info').innerHTML = `Kartesisch: <i>x</i> = <i>r</i> · cos <i>φ</i> = ${fmt(c.x, 2)}, <i>y</i> = <i>r</i> · sin <i>φ</i> = ${fmt(c.y, 2)}`
-        + (st.showCurve ? `<br>Buch-Kennlinie bei ${fmt(p.deg, 0)}°: <i>r</i><sub>Kurve</sub> = ${fmt(Core.upperPolarCurve(p.deg), 2)}` : '');
+      $('p-readout').innerHTML = `<b>${nameHtml(p.name)}</b>: Radius <i>r</i> = <code>${fmt(p.r, 2)}</code>, Angle <i>φ</i> = <code>${fmt(p.deg, 0)}°</code>`;
+      $('p-cart-info').innerHTML = `Cartesian: <i>x</i> = <i>r</i> · cos <i>φ</i> = ${fmt(c.x, 2)}, <i>y</i> = <i>r</i> · sin <i>φ</i> = ${fmt(c.y, 2)}`
+        + (st.showCurve ? `<br>Book curve at ${fmt(p.deg, 0)}°: <i>r</i><sub>curve</sub> = ${fmt(Core.upperPolarCurve(p.deg), 2)}` : '');
     } else {
       $('p-region').textContent = '';
-      $('p-readout').textContent = st.mode === 'free' ? 'Kein Punkt gewählt.' : 'Während der Übung ausgeblendet.';
+      $('p-readout').textContent = st.mode === 'free' ? 'No point selected.' : 'Hidden during exercise.';
       $('p-cart-info').textContent = '';
     }
     $('p-list').innerHTML = st.pts.map(q =>
       `<li data-name="${q.name}"${q.name === st.sel ? ' class="cur"' : ''}><span>${nameHtml(q.name)}${polarText('', q.r, q.deg, 'semi')}</span>`
-      + `<button title="Punkt löschen" data-del="${q.name}">×</button></li>`).join('');
+      + `<button title="Delete point" data-del="${q.name}">×</button></li>`).join('');
     const sc = st.score[st.mode];
-    $('p-score').textContent = sc ? `${sc[0]} / ${sc[1]} richtig` : '';
+    $('p-score').textContent = sc ? `${sc[0]} / ${sc[1]} correct` : '';
   }
 
   function renderRules() {
@@ -272,23 +272,23 @@
 
   function addPoint(r, deg, name) {
     name = name || freeName();
-    if (!name) { feedback('p-input-msg', 'Höchstens 9 Punkte – erst einen löschen.', false); return null; }
+    if (!name) { feedback('p-input-msg', 'Maximum 9 points – delete one first.', false); return null; }
     const p = { name, r, deg };
     st.pts.push(p);
-    st.pts.sort((a, b) => a.name.localeCompare(b.name, 'de', { numeric: true }));
+    st.pts.sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: true }));
     return p;
   }
 
   function inputPoint() {
     const res = Core.parsePolar($('p-input').value);
     if (res.error) { feedback('p-input-msg', res.error, false); return; }
-    if (res.r > RMAX) { feedback('p-input-msg', `Radius r höchstens ${RMAX}.`, false); return; }
+    if (res.r > RMAX) { feedback('p-input-msg', `Radius r may be at most ${RMAX}.`, false); return; }
     const name = res.name ? res.name.charAt(0).toUpperCase() + res.name.slice(1) : '';
     let p = name && st.pts.find(q => q.name === name);
     if (p) { p.r = res.r; p.deg = res.deg; }
     else if (!(p = addPoint(res.r, res.deg, name))) return;
     st.sel = p.name;
-    feedback('p-input-msg', `${nameHtml(p.name)}${polarText('', p.r, p.deg, 'semi')} gesetzt.`, true);
+    feedback('p-input-msg', `${nameHtml(p.name)}${polarText('', p.r, p.deg, 'semi')} set.`, true);
     render();
   }
 
@@ -330,7 +330,7 @@
     render();
   });
 
-  // ---------------------------------------------------------------- Übung mit Fehlerdiagnose
+  // ---------------------------------------------------------------- Exercise with error diagnostics
   function newTask() {
     const r = UI.rnd(1, 4.5, 0.5);
     let deg;
@@ -340,9 +340,9 @@
     $('p-next').hidden = true;
     feedback('p-feedback', '');
     if (st.mode === 'place') {
-      $('p-task').innerHTML = `Setze den Punkt <b>Q${polarText('', r, deg, 'semi')}</b> durch Klick ins Polardiagramm (Raster Δ<i>r</i> = 0,5; Δ<i>φ</i> = 15°).`;
+      $('p-task').innerHTML = `Place point <b>Q${polarText('', r, deg, 'semi')}</b> by clicking in the polar diagram (grid Δ<i>r</i> = 0.5; Δ<i>φ</i> = 15°).`;
     } else {
-      $('p-task').innerHTML = 'Lies den Radius <i>r</i> und den Winkel <i>φ</i> des markierten Punktes Q ab.';
+      $('p-task').innerHTML = 'Read radius <i>r</i> and angle <i>φ</i> of the highlighted point Q.';
       $('p-ans-r').value = $('p-ans-deg').value = '';
     }
     render();
@@ -352,17 +352,17 @@
     const eqR = Math.abs(ar - t.r) < 1e-6;
     const dNorm = normDeg(adeg);
     const eqDeg = Math.abs(dNorm - t.deg) < 1e-6;
-    if (eqR && eqDeg) return [true, 'Richtig: Q' + polarText('', t.r, t.deg, 'semi')];
+    if (eqR && eqDeg) return [true, 'Correct: Q' + polarText('', t.r, t.deg, 'semi')];
     if (eqR && Math.abs(dNorm - normDeg(360 - t.deg)) < 1e-6) {
-      return [false, 'Drehsinn beachten: Positive Winkel +<i>φ</i> werden <b>entgegen dem Uhrzeigersinn</b> abgetragen (nicht im Uhrzeigersinn).'];
+      return [false, 'Check direction of rotation: Positive angles +<i>φ</i> are measured <b>counterclockwise</b> (not clockwise).'];
     }
     if (eqR && (Math.abs(dNorm - normDeg(90 - t.deg)) < 1e-6 || Math.abs(dNorm - normDeg(t.deg - 90)) < 1e-6)) {
-      return [false, 'Winkelzuordnung prüfen: 0° liegt auf der <b>waagrechten Achse rechts</b> vom Pol, nicht oben bei 90°.'];
+      return [false, 'Check angle reference: 0° is on the <b>horizontal axis to the right</b> of the pole, not at the top (90°).'];
     }
     if (!eqR && eqDeg) {
-      return [false, `Winkel ${fmt(t.deg, 0)}° stimmt, aber Radius <i>r</i> = ${fmt(ar, 1)} statt ${fmt(t.r, 1)} (konzentrische Kreise vom Pol aus zählen).`];
+      return [false, `Angle ${fmt(t.deg, 0)}° is correct, but radius <i>r</i> = ${fmt(ar, 1)} instead of ${fmt(t.r, 1)} (count concentric circles outward from the pole).`];
     }
-    return [false, `Daneben: Q${polarText('', t.r, t.deg, 'semi')} (eingegeben: <i>r</i> = ${fmt(ar, 1)}, <i>φ</i> = ${fmt(dNorm, 0)}°).`];
+    return [false, `Off target: Q${polarText('', t.r, t.deg, 'semi')} (entered: <i>r</i> = ${fmt(ar, 1)}, <i>φ</i> = ${fmt(dNorm, 0)}°).`];
   }
 
   function score(ok) {
@@ -375,7 +375,7 @@
   function answerPlace(r, deg) {
     const [ok, msg] = diagnosePolar(r, deg, st.task);
     st.answer = { r, deg, ok };
-    feedback('p-feedback', ok ? msg : `Gesetzt: Q${polarText('', r, deg, 'semi')}. ${msg}`, ok);
+    feedback('p-feedback', ok ? msg : `Placed: Q${polarText('', r, deg, 'semi')}. ${msg}`, ok);
     score(ok);
     render();
   }
@@ -383,7 +383,7 @@
   function answerRead() {
     if (st.answer) return;
     const r = Core.parseNum($('p-ans-r').value), deg = Core.parseNum($('p-ans-deg').value);
-    if (!isFinite(r) || !isFinite(deg)) { feedback('p-feedback', 'Bitte Radius r und Winkel φ als Zahlen eingeben.', false); return; }
+    if (!isFinite(r) || !isFinite(deg)) { feedback('p-feedback', 'Please enter numeric values for radius r and angle φ.', false); return; }
     const [ok, msg] = diagnosePolar(r, deg, st.task);
     st.answer = { r, deg: normDeg(deg), ok };
     feedback('p-feedback', msg, ok);

@@ -1,6 +1,6 @@
-/* SVG-Hilfen für Tabellenbuch Metall S. 61 (3.2 Geometrische Grundkonstruktionen – Tangenten, Kreisbögen, Vielecke):
-   Zirkelbögen, Kreise, Tangenten, Radiuspfeile r, rote Schrittzahlen 1..6,
-   Rechtwinkelzeichen (Satz des Thales), Winkelbögen, DIN-Mittelpunktskreuze, ziehbare Punkte */
+/* SVG helpers for Tabellenbuch Metall p. 61 (3.2 Basic Geometric Constructions – Tangents, Circular Arcs, Polygons):
+   compass arcs, circles, tangents, radius arrows r, red step numbers 1..6,
+   right-angle symbols (Thales' theorem), angle arcs, DIN center marks, draggable points */
 const SVG = (() => {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
@@ -17,7 +17,7 @@ const SVG = (() => {
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
-  // Text mit kleiner Auszeichnung: *kursiv*, _{tief}, ^{hoch}.
+  // Text with lightweight markup: *italic*, _{sub}, ^{sup}.
   function text(parent, x, y, markup, attrs = {}) {
     const fs = +(attrs['font-size'] || 14);
     const t = el(parent, 'text', Object.assign({ x: +x.toFixed(1), y: +y.toFixed(1), 'font-size': fs }, attrs));
@@ -37,7 +37,7 @@ const SVG = (() => {
     return t;
   }
 
-  // Gefüllte Pfeilspitze mit Spitze in (x, y), Richtung deg in SVG-Bildschirmkoordinaten
+  // Filled arrowhead with tip at (x, y), direction deg in SVG screen coordinates
   function arrowHead(parent, x, y, deg, l = 11, b = 3.4, cls = 'ax-head') {
     const a = deg * DEG, c = Math.cos(a), s = Math.sin(a);
     const bx = x - l * c, by = y - l * s;
@@ -67,7 +67,7 @@ const SVG = (() => {
     return Math.atan2(pt.y - center.y, pt.x - center.x) * RAD;
   }
 
-  // Zirkelbogen um center mit Radius r von screenDeg0 bis screenDeg1
+  // Compass arc around center with radius r from screenDeg0 to screenDeg1
   function compassArc(parent, center, r, screenDeg0, screenDeg1, opts = {}) {
     let span = screenDeg1 - screenDeg0;
     if (Math.abs(span) < 1e-4 || r <= 0) return null;
@@ -85,13 +85,13 @@ const SVG = (() => {
     });
   }
 
-  // Zirkelbogen um center mit Radius r, zentriert um targetPt mit ±halfSpanDeg Überstand
+  // Compass arc around center with radius r centered on targetPt with ±halfSpanDeg overhang
   function arcThroughPoint(parent, center, r, targetPt, halfSpanDeg = 24, opts = {}) {
     const midDeg = screenAngle(center, targetPt);
     return compassArc(parent, center, r, midDeg - halfSpanDeg, midDeg + halfSpanDeg, opts);
   }
 
-  // Zirkelbogen um center mit Radius r zwischen zwei Punkten
+  // Compass arc around center with radius r between two points
   function arcBetweenPoints(parent, center, r, pA, pB, padDeg = 14, opts = {}) {
     let a1 = screenAngle(center, pA);
     let a2 = screenAngle(center, pB);
@@ -100,7 +100,7 @@ const SVG = (() => {
     return compassArc(parent, center, r, a1 + diff - padDeg, a1 + padDeg, opts);
   }
 
-  // Kreis
+  // Circle
   function circle(parent, center, r, opts = {}) {
     return el(parent, 'circle', {
       cx: center.x.toFixed(1),
@@ -113,7 +113,7 @@ const SVG = (() => {
     });
   }
 
-  // DIN-Mittellinienkreuz (Strich-Punkt-Linie oder feines Kreuz)
+  // DIN centerline cross (center mark)
   function centerMark(parent, pt, size = 12, opts = {}) {
     const g = el(parent, 'g', { class: opts.cls || 'center-mark' });
     el(g, 'line', {
@@ -129,7 +129,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Radiuspfeil vom Zentrum zum Kreisbogen bei screenDeg mit Beschriftung „r“
+  // Radius arrow from center to arc at screenDeg labeled "r"
   function radiusArrow(parent, center, r, screenDeg, label = '*r*', opts = {}) {
     const tip = screenPolar(center, r, screenDeg);
     const startFrac = opts.startFrac != null ? opts.startFrac : 0.0;
@@ -152,7 +152,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Rote Schrittzahl 1..6 im Buchstil
+  // Red step number 1..6 in handbook style
   function stepNum(parent, x, y, num, opts = {}) {
     return text(parent, x, y, String(num), {
       'text-anchor': opts.anchor || 'middle',
@@ -161,7 +161,7 @@ const SVG = (() => {
     });
   }
 
-  // Rechtwinkelbogen mit Punkt im Scheitel V zwischen P1 und P2
+  // Right-angle arc with dot at vertex V between P1 and P2
   function rightAngle(parent, V, P1, P2, r = 16, opts = {}) {
     const a1 = screenAngle(V, P1);
     const a2 = screenAngle(V, P2);
@@ -178,7 +178,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Winkelbogen mit zwei Pfeilspitzen nach innen (Winkel α)
+  // Angle arc with two inward arrowheads (angle α)
   function angleArcBoth(parent, V, P1, P2, r = 44, label = '*α*', opts = {}) {
     const a1 = screenAngle(V, P1);
     const a2 = screenAngle(V, P2);
@@ -199,7 +199,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Offener Punkt-Kreis + ziehbarer Hit-Bereich
+  // Open point circle + draggable hit area
   function point(parent, P, opts = {}) {
     const g = el(parent, 'g', {});
     el(g, 'circle', {
@@ -225,7 +225,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Bemaßungslinie mit Pfeilen an beiden Enden und Maßhilfslinien (wie DIN 406)
+  // Dimension line with arrows at both ends and extension lines (per DIN 406)
   function dimension(parent, p1, p2, label, opts = {}) {
     const g = el(parent, 'g', { class: opts.cls || 'dim-group' });
     const off = opts.offset || 0;
@@ -235,20 +235,20 @@ const SVG = (() => {
     const d1 = { x: p1.x + nx * off, y: p1.y + ny * off };
     const d2 = { x: p2.x + nx * off, y: p2.y + ny * off };
 
-    // Maßhilfslinien
+    // Extension lines
     if (Math.abs(off) > 2) {
       const ext = Math.sign(off) * 5;
       el(g, 'line', { x1: p1.x.toFixed(1), y1: p1.y.toFixed(1), x2: (d1.x + nx * ext).toFixed(1), y2: (d1.y + ny * ext).toFixed(1), class: 'thin-line', 'stroke-width': 0.8 });
       el(g, 'line', { x1: p2.x.toFixed(1), y1: p2.y.toFixed(1), x2: (d2.x + nx * ext).toFixed(1), y2: (d2.y + ny * ext).toFixed(1), class: 'thin-line', 'stroke-width': 0.8 });
     }
 
-    // Maßlinie
+    // Dimension line
     el(g, 'line', { x1: d1.x.toFixed(1), y1: d1.y.toFixed(1), x2: d2.x.toFixed(1), y2: d2.y.toFixed(1), class: 'thin-line', 'stroke-width': 1.0 });
     const ang = Math.atan2(dy, dx) * RAD;
     arrowHead(g, d1.x, d1.y, ang + 180, 9, 2.8, 'ax-head');
     arrowHead(g, d2.x, d2.y, ang, 9, 2.8, 'ax-head');
 
-    // Maßzahl
+    // Dimension value
     if (label) {
       const midP = { x: (d1.x + d2.x) / 2 + nx * 10, y: (d1.y + d2.y) / 2 + ny * 10 + 4 };
       text(g, midP.x, midP.y, label, { 'text-anchor': 'middle', 'font-size': 13.5, class: 'halo ' + (opts.textCls || '') });

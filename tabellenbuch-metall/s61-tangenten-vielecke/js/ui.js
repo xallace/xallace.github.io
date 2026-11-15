@@ -1,4 +1,4 @@
-/* Kleine UI-Hilfen, Schritt-Player und Register der Reiter für Tabellenbuch Metall S. 61 */
+/* Small UI helpers, step player, and tab registry for Tabellenbuch Metall p. 61 */
 const UI = (() => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -44,7 +44,7 @@ const UI = (() => {
     if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') fn(); });
   };
 
-  // Gemeinsame Steuerung für die schrittweise Konstruktion (0..maxStep) inkl. Animation und Schrittliste
+  // Shared control for step-by-step construction (0..maxStep) including animation and step list
   function bindStepPlayer(prefix, maxStep, stepsList, st, renderFn) {
     let timer = null;
     const segId = `${prefix}-step`;
@@ -53,7 +53,7 @@ const UI = (() => {
 
     function stopTimer() {
       if (timer) { clearInterval(timer); timer = null; }
-      if (playBtn) playBtn.textContent = '▶ Animation';
+      if (playBtn) playBtn.textContent = '▶ Animate';
     }
 
     function updateStepUI() {
@@ -80,7 +80,7 @@ const UI = (() => {
         st.step = 0;
         updateStepUI();
         renderFn();
-        playBtn.textContent = '⏸ Stopp';
+        playBtn.textContent = '⏸ Stop';
         timer = setInterval(() => {
           if (st.step < maxStep) {
             st.step++;

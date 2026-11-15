@@ -119,14 +119,14 @@ export class DiagramRenderer {
         <!-- Distributed Load Block -->
         ${loadArrowsSvg}
         <text x="${padX + plotW / 2}" y="${arrowTopY - 12}" fill="var(--accent-cyan)" font-size="13" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
-          w = ${w.toFixed(2)} ${wUnitStr} (Gleichstreckenlast / UDL)
+          w = ${w.toFixed(2)} ${wUnitStr} (Uniformly Distributed Load / UDL)
         </text>
 
         <!-- Beam Body -->
         <rect x="${padX}" y="${beamY - beamH/2}" width="${plotW}" height="${beamH}" rx="2" fill="url(#beam-grad)" stroke="#94a3b8" stroke-width="2" />
         <line x1="${padX}" y1="${beamY}" x2="${padX + plotW}" y2="${beamY}" stroke="rgba(255,255,255,0.3)" stroke-dasharray="4,4" />
 
-        <!-- Left Support: Pinned (Festlager / Triangle) -->
+        <!-- Left Support: Pinned Support (Triangle) -->
         <g transform="translate(${padX}, ${beamY + beamH/2})">
           <polygon points="0,0 -16,26 16,26" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
           <circle cx="0" cy="0" r="3.5" fill="#f8fafc" stroke="#38bdf8" stroke-width="1.5" />
@@ -135,7 +135,7 @@ export class DiagramRenderer {
           <text x="-24" y="16" fill="var(--text-secondary)" font-size="12" font-weight="700" text-anchor="end">A</text>
         </g>
 
-        <!-- Right Support: Roller (Loslager / Triangle with rollers) -->
+        <!-- Right Support: Roller Support (Triangle with rollers) -->
         <g transform="translate(${padX + plotW}, ${beamY + beamH/2})">
           <polygon points="0,0 -16,20 16,20" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
           <circle cx="0" cy="0" r="3.5" fill="#f8fafc" stroke="#38bdf8" stroke-width="1.5" />
@@ -322,7 +322,7 @@ export class DiagramRenderer {
   }
 
   /**
-   * 4. Deflection Curve (Biegelinie / delta(x))
+   * 4. Deflection Curve (Elastic Curve / delta(x))
    */
   renderDeflection(solution, points) {
     if (!this.containerDeflection) return;

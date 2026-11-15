@@ -1,9 +1,9 @@
-/* Reiter 5: Halbieren eines Winkels (Tabellenbuch Metall S. 60, 5. Zeile)
-   Gegeben: Winkel α
-   1. Beliebiger Kreisbogen 1 um S ergibt Schnittpunkte A und B.
-   2. Kreisbogen 2 mit Radius r um A; r > 1/2 AB.
-   3. Kreisbogen 3 mit gleichem Radius r um B ergibt Schnittpunkt C.
-   4. Die Verbindungslinie des Schnittpunktes C mit S ist die gesuchte Winkelhalbierende. */
+/* Tab 5: Bisecting an angle (Tabellenbuch Metall p. 60, row 5)
+   Given: angle α
+   1. Arbitrary arc 1 around S yields intersections A and B.
+   2. Arc 2 of radius r around A; r > 1/2 AB.
+   3. Arc 3 of the same radius r around B yields intersection C.
+   4. The line connecting intersection C and S is the desired angle bisector. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460, SCALE = 4; // 4 px = 1 mm
   const STEPS = [
-    [1, 'Kreisbogen 1 um S', 'Beliebiger Kreisbogen 1 um den Scheitelpunkt S ergibt die Schnittpunkte A und B auf den Winkelschenkeln.'],
-    [2, 'Kreisbogen 2 um A', 'Kreisbogen 2 mit Radius <i>r</i> um A schlagen; Bedingung: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
-    [3, 'Kreisbogen 3 um B', 'Kreisbogen 3 mit gleichem Radius <i>r</i> um B schlagen; ergibt Schnittpunkt C.'],
-    [4, 'Winkelhalbierende ziehen', 'Die Verbindungslinie 4 des Schnittpunktes C mit S ist die gesuchte Winkelhalbierende (teilt α in α/2 und α/2).']
+    [1, 'Arc 1 around S', 'An arbitrary arc 1 centered at vertex S gives intersections A and B on the angle legs.'],
+    [2, 'Arc 2 around A', 'Strike arc 2 of radius <i>r</i> centered at A; condition: <i>r</i> &gt; ½ <span class="overline">AB</span>.'],
+    [3, 'Arc 3 around B', 'Strike arc 3 of the same radius <i>r</i> centered at B; yields intersection C.'],
+    [4, 'Draw angle bisector', 'Line 4 connecting intersection C and S is the desired angle bisector (divides α into α/2 and α/2).']
   ];
 
   const BOOK_STATE = () => ({
@@ -43,21 +43,21 @@
 
     const r1Px = st.r1Mm * SCALE;
     const r2Px = st.r2Mm * SCALE;
-    // Im SVG (y nach unten) liegt Schenkel B bei 0° (rechts waagrecht) und Schenkel A bei -alphaDeg (links-oben wie im Buch)
+    // In SVG (y downward), leg B is at 0° (horizontal right) and leg A is at -alphaDeg (up-left as in handbook)
     const raw = Core.constructAngleBisector(st.S, -st.alphaDeg, st.alphaDeg, r1Px, r2Px);
-    // In constructAngleBisector ist B bei startDeg (-alphaDeg) und A bei 0°; wir tauschen die Bezeichnungen passend zum Buchbild:
+    // In constructAngleBisector, B is at startDeg (-alphaDeg) and A is at 0°; swap labels to match handbook diagram:
     const S = st.S;
-    const A = raw.B; // oberer/linker Schenkel bei -alphaDeg
-    const B = raw.A; // waagrechter Schenkel rechts bei 0°
+    const A = raw.B; // upper/left leg at -alphaDeg
+    const B = raw.A; // horizontal right leg at 0°
     const rayLen = r1Px + 34;
     const endA = polarPt(S, rayLen, -st.alphaDeg);
     const endB = polarPt(S, rayLen, 0);
 
-    // Gegebene Winkelschenkel
+    // Given angle legs
     el(svg, 'line', { x1: S.x.toFixed(1), y1: S.y.toFixed(1), x2: endA.x.toFixed(1), y2: endA.y.toFixed(1), class: 'given-line', 'stroke-width': 2.5 });
     el(svg, 'line', { x1: S.x.toFixed(1), y1: S.y.toFixed(1), x2: endB.x.toFixed(1), y2: endB.y.toFixed(1), class: 'given-line', 'stroke-width': 2.5 });
 
-    // Winkelbogen α am Scheitel S wie im Buch
+    // Angle arc α at vertex S as in handbook
     SVG.angleArcBoth(svg, S, A, B, 92, '*α*', { labelPos: 0.34, labelOffset: 15 });
 
     if (!raw.ok) {
@@ -71,7 +71,7 @@
         SVG.compassArc(svg, B, r2Px, -145, -55, { cls: 'warn-arc' });
       }
       SVG.text(svg, S.x + 90, S.y - 165,
-        `r (${fmt(st.r2Mm, 0)} mm) ≤ ½ AB (${fmt(raw.halfAB / SCALE, 1)} mm): Bögen 2 & 3 schneiden sich nicht!`,
+        `r (${fmt(st.r2Mm, 0)} mm) ≤ ½ AB (${fmt(raw.halfAB / SCALE, 1)} mm): Arcs 2 & 3 do not intersect!`,
         { 'text-anchor': 'middle', 'font-size': 14, class: 'halo step-num' });
       SVG.point(svg, S, { label: 'S', dx: -14, dy: 6 });
       updateSide(raw);
@@ -80,7 +80,7 @@
 
     const C = raw.C;
 
-    // Optional: Kongruente Dreiecke SAC und SBC (Symmetriedrachen)
+    // Optional: congruent triangles SAC and SBC (symmetry kite)
     if (st.showKite && st.step >= 3) {
       el(svg, 'polygon', {
         points: `${S.x.toFixed(1)},${S.y.toFixed(1)} ${A.x.toFixed(1)},${A.y.toFixed(1)} ${C.x.toFixed(1)},${C.y.toFixed(1)} ${B.x.toFixed(1)},${B.y.toFixed(1)}`,
@@ -93,7 +93,7 @@
       SVG.text(svg, p2.x, p2.y, halfTxt, { 'text-anchor': 'middle', 'font-size': 13, class: 'halo lbl-strong' });
     }
 
-    // Schritt 1: Beliebiger Kreisbogen 1 um S ergibt Schnittpunkte A und B
+    // Step 1: Arbitrary arc 1 around S gives intersections A and B
     if (st.step >= 1) {
       const cls1 = 'arc-line' + (hl === 1 ? ' hl' : '');
       SVG.arcBetweenPoints(svg, S, r1Px, A, B, 5, { cls: cls1 });
@@ -101,7 +101,7 @@
       SVG.stepNum(svg, pNum1.x, pNum1.y + 5, 1, { hl: hl === 1 });
     }
 
-    // Schritt 2: Kreisbogen 2 mit Radius r um A
+    // Step 2: Arc 2 of radius r around A
     if (st.step >= 2) {
       const cls2 = 'arc-line' + (hl === 2 ? ' hl' : '');
       const angAC = SVG.screenAngle(A, C);
@@ -113,7 +113,7 @@
       SVG.stepNum(svg, pNum2.x + 4, pNum2.y + 6, 2, { hl: hl === 2 });
     }
 
-    // Schritt 3: Kreisbogen 3 mit gleichem Radius r um B ergibt Schnittpunkt C
+    // Step 3: Arc 3 of same radius r around B yields intersection C
     if (st.step >= 3) {
       const cls3 = 'arc-line' + (hl === 3 ? ' hl' : '');
       const angBC = SVG.screenAngle(B, C);
@@ -126,7 +126,7 @@
       SVG.text(svg, C.x + 4, C.y - 14, 'C', { 'text-anchor': 'start', 'font-size': 15.5, class: 'halo' + (hl === 3 ? ' hl-text' : '') });
     }
 
-    // Schritt 4: Verbindungslinie SC ist die Winkelhalbierende
+    // Step 4: Line SC is the angle bisector
     if (st.step >= 4) {
       const uSC = unit(sub(C, S));
       const cExt = add(C, scale(uSC, 24));
@@ -140,7 +140,7 @@
       SVG.stepNum(svg, midSC.x + 16, midSC.y + 6, 4, { hl: hl === 4 });
     }
 
-    // Punkte S, A, B
+    // Points S, A, B
     SVG.point(svg, S, { label: 'S', dx: -14, dy: 6 });
     if (st.step >= 1) {
       SVG.point(svg, A, { drag: 'A', label: 'A', dx: -4, dy: -12 });
@@ -162,19 +162,19 @@
     const resEl = $('win-result');
     if (!raw.ok) {
       resEl.className = 'result warn';
-      resEl.innerHTML = `Ungültig: <i>r</i> = ${fmt(st.r2Mm, 0)} mm ≤ ½ <span class="overline">AB</span> (${fmt(halfABMm, 1)} mm)`;
+      resEl.innerHTML = `Invalid: <i>r</i> = ${fmt(st.r2Mm, 0)} mm ≤ ½ <span class="overline">AB</span> (${fmt(halfABMm, 1)} mm)`;
     } else {
       resEl.className = 'result';
       resEl.innerHTML = `<i>α</i> / 2 = ${fmt(st.alphaDeg / 2, 1)}° &nbsp;·&nbsp; ∠ASC = ∠BSC`;
     }
     $('win-details').innerHTML = [
-      ['Gegebener Winkel <i>α</i>', `${fmt(st.alphaDeg, 0)}°`],
-      ['Halbierter Winkel <i>α</i> / 2', `${fmt(st.alphaDeg / 2, 1)}°`],
-      ['Bogen 1 um S (<i>r</i><sub>1</sub>)', `${fmt(st.r1Mm, 0)} mm`],
-      ['Sehnenlänge <span class="overline">AB</span> = 2·<i>r</i><sub>1</sub>·sin(<i>α</i>/2)', `${fmt(abMm, 1)} mm`],
-      ['Bögen 2 &amp; 3 (<i>r</i> &gt; ½ <span class="overline">AB</span> = ' + fmt(halfABMm, 1) + ' mm)', `${fmt(st.r2Mm, 0)} mm`]
+      ['Given angle <i>α</i>', `${fmt(st.alphaDeg, 0)}°`],
+      ['Bisected angle <i>α</i> / 2', `${fmt(st.alphaDeg / 2, 1)}°`],
+      ['Arc 1 around S (<i>r</i><sub>1</sub>)', `${fmt(st.r1Mm, 0)} mm`],
+      ['Chord length <span class="overline">AB</span> = 2·<i>r</i><sub>1</sub>·sin(<i>α</i>/2)', `${fmt(abMm, 1)} mm`],
+      ['Arcs 2 &amp; 3 (<i>r</i> &gt; ½ <span class="overline">AB</span> = ' + fmt(halfABMm, 1) + ' mm)', `${fmt(st.r2Mm, 0)} mm`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
-    $('win-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('win-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   svg.addEventListener('pointerdown', e => {
@@ -201,8 +201,8 @@
     const truth = kind === 'half' ? alpha / 2 : 90 - alpha / 2;
     st.quiz = { alpha, kind, truth, answered: false };
     $('win-task').innerHTML = kind === 'half'
-      ? `Ein Werkstückkanten-Winkel <i>α</i> = <b>${alpha}°</b> wird nach der Grundkonstruktion von Seite 60 halbiert. Wie groß ist jeder der beiden Teilwinkel ∠ASC = ∠BSC?`
-      : `Ein Winkel <i>α</i> = <b>${alpha}°</b> wird halbiert. Wie viele Grad fehlen einem Teilwinkel (<i>α</i>/2) noch zum rechten Winkel (90° − <i>α</i>/2)?`;
+      ? `A workpiece edge angle <i>α</i> = <b>${alpha}°</b> is bisected using the basic construction from page 60. How large is each of the two equal sub-angles ∠ASC = ∠BSC?`
+      : `An angle <i>α</i> = <b>${alpha}°</b> is bisected. How many degrees remain between one sub-angle (<i>α</i>/2) and a right angle (90° − <i>α</i>/2)?`;
     $('win-ans-unit').textContent = '°';
     $('win-ans').value = '';
     $('win-ans-row').hidden = false;
@@ -212,15 +212,15 @@
   function checkQuiz() {
     if (!st.quiz || st.quiz.answered) return;
     const v = Core.parseNum($('win-ans').value);
-    if (!isFinite(v)) { feedback('win-feedback', 'Bitte eine Winkelzahl in Grad eingeben.', false); return; }
+    if (!isFinite(v)) { feedback('win-feedback', 'Please enter an angle in degrees.', false); return; }
     const ok = Math.abs(v - st.quiz.truth) <= 0.15;
     st.quiz.answered = true;
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('win-feedback', ok
-      ? `Richtig: ${fmt(st.quiz.truth, 1)}°!`
-      : `Erwartet: ${fmt(st.quiz.truth, 1)}° (α/2 = ${fmt(st.quiz.alpha / 2, 1)}°).`, ok);
-    $('win-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct: ${fmt(st.quiz.truth, 1)}°!`
+      : `Expected: ${fmt(st.quiz.truth, 1)}° (α/2 = ${fmt(st.quiz.alpha / 2, 1)}°).`, ok);
+    $('win-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('win-quiz').addEventListener('click', newQuiz);

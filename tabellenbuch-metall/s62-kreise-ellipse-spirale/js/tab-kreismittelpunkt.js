@@ -1,9 +1,9 @@
-/* Reiter 3: Bestimmung des Kreismittelpunktes (Tabellenbuch Metall S. 62, 3. Zeile)
-   Gegeben: Kreis
-   1. Beliebige Gerade a schneidet den Kreis in A und B.
-   2. Gerade b (möglichst senkrecht zur Geraden a) schneidet den Kreis in C und D.
-   3. Mittelsenkrechte auf den Sehnen AB und CD errichten.
-   4. Schnittpunkt der Mittelsenkrechten ist Kreismittelpunkt M. */
+/* Tab 3: Determining the Center of a Circle (Tabellenbuch Metall p. 62, row 3)
+   Given: Circle
+   1. Arbitrary line a intersects the circle at A and B.
+   2. Line b (as perpendicular to line a as possible) intersects the circle at C and D.
+   3. Construct perpendicular bisectors on chords AB and CD.
+   4. Intersection of the perpendicular bisectors is circle center M. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460;
   const STEPS = [
-    [1, 'Gerade a schneidet Kreis (A, B)', 'Eine beliebige Gerade a ziehen, die den Kreis schneidet. Es entstehen die Schnittpunkte A und B (Sehne AB).'],
-    [2, 'Gerade b schneidet Kreis (C, D)', 'Eine zweite Gerade b ziehen (in der Werkstattpraxis möglichst senkrecht zu a). Schnittpunkte am Kreis sind C und D (Sehne CD).'],
-    [3, 'Mittelsenkrechte auf AB & CD', 'Auf beiden Sehnen AB und CD jeweils mit dem Zirkel die Mittelsenkrechte konstruieren (Zirkelbögen 1, 2 und 3, 3).'],
-    [4, 'Schnittpunkt ist Mittelpunkt M', 'Der Schnittpunkt der beiden Mittelsenkrechten markiert exakt den gesuchten Kreismittelpunkt M.']
+    [1, 'Line a intersects circle (A, B)', 'Draw an arbitrary line a that intersects the circle. This yields intersection points A and B (chord AB).'],
+    [2, 'Line b intersects circle (C, D)', 'Draw a second line b (in workshop practice, as perpendicular to a as possible). Circle intersections are C and D (chord CD).'],
+    [3, 'Perp. bisectors on AB & CD', 'On both chords AB and CD, construct the perpendicular bisectors using a compass (compass arcs 1, 2 and 3, 3).'],
+    [4, 'Intersection is center M', 'The intersection of the two perpendicular bisectors marks the exact required circle center M.']
   ];
 
   const BOOK_STATE = () => ({
@@ -53,68 +53,68 @@
 
     const res = Core.constructCircleCenterFromSecants(st.center, RPx, sec1, sec2);
 
-    // Gegebener Kreis
+    // Given circle
     SVG.circle(svg, st.center, RPx, {
       cls: 'given-line', w: 2.2, fill: 'rgba(0, 75, 135, 0.02)'
     });
 
-    // Wahrer Mittelpunkt (falls nicht im Werkstatt-Blindmodus verborgen)
+    // True center (unless hidden in workshop blind mode)
     if (!st.hideTrueCenter && st.step >= 4) {
       SVG.centerMark(svg, st.center, 14);
       SVG.point(svg, st.center, { label: 'M', dx: -14, dy: -12 });
     }
 
     if (!res.ok) {
-      $('kmp-result').innerHTML = '<span style="color:var(--bad)">Geraden a und b sind parallel – Mittelsenkrechte schneiden sich nicht!</span>';
+      $('kmp-result').innerHTML = '<span style="color:var(--bad)">Lines a and b are parallel — perpendicular bisectors do not intersect!</span>';
       return;
     }
 
-    // Schritt 1: Beliebige Gerade a schneidet Kreis in A und B
+    // Step 1: Arbitrary line a intersects circle at A and B
     if (st.step >= 1) {
       const isHl = hl === 1;
       const lineLen = RPx * 2.8;
       const p1 = sub(res.midAB, scale(res.u1, lineLen * 0.5));
       const p2 = add(res.midAB, scale(res.u1, lineLen * 0.5));
 
-      // Gerade a
+      // Line a
       SVG.line(svg, p1, p2, {
         cls: isHl ? 'hl-line' : 'secant-line', w: isHl ? 2.4 : 1.4
       });
       SVG.text(svg, p2.x + 8, p2.y + 4, 'a', { 'font-size': 14, fill: 'var(--primary)', 'font-style': 'italic' });
 
-      // Schnittpunkte A und B
+      // Intersections A and B
       SVG.point(svg, res.A, { label: 'A', dx: -10, dy: 16 });
       SVG.point(svg, res.B, { label: 'B', dx: 12, dy: -6 });
 
       SVG.stepNum(svg, res.B.x - 14, res.B.y + 24, 1, { hl: isHl });
     }
 
-    // Schritt 2: Gerade b schneidet Kreis in C und D
+    // Step 2: Line b intersects circle at C and D
     if (st.step >= 2) {
       const isHl = hl === 2;
       const lineLen = RPx * 2.8;
       const p1 = sub(res.midCD, scale(res.u2, lineLen * 0.5));
       const p2 = add(res.midCD, scale(res.u2, lineLen * 0.5));
 
-      // Gerade b
+      // Line b
       SVG.line(svg, p1, p2, {
         cls: isHl ? 'hl-line' : 'secant-line', w: isHl ? 2.4 : 1.4
       });
       SVG.text(svg, p1.x - 14, p1.y - 4, 'b', { 'font-size': 14, fill: 'var(--primary)', 'font-style': 'italic' });
 
-      // Schnittpunkte C und D
+      // Intersections C and D
       SVG.point(svg, res.C, { label: 'C', dx: -16, dy: 12 });
       SVG.point(svg, res.D, { label: 'D', dx: 12, dy: 14 });
 
       SVG.stepNum(svg, res.C.x + 18, res.C.y - 12, 2, { hl: isHl });
     }
 
-    // Schritt 3: Mittelsenkrechte auf den Sehnen AB und CD
+    // Step 3: Perpendicular bisectors on chords AB and CD
     if (st.step >= 3) {
       const isHl = hl === 3;
       const bisLen = RPx * 2.6;
 
-      // Zirkelbögen auf AB
+      // Compass arcs on AB
       if (st.showArcs && res.arcs1) {
         const angA = Core.angleBetween(res.A, res.midAB);
         const angB = Core.angleBetween(res.B, res.midAB);
@@ -122,14 +122,14 @@
         SVG.compassArc(svg, res.B, res.rArc1, angB - 40, angB + 40, { cls: 'thin-line', dash: '3 2' });
       }
 
-      // Mittelsenkrechte auf AB
+      // Perpendicular bisector on AB
       const pNorm1A = sub(res.midAB, scale(res.n1, bisLen * 0.5));
       const pNorm1B = add(res.midAB, scale(res.n1, bisLen * 0.5));
       SVG.line(svg, pNorm1A, pNorm1B, {
         cls: isHl ? 'hl-line' : 'thin-line', w: isHl ? 2.4 : 1.4
       });
 
-      // Zirkelbögen auf CD
+      // Compass arcs on CD
       if (st.showArcs && res.arcs2) {
         const angC = Core.angleBetween(res.C, res.midCD);
         const angD = Core.angleBetween(res.D, res.midCD);
@@ -137,7 +137,7 @@
         SVG.compassArc(svg, res.D, res.rArc2, angD - 40, angD + 40, { cls: 'thin-line', dash: '3 2' });
       }
 
-      // Mittelsenkrechte auf CD
+      // Perpendicular bisector on CD
       const pNorm2A = sub(res.midCD, scale(res.n2, bisLen * 0.5));
       const pNorm2B = add(res.midCD, scale(res.n2, bisLen * 0.5));
       SVG.line(svg, pNorm2A, pNorm2B, {
@@ -147,7 +147,7 @@
       SVG.stepNum(svg, res.midCD.x - 22, res.midCD.y - 14, 3, { hl: isHl });
     }
 
-    // Schritt 4: Schnittpunkt der Mittelsenkrechten ist Kreismittelpunkt M
+    // Step 4: Intersection of perpendicular bisectors is circle center M
     if (st.step >= 4) {
       const isHl = hl === 4;
       SVG.centerMark(svg, res.foundCenter, 16);
@@ -164,16 +164,16 @@
     const errMm = res.errorDist / SCALE_MM;
 
     $('kmp-result').innerHTML = `
-      <b>Gefundener Kreismittelpunkt:</b> <i>M</i>(x: ${fmt(res.foundCenter.x / SCALE_MM, 1)}, y: ${fmt(res.foundCenter.y / SCALE_MM, 1)})<br>
-      <span style="font-size:0.8rem;color:var(--muted)">Abweichung zum Soll-Mittelpunkt: <b>${fmt(errMm, 3)} mm</b></span>
+      <b>Found circle center:</b> <i>M</i>(x: ${fmt(res.foundCenter.x / SCALE_MM, 1)}, y: ${fmt(res.foundCenter.y / SCALE_MM, 1)})<br>
+      <span style="font-size:0.8rem;color:var(--muted)">Deviation from target center: <b>${fmt(errMm, 3)} mm</b></span>
     `;
 
     $('kmp-details').innerHTML = `
-      <dt>Kreisdurchmesser <i>d</i>:</dt><dd>${fmt(st.RMm * 2, 1)} mm</dd>
-      <dt>Sehne <i>AB</i> (Gerade a):</dt><dd>${fmt(chordABMm, 1)} mm</dd>
-      <dt>Sehne <i>CD</i> (Gerade b):</dt><dd>${fmt(chordCDMm, 1)} mm</dd>
-      <dt>Schnittwinkel der Geraden ∠(a, b):</dt><dd>${fmt(res.angleSecantsDeg, 1)}°</dd>
-      <dt>Werkstatthinweis:</dt><dd style="font-size:0.75rem;color:var(--muted)">Schnittwinkel nahe 90° minimiert die Mess- und Anreißunsicherheit.</dd>
+      <dt>Circle diameter <i>d</i>:</dt><dd>${fmt(st.RMm * 2, 1)} mm</dd>
+      <dt>Chord <i>AB</i> (line a):</dt><dd>${fmt(chordABMm, 1)} mm</dd>
+      <dt>Chord <i>CD</i> (line b):</dt><dd>${fmt(chordCDMm, 1)} mm</dd>
+      <dt>Line intersection angle ∠(a, b):</dt><dd>${fmt(res.angleSecantsDeg, 1)}°</dd>
+      <dt>Workshop note:</dt><dd style="font-size:0.75rem;color:var(--muted)">An intersection angle near 90° minimizes measurement and scribing uncertainty.</dd>
     `;
   }
 
@@ -198,11 +198,11 @@
 
   function newQuiz() {
     const R = 50;
-    const d = Math.floor(Math.random() * 3 + 2) * 10; // 20, 30, 40 mm Abstand
+    const d = Math.floor(Math.random() * 3 + 2) * 10; // 20, 30, 40 mm offset
     // s = 2 * sqrt(R^2 - d^2)
     const s = Math.round(2 * Math.sqrt(R * R - d * d) * 10) / 10;
     st.quiz = { truth: s, answered: false };
-    $('kmp-task').innerHTML = `Ein Kreis hat den Radius <i>R</i> = <b>${R} mm</b>. Eine Sehne verläuft im Abstand <i>d</i> = <b>${d} mm</b> vom Mittelpunkt. Wie lang ist die Sehne $s = 2 \\cdot \\sqrt{R^2 - d^2}$?`;
+    $('kmp-task').innerHTML = `A circle has radius <i>R</i> = <b>${R} mm</b>. A chord runs at distance <i>d</i> = <b>${d} mm</b> from the center. How long is the chord (<i>s</i> = 2 · √(<i>R</i>² − <i>d</i>²))?`;
     $('kmp-ans').value = '';
     $('kmp-ans-row').hidden = false;
     feedback('kmp-feedback', '');
@@ -212,7 +212,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('kmp-ans').value);
     if (isNaN(val)) {
-      feedback('kmp-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('kmp-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.3;
@@ -220,9 +220,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('kmp-feedback', ok
-      ? `Richtig! Sehnenlänge s = ${fmt(st.quiz.truth, 1)} mm.`
-      : `Leider falsch. Richtig wäre s = ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('kmp-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Chord length s = ${fmt(st.quiz.truth, 1)} mm.`
+      : `Incorrect. Correct answer: s = ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('kmp-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('kmp-quiz').addEventListener('click', newQuiz);

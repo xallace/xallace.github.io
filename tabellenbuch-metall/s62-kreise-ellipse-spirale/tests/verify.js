@@ -1,6 +1,6 @@
-/* Unit-Tests für Tabellenbuch Metall S. 62:
-   „3.2 Geometrische Grundkonstruktionen – Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale“
-   Ausführen mit: node tests/verify.js */
+/* Unit tests for Mechanical & Metal Trades Handbook (Tabellenbuch Metall) p. 62:
+   "3.2 Basic Geometric Constructions – Incircle, Circumcircle, Circle Center, Ellipse, Spiral"
+   Run with: node tests/verify.js */
 const assert = require('assert');
 const Core = require('../js/core.js');
 
@@ -19,32 +19,32 @@ function test(name, fn) {
   }
 }
 
-console.log('Starte Verifikation für Tabellenbuch Metall S. 62:');
+console.log('Starting verification for Mechanical & Metal Trades Handbook p. 62:');
 
 // =========================================================================
-// 1. Inkreis eines Dreiecks
+// 1. Incircle of a Triangle
 // =========================================================================
-console.log('\n--- 1. Inkreis eines Dreiecks ---');
+console.log('\n--- 1. Incircle of a Triangle ---');
 
-test('Rechtwinkliges Dreieck (3-4-5): Inkreisradius r = 1,0', () => {
+test('Right triangle (3-4-5): incircle radius r = 10', () => {
   const A = Core.pt(0, 0);
   const B = Core.pt(40, 0);
   const C = Core.pt(0, 30);
   const res = Core.constructIncircle(A, B, C);
-  assert(res.ok, 'Konstruktion muss ok sein');
+  assert(res.ok, 'Construction must succeed');
   assert.strictEqual(res.c, 40);
   assert.strictEqual(res.b, 30);
   assert.strictEqual(res.a, 50);
   assert.strictEqual(res.s, 60);
   assert.strictEqual(res.area, 600);
   // r = A / s = 600 / 60 = 10
-  assert(Math.abs(res.inradius - 10) < 1e-9, `Inkreisradius muss 10 sein, ist ${res.inradius}`);
-  // Inkreismittelpunkt bei (10, 10)
+  assert(Math.abs(res.inradius - 10) < 1e-9, `Incircle radius must be 10, got ${res.inradius}`);
+  // Incenter at (10, 10)
   assert(Math.abs(res.M.x - 10) < 1e-9);
   assert(Math.abs(res.M.y - 10) < 1e-9);
 });
 
-test('Inkreis berührt alle drei Dreiecksseiten tangential (Abstand = r)', () => {
+test('Incircle touches all three triangle sides tangentially (distance = r)', () => {
   const A = Core.pt(120, 340);
   const B = Core.pt(480, 310);
   const C = Core.pt(260, 110);
@@ -55,12 +55,12 @@ test('Inkreis berührt alle drei Dreiecksseiten tangential (Abstand = r)', () =>
   const dBC = Core.projectPointOnLine(res.M, B, C).dist;
   const dCA = Core.projectPointOnLine(res.M, C, A).dist;
 
-  assert(Math.abs(dAB - res.inradius) < 1e-4, 'Abstand zu AB muss r sein');
-  assert(Math.abs(dBC - res.inradius) < 1e-4, 'Abstand zu BC muss r sein');
-  assert(Math.abs(dCA - res.inradius) < 1e-4, 'Abstand zu CA muss r sein');
+  assert(Math.abs(dAB - res.inradius) < 1e-4, 'Distance to AB must be r');
+  assert(Math.abs(dBC - res.inradius) < 1e-4, 'Distance to BC must be r');
+  assert(Math.abs(dCA - res.inradius) < 1e-4, 'Distance to CA must be r');
 });
 
-test('Winkelhalbierende teilen die Innenwinkel exakt in zwei Hälften', () => {
+test('Angle bisectors split interior angles into two equal halves', () => {
   const A = Core.pt(100, 300);
   const B = Core.pt(400, 300);
   const C = Core.pt(220, 120);
@@ -71,11 +71,11 @@ test('Winkelhalbierende teilen die Innenwinkel exakt in zwei Hälften', () => {
   const uAC = Core.unit(Core.sub(C, A));
   const angHalf1 = Core.angleVectorsDeg(uAB, res.bisectorA);
   const angHalf2 = Core.angleVectorsDeg(res.bisectorA, uAC);
-  assert(Math.abs(angHalf1 - angHalf2) < 1e-4, 'Winkelhalbierende an A muss symmetrisch sein');
+  assert(Math.abs(angHalf1 - angHalf2) < 1e-4, 'Angle bisector at A must be symmetric');
   assert(Math.abs((angHalf1 + angHalf2) - res.alphaDeg) < 1e-4);
 });
 
-test('Tangentenabschnitte erfüllen s - a, s - b, s - c', () => {
+test('Tangent segments satisfy s - a, s - b, s - c', () => {
   const A = Core.pt(50, 50);
   const B = Core.pt(350, 80);
   const C = Core.pt(180, 260);
@@ -86,11 +86,11 @@ test('Tangentenabschnitte erfüllen s - a, s - b, s - c', () => {
 });
 
 // =========================================================================
-// 2. Umkreis eines Dreiecks
+// 2. Circumcircle of a Triangle
 // =========================================================================
-console.log('\n--- 2. Umkreis eines Dreiecks ---');
+console.log('\n--- 2. Circumcircle of a Triangle ---');
 
-test('Umkreismittelpunkt hat zu allen 3 Ecken exakt den Abstand R', () => {
+test('Circumcenter has exact distance R to all 3 vertices', () => {
   const A = Core.pt(140, 320);
   const B = Core.pt(460, 340);
   const C = Core.pt(250, 120);
@@ -101,36 +101,36 @@ test('Umkreismittelpunkt hat zu allen 3 Ecken exakt den Abstand R', () => {
   const dMB = Core.dist(res.M, B);
   const dMC = Core.dist(res.M, C);
 
-  assert(Math.abs(dMA - res.circumradius) < 1e-4, 'MA muss R sein');
-  assert(Math.abs(dMB - res.circumradius) < 1e-4, 'MB muss R sein');
-  assert(Math.abs(dMC - res.circumradius) < 1e-4, 'MC muss R sein');
+  assert(Math.abs(dMA - res.circumradius) < 1e-4, 'MA must equal R');
+  assert(Math.abs(dMB - res.circumradius) < 1e-4, 'MB must equal R');
+  assert(Math.abs(dMC - res.circumradius) < 1e-4, 'MC must equal R');
 });
 
-test('Rechtwinkliges Dreieck: Umkreismittelpunkt liegt exakt auf der Hypotenuse (Satz des Thales)', () => {
+test('Right triangle: circumcenter lies exactly on the hypotenuse (Thales theorem)', () => {
   const A = Core.pt(100, 300);
   const B = Core.pt(300, 300);
-  const C = Core.pt(100, 150); // Rechter Winkel bei A
+  const C = Core.pt(100, 150); // Right angle at A
   const res = Core.constructCircumcircle(A, B, C);
   assert(res.ok);
   assert.strictEqual(res.triangleType, 'rechtwinklig');
 
-  // Hypotenuse ist BC
+  // Hypotenuse is BC
   const midBC = Core.mid(B, C);
-  assert(Math.abs(Core.dist(res.M, midBC)) < 1e-4, 'M muss Mittelpunkt von BC sein');
+  assert(Math.abs(Core.dist(res.M, midBC)) < 1e-4, 'M must be the midpoint of BC');
   assert(Math.abs(res.circumradius - Core.dist(B, C) / 2) < 1e-4);
 });
 
-test('Stumpfwinkliges Dreieck: Umkreismittelpunkt liegt außerhalb des Dreiecks', () => {
+test('Obtuse triangle: circumcenter lies outside the triangle', () => {
   const A = Core.pt(100, 200);
   const B = Core.pt(400, 200);
-  const C = Core.pt(250, 180); // Sehr flaches Dreieck, gamma > 90°
+  const C = Core.pt(250, 180); // Very shallow triangle, gamma > 90°
   const res = Core.constructCircumcircle(A, B, C);
   assert(res.ok);
   assert.strictEqual(res.triangleType, 'stumpfwinklig');
   assert(res.gammaDeg > 90);
 });
 
-test('Euler-Gleichung: d^2 = R * (R - 2r) zwischen Umkreis- und Inkreismittelpunkt', () => {
+test('Euler relation: d^2 = R * (R - 2r) between circumcenter and incenter', () => {
   const A = Core.pt(150, 350);
   const B = Core.pt(420, 310);
   const C = Core.pt(270, 140);
@@ -140,39 +140,39 @@ test('Euler-Gleichung: d^2 = R * (R - 2r) zwischen Umkreis- und Inkreismittelpun
 
   const dActual2 = Math.pow(Core.dist(inc.M, cir.M), 2);
   const dEuler2 = cir.circumradius * (cir.circumradius - 2 * inc.inradius);
-  assert(Math.abs(dActual2 - dEuler2) < 1e-2, `Euler-Gleichung muss erfüllt sein (${dActual2} vs ${dEuler2})`);
+  assert(Math.abs(dActual2 - dEuler2) < 1e-2, `Euler relation must hold (${dActual2} vs ${dEuler2})`);
 });
 
 // =========================================================================
-// 3. Bestimmung des Kreismittelpunktes
+// 3. Finding the Center of a Circle
 // =========================================================================
-console.log('\n--- 3. Bestimmung des Kreismittelpunktes ---');
+console.log('\n--- 3. Finding the Center of a Circle ---');
 
-test('Kreismittelpunkt wird aus beliebigen Sehnen exakt rekonstruiert', () => {
+test('Circle center is reconstructed accurately from arbitrary chords', () => {
   const trueCenter = Core.pt(280, 240);
   const R = 95;
   const sec1 = { lineDeg: 25, distFromCenter: 30 };
   const sec2 = { lineDeg: 110, distFromCenter: -20 };
   const res = Core.constructCircleCenterFromSecants(trueCenter, R, sec1, sec2);
   assert(res.ok);
-  assert(res.errorDist < 1e-4, `Abweichung muss 0 sein, ist ${res.errorDist}`);
+  assert(res.errorDist < 1e-4, `Deviation must be 0, got ${res.errorDist}`);
   assert(Math.abs(Core.dist(res.foundCenter, res.A) - R) < 1e-4);
   assert(Math.abs(Core.dist(res.foundCenter, res.B) - R) < 1e-4);
   assert(Math.abs(Core.dist(res.foundCenter, res.C) - R) < 1e-4);
   assert(Math.abs(Core.dist(res.foundCenter, res.D) - R) < 1e-4);
 });
 
-test('Mittelsenkrechten stehen exakt senkrecht auf den Sehnen', () => {
+test('Perpendicular bisectors are strictly orthogonal to the chords', () => {
   const trueCenter = Core.pt(200, 200);
   const R = 80;
   const res = Core.constructCircleCenterFromSecants(trueCenter, R, { lineDeg: 0, distFromCenter: 25 }, { lineDeg: 90, distFromCenter: -15 });
   assert(res.ok);
-  // Sehnenvektor AB * Normalenvektor n1 muss 0 sein
+  // Chord vector AB dot normal vector n1 must be 0
   assert(Math.abs(Core.dot(res.u1, res.n1)) < 1e-9);
   assert(Math.abs(Core.dot(res.u2, res.n2)) < 1e-9);
 });
 
-test('Fehlerbehandlung: Parallele Sehnen werden abgefangen', () => {
+test('Error handling: parallel chords are rejected', () => {
   const trueCenter = Core.pt(200, 200);
   const R = 80;
   const res = Core.constructCircleCenterFromSecants(trueCenter, R, { lineDeg: 45, distFromCenter: 20 }, { lineDeg: 45, distFromCenter: -20 });
@@ -181,11 +181,11 @@ test('Fehlerbehandlung: Parallele Sehnen werden abgefangen', () => {
 });
 
 // =========================================================================
-// 4. Ellipsenkonstruktion aus zwei Kreisen
+// 4. Ellipse Construction from Two Circles
 // =========================================================================
-console.log('\n--- 4. Ellipsenkonstruktion aus zwei Kreisen ---');
+console.log('\n--- 4. Ellipse Construction from Two Circles ---');
 
-test('Konstruierte Ellipsenpunkte erfüllen exakt die Ellipsengleichung x^2/a^2 + y^2/b^2 = 1', () => {
+test('Constructed ellipse points satisfy the ellipse equation x^2/a^2 + y^2/b^2 = 1', () => {
   const M = Core.pt(300, 200);
   const a = 120;
   const b = 70;
@@ -194,18 +194,18 @@ test('Konstruierte Ellipsenpunkte erfüllen exakt die Ellipsengleichung x^2/a^2 
   assert(res.ok);
 
   for (const ray of res.rays) {
-    assert(Math.abs(ray.eqVal - 1.0) < 1e-4, `Punkt bei ${ray.deg}° muss auf Ellipse liegen, eqVal=${ray.eqVal}`);
-    // E muss auf innerem Kreis mit Radius b liegen
+    assert(Math.abs(ray.eqVal - 1.0) < 1e-4, `Point at ${ray.deg}° must lie on the ellipse, eqVal=${ray.eqVal}`);
+    // E must lie on the inner circle of radius b
     assert(Math.abs(Core.dist(M, ray.E) - b) < 1e-4);
-    // F muss auf äußerem Kreis mit Radius a liegen
+    // F must lie on the outer circle of radius a
     assert(Math.abs(Core.dist(M, ray.F) - a) < 1e-4);
   }
 });
 
-test('Lineare Exzentrizität und Brennpunkte: e = sqrt(a^2 - b^2)', () => {
+test('Linear eccentricity and foci: e = sqrt(a^2 - b^2)', () => {
   const M = Core.pt(0, 0);
   const a = 100;
-  const b = 60; // 3-4-5 Dreieck -> e = 80
+  const b = 60; // 3-4-5 triangle -> e = 80
   const res = Core.constructEllipseFromTwoCircles(M, a, b);
   assert(res.ok);
   assert.strictEqual(res.e, 80);
@@ -213,15 +213,15 @@ test('Lineare Exzentrizität und Brennpunkte: e = sqrt(a^2 - b^2)', () => {
   assert.strictEqual(res.F1.x, -80);
   assert.strictEqual(res.F2.x, 80);
 
-  // Brennpunkteigenschaft: r1 + r2 = 2 * a für jeden Ellipsenpunkt
+  // Focal property: r1 + r2 = 2 * a for every ellipse point
   for (const ray of res.rays) {
     const d1 = Core.dist(ray.P, res.F1);
     const d2 = Core.dist(ray.P, res.F2);
-    assert(Math.abs((d1 + d2) - 2 * a) < 1e-4, `Brennpunktsumme muss 2a sein, ist ${d1 + d2}`);
+    assert(Math.abs((d1 + d2) - 2 * a) < 1e-4, `Sum of focal distances must equal 2a, got ${d1 + d2}`);
   }
 });
 
-test('Fläche der Ellipse entspricht pi * a * b', () => {
+test('Area of the ellipse equals pi * a * b', () => {
   const a = 80, b = 50;
   const res = Core.constructEllipseFromTwoCircles(Core.pt(0, 0), a, b);
   assert(res.ok);
@@ -229,48 +229,48 @@ test('Fläche der Ellipse entspricht pi * a * b', () => {
 });
 
 // =========================================================================
-// 5. Ellipsenkonstruktion im Parallelogramm
+// 5. Ellipse Construction in a Parallelogram
 // =========================================================================
-console.log('\n--- 5. Ellipsenkonstruktion im Parallelogramm ---');
+console.log('\n--- 5. Ellipse Construction in a Parallelogram ---');
 
-test('Parallelogramm-Halbkreisradius entspricht exakt der Halbachse b (MC)', () => {
+test('Parallelogram semicircle radius matches semi-axis b (MC)', () => {
   const M = Core.pt(250, 200);
   const a = 110;
   const b = 65;
   const res = Core.constructEllipseInParallelogram(M, a, b, 70, 4);
   assert(res.ok);
-  assert(Math.abs(res.rMC - b) < 1e-4, 'rMC muss b sein');
+  assert(Math.abs(res.rMC - b) < 1e-4, 'rMC must equal b');
 });
 
-test('Ellipsenkurve berührt die Parallelogrammseiten in den Mitten', () => {
+test('Ellipse curve touches the parallelogram sides at their midpoints', () => {
   const M = Core.pt(300, 250);
   const a = 100;
   const b = 60;
   const res = Core.constructEllipseInParallelogram(M, a, b, 65, 4);
   assert(res.ok);
 
-  // Mitten der Seiten sind M +/- u und M +/- v
+  // Side midpoints are M +/- u and M +/- v
   const midTop = Core.add(M, res.v);
   const midRight = Core.add(M, res.u);
   assert(Math.abs(Core.dist(midTop, Core.mid(res.P1, res.P2))) < 1e-4);
   assert(Math.abs(Core.dist(midRight, Core.mid(res.P1, res.P4))) < 1e-4);
 });
 
-test('Teilungspunkte divAM und divEA teilen Strecken gleichmäßig in N Teile', () => {
+test('Division points divAM and divEA divide segments evenly into N parts', () => {
   const res = Core.constructEllipseInParallelogram(Core.pt(0, 0), 120, 60, 90, 4);
   assert(res.ok);
   assert.strictEqual(res.divAM.length, 3);
   assert.strictEqual(res.divEA.length, 3);
-  // Bei k=2 (Halbierung)
+  // At k=2 (midpoint)
   assert(Math.abs(res.divAM[1].pt.x - (-60)) < 1e-4);
 });
 
 // =========================================================================
-// 6. Spirale (Zirkelnäherung)
+// 6. Spiral (Compass Approximation)
 // =========================================================================
-console.log('\n--- 6. Spirale (Zirkelnäherung) ---');
+console.log('\n--- 6. Spiral (Compass Approximation) ---');
 
-test('Zentralquadrat hat Kantenlänge s = a / 4', () => {
+test('Central square has side length s = a / 4', () => {
   const pitch = 48; // a = 48 mm
   const res = Core.constructSquareSpiral(Core.pt(200, 200), pitch, 8);
   assert(res.ok);
@@ -281,7 +281,7 @@ test('Zentralquadrat hat Kantenlänge s = a / 4', () => {
   assert(Math.abs(Core.dist(res.D, res.A) - 12) < 1e-4);
 });
 
-test('Radienfolge wächst exakt um a/4 pro Quadrant (r_k = k * a / 4)', () => {
+test('Radius sequence increases by a/4 per quadrant (r_k = k * a / 4)', () => {
   const pitch = 40;
   const res = Core.constructSquareSpiral(Core.pt(0, 0), pitch, 8);
   assert(res.ok);
@@ -289,13 +289,13 @@ test('Radienfolge wächst exakt um a/4 pro Quadrant (r_k = k * a / 4)', () => {
     const arc = res.arcs[k - 1];
     assert.strictEqual(arc.radiusMm, k * 10);
   }
-  // Nach 4 Quadranten (1 volle Umdrehung) ist Radius genau die Steigung a
+  // After 4 quadrants (1 full turn), radius equals pitch a
   assert.strictEqual(res.arcs[3].radiusMm, 40);
-  // Nach 8 Quadranten (2 volle Umdrehungen) ist Radius 2 * a
+  // After 8 quadrants (2 full turns), radius equals 2 * a
   assert.strictEqual(res.arcs[7].radiusMm, 80);
 });
 
-test('Stetigkeit (C1-Übergang): Endpunkt des k-ten Bogens ist exakt Startpunkt des (k+1)-ten Bogens', () => {
+test('Continuity (C1 transition): end point of arc k equals start point of arc k+1', () => {
   const pitch = 60;
   const res = Core.constructSquareSpiral(Core.pt(300, 300), pitch, 10);
   assert(res.ok);
@@ -303,23 +303,23 @@ test('Stetigkeit (C1-Übergang): Endpunkt des k-ten Bogens ist exakt Startpunkt 
     const endCurrent = res.arcs[k].endPt;
     const startNext = res.arcs[k + 1].startPt;
     assert(Core.dist(endCurrent, startNext) < 1e-4,
-      `Bogen ${k + 1} und Bogen ${k + 2} müssen nahtlos anschließen`);
+      `Arc ${k + 1} and arc ${k + 2} must join seamlessly`);
   }
 });
 
-test('Archimedische Spirale: Radien an Quadranten-Grenzen stimmen analytisch exakt überein', () => {
+test('Archimedean spiral: radii at quadrant boundaries match analytically', () => {
   const pitch = 52;
   const res = Core.constructSquareSpiral(Core.pt(0, 0), pitch, 8);
   assert(res.ok);
   for (let k = 1; k <= 8; k++) {
     const theta = k * (Math.PI / 2);
     const rArchimedes = (pitch * theta) / (2 * Math.PI);
-    assert(Math.abs(rArchimedes - res.arcs[k - 1].radiusMm) < 1e-9, `Radius muss übereinstimmen (${rArchimedes} vs ${res.arcs[k - 1].radiusMm})`);
+    assert(Math.abs(rArchimedes - res.arcs[k - 1].radiusMm) < 1e-9, `Radius must match (${rArchimedes} vs ${res.arcs[k - 1].radiusMm})`);
   }
-  assert(res.maxDeviationPct < 1.5, 'Maximaler Formfehler muss unter 1,5% liegen');
+  assert(res.maxDeviationPct < 1.5, 'Maximum shape deviation must be under 1.5%');
 });
 
-test('Fehlerbehandlung: Kollineare Punkte beim Dreieck werden abgefangen', () => {
+test('Error handling: collinear triangle points are rejected', () => {
   const A = Core.pt(0, 0);
   const B = Core.pt(50, 50);
   const C = Core.pt(100, 100);
@@ -331,46 +331,46 @@ test('Fehlerbehandlung: Kollineare Punkte beim Dreieck werden abgefangen', () =>
   assert.strictEqual(resCir.reason, 'collinear');
 });
 
-test('Spitzwinkliges Dreieck: Umkreismittelpunkt liegt strikt im Dreiecksinneren', () => {
+test('Acute triangle: circumcenter lies strictly inside the triangle', () => {
   const A = Core.pt(100, 300);
   const B = Core.pt(300, 300);
-  const C = Core.pt(200, 120); // Gleichschenklig-spitzwinklig
+  const C = Core.pt(200, 120); // Isosceles acute triangle
   const res = Core.constructCircumcircle(A, B, C);
   assert(res.ok);
   assert.strictEqual(res.triangleType, 'spitzwinklig');
   assert(res.M.y < 300 && res.M.y > 120);
 });
 
-test('Konzentrische Scheitelkreise: Äußerer Kreis d = AB, innerer Kreis d = CD', () => {
+test('Concentric auxiliary circles: outer circle d = AB, inner circle d = CD', () => {
   const M = Core.pt(200, 150);
   const a = 90;
   const b = 50;
   const res = Core.constructEllipseFromTwoCircles(M, a, b, [0, 90]);
   assert(res.ok);
-  // Bei 0° liegt P auf der Hauptachse (x = M.x + a, y = M.y)
+  // At 0°, P lies on the major axis (x = M.x + a, y = M.y)
   assert(Math.abs(res.rays[0].P.x - (M.x + a)) < 1e-4);
   assert(Math.abs(res.rays[0].P.y - M.y) < 1e-4);
-  // Bei 90° liegt P auf der Nebenachse (x = M.x, y = M.y + b)
+  // At 90°, P lies on the minor axis (x = M.x, y = M.y + b)
   assert(Math.abs(res.rays[1].P.x - M.x) < 1e-4);
   assert(Math.abs(res.rays[1].P.y - (M.y + b)) < 1e-4);
 });
 
-test('Parallelogramm mit Scherung (tilt = 60°): Parallelogrammseiten sind parallel zu u und v', () => {
+test('Sheared parallelogram (tilt = 60°): parallelogram sides are parallel to u and v', () => {
   const M = Core.pt(100, 100);
   const a = 80;
   const b = 40;
   const res = Core.constructEllipseInParallelogram(M, a, b, 60, 4);
   assert(res.ok);
-  // Vektor P1 -> P2 muss parallel zu u (horizontal) sein
+  // Vector P1 -> P2 must be parallel to u (horizontal)
   const vP1P2 = Core.sub(res.P1, res.P2);
   assert(Math.abs(vP1P2.y) < 1e-4);
   assert(Math.abs(vP1P2.x - 2 * a) < 1e-4);
 });
 
 // =========================================================================
-// Zusammenfassung
+// Summary
 // =========================================================================
-console.log(`\nErgebnis: ${passed} von ${total} Tests bestanden.`);
+console.log(`\nResult: ${passed} of ${total} tests passed.`);
 if (passed === total) {
   process.exit(0);
 } else {

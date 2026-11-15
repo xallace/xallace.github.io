@@ -1,9 +1,9 @@
-/* Kleine UI-Hilfen und Register der Reiter */
+/* Small UI helpers and tab module registry */
 const UI = (() => {
   'use strict';
   const $ = id => document.getElementById(id);
 
-  // Segmentschalter: Knöpfe mit data-v, genau einer trägt .on
+  // Segmented control: buttons with data-v, exactly one carries .on
   function setSeg(id, v) {
     for (const b of $(id).querySelectorAll('button')) b.classList.toggle('on', b.dataset.v === String(v));
   }
@@ -29,13 +29,13 @@ const UI = (() => {
     e.className = 'feedback' + (ok == null ? '' : ok ? ' ok' : ' bad');
   }
 
-  // Zufallswert im Raster step zwischen a und b
+  // Random value on grid step between a and b
   function rnd(a, b, step) {
     const n = Math.round((b - a) / step);
     return +(a + step * Math.floor(Math.random() * (n + 1))).toFixed(10);
   }
 
-  // Formelzeichen und Indizes für HTML: „P1“ → P<sub>1</sub>
+  // Format variable names and indices for HTML: 'P1' -> P<sub>1</sub>
   const nameHtml = name => String(name).replace(/^([A-Za-z]+)(\d+)$/, '$1<sub>$2</sub>');
 
   const onEnter = (id, fn) => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') fn(); });

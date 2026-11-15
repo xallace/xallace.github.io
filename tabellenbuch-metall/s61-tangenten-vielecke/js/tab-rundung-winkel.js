@@ -1,8 +1,8 @@
-/* Reiter 3: Rundung am Winkel (Tabellenbuch Metall S. 61, 3. Zeile)
-   Gegeben: Winkel ASB und Radius r
-   1. Parallelen zu AS und BS im Abstand r ziehen. Ihr Schnittpunkt M ist gesuchter Mittelpunkt.
-   2. Schnittpunkte der Lote von M mit den Schenkeln AS und BS sind Übergangspunkte C und D.
-   3. Ausrundungsbogen CD mit Radius r zeichnen (tangential stetiger Übergang). */
+/* Tab 3: Fillet Arc in an Angle (Tabellenbuch Metall p. 61, row 3)
+   Given: Angle ASB and radius r
+   1. Draw parallels to AS and BS at distance r. Their intersection M is the required center.
+   2. Intersections of the perpendiculars from M onto sides AS and BS are tangency points C and D.
+   3. Draw fillet arc CD with radius r (smooth tangent transition). */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -11,9 +11,9 @@
 
   const W = 640, H = 460, SCALE = 3.2; // 3.2 px = 1 mm
   const STEPS = [
-    [1, 'Parallelen ziehen (M)', 'Parallelen zu den Schenkeln <span class="overline">AS</span> und <span class="overline">BS</span> im Abstand <i>r</i> ziehen. Ihr Schnittpunkt M ist der gesuchte Mittelpunkt des Kreisbogens.'],
-    [2, 'Lote fällen (C und D)', 'Die Schnittpunkte der Lote von M mit den Schenkeln <span class="overline">AS</span> und <span class="overline">BS</span> sind die exakten Übergangspunkte C und D.'],
-    [3, 'Ausrundungsbogen ziehen', 'Kreisbogen um M mit Radius <i>r</i> von C nach D zeichnen; schmiegt sich tangential an beide Schenkel an.']
+    [1, 'Draw parallels (M)', 'Draw parallels to sides <span class="overline">AS</span> and <span class="overline">BS</span> at distance <i>r</i>. Their intersection M is the required center of the circular arc.'],
+    [2, 'Drop perpendiculars (C and D)', 'The intersections of the perpendiculars from M with sides <span class="overline">AS</span> and <span class="overline">BS</span> are the exact tangency points C and D.'],
+    [3, 'Draw fillet arc', 'Draw a circular arc centered at M with radius <i>r</i> from C to D; it blends tangentially into both sides.']
   ];
 
   const BOOK_STATE = () => ({
@@ -37,9 +37,9 @@
 
   function getLegs() {
     const lenPx = st.armLenMm * SCALE;
-    // Schenkel B horizontal nach rechts, Schenkel A im Winkel alpha nach oben-rechts
-    const B = polarPt(st.S, lenPx, 0); // 0° rechts
-    const A = polarPt(st.S, lenPx, -st.alphaDeg); // im SVG nach oben
+    // Side B horizontal to the right, side A at angle alpha upward-right
+    const B = polarPt(st.S, lenPx, 0); // 0° right
+    const A = polarPt(st.S, lenPx, -st.alphaDeg); // upward in SVG
     return { A, B };
   }
 
@@ -52,7 +52,7 @@
     const rPx = st.rMm * SCALE;
     const res = Core.constructFilletCorner(st.S, A, B, rPx);
 
-    // Gegebener Winkel: Schenkel SA und SB
+    // Given angle: sides SA and SB
     el(svg, 'line', {
       x1: st.S.x.toFixed(1), y1: st.S.y.toFixed(1),
       x2: A.x.toFixed(1), y2: A.y.toFixed(1),
@@ -68,7 +68,7 @@
     SVG.point(svg, A, { label: 'A', dx: 14, dy: -8 });
     SVG.point(svg, B, { label: 'B', dx: 14, dy: 16 });
 
-    // Winkelbogen alpha
+    // Angle arc alpha
     SVG.angleArcBoth(svg, st.S, B, A, 55, '*α*');
 
     if (!res.ok) {
@@ -78,13 +78,13 @@
 
     const { M, C, D, pA1, pA2, pB1, pB2 } = res;
 
-    // Drachenviereck SMCD (Beweis für Kongruenz SMC = SMD)
+    // Kite SMCD (proof of congruence SMC = SMD)
     if (st.showKite && st.step >= 2) {
       el(svg, 'polygon', {
         points: `${st.S.x.toFixed(1)},${st.S.y.toFixed(1)} ${C.x.toFixed(1)},${C.y.toFixed(1)} ${M.x.toFixed(1)},${M.y.toFixed(1)} ${D.x.toFixed(1)},${D.y.toFixed(1)}`,
         class: 'proof-fill'
       });
-      // Winkelhalbierende SM
+      // Angle bisector SM
       el(svg, 'line', {
         x1: st.S.x.toFixed(1), y1: st.S.y.toFixed(1),
         x2: M.x.toFixed(1), y2: M.y.toFixed(1),
@@ -92,11 +92,11 @@
       });
     }
 
-    // Schritt 1: Parallelen im Abstand r
+    // Step 1: Parallels at distance r
     if (st.step >= 1) {
       const isHl = hl === 1;
       if (st.showParallels) {
-        // Parallele zu SA durch M
+        // Parallel to SA through M
         const uA = unit(sub(A, st.S));
         const parAStart = sub(M, scale(uA, 70));
         const parAEnd = add(M, scale(uA, 90));
@@ -106,7 +106,7 @@
           class: isHl ? 'hl-line' : 'thin-line', 'stroke-dasharray': '5 3'
         });
 
-        // Parallele zu SB durch M
+        // Parallel to SB through M
         const uB = unit(sub(B, st.S));
         const parBStart = sub(M, scale(uB, 50));
         const parBEnd = add(M, scale(uB, 110));
@@ -116,7 +116,7 @@
           class: isHl ? 'hl-line' : 'thin-line', 'stroke-dasharray': '5 3'
         });
 
-        // Radiuspfeile für Abstand r
+        // Radius arrows for distance r
         const midParB = lerp(D, M, 0.5);
         SVG.radiusArrow(svg, D, rPx, SVG.screenAngle(D, M), '*r*', { labelFrac: 0.55 });
       }
@@ -126,7 +126,7 @@
       SVG.stepNum(svg, M.x + 24, M.y + 4, 1, { hl: isHl });
     }
 
-    // Schritt 2: Lote von M auf Schenkel (C und D)
+    // Step 2: Perpendiculars from M onto sides (C and D)
     if (st.step >= 2) {
       const isHl = hl === 2;
       if (st.showPerps) {
@@ -149,14 +149,14 @@
       SVG.stepNum(svg, D.x - 4, D.y + 28, 2, { hl: isHl });
     }
 
-    // Schritt 3: Ausrundungsbogen CD
+    // Step 3: Fillet arc CD
     if (st.step >= 3) {
       const isHl = hl === 3;
       SVG.arcBetweenPoints(svg, M, rPx, C, D, 0, {
         cls: isHl ? 'hl-line' : 'res-line',
         w: isHl ? 3.5 : 2.8
       });
-      // Radiuspfeil r im Bogen
+      // Radius arrow r in the arc
       const angC = SVG.screenAngle(M, C);
       const angD = SVG.screenAngle(M, D);
       const midAng = (angC + angD) / 2;
@@ -170,10 +170,10 @@
     const resEl = $('rund-result');
     if (!res.ok) {
       resEl.className = 'result warn';
-      resEl.textContent = 'Ungültige Winkel- oder Radiuswerte';
+      resEl.textContent = 'Invalid angle or radius values';
     } else {
       resEl.className = 'result';
-      resEl.innerHTML = `Tangentenübergang stetig &nbsp;·&nbsp; <span class="overline">SC</span> = <span class="overline">SD</span> = ${fmt(res.tanLen / SCALE, 1)} mm`;
+      resEl.innerHTML = `Smooth tangent transition &nbsp;·&nbsp; <span class="overline">SC</span> = <span class="overline">SD</span> = ${fmt(res.tanLen / SCALE, 1)} mm`;
     }
 
     const tMm = res.ok ? res.tanLen / SCALE : 0;
@@ -181,15 +181,15 @@
     const bMm = res.ok ? res.arcLen / SCALE : 0;
 
     $('rund-details').innerHTML = [
-      ['Innenwinkel <i>α</i>', `${fmt(st.alphaDeg, 0)}°`],
-      ['Rundungsradius <i>r</i>', `${fmt(st.rMm, 0)} mm`],
-      ['Tangentenabschnitt <i>t</i> = <span class="overline">SC</span> = <span class="overline">SD</span>', tMm ? `${fmt(tMm, 1)} mm` : '–'],
-      ['Scheitelabstand <span class="overline">SM</span>', smMm ? `${fmt(smMm, 1)} mm` : '–'],
-      ['Bogenlänge <i>b</i>', bMm ? `${fmt(bMm, 1)} mm` : '–'],
-      ['Formel Tangentenlänge', `<i>t</i> = <i>r</i> / tan(<i>α</i> / 2)`]
+      ['Interior angle <i>α</i>', `${fmt(st.alphaDeg, 0)}°`],
+      ['Fillet radius <i>r</i>', `${fmt(st.rMm, 0)} mm`],
+      ['Tangent distance <i>t</i> = <span class="overline">SC</span> = <span class="overline">SD</span>', tMm ? `${fmt(tMm, 1)} mm` : '–'],
+      ['Vertex distance <span class="overline">SM</span>', smMm ? `${fmt(smMm, 1)} mm` : '–'],
+      ['Arc length <i>b</i>', bMm ? `${fmt(bMm, 1)} mm` : '–'],
+      ['Tangent length formula', `<i>t</i> = <i>r</i> / tan(<i>α</i> / 2)`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
 
-    $('rund-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('rund-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
   $('rund-alpha').addEventListener('input', e => {
@@ -208,7 +208,7 @@
   chk('rund-kite', v => { st.showKite = v; render(); });
 
   function newQuiz() {
-    // Schöne Zahlenkombinationen
+    // Clean number combinations
     const angles = [60, 90, 120];
     const a = angles[Math.floor(Math.random() * angles.length)];
     const r = Math.floor(Math.random() * 4 + 2) * 10; // 20, 30, 40, 50
@@ -219,10 +219,10 @@
 
     if (askType === 't') {
       truth = Math.round((r / Math.tan((a / 2) * Core.DEG)) * 10) / 10;
-      taskText = `Gegeben ist ein Winkel <i>α</i> = <b>${a}°</b> und Ausrundungsradius <i>r</i> = <b>${r} mm</b>. Wie lang ist der Tangentenabschnitt <i>t</i> = <span class="overline">SC</span> ($t = r / \\tan(\\alpha / 2)$)?`;
+      taskText = `Given an angle <i>α</i> = <b>${a}°</b> and fillet radius <i>r</i> = <b>${r} mm</b>, what is the tangent distance <i>t</i> = <span class="overline">SC</span> (<i>t</i> = <i>r</i> / tan(<i>α</i> / 2))?`;
     } else {
       truth = Math.round((r / Math.sin((a / 2) * Core.DEG)) * 10) / 10;
-      taskText = `Gegeben ist ein Winkel <i>α</i> = <b>${a}°</b> und Radius <i>r</i> = <b>${r} mm</b>. Welchen Abstand <span class="overline">SM</span> hat der Bogenmittelpunkt vom Scheitelpunkt S ($SM = r / \\sin(\\alpha / 2)$)?`;
+      taskText = `Given an angle <i>α</i> = <b>${a}°</b> and radius <i>r</i> = <b>${r} mm</b>, what is the distance <span class="overline">SM</span> from the arc center to vertex S (<span class="overline">SM</span> = <i>r</i> / sin(<i>α</i> / 2))?`;
     }
 
     st.quiz = { a, r, truth, askType, answered: false };
@@ -237,7 +237,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('rund-ans').value);
     if (isNaN(val)) {
-      feedback('rund-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('rund-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.2;
@@ -245,9 +245,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('rund-feedback', ok
-      ? `Richtig! Wert: ${fmt(st.quiz.truth, 1)} mm.`
-      : `Leider falsch. Richtig wäre: ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('rund-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Value: ${fmt(st.quiz.truth, 1)} mm.`
+      : `Incorrect. Correct answer: ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('rund-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('rund-quiz').addEventListener('click', newQuiz);

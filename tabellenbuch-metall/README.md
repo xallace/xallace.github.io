@@ -1,26 +1,27 @@
-# Tabellenbuch Metall • Interaktive Lehrmodelle
+# Tabellenbuch Metall • Interactive Learning Models
 
-Zentrale Übersichtsseite und Sammlung interaktiver Lehrmodelle zum **Tabellenbuch Metall** (48. Auflage, Europa-Lehrmittel), vgl. DIN 461, DIN ISO 128 und DIN EN ISO 80000-2.
+Central hub and collection of interactive learning models for **Tabellenbuch Metall** (48th ed., Europa-Lehrmittel), cf. DIN 461, DIN ISO 128, and DIN EN ISO 80000-2.
 
-Live unter: **[https://xallace.github.io/tabellenbuch-metall/](https://xallace.github.io/tabellenbuch-metall/)**
+Live at: **[https://xallace.github.io/tabellenbuch-metall/](https://xallace.github.io/tabellenbuch-metall/)**
 
-## Enthaltene Buchseiten & Module
+## Included Book Pages & Modules
 
-| Seite | Kapitel | Thema | Pfad |
+| Page | Chapter | Topic | Path |
 | :--- | :--- | :--- | :--- |
-| **S. 58** | K · 3.1 Diagramme | **Kartesisches Koordinatensystem**: Punkte `P(x; y)` / `P(x \| y)` / `P(x, y)`, Diagrammaufbau nach DIN 461 mit Fehlersuche, Ausschnitt mit/ohne Nullpunkt, logarithmische Drehzahlskalen ($n = v_\text{c} / (\pi \cdot d)$) und Tellerfeder-Kennlinie $F(s)$ (PCHIP vs. Polygonzug). | [`s58-diagramme/`](s58-diagramme/) |
-| **S. 59** | K · 3.1 Diagramme | **Polarkoordinatensysteme & Flächendiagramme**: Warmfestigkeitsdiagramm ($R_\text{m}$, $R_\text{e}$ über $T$) mit streuenden Messwerten, Polarkoordinatensystem ($360^\circ$-Teilung, Pol, $+\varphi$, $r$), Rundheitsprüfung einer gedrehten Buchse ($10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$, Vergrößerung $2000 : 1$) sowie Säulen-, Balken- und Kreisflächendiagramme ($\text{CuZn36Pb3}$, $\alpha = 10{,}8^\circ$). | [`s59-polarkoordinaten/`](s59-polarkoordinaten/) |
-| **S. 60** | K · 3.2 Grundkonstruktionen | **Strecken, Lote, Winkel**: Alle 6 klassischen Zirkel- und Linealkonstruktionen mit Schritt-Animation und geometrischen Beweisen: Parallele zu einer Strecke (Raute $ACDP$), Halbieren einer Strecke ($r > \frac{1}{2}\,\overline{AB}$), Fällen eines Lotes, Errichten einer Senkrechten im Punkt $P$ (Satz des Thales), Winkelhalbierende sowie Streckenteilung in $n = 5$ gleiche Teile (Strahlensatz). | [`s60-grundkonstruktionen/`](s60-grundkonstruktionen/) |
-| **S. 61** | K · 3.2 Grundkonstruktionen | **Tangenten, Kreisbögen, Vielecke**: 6 Zirkel- und Linealkonstruktionen: Tangente durch Kreispunkt $P$ ($\overline{CD} \perp \overline{MP}$), Tangente von äußerem Punkt $P$ an Kreis (Satz des Thales, $\triangle MTP$), Rundung am Winkel ($t = r/\tan(\alpha/2)$), Verbindung zweier Kreise durch Innenbogen $R_\text{i}$ und Außenbogen $R_\text{a}$ (Nockenkontur), Universalkonstruktion für regelmäßige Vielecke nach Bion ($n=3\dots 10$, Fünfeck 99,15 % Genauigkeit) sowie Sechseck/Zwölfeck im Umkreis mit Schlüsselweiten nach DIN EN ISO 4014. | [`s61-tangenten-vielecke/`](s61-tangenten-vielecke/) |
-| **S. 62** | K · 3.2 Grundkonstruktionen | **Inkreis, Umkreis, Ellipse, Spirale**: 6 Konstruktionen: Inkreis eines Dreiecks (Winkelhalbierende, Lotfußpunkt, $r = A/s$), Umkreis eines Dreiecks (Mittelsenkrechte, $R = abc/4A$, Satz des Thales), Bestimmung des Kreismittelpunktes (zwei Sehnen $AB$ und $CD$ mit Mittelsenkrechten), Ellipsenkonstruktion aus zwei Kreisen (Scheitelkreismethode nach De La Hire mit Exzentrizität $e = \sqrt{a^2-b^2}$), Ellipse im Parallelogramm (Axonometrie & Isometrie nach DIN ISO 5456-3) sowie 4-Zentren-Spirale mit tangential stetigen $C^1$-Viertelkreisbögen ($s = a/4$). | [`s62-kreise-ellipse-spirale/`](s62-kreise-ellipse-spirale/) |
-| **S. 14** | M · 1.2 Formeln | **Formeln, Gleichungen, Diagramme**: Größengleichung Schnittgeschwindigkeit ($v_\text{c} = \pi \cdot d \cdot n$) mit Einheiten im Rechengang, Drehen und Fräsen als bewegtes Bild, Zahlenwertgleichung ($M = 9550 \cdot P / n$) mit vorgeschriebenen Einheiten, lineare Funktion ($y = m \cdot x + b$) und Gewinnschwelle ($K_\text{G} = E$). | [`s14-formeln/`](s14-formeln/) |
+| **p. 58** | K · 3.1 Diagrams | **Cartesian Coordinate System**: Point notations `P(x; y)` / `P(x \| y)` / `P(x, y)`, diagram structure per DIN 461 with fault-finding mode, zoomed range with/without origin, logarithmic speed scales ($n = v_\text{c} / (\pi \cdot d)$), and disc spring characteristic curve $F(s)$ (PCHIP vs. piecewise linear). | [`s58-diagramme/`](s58-diagramme/) |
+| **p. 59** | K · 3.1 Diagrams | **Polar Coordinate Systems & Area Charts**: Elevated-temperature strength diagram ($R_\text{m}$, $R_\text{e}$ vs. $T$) with scattered data points, polar coordinate system ($360^\circ$ graduation, pole, $+\varphi$, $r$), roundness inspection of a turned bushing ($10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$, magnification $2000 : 1$), plus column, bar, and pie charts ($\text{CuZn36Pb3}$, $\alpha = 10.8^\circ$). | [`s59-polarkoordinaten/`](s59-polarkoordinaten/) |
+| **p. 60** | K · 3.2 Basic Constructions | **Line Segments, Perpendiculars, Angles**: All 6 classic compass-and-straightedge constructions with step-by-step animation and geometric proofs: parallel to a line segment (rhombus $ACDP$), bisecting a segment ($r > \frac{1}{2}\,\overline{AB}$), dropping a perpendicular, erecting a perpendicular at point $P$ (Thales' theorem), bisecting an angle, and dividing a segment into $n = 5$ equal parts (intercept theorem). | [`s60-grundkonstruktionen/`](s60-grundkonstruktionen/) |
+| **p. 61** | K · 3.2 Basic Constructions | **Tangents, Circular Arcs, Polygons**: 6 compass-and-straightedge constructions: tangent through circle point $P$ ($\overline{CD} \perp \overline{MP}$), tangent from external point $P$ to circle (Thales' theorem, $\triangle MTP$), corner fillet ($t = r/\tan(\alpha/2)$), connecting two circles via inner arc $R_\text{i}$ and outer arc $R_\text{a}$ (cam profile), Bion's universal regular polygon approximation ($n=3\dots 10$, pentagon 99.15 % accuracy), and hexagon/dodecagon in circumcircle with across-flats dimensioning per DIN EN ISO 4014. | [`s61-tangenten-vielecke/`](s61-tangenten-vielecke/) |
+| **p. 62** | K · 3.2 Basic Constructions | **Incircle, Circumcircle, Ellipse, Spiral**: 6 constructions: triangle incircle (angle bisectors, foot of perpendicular, $r = A/s$), triangle circumcircle (perpendicular bisectors, $R = abc/4A$, Thales' theorem), finding the center of a circle (two chords $AB$ and $CD$ with perpendicular bisectors), two-circle ellipse construction (De La Hire's auxiliary circles with eccentricity $e = \sqrt{a^2-b^2}$), ellipse in parallelogram (axonometry & isometry per DIN ISO 5456-3), and 4-center spiral with $C^1$-continuous quarter-circle arcs ($s = a/4$). | [`s62-kreise-ellipse-spirale/`](s62-kreise-ellipse-spirale/) |
+| **p. 14** | M · 1.2 Formulas | **Formulas, Equations, Diagrams**: Quantity equation for cutting speed ($v_\text{c} = \pi \cdot d \cdot n$) with units carried through the calculation, animated turning and milling views, numerical-value equation ($M = 9550 \cdot P / n$) with prescribed units, linear function ($y = m \cdot x + b$), and break-even analysis ($K_\text{G} = E$). | [`s14-formeln/`](s14-formeln/) |
 
-## Automatisierte Prüfungen
+## Automated Verification
 
 ```bash
-node s58-diagramme/tests/verify.js          # 41 Prüfungen gegen die Buchwerte von S. 58
-node s59-polarkoordinaten/tests/verify.js   # 52 Prüfungen gegen die Buchwerte von S. 59
-node s60-grundkonstruktionen/tests/verify.js # 62 Prüfungen gegen die Konstruktionen von S. 60
-node s61-tangenten-vielecke/tests/verify.js  # 24 Prüfungen gegen die Konstruktionen von S. 61
-node s62-kreise-ellipse-spirale/tests/verify.js # 25 Prüfungen gegen die Konstruktionen von S. 62
+node s14-formeln/tests/verify.js              # 49 checks against the values on p. 14
+node s58-diagramme/tests/verify.js            # 41 checks against the values on p. 58
+node s59-polarkoordinaten/tests/verify.js     # 52 checks against the values on p. 59
+node s60-grundkonstruktionen/tests/verify.js  # 62 checks against the constructions on p. 60
+node s61-tangenten-vielecke/tests/verify.js   # 24 checks against the constructions on p. 61
+node s62-kreise-ellipse-spirale/tests/verify.js # 25 checks against the constructions on p. 62
 ```

@@ -1,6 +1,6 @@
-/* SVG-Hilfen für Tabellenbuch Metall S. 60 (3.2 Geometrische Grundkonstruktionen):
-   Strecken mit Endstrichen, Zirkelbögen, Radiuspfeile r, rote Schrittzahlen 1..5,
-   Rechtwinkelzeichen (Bogen mit Punkt), Winkelbögen, ziehbare Punkte */
+/* SVG helpers for Tabellenbuch Metall p. 60 (3.2 Basic Geometric Constructions):
+   segments with end ticks, compass arcs, radius arrows r, red step numbers 1..5,
+   right-angle symbol (arc with dot), angle arcs, draggable points */
 const SVG = (() => {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
@@ -17,7 +17,7 @@ const SVG = (() => {
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
-  // Text mit kleiner Auszeichnung: *kursiv*, _{tief}, ^{hoch}.
+  // Text with lightweight markup: *italic*, _{sub}, ^{sup}.
   function text(parent, x, y, markup, attrs = {}) {
     const fs = +(attrs['font-size'] || 14);
     const t = el(parent, 'text', Object.assign({ x: +x.toFixed(1), y: +y.toFixed(1), 'font-size': fs }, attrs));
@@ -37,7 +37,7 @@ const SVG = (() => {
     return t;
   }
 
-  // Gefüllte Pfeilspitze mit Spitze in (x, y), Richtung deg in SVG-Bildschirmkoordinaten (0° rechts, +90° unten)
+  // Filled arrowhead with tip at (x, y), direction deg in SVG screen coordinates (0° right, +90° down)
   function arrowHead(parent, x, y, deg, l = 11, b = 3.4, cls = 'ax-head') {
     const a = deg * DEG, c = Math.cos(a), s = Math.sin(a);
     const bx = x - l * c, by = y - l * s;
@@ -58,7 +58,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Punkt auf Kreis um center mit Radius r bei Bildschirmwinkel screenDeg (0° rechts, +90° unten)
+  // Point on circle around center with radius r at screen angle screenDeg (0° right, +90° down)
   function screenPolar(center, r, screenDeg) {
     const a = screenDeg * DEG;
     return { x: center.x + r * Math.cos(a), y: center.y + r * Math.sin(a) };
@@ -68,7 +68,7 @@ const SVG = (() => {
     return Math.atan2(pt.y - center.y, pt.x - center.x) * RAD;
   }
 
-  // Zirkelbogen um center mit Radius r von screenDeg0 bis screenDeg1 (in Bildschirmgrad, im Uhrzeigersinn wenn screenDeg1 > screenDeg0)
+  // Compass arc around center with radius r from screenDeg0 to screenDeg1 (screen degrees, clockwise when screenDeg1 > screenDeg0)
   function compassArc(parent, center, r, screenDeg0, screenDeg1, opts = {}) {
     let span = screenDeg1 - screenDeg0;
     if (Math.abs(span) < 1e-4 || r <= 0) return null;
@@ -85,13 +85,13 @@ const SVG = (() => {
     });
   }
 
-  // Zirkelbogen um center mit Radius r, zentriert um die Richtung zu targetPt mit ±halfSpanDeg Überstand
+  // Compass arc around center with radius r, centered on direction to targetPt with ±halfSpanDeg overhang
   function arcThroughPoint(parent, center, r, targetPt, halfSpanDeg = 22, opts = {}) {
     const midDeg = screenAngle(center, targetPt);
     return compassArc(parent, center, r, midDeg - halfSpanDeg, midDeg + halfSpanDeg, opts);
   }
 
-  // Zirkelbogen um center mit Radius r, der durch zwei Schnittpunkte pA und pB läuft (mit ±padDeg Überstand)
+  // Compass arc around center with radius r passing through two intersection points pA and pB (with ±padDeg overhang)
   function arcBetweenPoints(parent, center, r, pA, pB, padDeg = 14, opts = {}) {
     let a1 = screenAngle(center, pA);
     let a2 = screenAngle(center, pB);
@@ -100,7 +100,7 @@ const SVG = (() => {
     return compassArc(parent, center, r, a1 + diff - padDeg, a1 + padDeg, opts);
   }
 
-  // Radiuspfeil vom Zentrum zum Zirkelbogen bei screenDeg mit Beschriftung „r“ (wie im Tabellenbuch)
+  // Radius arrow from center to compass arc at screenDeg labeled "r" (handbook style)
   function radiusArrow(parent, center, r, screenDeg, label = '*r*', opts = {}) {
     const tip = screenPolar(center, r, screenDeg);
     const startFrac = opts.startFrac != null ? opts.startFrac : 0.0;
@@ -123,7 +123,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Strecke AB mit senkrechten Endstrichen (wie bei „Strecke AB“ im Tabellenbuch S. 60)
+  // Segment AB with perpendicular end ticks (handbook style on p. 60)
   function segmentWithTicks(parent, A, B, opts = {}) {
     const g = el(parent, 'g', { class: opts.cls || null });
     el(g, 'line', {
@@ -150,7 +150,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Rote Schrittzahl 1..5 im Buchstil
+  // Red step number 1..5 in handbook style
   function stepNum(parent, x, y, num, opts = {}) {
     return text(parent, x, y, String(num), {
       'text-anchor': opts.anchor || 'middle',
@@ -159,7 +159,7 @@ const SVG = (() => {
     });
   }
 
-  // Rechtwinkelbogen mit Punkt im Scheitel V zwischen P1 und P2
+  // Right-angle arc with dot at vertex V between P1 and P2
   function rightAngle(parent, V, P1, P2, r = 18, opts = {}) {
     const a1 = screenAngle(V, P1);
     const a2 = screenAngle(V, P2);
@@ -176,7 +176,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Winkelbogen mit zwei Pfeilspitzen nach innen (wie beim Winkel α im Buch)
+  // Angle arc with two inward arrowheads (like angle α in the handbook)
   function angleArcBoth(parent, V, P1, P2, r = 46, label = '*α*', opts = {}) {
     const a1 = screenAngle(V, P1);
     const a2 = screenAngle(V, P2);
@@ -185,7 +185,7 @@ const SVG = (() => {
     const g = el(parent, 'g', { class: opts.cls || null });
     compassArc(g, V, r, a1, a1 + diff, { cls: opts.lineCls || 'thin-line', w: 1.15 });
     const sgn = Math.sign(diff);
-    // Tangentiale Pfeilspitzen an beiden Schenkeln
+    // Tangential arrowheads on both legs
     const pStart = screenPolar(V, r, a1);
     const pEnd = screenPolar(V, r, a1 + diff);
     arrowHead(g, pStart.x, pStart.y, a1 - sgn * 90 + (sgn > 0 ? 4 : -4), 10, 3.1, opts.headCls || 'ax-head');
@@ -198,7 +198,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Offener Punkt-Kreis (wie P, A, B, S im Buch) + optional ziehbarer Hit-Bereich
+  // Open point circle (like P, A, B, S in the handbook) + optional draggable hit target
   function point(parent, P, opts = {}) {
     const g = el(parent, 'g', {});
     el(g, 'circle', {

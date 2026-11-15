@@ -1,12 +1,12 @@
-/* Geometrischer Rechenkern ohne DOM für Tabellenbuch Metall S. 61:
-   „3.2 Geometrische Grundkonstruktionen – Tangenten, Kreisbögen, Vielecke“
-   1. Tangente durch Kreispunkt P
-   2. Tangente von einem Punkt P an den Kreis (Satz des Thales)
-   3. Rundung am Winkel (Ausrundung mit Radius r)
-   4. Verbindung zweier Kreise durch Kreisbögen (Innenbogen Ri, Außenbogen Ra)
-   5. Regelmäßiges Vieleck im Umkreis (z. B. Fünfeck, Universalkonstruktion nach Bion)
-   6. Sechseck, Zwölfeck im Umkreis
-   Läuft im Browser (window.Core) und in Node (module.exports) für tests/verify.js. */
+/* DOM-free geometric calculation core for Mechanical & Metal Trades Handbook (Tabellenbuch Metall) p. 61:
+   "3.2 Basic Geometric Constructions – Tangents, Circular Arcs, Polygons"
+   1. Tangent through circle point P
+   2. Tangent from an external point P to a circle (Thales' theorem)
+   3. Corner fillet (rounding an angle with radius r)
+   4. Connecting two circles with tangent arcs (inner fillet Ri, outer blend Ra)
+   5. Regular polygon inscribed in a circle (e.g., pentagon, Bion's general construction)
+   6. Hexagon and dodecagon inscribed in a circle
+   Runs in the browser (window.Core) and in Node (module.exports) for tests/verify.js. */
 (function (root) {
   'use strict';
 
@@ -15,7 +15,7 @@
   const DEG = Math.PI / 180;
   const RAD = 180 / Math.PI;
 
-  // Zahl im deutschen Format: Dezimalkomma, echtes Minuszeichen, ohne überflüssige Nullen.
+  // Format number: English decimal point, true minus sign, trailing zeros trimmed by default.
   function fmt(v, dec = 1, opts = {}) {
     if (!isFinite(v)) return '–';
     if (Math.abs(v) < 0.5 * Math.pow(10, -dec)) v = 0;
@@ -23,7 +23,7 @@
     if (!opts.keepZeros && s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
     let [int, frac] = s.split('.');
     if (opts.group && int.length > 4) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
-    s = frac ? int + ',' + frac : int;
+    s = frac ? int + '.' + frac : int;
     const sign = v < 0 && !opts.noMinus ? MINUS : (v > 0 && opts.plus ? '+' : '');
     return sign + s;
   }
@@ -34,7 +34,7 @@
     return Number(s);
   }
 
-  // ================================================================ Euklidische 2D-Vektorgeometrie
+  // ================================================================ Euclidean 2D Vector Geometry
   function pt(x, y) { return { x: +x, y: +y }; }
   function add(a, b) { return { x: a.x + b.x, y: a.y + b.y }; }
   function sub(a, b) { return { x: a.x - b.x, y: a.y - b.y }; }
@@ -51,7 +51,7 @@
     return l < 1e-12 ? { x: 1, y: 0 } : { x: v.x / l, y: v.y / l };
   }
 
-  // Drehung um +90° im mathematischen Sinn: (-y, x)
+  // +90° counterclockwise rotation in mathematical coordinates: (-y, x)
   function perp(v) { return { x: -v.y, y: v.x }; }
 
   function normDeg(deg) {
@@ -87,7 +87,7 @@
     return { foot, t, dist: d, signedDist };
   }
 
-  // Schnittpunkte zweier Kreise (c1, r1) und (c2, r2)
+  // Intersection points of two circles (c1, r1) and (c2, r2)
   function intersectCircles(c1, r1, c2, r2) {
     const dVec = sub(c2, c1);
     const d = len(dVec);
@@ -108,7 +108,7 @@
     return { ok: true, d, a, h, points: [pLeft, pRight] };
   }
 
-  // Schnittpunkt zweier Geraden (p1 -> p2) und (p3 -> p4)
+  // Intersection point of two lines (p1 -> p2) and (p3 -> p4)
   function intersectLines(p1, p2, p3, p4) {
     const d1 = sub(p2, p1);
     const d2 = sub(p4, p3);
@@ -119,17 +119,17 @@
     return add(p1, scale(d1, t));
   }
 
-  // ================================================================ 1. Tangente durch Kreispunkt P
-  // Gegeben: Kreis (M, R) und Punkt P auf dem Kreis.
-  // 1. MP ziehen und verlängern.
-  // 2. Kreis um P mit Radius r1 ergibt Schnittpunkte A und B auf Gerade MP.
-  // 3. Kreisbögen um A und B mit Radius r2 > r1 ergeben Schnittpunkte C und D.
-  // 4. CD ist Senkrechte zu PM (gesuchte Tangente).
+  // ================================================================ 1. Tangent through circle point P
+  // Given: circle (M, R) and point P on the circle.
+  // 1. Draw MP and extend it.
+  // 2. Circle around P with radius r1 yields intersections A and B on line MP.
+  // 3. Arcs around A and B with radius r2 > r1 yield intersections C and D.
+  // 4. CD is perpendicular to PM (desired tangent).
   function constructTangentAtPoint(M, P, r1, r2) {
     const R = dist(M, P);
     if (R < 1e-6) return { ok: false, reason: 'p_equals_m' };
     const u = unit(sub(P, M));
-    const extP = add(P, scale(u, r1 * 1.5)); // Verlängerter Strahl über P hinaus
+    const extP = add(P, scale(u, r1 * 1.5)); // Ray extended past P
 
     if (r1 <= 0) return { ok: false, reason: 'r1_nonpositive' };
     const A = sub(P, scale(u, r1));
@@ -146,7 +146,7 @@
     }
 
     const inter = intersectCircles(A, r2, B, r2);
-    const [C, D] = inter.points; // C links der Geraden MP, D rechts
+    const [C, D] = inter.points; // C left of line MP, D right
     const tangentDir = unit(sub(D, C));
     const perpAngle = angleVectorsDeg(u, tangentDir);
 
@@ -164,12 +164,12 @@
     };
   }
 
-  // ================================================================ 2. Tangente von einem Punkt P an den Kreis
-  // Gegeben: Kreis (M, R) und Punkt P außerhalb.
-  // 1. MP halbieren. A ist Mittelpunkt.
-  // 2. Kreis um A mit Radius r_A = |AM|. T ist Tangentenpunkt.
-  // 3. T mit P verbinden.
-  // 4. MT ist senkrecht zu PT (Satz des Thales).
+  // ================================================================ 2. Tangent from an external point P to the circle
+  // Given: circle (M, R) and external point P.
+  // 1. Bisect MP. A is the midpoint.
+  // 2. Circle around A with radius r_A = |AM|. T is the tangent point.
+  // 3. Connect T to P.
+  // 4. MT is perpendicular to PT (Thales' theorem).
   function constructTangentFromPoint(M, R, P) {
     const d = dist(M, P);
     if (d <= R + 1e-6) {
@@ -181,15 +181,15 @@
       };
     }
 
-    // 1. Mittelpunkt A von MP
+    // 1. Midpoint A of MP
     const A = mid(M, P);
     const rA = d / 2;
 
-    // 2. Thaleskreis um A mit Radius rA schneidet Kreis (M, R) in T1 (oben) und T2 (unten)
+    // 2. Thales circle around A of radius rA intersects circle (M, R) at T1 (top) and T2 (bottom)
     const inter = intersectCircles(M, R, A, rA);
     const [T1, T2] = inter.points;
 
-    // Tangentenlänge L = sqrt(d^2 - R^2)
+    // Tangent length L = sqrt(d^2 - R^2)
     const L = Math.sqrt(Math.max(0, d * d - R * R));
     const angleMTP1 = angleVectorsDeg(sub(T1, M), sub(P, T1));
     const angleMTP2 = angleVectorsDeg(sub(T2, M), sub(P, T2));
@@ -209,11 +209,11 @@
     };
   }
 
-  // ================================================================ 3. Rundung am Winkel
-  // Gegeben: Scheitelpunkt S, Schenkelpunkte A und B (Winkel ASB), Ausrundungsradius r.
-  // 1. Parallelen zu AS und BS im Abstand r ziehen. Ihr Schnittpunkt M ist der Mittelpunkt.
-  // 2. Lote von M auf AS und BS fällen -> Übergangspunkte C und D.
-  // 3. Kreisbogen um M mit Radius r von C nach D.
+  // ================================================================ 3. Corner fillet (rounding an angle)
+  // Given: vertex S, leg points A and B (angle ASB), fillet radius r.
+  // 1. Draw parallels to AS and BS at distance r. Their intersection M is the arc center.
+  // 2. Drop perpendiculars from M onto AS and BS -> tangent points C and D.
+  // 3. Circular arc around M with radius r from C to D.
   function constructFilletCorner(S, A, B, r) {
     const uA = unit(sub(A, S));
     const uB = unit(sub(B, S));
@@ -224,24 +224,24 @@
     }
     if (r <= 0) return { ok: false, reason: 'radius_nonpositive' };
 
-    // Normalen nach innen gerichtet
-    // Kreuzprodukt uA x uB bestimmt die Orientierung
+    // Inward normals
+    // Cross product uA x uB determines orientation
     const orient = cross(uA, uB);
     const sign = orient >= 0 ? 1 : -1;
     const nA = scale(perp(uA), -sign);
     const nB = scale(perp(uB), sign);
 
-    // Parallelen im Abstand r
+    // Parallels at distance r
     const pA1 = add(S, scale(nA, r));
     const pA2 = add(A, scale(nA, r));
     const pB1 = add(S, scale(nB, r));
     const pB2 = add(B, scale(nB, r));
 
-    // Schnittpunkt M der Parallelen
+    // Intersection M of the parallels
     const M = intersectLines(pA1, pA2, pB1, pB2);
     if (!M) return { ok: false, reason: 'parallel_lines' };
 
-    // Lote von M auf die Schenkel
+    // Perpendiculars from M onto the legs
     const prA = projectPointOnLine(M, S, A);
     const prB = projectPointOnLine(M, S, B);
     const C = prA.foot;
@@ -268,24 +268,24 @@
     };
   }
 
-  // ================================================================ 4. Verbindung zweier Kreise durch Kreisbögen
-  // Gegeben: Kreis 1 (M1, r1), Kreis 2 (M2, r2); Innenradius Ri, Außenradius Ra.
-  // 1. Kreis um M1 mit Ri + r1.
-  // 2. Kreis um M2 mit Ri + r2 -> Schnittpunkt A.
-  // 3. A mit M1 und M2 verbinden -> Berührungspunkte B und C für Ri.
-  // 4. Kreis um M1 mit Ra - r1.
-  // 5. Kreis um M2 mit Ra - r2 -> Schnittpunkt D.
-  // 6. D mit M1 und M2 verbinden und verlängern -> Berührungspunkte E und F für Ra.
+  // ================================================================ 4. Connecting two circles with circular arcs
+  // Given: circle 1 (M1, r1), circle 2 (M2, r2); inner radius Ri, outer radius Ra.
+  // 1. Circle around M1 with Ri + r1.
+  // 2. Circle around M2 with Ri + r2 -> intersection A.
+  // 3. Connect A to M1 and M2 -> tangency points B and C for Ri.
+  // 4. Circle around M1 with Ra - r1.
+  // 5. Circle around M2 with Ra - r2 -> intersection D.
+  // 6. Connect D through M1 and M2 and extend -> tangency points E and F for Ra.
   function constructTwoCircleBlend(M1, r1, M2, r2, Ri, Ra) {
     const a = dist(M1, M2);
     if (a < 1e-6) return { ok: false, reason: 'concentric_circles', a };
 
-    // Innenradius Ri: Bögen mit R1 = Ri + r1, R2 = Ri + r2
+    // Inner radius Ri: arcs with R1 = Ri + r1, R2 = Ri + r2
     const R1i = Ri + r1;
     const R2i = Ri + r2;
     const interInner = intersectCircles(M1, R1i, M2, R2i);
 
-    // Außenradius Ra: Bögen mit R1 = Ra - r1, R2 = Ra - r2
+    // Outer radius Ra: arcs with R1 = Ra - r1, R2 = Ra - r2
     if (Ra <= Math.max(r1, r2)) {
       return {
         ok: false,
@@ -313,26 +313,26 @@
       };
     }
 
-    // A ist der Innenbogen-Mittelpunkt (oben)
-    // D ist der Außenbogen-Mittelpunkt (unten)
+    // A is the inner arc center (top)
+    // D is the outer arc center (bottom)
     const A = interInner.points[0];
     const D = interOuter.points[1];
 
-    // Berührpunkte für Ri:
-    // B auf Kreis 1: von A durch M1 im Abstand r1 von M1
+    // Tangency points for Ri:
+    // B on circle 1: from A toward M1 at distance r1 from M1
     const uAM1 = unit(sub(M1, A));
     const B = add(M1, scale(uAM1, -r1)); // = A + scale(uAM1, Ri)
 
-    // C auf Kreis 2: von A durch M2 im Abstand r2 von M2
+    // C on circle 2: from A toward M2 at distance r2 from M2
     const uAM2 = unit(sub(M2, A));
     const C = add(M2, scale(uAM2, -r2)); // = A + scale(uAM2, Ri)
 
-    // Berührpunkte für Ra:
-    // E auf Kreis 1: von D durch M1 verlängert um r1
+    // Tangency points for Ra:
+    // E on circle 1: from D through M1 extended by r1
     const uDM1 = unit(sub(M1, D));
     const E = add(M1, scale(uDM1, r1)); // = D + scale(uDM1, Ra)
 
-    // F auf Kreis 2: von D durch M2 verlängert um r2
+    // F on circle 2: from D through M2 extended by r2
     const uDM2 = unit(sub(M2, D));
     const F = add(M2, scale(uDM2, r2)); // = D + scale(uDM2, Ra)
 
@@ -356,22 +356,22 @@
     };
   }
 
-  // ================================================================ 5. Regelmäßiges Vieleck im Umkreis (z. B. Fünfeck)
-  // Gegeben: Kreis mit Durchmesser d = 2R, vertikaler Durchmesser AB (A unten, B oben).
-  // 1. AB in n gleiche Teile teilen (1..n-1).
-  // 2. Kreisbogen mit Radius AB = 2R um A schlagen -> Polpunkte C und D auf Horizontalachse.
-  //    Exakter Abstand: x = ± R * sqrt(3).
-  // 3. C und D mit ungeraden Teilpunkten verbinden (bei ungeradem n), bzw. geraden (bei geradem n).
-  //    Schnittpunkte mit Kreis ergeben die Ecken.
+  // ================================================================ 5. Regular polygon inscribed in a circle (e.g. pentagon)
+  // Given: circle of diameter d = 2R, vertical diameter AB (A bottom, B top).
+  // 1. Divide AB into n equal parts (1..n-1).
+  // 2. Strike arc of radius AB = 2R around A -> pole points C and D on horizontal axis.
+  //    Exact distance: x = ± R * sqrt(3).
+  // 3. Connect C and D through odd division points (for odd n), or even division points (for even n).
+  //    Intersections with the circle give the polygon vertices.
   function constructRegularPolygonApprox(M, R, n = 5) {
     if (R <= 0 || n < 3 || n > 12) return { ok: false, reason: 'invalid_params' };
     const d = 2 * R;
 
-    // Im SVG: y nach unten. B ist oben (M.y - R), A ist unten (M.y + R).
+    // In SVG: y points downward. B is top (M.y - R), A is bottom (M.y + R).
     const A = { x: M.x, y: M.y + R };
     const B = { x: M.x, y: M.y - R };
 
-    // 1. Teilpunkte auf AB (k = 0..n: k=0 ist A unten, k=n ist B oben)
+    // 1. Division points along AB (k = 0..n: k=0 is A bottom, k=n is B top)
     const divisionPoints = [];
     for (let k = 0; k <= n; k++) {
       divisionPoints.push({
@@ -380,7 +380,7 @@
       });
     }
 
-    // 2. Polpunkte C und D: Kreisbogen mit Radius 2R um A schneidet Horizontale durch M
+    // 2. Pole points C and D: arc of radius 2R around A cuts horizontal axis through M
     const poleDist = R * Math.sqrt(3);
     const C = { x: M.x - poleDist, y: M.y };
     const D = { x: M.x + poleDist, y: M.y };
@@ -402,7 +402,7 @@
     const rays = [];
 
     if (n % 2 === 1) {
-      // Ungerades Vieleck: B ist Scheitelecke
+      // Odd polygon: B is the apex vertex
       constructedVertices.push({ idx: 0, pt: B, label: 'B' });
 
       const oddIndices = [];
@@ -426,7 +426,7 @@
       for (const l of leftPts) constructedVertices.push({ idx: constructedVertices.length, pt: l.pt, k: l.k });
 
     } else {
-      // Gerades Vieleck: B (oben) und A (unten) sind Scheitelecken
+      // Even polygon: B (top) and A (bottom) are apex vertices
       constructedVertices.push({ idx: 0, pt: B, label: 'B' });
 
       const evenIndices = [];
@@ -451,14 +451,14 @@
       for (const l of leftPts) constructedVertices.push({ idx: constructedVertices.length, pt: l.pt, k: l.k });
     }
 
-    // Mathematisch exakte Ecken zum Vergleich:
+    // Mathematically exact vertices for comparison:
     const exactVertices = [];
     for (let i = 0; i < n; i++) {
       const a = -90 + (i * 360) / n;
       exactVertices.push(polarPt(M, R, a));
     }
 
-    // Kantenlängen und Genauigkeitsvergleich
+    // Edge lengths and accuracy comparison
     const edgeLengths = [];
     let maxEdgeDev = 0;
     const exactEdgeLen = 2 * R * Math.sin(Math.PI / n);
@@ -489,58 +489,58 @@
     };
   }
 
-  // ================================================================ 6. Sechseck, Zwölfeck im Umkreis
-  // Gegeben: Kreis mit Durchmesser d = 2r.
-  // Sechseck:
-  // 1. Kreisbögen mit Radius r = d/2 um A.
-  // 2. Kreisbögen mit Radius r um B.
-  // 3. Verbindungslinien ergeben Sechseck (Kantenlänge s = r).
-  // Zwölfeck:
-  // Einstiche zusätzlich in C und D (horizontale Achsendpunkte).
+  // ================================================================ 6. Hexagon and dodecagon inscribed in a circle
+  // Given: circle with diameter d = 2r.
+  // Hexagon:
+  // 1. Arcs of radius r = d/2 around A.
+  // 2. Arcs of radius r around B.
+  // 3. Connecting lines form a regular hexagon (side length s = r).
+  // Dodecagon:
+  // Additional centers at C and D (horizontal axis endpoints).
   function constructHexagonDodecagon(M, R, mode = 'hexagon') {
     if (R <= 0) return { ok: false, reason: 'radius_nonpositive' };
     const d = 2 * R;
 
-    // A oben, B unten (oder A oben bei -90°, B unten bei +90°)
-    const A = { x: M.x, y: M.y - R }; // 270° bzw. -90° (oben)
-    const B = { x: M.x, y: M.y + R }; // 90° (unten)
-    const C = { x: M.x - R, y: M.y }; // 180° (links)
-    const D = { x: M.x + R, y: M.y }; // 0° (rechts)
+    // A top (-90°), B bottom (+90°)
+    const A = { x: M.x, y: M.y - R }; // 270° or -90° (top)
+    const B = { x: M.x, y: M.y + R }; // 90° (bottom)
+    const C = { x: M.x - R, y: M.y }; // 180° (left)
+    const D = { x: M.x + R, y: M.y }; // 0° (right)
 
-    // Bögen um A mit Radius R schneiden Kreis bei 30° und 150° von oben (+/- 60°):
-    // In Standardwinkeln: A ist bei -90°. -90° +/- 60° = -150° (210°) und -30° (330°).
+    // Arcs around A with radius R cut circle at 30° and 150° from top (±60°):
+    // Standard angles: A is at -90°. -90° ± 60° = -150° (210°) and -30° (330°).
     const pA1 = polarPt(M, R, -30);
     const pA2 = polarPt(M, R, -150);
 
-    // Bögen um B mit Radius R schneiden Kreis bei 90° +/- 60° = 30° und 150°:
+    // Arcs around B with radius R cut circle at 90° ± 60° = 30° and 150°:
     const pB1 = polarPt(M, R, 30);
     const pB2 = polarPt(M, R, 150);
 
-    // Die 6 Sechseckecken im Uhrzeigersinn ab A (oben):
+    // The 6 hexagon vertices clockwise from A (top):
     // A (-90°), pA1 (-30°), pB1 (30°), B (90°), pB2 (150°), pA2 (210°)
     const hexVertices = [A, pA1, pB1, B, pB2, pA2];
 
-    // Zusätzliche Einstiche für Zwölfeck in C (-180°) und D (0°):
-    // Bögen um D (0°) schneiden Kreis bei 0° +/- 60° = -60° und +60°.
-    // Bögen um C (180°) schneiden Kreis bei 180° +/- 60° = 120° und 240°.
+    // Additional compass centers for dodecagon at C (-180°) and D (0°):
+    // Arcs around D (0°) cut circle at 0° ± 60° = -60° and +60°.
+    // Arcs around C (180°) cut circle at 180° ± 60° = 120° and 240°.
     const pD1 = polarPt(M, R, -60);
     const pD2 = polarPt(M, R, 60);
     const pC1 = polarPt(M, R, 120);
     const pC2 = polarPt(M, R, 240);
 
-    // 12 Ecken alle 30° ab A (-90°):
+    // 12 vertices every 30° from A (-90°):
     // -90°, -60°, -30°, 0° (D), 30°, 60°, 90° (B), 120°, 150°, 180° (C), 210°, 240°
     const dodecaVertices = [
       A, pD1, pA1, D, pB1, pD2, B, pC1, pB2, C, pA2, pC2
     ];
 
-    // Kennwerte Maschinenbau:
-    // Sechskant: Schlüsselweite SW = 2 * r_i = 2 * R * cos(30°) = R * sqrt(3) = d * sqrt(3) / 2
+    // Mechanical engineering metrics:
+    // Hexagon: across-flats width AF (SW) = 2 * r_i = 2 * R * cos(30°) = R * sqrt(3) = d * sqrt(3) / 2
     const swHex = d * (Math.sqrt(3) / 2);
-    const sHex = R; // Kantenlänge s = R
+    const sHex = R; // Side length s = R
     const rInHex = R * (Math.sqrt(3) / 2);
 
-    // Zwölfeck: Kantenlänge s12 = 2 * R * sin(15°) = R * sqrt(2 - sqrt(3))
+    // Dodecagon: side length s12 = 2 * R * sin(15°) = R * sqrt(2 - sqrt(3))
     const sDodeca = 2 * R * Math.sin(15 * DEG);
     const rInDodeca = R * Math.cos(15 * DEG);
 

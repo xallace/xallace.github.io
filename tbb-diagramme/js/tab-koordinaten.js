@@ -1,4 +1,4 @@
-/* Reiter 1: Kartesisches Koordinatensystem – Punkte setzen, ziehen, Schreibweisen, Übung */
+/* Tab 1: Cartesian coordinate system – place, drag, point notations, exercise */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, nameHtml } = UI;
@@ -9,7 +9,7 @@
   const X = Core.linScale(XMIN, XMAX, 90, 90 + (XMAX - XMIN) * U);
   const Y = Core.linScale(YMIN, YMAX, 40 + (YMAX - YMIN) * U, 40);
   const X0 = X(0), Y0 = Y(0);
-  const STYLES = { semi: 'Semikolon', bar: 'senkrechter Strich', comma: 'Komma' };
+  const STYLES = { semi: 'Semicolon', bar: 'Vertical bar', comma: 'Comma' };
   const BOOK = () => [{ name: 'P1', x: 3.5, y: 1.5 }, { name: 'P2', x: -2, y: -1 }];
 
   const st = {
@@ -23,13 +23,13 @@
   const snap = (v, step, a, b) => clamp(+(Math.round(v / step) * step).toFixed(2), a, b);
   const label = p => SVG.nameMarkup(p.name) + pointText('', p.x, p.y, st.style);
 
-  // ---------------------------------------------------------------- Zeichnen
+  // ---------------------------------------------------------------- Drawing
   function render() {
     SVG.clear(svg);
     SVG.el(svg, 'rect', { x: 0, y: 0, width: W, height: H, class: 'bg-plain' });
     const quiz = st.mode !== 'free';
     if (st.grid || quiz) drawGrid();
-    // Projektionslinien unter die Achsbeschriftung, damit die Zahlen lesbar bleiben
+    // Draw projection lines underneath axis labels so numbers remain legible
     const under = SVG.el(svg, 'g', {});
     drawAxes();
     if (st.names && !quiz) drawNames();
@@ -78,16 +78,16 @@
     }
   }
 
-  // Bezeichnungen der Achsen und des Nullpunkts mit Hinweislinien
+  // Labels for axes and origin with leader lines
   function drawNames() {
     const g = SVG.el(svg, 'g', { class: 'names' });
     const callout = (tx, ty, anchor, lx1, ly1, lx2, ly2, str) => {
       SVG.el(g, 'line', { x1: lx1, y1: ly1, x2: lx2, y2: ly2, class: 'callout' });
       SVG.text(g, tx, ty, str, { 'text-anchor': anchor, 'font-size': 16, class: 'callout-text halo' });
     };
-    callout(X(-4.7), Y(3.1), 'start', X(-2.95), Y(3.1) - 5, X0 - 1, Y(3.7), 'Ordinate');
-    callout(X(-4.7), Y(1.7), 'start', X(-2.85), Y(1.7) - 5, X0 - 2, Y0 - 2, 'Nullpunkt');
-    callout(X(1.9), Y(-2.1), 'middle', X(2.1), Y(-1.65), X(2.55), Y0 + 1, 'Abszisse');
+    callout(X(-4.7), Y(3.1), 'start', X(-3.1), Y(3.1) - 5, X0 - 1, Y(3.7), 'Ordinate');
+    callout(X(-4.7), Y(1.7), 'start', X(-3.55), Y(1.7) - 5, X0 - 2, Y0 - 2, 'Origin');
+    callout(X(1.9), Y(-2.1), 'middle', X(2.1), Y(-1.65), X(2.55), Y0 + 1, 'Abscissa');
   }
 
   function drawPoints(under) {
@@ -110,17 +110,17 @@
     if (x) SVG.el(g, 'line', { x1: px, y1: py, x2: X0, y2: py, class: 'proj' });
   }
 
-  // Weg vom Nullpunkt: erst x-Wert entlang der Abszisse, dann y-Wert parallel zur Ordinate
+  // Path from origin: x-coordinate along abscissa first, then y-coordinate parallel to ordinate
   function drawWay(p) {
     const g = SVG.el(svg, 'g', {});
     const o = { lineCls: 'way-line', headCls: 'way-head', l: 12, b: 5 };
     if (p.x) {
       SVG.arrow(g, X0, Y0, X(p.x), Y0, o);
-      SVG.text(g, (X0 + X(p.x)) / 2, Y0 - 9, '1. *x* = ' + fmt(p.x), { 'text-anchor': 'middle', 'font-size': 14, class: 'way-text halo' });
+      SVG.text(g, (X0 + X(p.x)) / 2, Y0 - 9, '1st *x* = ' + fmt(p.x), { 'text-anchor': 'middle', 'font-size': 14, class: 'way-text halo' });
     }
     if (p.y) {
       SVG.arrow(g, X(p.x), Y0, X(p.x), Y(p.y), o);
-      SVG.text(g, X(p.x) + (p.x >= 0 ? 9 : -9), (Y0 + Y(p.y)) / 2 + 5, '2. *y* = ' + fmt(p.y),
+      SVG.text(g, X(p.x) + (p.x >= 0 ? 9 : -9), (Y0 + Y(p.y)) / 2 + 5, '2nd *y* = ' + fmt(p.y),
         { 'text-anchor': p.x >= 0 ? 'start' : 'end', 'font-size': 14, class: 'way-text halo' });
     }
   }
@@ -150,12 +150,12 @@
     }
   }
 
-  // ---------------------------------------------------------------- Seitenleiste
+  // ---------------------------------------------------------------- Sidebar
   function wayText(p) {
-    const part = (v, pos, neg, axis) => v === 0 ? `bleibt auf der ${axis}`
-      : `${fmt(Math.abs(v))} ${Math.abs(v) === 1 ? 'Einheit' : 'Einheiten'} nach ${v > 0 ? pos : neg}`;
-    return `Vom Nullpunkt aus zuerst <i>x</i> = ${fmt(p.x)}: ${part(p.x, 'rechts', 'links', 'y-Achse')}, `
-      + `dann <i>y</i> = ${fmt(p.y)}: ${part(p.y, 'oben', 'unten', 'x-Achse')}.`;
+    const part = (v, pos, neg, axis) => v === 0 ? `stays on the ${axis}`
+      : `${fmt(Math.abs(v))} ${Math.abs(v) === 1 ? 'unit' : 'units'} ${v > 0 ? pos : neg}`;
+    return `From the origin, first <i>x</i> = ${fmt(p.x)}: ${part(p.x, 'right', 'left', 'y-axis')}, `
+      + `then <i>y</i> = ${fmt(p.y)}: ${part(p.y, 'up', 'down', 'x-axis')}.`;
   }
 
   function updateSide() {
@@ -168,18 +168,18 @@
       const sx = p.x > 0 ? '+' : p.x < 0 ? '−' : '0', sy = p.y > 0 ? '+' : p.y < 0 ? '−' : '0';
       $('k-quad').textContent = Core.quadrant(p.x, p.y) + ` (${sx} | ${sy})`;
     } else {
-      nt.innerHTML = '<span class="lbl">–</span><span class="note">' + (st.mode === 'free' ? 'Kein Punkt gewählt.' : 'In der Übung ausgeblendet.') + '</span>';
+      nt.innerHTML = '<span class="lbl">–</span><span class="note">' + (st.mode === 'free' ? 'No point selected.' : 'Hidden during exercise.') + '</span>';
       $('k-way').textContent = '';
       $('k-quad').textContent = '';
     }
     $('k-list').innerHTML = st.pts.map(q =>
       `<li data-name="${q.name}"${q.name === st.sel ? ' class="cur"' : ''}><span>${nameHtml(q.name)}${pointText('', q.x, q.y, st.style)}</span>`
-      + `<button title="Punkt löschen" data-del="${q.name}">×</button></li>`).join('');
+      + `<button title="Delete point" data-del="${q.name}">×</button></li>`).join('');
     const sc = st.score[st.mode];
-    $('k-score').textContent = sc ? `${sc[0]} / ${sc[1]} richtig` : '';
+    $('k-score').textContent = sc ? `${sc[0]} / ${sc[1]} correct` : '';
   }
 
-  // ---------------------------------------------------------------- Punkte bearbeiten
+  // ---------------------------------------------------------------- Edit points
   function freeName() {
     for (let i = 1; i <= 9; i++) if (!st.pts.some(p => p.name === 'P' + i)) return 'P' + i;
     return null;
@@ -187,10 +187,10 @@
 
   function addPoint(x, y, name) {
     name = name || freeName();
-    if (!name) { feedback('k-input-msg', 'Höchstens 9 Punkte – erst einen löschen.', false); return null; }
+    if (!name) { feedback('k-input-msg', 'Maximum 9 points – delete one first.', false); return null; }
     const p = { name, x, y };
     st.pts.push(p);
-    st.pts.sort((a, b) => a.name.localeCompare(b.name, 'de', { numeric: true }));
+    st.pts.sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: true }));
     return p;
   }
 
@@ -198,7 +198,7 @@
     const r = Core.parsePoint($('k-input').value);
     if (r.error) { feedback('k-input-msg', r.error, false); return; }
     if (r.x < XMIN || r.x > XMAX || r.y < YMIN || r.y > YMAX) {
-      feedback('k-input-msg', `Außerhalb des Bereichs: x von ${fmt(XMIN)} bis ${fmt(XMAX)}, y von ${fmt(YMIN)} bis ${fmt(YMAX)}.`, false);
+      feedback('k-input-msg', `Out of range: x from ${fmt(XMIN)} to ${fmt(XMAX)}, y from ${fmt(YMIN)} to ${fmt(YMAX)}.`, false);
       return;
     }
     const name = r.name ? r.name.charAt(0).toUpperCase() + r.name.slice(1) : '';
@@ -206,7 +206,7 @@
     if (p) { p.x = r.x; p.y = r.y; }
     else if (!(p = addPoint(r.x, r.y, name))) return;
     st.sel = p.name;
-    feedback('k-input-msg', `${nameHtml(p.name)}${pointText('', p.x, p.y, st.style)} gesetzt.`, true);
+    feedback('k-input-msg', `${nameHtml(p.name)}${pointText('', p.x, p.y, st.style)} placed.`, true);
     render();
   }
 
@@ -243,7 +243,7 @@
     render();
   });
 
-  // ---------------------------------------------------------------- Übung
+  // ---------------------------------------------------------------- Exercise
   function newTask() {
     let x, y;
     do { x = UI.rnd(-4.5, 4.5, 0.5); y = UI.rnd(-3.5, 4.5, 0.5); }
@@ -254,9 +254,9 @@
     $('k-next').hidden = true;
     feedback('k-feedback', '');
     if (st.mode === 'place') {
-      $('k-task').innerHTML = `Setze den Punkt <b>Q${pointText('', x, y, st.task.style)}</b> durch Klick ins Diagramm (Raster 0,5).`;
+      $('k-task').innerHTML = `Place point <b>Q${pointText('', x, y, st.task.style)}</b> by clicking in the diagram (grid 0.5).`;
     } else {
-      $('k-task').innerHTML = 'Lies die Koordinaten des markierten Punktes Q ab (Raster 0,5).';
+      $('k-task').innerHTML = 'Read the coordinates of the highlighted point Q (grid 0.5).';
       $('k-ans-x').value = $('k-ans-y').value = '';
     }
     render();
@@ -264,12 +264,12 @@
 
   function diagnose(ax, ay, t) {
     const eq = (a, b) => Math.abs(a - b) < 1e-6;
-    if (eq(ax, t.x) && eq(ay, t.y)) return [true, 'Richtig: Q' + pointText('', t.x, t.y, t.style)];
-    if (eq(ax, t.y) && eq(ay, t.x)) return [false, '<i>x</i> und <i>y</i> vertauscht: Im geordneten Paar steht zuerst der x-Wert.'];
-    if (eq(ax, -t.x) && eq(ay, t.y)) return [false, 'Vorzeichen von <i>x</i> prüfen: negative x-Werte liegen links vom Nullpunkt, positive rechts.'];
-    if (eq(ax, t.x) && eq(ay, -t.y)) return [false, 'Vorzeichen von <i>y</i> prüfen: negative y-Werte liegen unter dem Nullpunkt, positive darüber.'];
-    if (eq(ax, -t.x) && eq(ay, -t.y)) return [false, 'Beide Vorzeichen vertauscht.'];
-    return [false, `Daneben: <i>x</i> um ${fmt(ax - t.x)}, <i>y</i> um ${fmt(ay - t.y)} verschoben.`];
+    if (eq(ax, t.x) && eq(ay, t.y)) return [true, 'Correct: Q' + pointText('', t.x, t.y, t.style)];
+    if (eq(ax, t.y) && eq(ay, t.x)) return [false, '<i>x</i> and <i>y</i> swapped: in an ordered pair, the x-value comes first.'];
+    if (eq(ax, -t.x) && eq(ay, t.y)) return [false, 'Check sign of <i>x</i>: negative x-values lie left of the origin, positive to the right.'];
+    if (eq(ax, t.x) && eq(ay, -t.y)) return [false, 'Check sign of <i>y</i>: negative y-values lie below the origin, positive above.'];
+    if (eq(ax, -t.x) && eq(ay, -t.y)) return [false, 'Both signs inverted.'];
+    return [false, `Off target: shifted by <i>x</i> = ${fmt(ax - t.x)}, <i>y</i> = ${fmt(ay - t.y)}.`];
   }
 
   function score(ok) {
@@ -282,7 +282,7 @@
   function answerPlace(x, y) {
     const [ok, msg] = diagnose(x, y, st.task);
     st.answer = { x, y, ok };
-    feedback('k-feedback', ok ? msg : `Gesetzt: Q${pointText('', x, y, st.task.style)}. ${msg}`, ok);
+    feedback('k-feedback', ok ? msg : `Placed: Q${pointText('', x, y, st.task.style)}. ${msg}`, ok);
     score(ok);
     render();
   }
@@ -290,7 +290,7 @@
   function answerRead() {
     if (st.answer) return;
     const x = Core.parseNum($('k-ans-x').value), y = Core.parseNum($('k-ans-y').value);
-    if (!isFinite(x) || !isFinite(y)) { feedback('k-feedback', 'Beide Werte als Zahl eingeben, z. B. −2,5.', false); return; }
+    if (!isFinite(x) || !isFinite(y)) { feedback('k-feedback', 'Enter both values as numbers, e.g., −2.5.', false); return; }
     const [ok, msg] = diagnose(x, y, st.task);
     st.answer = { x, y, ok };
     feedback('k-feedback', msg, ok);
@@ -308,7 +308,7 @@
     else newTask();
   }
 
-  // ---------------------------------------------------------------- Bedienelemente
+  // ---------------------------------------------------------------- Controls
   seg('k-style', v => { st.style = v; render(); });
   seg('k-dir', v => { st.dir = v; render(); });
   seg('k-snap', v => { st.snap = +v; });

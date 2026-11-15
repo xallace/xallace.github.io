@@ -1,11 +1,11 @@
-/* Reiter 3: Lineare Funktion y = m · x + b – Gerade mit Steigungsdreieck, ziehbare Punkte, Wertetabelle, Ableseübung */
+/* Tab 3: Linear function y = m · x + b – line with slope triangle, draggable points, value table, reading exercise */
 (() => {
   'use strict';
   const { $, chk, feedback } = UI;
   const { fmt } = Core;
   const el = SVG.el;
 
-  // Gleicher Maßstab auf beiden Achsen: 60 px je Einheit, x von −3 bis 5, y von −2 bis 4
+  // Equal scale on both axes: 60 px per unit, x from −3 to 5, y from −2 to 4
   const W = 640, H = 460, U = 60, X0 = 260, Y0 = 290, XMIN = -3, XMAX = 5, YMIN = -2, YMAX = 4;
   const X = v => X0 + v * U, Y = v => Y0 - v * U;
   const BOOK = () => ({ m: 0.5, b: 1, xs: [-2, 0, 2, 3] });
@@ -19,7 +19,7 @@
     return m === 0 ? `<i>y</i> = ${fmt(b, 2)}` : `<i>y</i> = ${mt}<i>x</i>${bt}`;
   };
 
-  // Gerade y = m·x + b auf das Zeichenfeld beschnitten
+  // Line y = m·x + b clipped to plot bounds
   function clipLine(m, b) {
     const out = [];
     const add = (x, y) => { if (x >= XMIN - 1e-9 && x <= XMAX + 1e-9 && y >= YMIN - 1e-9 && y <= YMAX + 1e-9) out.push([x, y]); };
@@ -38,7 +38,7 @@
       Core.ticks(XMIN, XMAX, 0.5).forEach(v => el(g, 'line', { x1: X(v), y1: Y(YMIN), x2: X(v), y2: Y(YMAX) }));
       Core.ticks(YMIN, YMAX, 0.5).forEach(v => el(g, 'line', { x1: X(XMIN), y1: Y(v), x2: X(XMAX), y2: Y(v) }));
     }
-    // Achsen durch den Nullpunkt mit Pfeilspitzen
+    // Axes through the origin with arrowheads
     SVG.arrow(svg, X(XMIN) - 10, Y0, X(XMAX) + 24, Y0, { w: 1.3 });
     SVG.arrow(svg, X0, Y(YMIN) + 10, X0, Y(YMAX) - 24, { w: 1.3 });
     SVG.text(svg, X(XMAX) + 22, Y0 + 24, '*x*', { 'font-size': 17, 'text-anchor': 'middle' });
@@ -55,7 +55,7 @@
     });
     SVG.text(svg, X0 - 8, Y0 + 20, '0', { 'text-anchor': 'end', 'font-size': 14 });
 
-    // Übungsgerade
+    // Exercise target line
     if (st.quiz) {
       const s = clipLine(st.quiz.m, st.quiz.b);
       if (s) el(svg, 'line', { x1: X(s[0][0]), y1: Y(s[0][1]), x2: X(s[1][0]), y2: Y(s[1][1]), class: 'target' });
@@ -63,18 +63,18 @@
     }
 
     const seg = clipLine(st.m, st.b);
-    // belegte Flächen [x0, y0, x1, y1]: Teilungszahlen und Achsenbeschriftungen, dann jede gesetzte Beschriftung
+    // Occupied label boxes [x0, y0, x1, y1]: axis ticks and axis labels, then each placed annotation
     const taken = [[X(XMIN) - 12, Y0 + 6, X(XMAX) + 32, Y0 + 28], [X0 - 32, Y(YMAX) - 34, X0 - 6, Y(YMIN) + 8]];
     if (seg) el(svg, 'line', { x1: X(seg[0][0]), y1: Y(seg[0][1]), x2: X(seg[1][0]), y2: Y(seg[1][1]), class: 'line-f', 'stroke-width': 3.2 });
 
-    // Steigungsdreieck zwischen B(0 | b) und P(1 | b + m)
+    // Slope triangle between B(0 | b) and P(1 | b + m)
     const yb = st.b, yp = st.b + st.m;
     if (st.tri && yb >= YMIN && yb <= YMAX) {
       el(svg, 'line', { x1: X(0), y1: Y(yb), x2: X(1), y2: Y(yb), class: 'read' });
       if (yp >= YMIN && yp <= YMAX && Math.abs(st.m) > 1e-9) {
         el(svg, 'line', { x1: X(1), y1: Y(yb), x2: X(1), y2: Y(yp), class: 'read' });
         SVG.arrowHead(svg, X(1), Y(yp), st.m > 0 ? -90 : 90, 9, 3.2, 'read-head');
-        // bei flacher Geraden neben die Grundlinie des Dreiecks, auf die Seite ohne Gerade; sonst neben die Senkrechte, nicht auf die x-Achse
+        // For shallow lines place next to base away from line; otherwise beside vertical leg clear of x-axis
         const ty = Math.abs(st.m) * U < 30 ? Y(yb) + (st.m > 0 ? 18 : -9)
           : [0.5, 0.25, 0.75].map(f => Y(yb + f * st.m) + 5).find(y => y + 4 < Y0 - 2 || y - 14 > Y0 + 28) ?? Y((yb + yp) / 2) + 5;
         SVG.text(svg, X(1) + 8, ty, `Δ*y* = *m* = ${fmt(st.m, 2)}`, { 'font-size': 14, class: 'halo' });
@@ -82,24 +82,24 @@
       }
       SVG.text(svg, X(0.5), Y(yb) + (st.m >= 0 ? 18 : -9), 'Δ*x* = 1', { 'font-size': 14, 'text-anchor': 'middle', class: 'halo' });
       taken.push([X(0.5) - 26, Y(yb) + (st.m >= 0 ? 4 : -23), X(0.5) + 26, Y(yb) + (st.m >= 0 ? 22 : -5)]);
-      // Maß b auf der Seite der y-Achse, auf der die Gerade das Maß nicht kreuzt; rechts mit Maßhilfslinie von B
+      // Dimension b on the side of the y-axis not crossed by the line; on right with extension line from B
       if (Math.abs(yb) > 0.25) {
         const right = st.m * yb >= 0, xd = right ? 4.2 : -0.45;
         if (right) el(svg, 'line', { x1: X(1), y1: Y(yb), x2: X(xd) + 8, y2: Y(yb), class: 'read' });
         el(svg, 'line', { x1: X(xd), y1: Y(0), x2: X(xd), y2: Y(yb), class: 'dim' });
         SVG.arrowHead(svg, X(xd), Y(yb), yb > 0 ? -90 : 90, 9, 3.2, 'dim-head');
         SVG.arrowHead(svg, X(xd), Y(0), yb > 0 ? 90 : -90, 9, 3.2, 'dim-head');
-        const yl = yb < 0 ? Math.min(yb / 2, -0.6) : yb / 2;   // unterhalb der x-Achse nicht in die Teilungszahlen
+        const yl = yb < 0 ? Math.min(yb / 2, -0.6) : yb / 2;   // keep clear of tick numbers below x-axis
         SVG.text(svg, X(xd) + (right ? 7 : -7), Y(yl) + 5, `*b* = ${fmt(yb, 2)}`, { 'font-size': 14, 'text-anchor': right ? 'start' : 'end', class: 'halo' });
         taken.push(right ? [X(xd), Y(yl) - 9, X(xd) + 75, Y(yl) + 9] : [X(xd) - 75, Y(yl) - 9, X(xd), Y(yl) + 9]);
       }
     }
-    // Wertepaare der Tabelle
+    // Value table points
     if (st.pts) st.xs.forEach(x => {
       const y = Core.linear(st.m, st.b, x);
       if (x >= XMIN && x <= XMAX && y >= YMIN && y <= YMAX) el(svg, 'circle', { cx: X(x), cy: Y(y), r: 4.5, class: 'pt-f' });
     });
-    // Ziehpunkte B und P
+    // Draggable handles B and P
     [['B', 0, yb], ['P', 1, yp]].forEach(([name, x, y]) => {
       if (y < YMIN || y > YMAX) return;
       el(svg, 'circle', { cx: X(x), cy: Y(y), r: 6, class: 'pt sel' });
@@ -111,8 +111,7 @@
     updateSide();
   }
 
-  // Gleichung an die Gerade schreiben: Lagen entlang der sichtbaren Strecke, darüber oder darunter;
-  // der Text läuft dorthin, wo sich die Gerade von ihm entfernt. Gewählt wird die Lage mit den wenigsten Überdeckungen.
+  // Place equation next to the visible segment (above or below); text extends away from the line, minimizing overlaps
   function placeEquation(seg, taken) {
     const txt = eqText(st.m, st.b), w = 7.4 * txt.replace(/<\/?i>/g, '').length;
     const [[xa], [xb]] = seg, m = st.m;
@@ -122,15 +121,15 @@
       let c = b[0] < X(XMIN) - 10 || b[2] > W - 4 || b[1] < 4 || b[3] > H - 4 ? 100 : 0;
       const ya = lineY((b[0] - X0) / U), yb = lineY((b[2] - X0) / U);
       if (Math.max(ya, yb) >= b[1] && Math.min(ya, yb) <= b[3]) c += 10;
-      if (b[1] <= Y0 && b[3] >= Y0) c += 2;                         // x-Achse
-      if (b[0] <= X0 && b[2] >= X0) c += 2;                         // y-Achse
+      if (b[1] <= Y0 && b[3] >= Y0) c += 2;                         // x-axis
+      if (b[0] <= X0 && b[2] >= X0) c += 2;                         // y-axis
       return c + taken.reduce((s, o) => s + (hits(b, o) ? 10 : 0), 0);
     };
     let best = null, bc = Infinity;
     for (const f of [0.95, 0.8, 0.6, 0.4, 0.2, 0.05]) {
       const x = xa + f * (xb - xa), px = X(x), py = lineY(x);
       for (const above of [true, false]) {
-        const toRight = above ? m < 0 : m > 0;                      // Richtung, in der die Gerade vom Text weg läuft
+        const toRight = above ? m < 0 : m > 0;                      // direction along which line recedes from text
         const tx = px + (toRight ? 6 : -6), ty = py + (above ? -12 : 24);
         const b = toRight ? [tx, ty - 15, tx + w, ty + 4] : [tx - w, ty - 15, tx, ty + 4];
         const c = cost(b);
@@ -143,18 +142,18 @@
     const hide = st.quiz && !st.quiz.done;
     $('l-m-out').textContent = fmt(st.m, 2);
     $('l-b-out').textContent = fmt(st.b, 2);
-    $('l-eq').innerHTML = `Hier: ${eqText(st.m, st.b)}`;
-    $('l-tab-note').textContent = isBook() ? '1. Beispiel der Seite' : '';
+    $('l-eq').innerHTML = `Current: ${eqText(st.m, st.b)}`;
+    $('l-tab-note').textContent = isBook() ? '1st example on the page' : '';
     renderTable();
     const x0 = Core.nullstelle(st.m, st.b);
     $('l-details').innerHTML = [
-      ['Steigung <i>m</i> = Δ<i>y</i> / Δ<i>x</i>', fmt(st.m, 2)],
-      ['<i>y</i>-Achsenabschnitt <i>b</i>', fmt(st.b, 2)],
-      ['Nullstelle <i>x</i><sub>0</sub> = −<i>b</i> / <i>m</i>', isFinite(x0) ? fmt(x0, 3) : 'keine'],
+      ['Slope <i>m</i> = Δ<i>y</i> / Δ<i>x</i>', fmt(st.m, 2)],
+      ['<i>y</i>-intercept <i>b</i>', fmt(st.b, 2)],
+      ['x-intercept <i>x</i><sub>0</sub> = −<i>b</i> / <i>m</i>', isFinite(x0) ? fmt(x0, 3) : 'none'],
     ].map(([k, v]) => `<span>${k}</span><span>${hide ? '–' : v}</span>`).join('');
   }
 
-  // Wertetabelle waagrecht wie im Buch; die x-Werte sind änderbar
+  // Horizontal value table matching the book; x values are editable
   function renderTable() {
     const ys = st.xs.map(x => fmt(Core.linear(st.m, st.b, x), 2));
     const t = $('l-table');
@@ -162,19 +161,19 @@
       st.xs.forEach((x, i) => { t.querySelector(`td[data-i="${i}"]`).textContent = ys[i]; });
       return;
     }
-    t.innerHTML = `<tr><th><i>x</i></th>${st.xs.map((x, i) => `<td><input data-i="${i}" value="${fmt(x, 2)}" inputmode="decimal" aria-label="x-Wert ${i + 1}"></td>`).join('')}</tr>`
+    t.innerHTML = `<tr><th><i>x</i></th>${st.xs.map((x, i) => `<td><input data-i="${i}" value="${fmt(x, 2)}" inputmode="decimal" aria-label="x-value ${i + 1}"></td>`).join('')}</tr>`
       + `<tr><th><i>y</i></th>${ys.map((y, i) => `<td data-i="${i}">${y}</td>`).join('')}</tr>`;
   }
   $('l-table').addEventListener('change', e => {
     const i = +e.target.dataset.i, v = Core.parseNum(e.target.value);
-    if (!isFinite(v)) { feedback('l-table-msg', 'Nur Zahlen eintragen.', false); e.target.value = fmt(st.xs[i], 2); return; }
+    if (!isFinite(v)) { feedback('l-table-msg', 'Enter numbers only.', false); e.target.value = fmt(st.xs[i], 2); return; }
     feedback('l-table-msg', '');
     st.xs[i] = v;
     e.target.blur();
     render();
   });
 
-  // ---------------------------------------------------------------- Regler und Ziehen
+  // ---------------------------------------------------------------- Controls and dragging
   function setMB(m, b) {
     st.m = Math.min(3, Math.max(-2, snap(m)));
     st.b = Math.min(3, Math.max(-2, snap(b)));
@@ -197,12 +196,12 @@
     });
   });
 
-  // ---------------------------------------------------------------- Übung: Gerade ablesen
+  // ---------------------------------------------------------------- Exercise: Read line equation
   function newQuiz() {
     let m, b;
     do { m = UI.pick([-2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2]); b = UI.rnd(-2, 3, 0.5); } while (m === st.m && b === st.b);
     st.quiz = { m, b, done: false };
-    $('l-task').innerHTML = 'Die gestrichelte Gerade ablesen: Steigung <i>m</i> über ein Steigungsdreieck, <i>b</i> am Schnittpunkt mit der <i>y</i>-Achse.';
+    $('l-task').innerHTML = 'Read the dashed line: find slope <i>m</i> using a slope triangle, and <i>b</i> at the <i>y</i>-axis intercept.';
     $('l-ans-m').value = $('l-ans-b').value = '';
     $('l-ans-row').hidden = false;
     $('l-quiz-end').hidden = false;
@@ -214,16 +213,16 @@
     const z = st.quiz;
     if (!z || z.done) return;
     const m = Core.parseNum($('l-ans-m').value), b = Core.parseNum($('l-ans-b').value);
-    if (!isFinite(m) || !isFinite(b)) { feedback('l-feedback', 'Bitte beide Werte eingeben.', false); return; }
+    if (!isFinite(m) || !isFinite(b)) { feedback('l-feedback', 'Please enter both values.', false); return; }
     const okM = Math.abs(m - z.m) < 0.01, okB = Math.abs(b - z.b) < 0.01;
     z.done = true;
     st.score[1]++;
     if (okM && okB) st.score[0]++;
-    $('l-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+    $('l-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
     const hints = [];
-    if (!okM) hints.push(Math.abs(m + z.m) < 0.01 ? 'Vorzeichen der Steigung prüfen: fällt die Gerade, ist <i>m</i> negativ.' : Math.abs(m * z.m - 1) < 0.01 ? 'Δ<i>x</i> und Δ<i>y</i> vertauscht: <i>m</i> = Δ<i>y</i> / Δ<i>x</i>.' : `Steigung: richtig ist <i>m</i> = ${fmt(z.m, 2)}.`);
-    if (!okB) hints.push(`Achsenabschnitt: richtig ist <i>b</i> = ${fmt(z.b, 2)}.`);
-    feedback('l-feedback', okM && okB ? `Richtig: ${eqText(z.m, z.b)}.` : hints.join(' '), okM && okB);
+    if (!okM) hints.push(Math.abs(m + z.m) < 0.01 ? 'Check slope sign: if the line slopes downward, <i>m</i> is negative.' : Math.abs(m * z.m - 1) < 0.01 ? 'Δ<i>x</i> and Δ<i>y</i> swapped: <i>m</i> = Δ<i>y</i> / Δ<i>x</i>.' : `Slope: correct value is <i>m</i> = ${fmt(z.m, 2)}.`);
+    if (!okB) hints.push(`Intercept: correct value is <i>b</i> = ${fmt(z.b, 2)}.`);
+    feedback('l-feedback', okM && okB ? `Correct: ${eqText(z.m, z.b)}.` : hints.join(' '), okM && okB);
     $('l-ans-row').hidden = true;
     render();
   }

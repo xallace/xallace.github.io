@@ -1,30 +1,29 @@
-# Geometrische Grundkonstruktionen: Tangenten, Kreisbögen, Vielecke – Tabellenbuch Metall S. 61
+# Basic Geometric Constructions: Tangents, Arcs, Polygons – Tabellenbuch Metall p. 61
 
-Interaktive Lern- und Simulationshilfe zur Seite 61 „3.2 Geometrische Grundkonstruktionen – Tangenten, Kreisbögen, Vielecke“ aus
-**Tabellenbuch Metall**, 48. Auflage (Europa-Lehrmittel), Fachbereich **K** (Technische Kommunikation).
-Sämtliche Texte, Erklärungen, mathematischen Rechenkerne und Vektorgrafiken sind eigenständig erstellt; aus dem Buch stammen sinngemäß die
-sechs klassischen Zirkel- und Linealkonstruktionen sowie deren Nummerierung.
+Interactive study and simulation companion to page 61, "3.2 Basic Geometric Constructions – Tangents, Circular Arcs, Polygons" from
+**Mechanical & Metal Trades Handbook (Tabellenbuch Metall)**, 48th edition (Europa-Lehrmittel), Section **K** (Engineering Drawing / Technical Communication).
+All texts, explanations, mathematical calculation cores, and vector graphics were authored independently; the six classical compass-and-straightedge constructions and their numbering follow the handbook.
 
-`index.html` per Doppelklick öffnen. Die Anwendung benötigt keinen Webserver, keine externen Bibliotheken und keine Internetverbindung (Zero Dependencies).
+Open `index.html` by double-clicking it. The application requires no web server, no external libraries, and no internet connection (zero dependencies).
 
 ---
 
-## Die 6 Reiter (Grundkonstruktionen)
+## The 6 Tabs (Basic Constructions)
 
-| Reiter | Grundkonstruktion (S. 61) | Interaktive Funktionen & Geometrischer Kern |
+| Tab | Basic Construction (p. 61) | Interactive Features & Geometric Core |
 | :--- | :--- | :--- |
-| **1 Tangente in P** (`#tangente-p`) | **Tangente durch Kreispunkt P** ($P$ auf Kreis) | Verlängern des Radiusstrahls $\overline{MP}$, symmetrischer Hilfskreis um $P$ mit $r_1 \to A, B$ und Mittelsenkrechte $CD$ mit $r_2 > r_1$. Ziehbarer Berührpunkt $P$ auf der Kreislinie, Orthogonalitätsnachweis ($\overline{CD} \perp \overline{MP}$, $90{,}0^\circ$). |
-| **2 Tangente von P** (`#tangente-aussen`) | **Tangente von einem Punkt P an den Kreis** ($P$ außen) | Halbierung $\overline{MP} \to A$, Thaleskreis um $A$ mit $r = \overline{AM} = \frac{1}{2}\,\overline{MP}$. Schnittpunkt $T$ liefert Tangente $\overline{PT}$. Satz des Thales ($\angle MTP = 90^\circ$), Pythagoras-Prüfung $R^2 + L^2 = \overline{MP}^2$, frei ziehbarer Punkt $P$, Umschaltung beider Tangenten ($T$ und $T'$). |
-| **3 Rundung am Winkel** (`#rundung-winkel`) | **Rundung am Winkel** (Ausrundung mit Radius $r$) | Parallelen zu den Schenkeln im Abstand $r \to$ Schnittpunkt $M$. Lote von $M$ auf die Schenkel $\to$ Übergangspunkte $C$ und $D$. Stetiger tangentialer Übergang ($C^1$). Einstellbarer Winkel $\alpha$ ($30^\circ\dots 145^\circ$), Tangentenabschnitt $t = r / \tan(\alpha/2)$, Scheitelabstand $SM = r / \sin(\alpha/2)$, Drachenviereck-Beweis. |
-| **4 Kreisverbindung** (`#kreisverbindung`) | **Verbindung zweier Kreise durch Kreisbögen** | Konkave Ausrundung mit Innenradius $R_i$ (Bögen $R_i + r_1$, $R_i + r_2 \to A$) und konvexe Hülle mit Außenradius $R_a$ (Bögen $R_a - r_1$, $R_a - r_2 \to D$). Berührpunkte $B, C, E, F$ auf den Zentrenverbindungen (Kollinearität). Umschaltbare Vollkontur (Nocken-, Flansch- und Pleuelkopf). |
-| **5 Vieleck im Umkreis** (`#vieleck-umkreis`) | **Regelmäßiges Vieleck im Umkreis** (z. B. Fünfeck) | Universalkonstruktion nach Bion: Vertikaler Durchmesser $\overline{AB}$ in $n$ gleiche Teile teilen (nach S. 60). Kreisbogen mit $r = \overline{AB}$ um $A \to$ Polpunkte $C, D$ im Abstand $R\sqrt{3}$. Polstrahlen durch ungerade Teilpunkte (bei ungeradem $n$) bzw. gerade Teilpunkte (bei geradem $n$). Wählbare Eckzahl $n \in \{3\dots 10\}$, 99,15% Genauigkeit beim Fünfeck, 100% beim Sechseck. |
-| **6 Sechseck, Zwölfeck** (`#sechseck-zwoelfeck`) | **Sechseck, Zwölfeck im Umkreis** | Mit unverändertem Zirkelradius $r = d/2$ Bögen um $A$ und $B$ schlagen $\to$ exaktes Sechseck ($s = r$). Zusätzliche Einstiche in $C$ und $D$ für Zwölfeck ($30^\circ$-Teilung). Technische Bemaßung: Schlüsselweite $SW = d\frac{\sqrt{3}}{2}$ für Sechskantschrauben (DIN EN ISO 4014 / DIN 931) und Eckenmaß $e = d$. |
+| **1 Tangent at P** (`#tangente-p`) | **Tangent through circle point P** ($P$ on circle) | Extend radial line $\overline{MP}$, symmetric auxiliary circle around $P$ of radius $r_1 \to A, B$, and perpendicular bisector $CD$ with $r_2 > r_1$. Draggable tangency point $P$ on the circle, orthogonality verification ($\overline{CD} \perp \overline{MP}$, $90.0^\circ$). |
+| **2 Tangent from P** (`#tangente-aussen`) | **Tangent from external point P to circle** ($P$ outside) | Bisect $\overline{MP} \to A$, Thales circle around $A$ of radius $r = \overline{AM} = \frac{1}{2}\,\overline{MP}$. Intersection $T$ yields tangent $\overline{PT}$. Thales' theorem ($\angle MTP = 90^\circ$), Pythagorean check $R^2 + L^2 = \overline{MP}^2$, freely draggable point $P$, toggle both tangents ($T$ and $T'$). |
+| **3 Corner Fillet** (`#rundung-winkel`) | **Rounding an angle** (fillet with radius $r$) | Parallels to the angle legs at offset distance $r \to$ center $M$. Perpendiculars from $M$ onto the legs $\to$ tangency points $C$ and $D$. Smooth tangential transition ($C^1$). Adjustable angle $\alpha$ ($30^\circ\dots 145^\circ$), tangent length $t = r / \tan(\alpha/2)$, vertex offset $SM = r / \sin(\alpha/2)$, kite proof. |
+| **4 Circle Blend** (`#kreisverbindung`) | **Connecting two circles with circular arcs** | Concave fillet with inner radius $R_i$ (arcs $R_i + r_1$, $R_i + r_2 \to A$) and convex envelope with outer radius $R_a$ (arcs $R_a - r_1$, $R_a - r_2 \to D$). Tangency points $B, C, E, F$ on centerlines (collinearity). Toggleable full blend contour (cam, flange, and connecting-rod profile). |
+| **5 Polygon in Circle** (`#vieleck-umkreis`) | **Regular polygon inscribed in a circle** (e.g., pentagon) | Bion's general construction: divide vertical diameter $\overline{AB}$ into $n$ equal parts (per p. 60). Arc of radius $r = \overline{AB}$ centered at $A \to$ pole points $C, D$ at distance $R\sqrt{3}$. Rays through odd division marks (for odd $n$) or even marks (for even $n$). Selectable side count $n \in \{3\dots 10\}$; 99.15% accuracy for pentagon, 100% for hexagon. |
+| **6 Hexagon, Dodecagon** (`#sechseck-zwoelfeck`) | **Inscribed hexagon & dodecagon** | Strike arcs around $A$ and $B$ with unchanged compass radius $r = d/2 \to$ exact hexagon ($s = r$). Additional center strikes at $C$ and $D$ for dodecagon ($30^\circ$ spacing). Engineering dimensions: width across flats $AF = d\frac{\sqrt{3}}{2}$ for hex bolts (DIN EN ISO 4014 / DIN 931) and width across corners $e = d$. |
 
 ---
 
-## Automatisierte Prüfungen
+## Automated Checks
 
 ```bash
-node tests/verify.js                      # Geometrischer Rechenkern: 24 analytische Prüfungen über alle 6 Konstruktionen
-node tests/screenshots.js <ausgabeordner> # Headless-Edge: Generiert PNG-Screenshots der Zustände aus tests/steps.json
+node tests/verify.js                   # Geometric calculation core: 24 analytical checks across all 6 constructions
+node tests/screenshots.js <output-dir> # Headless Edge: generates PNG screenshots of states from tests/steps.json
 ```

@@ -1,53 +1,50 @@
-# Polarkoordinatensysteme, Flächendiagramme – Tabellenbuch Metall S. 59
+# Polar Coordinate Systems, Area Charts – Tabellenbuch Metall p. 59
 
-Interaktive Lernhilfe zur Seite 59 „3.1 Diagramme – Polarkoordinatensysteme, Flächendiagramme“ aus
-Tabellenbuch Metall, 48. Auflage (Europa-Lehrmittel), vgl. DIN 461 (1973-03) und DIN EN ISO 80000-2 (2013-08).
-Texte und Grafiken sind eigenständig erstellt. Aus dem Buch stammen die Regeln (sinngemäß)
-und die Beispielwerte (Warmfestigkeitsdiagramm $R_\text{m}/R_\text{e}$, Maßstab $10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$ der Rundheitsprüfung, Säulendiagramm 2013–2016, Kreisflächendiagramm $65/25/5/5\,\%$ sowie Legierung $\text{CuZn36Pb3}$ mit $3\,\%$ Blei $\to \alpha = 10{,}8^\circ$).
+Interactive study aid for page 59 *"3.1 Diagramme – Polarkoordinatensysteme, Flächendiagramme"* (3.1 Diagrams – Polar Coordinate Systems, Area Charts) from *Tabellenbuch Metall*, 48th edition (Verlag Europa-Lehrmittel), cf. DIN 461 (1973-03) and DIN EN ISO 80000-2 (2013-08).
+All text and graphics were created independently. Rules (paraphrased) and example values are taken from the book (high-temperature strength chart $R_\text{m}/R_\text{e}$, roundness testing scale $10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$, column chart 2013–2016, pie chart $65/25/5/5\,\%$, and alloy $\text{CuZn36Pb3}$ with $3\,\%$ lead $\to \alpha = 10.8^\circ$).
 
-Das Buch nennt zu den Diagrammen keine Zahlen. Diese Werte sind deshalb aus der Abbildung abgelesen:
+Because the textbook does not print numeric tables for those plots, the following values were digitized directly from the figures:
 
-- Messwerte $R_\text{m}$ und $R_\text{e}$ bei 0 … 600 °C, auf etwa ± 10 N/mm² genau.
-- Säulen 2013–2016: 3,4 / 2,7 / 2,2 / 3,7 Mio €, auf etwa ± 0,05 Mio € genau.
-- Rundheits-Messschrieb: aus dem Bild digitalisiert und als Fourier-Reihe (Harmonische 2 … 5) nachgebildet. Er hat die Dreiecksform eines Dreibackenfutters mit Erhebungen bei etwa 90°, 210° und 330°.
+- Measured values $R_\text{m}$ and $R_\text{e}$ at $0 \dots 600\,^\circ\text{C}$, accurate to roughly $\pm 10\,\text{N/mm}^2$.
+- Columns 2013–2016: 3.4 / 2.7 / 2.2 / 3.7 €M, accurate to roughly $\pm 0.05$ €M.
+- Roundness trace: digitized from the textbook plot and reconstructed as a Fourier series (harmonics 2 … 5). It shows the 3-lobe triangular shape of a 3-jaw chuck with high spots near 90°, 210°, and 330°.
 
-Nicht aus dem Buch stammen die dritte Kennlinie $R_\text{e2}$ (□, erfundener Werkstoff 2) sowie die Vorlagen CuSn8 und CuNi18Zn20.
+Not from the book are the third curve $R_\text{e2}$ (□, synthetic Material 2) and the presets CuSn8 and CuNi18Zn20.
 
-`index.html` per Doppelklick öffnen. Die App braucht keinen Server, keine Bibliotheken und kein Netz
-(klassische Skripte, SVG).
+Open `index.html` directly (double-click). The app needs no server, no external libraries, and no network connection (vanilla scripts, SVG).
 
-## Reiter
+## Tabs
 
-| Reiter | Inhalt |
+| Tab | Contents |
 |---|---|
-| 1 Mehrere Kennlinien | Warmfestigkeitsdiagramm (Festigkeit $R_\text{m}$, $R_\text{e}$ in $\text{N/mm}^2$ über Temperatur $T$ in $^\circ\text{C}$) mit stark streuenden Messwerten ($\times$, $\bigcirc$, optional 3. Kennlinie $R_\text{e2}$ eines zweiten Werkstoffs mit $\square$). Umschalten zwischen Farb-/Formelzeichen-Kennzeichnung und Linienarten nach DIN 461 (Volllinie, Strichlinie, Strichpunktlinie), Ausgleichskurve, Streuband oder ungeglättetem Linienzug. Messpunkte sind im Diagramm senkrecht ziehbar; Ableseübung mit Toleranz. |
-| 2 Polarkoordinaten | Polarkoordinatensystem mit $360^\circ$-Teilung, Nullpunkt (Pol), Winkelzuordnung ($0^\circ$ rechts waagrecht), positivem Winkelabtrag $+\varphi$ entgegen dem Uhrzeigersinn, Radius $r$ und konzentrischen Kreisen. Punkte ziehen, per Klick setzen oder als `P(r; φ)` eintippen; einblendbares kartesisches Stützdreieck ($x = r \cdot \cos\varphi$, $y = r \cdot \sin\varphi$) und Übung mit Fehlerdiagnose (Drehsinn / $0^\circ$-Lage). |
-| 3 Rundheitsprüfung | Polardiagramm einer Rundheitsmessmaschine im Maßstab $10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$ (Vergrößerung $2000 : 1$). Simulation der Unrundheit einer gedrehten Buchse durch zu starkes Spannen im Backenfutter (Buchbeispiel, 2-Backen-Ovalität, 3-Backen-Gleichdick, 4-Backenfutter): Nach dem Ausspannen hat die Bohrung an jeder Backe eine Erhebung. Mit einstellbarer Spannverformung, Toleranzband der Breite $t$ (mittig zwischen größter und kleinster Abweichung), drehbarem Messtaster und Maßstabs-/Ableseübung. |
-| 4 Flächendiagramme | Kreisflächendiagramm mit Mittelpunktswinkel $\alpha = \frac{360^\circ \cdot x\,\%}{100\,\%}$ (Buchbeispiel Legierung $\text{CuZn36Pb3}$ mit $\text{Pb} = 3\,\% \to 10{,}8^\circ$, $\text{Zn} = 36\,\% \to 129{,}6^\circ$, $\text{Cu} = 61\,\% \to 219{,}6^\circ$ sowie $65/25/5/5\,\%$), ziehbare Sektorgrenzen, editierbare Tabelle, Säulen-/Balkendiagramm „Umsatz in Mio € (2013–2016)“ zum Ziehen und Umschalten sowie Rechenübungen. |
+| 1 Multiple Curves | High-temperature strength chart (strength $R_\text{m}$, $R_\text{e}$ in $\text{N/mm}^2$ vs. temperature $T$ in $^\circ\text{C}$) with heavily scattered measurements ($\times$, $\bigcirc$, optional 3rd curve $R_\text{e2}$ of a second material with $\square$). Switch between color/symbol labels and DIN 461 line styles (solid, dashed, dash-dot), fitted curve, scatter band, or unsmoothed polyline. Data points can be dragged vertically; reading exercise with tolerance. |
+| 2 Polar Coordinates | Polar coordinate system with $360^\circ$ graduation, origin (pole), angle reference ($0^\circ$ horizontal right), positive angle $+\varphi$ counterclockwise, radius $r$, and concentric circles. Drag points, click to place, or enter `P(r; φ)`; optional Cartesian reference triangle ($x = r \cdot \cos\varphi$, $y = r \cdot \sin\varphi$) and exercise with error diagnostics (rotation direction / $0^\circ$ orientation). |
+| 3 Roundness Testing | Polar chart of a roundness measuring machine at scale $10\,\text{mm} \mathrel{\hat{=}} 5\,\mu\text{m}$ (magnification $2000 : 1$). Simulates out-of-roundness of a turned bushing caused by excessive chuck clamping force (book example, 2-jaw ovality, 3-jaw trilobe, 4-jaw chuck): after unclamping, the bore develops a high spot at each jaw. Adjustable clamping deformation, tolerance band of width $t$ (centered between maximum and minimum deviation), rotatable probe, and scale/reading exercise. |
+| 4 Area Charts | Pie chart with central angle $\alpha = \frac{360^\circ \cdot x\,\%}{100\,\%}$ (book example alloy $\text{CuZn36Pb3}$ with $\text{Pb} = 3\,\% \to 10.8^\circ$, $\text{Zn} = 36\,\% \to 129.6^\circ$, $\text{Cu} = 61\,\% \to 219.6^\circ$, plus $65/25/5/5\,\%$), draggable sector boundaries, editable table, draggable/switchable column and horizontal bar chart "Revenue in €M (2013–2016)", and calculation exercises. |
 
-Oben rechts: „← S. 58“ wechselt zur Schwester-App der vorangehenden Buchseite,
-„Buchwerte laden“ setzt alle Reiter auf die Beispiele von Seite 59 zurück,
-Das dunkle Blueprint-Design ist Standard. „Heller Modus“ schaltet auf das helle Design um; die Wahl wird im Browser gespeichert, `?theme=light` bzw. `?theme=dark` erzwingt eines der beiden.
-Reiter sind per Adresse erreichbar: `#kennlinien`, `#polar`, `#rundheit`, `#flaechen`.
+Top right: "← p. 58" navigates to the companion app for the preceding page,
+"Load Book Values" resets all tabs to the page 59 examples,
+Dark Blueprint Mode is the default. "Light Mode" switches to the light theme; the preference is saved in the browser, and `?theme=light` or `?theme=dark` forces either mode.
+Tabs are accessible via URL hash: `#kennlinien`, `#polar`, `#rundheit`, `#flaechen`.
 
-## Prüfung
+## Verification
 
 ```
-node tests/verify.js                      # Rechenkern: 52 Prüfungen gegen die Buchwerte von S. 59
-node tests/screenshots.js <ausgabeordner> # Headless-Edge: Zustände aus tests/steps.json als PNG
+node tests/verify.js                   # Calculation core: 52 checks against page 59 book values
+node tests/screenshots.js <outdir>     # Headless Edge: captures states from tests/steps.json as PNGs
 ```
 
-## Aufbau
+## Structure
 
 ```
 index.html, style.css
-js/core.js            Zahlenformat, PCHIP, Streuung, Polarkoordinaten, Rundheitsmaßstab, Mittelpunktswinkel
-js/svg.js             SVG-Hilfen: Text mit *kursiv*/_{tief}/^{hoch}, Pfeile, Marker (○, ×, □), Kreisbögen & Sektoren
-js/ui.js              Segmentschalter, Rückmeldungen, Register der Reiter
-js/tab-kennlinien.js  Reiter 1: Diagramme mit mehreren Kennlinien & streuenden Messwerten
-js/tab-polar.js       Reiter 2: Polarkoordinatensystem (360°-Teilung, Pol, +φ, r)
-js/tab-rundheit.js    Reiter 3: Beispiel Rundheitsprüfung einer gedrehten Buchse (10 mm ≙ 5 µm)
-js/tab-flaechen.js    Reiter 4: Säulen-/Balkendiagramm und Kreisflächendiagramm (Mittelpunktswinkel α)
-js/app.js             Reiterwechsel per Hash, Design, Buchwerte
+js/core.js            Number format, PCHIP, scatter, polar coordinates, roundness scale, central angle
+js/svg.js             SVG helpers: text with *italic*/_{sub}/^{sup}, arrows, markers (○, ×, □), arcs & sectors
+js/ui.js              Segmented switches, feedback, tab registry
+js/tab-kennlinien.js  Tab 1: Charts with multiple curves & scattered measurements
+js/tab-polar.js       Tab 2: Polar coordinate system (360° scale, pole, +φ, r)
+js/tab-rundheit.js    Tab 3: Example roundness testing of a turned bushing (10 mm ≙ 5 µm)
+js/tab-flaechen.js    Tab 4: Column/bar chart and pie chart (central angle α)
+js/app.js             Hash tab switching, theme, book defaults
 tests/                verify.js, screenshots.js, steps.json
 ```

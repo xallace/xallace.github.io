@@ -1,14 +1,14 @@
-/* Rechenkern ohne DOM: Zahlenformat, Punkt-Schreibweisen, Skalen, Interpolation.
-   Läuft im Browser (window.Core) und in Node (module.exports) für tests/verify.js. */
+/* Calculation core without DOM: number formatting, point notations, scales, interpolation.
+   Runs in the browser (window.Core) and in Node (module.exports) for tests/verify.js. */
 (function (root) {
   'use strict';
 
   const MINUS = '−';
   const THIN = ' ';
 
-  // Zahl im deutschen Format: Dezimalkomma, echtes Minuszeichen, ohne überflüssige Nullen.
-  // opts.noMinus lässt das Vorzeichen weg (nur für das Fehlerbild in Reiter 2),
-  // opts.group trennt ab 10 000 Dreiergruppen mit schmalem Leerzeichen.
+  // Number formatting: decimal point, true minus sign, no trailing zeros.
+  // opts.noMinus omits the minus sign (only for the error demonstration in Tab 2),
+  // opts.group separates thousands from 10 000 upward with a thin space.
   function fmt(v, dec = 2, opts = {}) {
     if (!isFinite(v)) return '–';
     if (Math.abs(v) < 0.5 * Math.pow(10, -dec)) v = 0;
@@ -16,28 +16,28 @@
     if (!opts.keepZeros && s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
     let [int, frac] = s.split('.');
     if (opts.group && int.length > 4) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
-    s = frac ? int + ',' + frac : int;
+    s = frac ? int + '.' + frac : int;
     return (v < 0 && !opts.noMinus ? MINUS : '') + s;
   }
 
-  // Skalenbeschriftung: alle Zahlen einer Achse mit gleich vielen Nachkommastellen (0,8  1,0  1,2), die Null ohne
+  // Axis tick label: all numbers on an axis share the same decimal places (0.8  1.0  1.2), except 0 without
   function tickLabel(v, dec, opts = {}) {
     return Math.abs(v) < 1e-12 ? '0' : fmt(v, dec, Object.assign({ keepZeros: true }, opts));
   }
 
-  // Eingabe lesen: Komma oder Punkt als Dezimalzeichen, Minus als - oder −
+  // Parse input: decimal point or comma, minus as - or −
   function parseNum(str) {
     const s = String(str).trim().replace(/[−–]/g, '-').replace(/\s/g, '').replace(',', '.');
     if (s === '' || !/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return NaN;
     return Number(s);
   }
 
-  // Liest „P3(−1,5; 2)“, „Q(2 | −1)“, „P(3,5, 1,5)“ oder nur „3,5; 1,5“.
-  // Ergebnis {name, x, y} oder {error}. Bei Dezimalkomma ist die Komma-Schreibweise
-  // nur mit Leerzeichen nach dem trennenden Komma eindeutig.
+  // Parses 'P3(−1.5; 2)', 'Q(2 | −1)', 'P(3.5, 1.5)', 'P3(−1,5; 2)', or just '3.5; 1.5'.
+  // Returns {name, x, y} or {error}. With decimal commas, comma separation is only
+  // unambiguous when a space follows the separating comma.
   function parsePoint(str) {
     const s = String(str).trim().replace(/[−–]/g, '-');
-    if (!s) return { error: 'Bitte einen Punkt eingeben, z. B. P(3,5; 1,5)' };
+    if (!s) return { error: 'Please enter a point, e.g., P(3.5; 1.5)' };
     const m = s.match(/^([A-Za-z]\w*)?\s*\((.*)\)$/);
     const name = m ? (m[1] || '') : '';
     const body = (m ? m[2] : s).trim();
@@ -48,32 +48,32 @@
     else {
       const commas = (body.match(/,/g) || []).length;
       if (commas === 1) parts = body.split(',');
-      else if (commas === 0) return { error: 'Zwei Koordinaten angeben: zuerst x, dann y' };
-      else return { error: 'Mehrdeutig: Bei Dezimalkomma die Werte mit „;“ oder „|“ trennen' };
+      else if (commas === 0) return { error: 'Enter two coordinates: x first, then y' };
+      else return { error: 'Ambiguous: when using decimal commas, separate coordinates with ";" or "|"' };
     }
-    if (parts.length !== 2) return { error: 'Genau zwei Koordinaten angeben: zuerst x, dann y' };
+    if (parts.length !== 2) return { error: 'Enter exactly two coordinates: x first, then y' };
     const x = parseNum(parts[0]), y = parseNum(parts[1]);
-    if (!isFinite(x) || !isFinite(y)) return { error: 'Zahl nicht lesbar: ' + (isFinite(x) ? parts[1] : parts[0]).trim() };
+    if (!isFinite(x) || !isFinite(y)) return { error: 'Unreadable number: ' + (isFinite(x) ? parts[1] : parts[0]).trim() };
     return { name, x, y };
   }
 
-  // Punkt in einer der drei Schreibweisen: 'semi' P(x; y), 'bar' P(x | y), 'comma' P(x, y)
+  // Point in one of three notations: 'semi' P(x; y), 'bar' P(x | y), 'comma' P(x, y)
   function pointText(name, x, y, style, dec = 2) {
     const sx = fmt(x, dec), sy = fmt(y, dec);
     const sep = style === 'bar' ? ' | ' : style === 'comma' ? ', ' : '; ';
     return name + '(' + sx + sep + sy + ')';
   }
 
-  // Lage eines Punktes: Quadrant I–IV oder auf einer Achse
+  // Location of a point: Quadrant I–IV, Origin, or on an axis
   function quadrant(x, y) {
-    if (x === 0 && y === 0) return 'Nullpunkt';
-    if (y === 0) return 'auf der x-Achse';
-    if (x === 0) return 'auf der y-Achse';
-    if (x > 0) return y > 0 ? 'I. Quadrant' : 'IV. Quadrant';
-    return y > 0 ? 'II. Quadrant' : 'III. Quadrant';
+    if (x === 0 && y === 0) return 'Origin';
+    if (y === 0) return 'on the x-axis';
+    if (x === 0) return 'on the y-axis';
+    if (x > 0) return y > 0 ? 'Quadrant I' : 'Quadrant IV';
+    return y > 0 ? 'Quadrant II' : 'Quadrant III';
   }
 
-  // Lineare Skala Daten → Pixel mit Umkehrung
+  // Linear scale data -> pixel with inverse mapping
   function linScale(d0, d1, r0, r1) {
     const k = (r1 - r0) / (d1 - d0);
     const f = v => r0 + (v - d0) * k;
@@ -84,7 +84,7 @@
     return f;
   }
 
-  // Logarithmische Skala (Zehnerlogarithmus), Werte > 0
+  // Logarithmic scale (base-10 log), values > 0
   function logScale(d0, d1, r0, r1) {
     const l0 = Math.log10(d0), l1 = Math.log10(d1), k = (r1 - r0) / (l1 - l0);
     const f = v => r0 + (Math.log10(v) - l0) * k;
@@ -95,7 +95,7 @@
     return f;
   }
 
-  // Teilstriche im Abstand step zwischen min und max (ohne Rundungsreste)
+  // Tick marks spaced by step between min and max (free of floating-point rounding noise)
   function ticks(min, max, step) {
     const out = [];
     const n0 = Math.ceil(min / step - 1e-9), n1 = Math.floor(max / step + 1e-9);
@@ -103,7 +103,7 @@
     return out;
   }
 
-  // Runder Teilungsschritt 1, 2, 5 · 10^n für etwa target Teilungen
+  // Nice step size 1, 2, 5 · 10^n for roughly target intervals
   function niceStep(span, target = 7) {
     const raw = span / target;
     const p = Math.pow(10, Math.floor(Math.log10(raw)));
@@ -111,13 +111,13 @@
     return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p;
   }
 
-  // Nachkommastellen, die ein Teilungsschritt braucht (0,25 → 2)
+  // Decimal places needed for a tick step (0.25 -> 2)
   function decimalsFor(step) {
     const s = String(+step.toFixed(10));
     return s.includes('.') ? s.split('.')[1].length : 0;
   }
 
-  // Dekaden und Zwischenteilung (2 … 9) einer logarithmischen Skala
+  // Decades and intermediate ticks (2 … 9) of a logarithmic scale
   function logTicks(min, max) {
     const major = [], minor = [];
     for (let e = Math.floor(Math.log10(min)); e <= Math.ceil(Math.log10(max)); e++) {
@@ -130,7 +130,7 @@
     return { major, minor };
   }
 
-  // Polygonzug durch die Wertepaare; außerhalb mit der Randsteigung verlängert
+  // Polyline through data pairs; extended beyond endpoints with end slopes
   function linear(xs, ys) {
     const n = xs.length;
     const seg = x => { let i = 0; while (i < n - 2 && x > xs[i + 1]) i++; return i; };
@@ -142,8 +142,8 @@
     return f;
   }
 
-  // Monotone kubische Hermite-Interpolation (Fritsch–Carlson; Steigungen wie scipy PchipInterpolator):
-  // glatte Kurve durch alle Punkte ohne Überschwinger, monotone Daten bleiben monoton.
+  // Monotone cubic Hermite interpolation (Fritsch-Carlson; slopes matching scipy PchipInterpolator):
+  // smooth curve through all points without overshoot; monotonic data remains monotonic.
   function pchip(xs, ys) {
     const n = xs.length;
     if (n < 3) return linear(xs, ys);
@@ -176,7 +176,7 @@
     return f;
   }
 
-  // Umkehrung einer im Intervall [a, b] steigenden Funktion durch Bisektion
+  // Inverse of an increasing function on [a, b] via bisection
   function invert(f, y, a, b) {
     let lo = a, hi = b;
     if (y < f(lo) || y > f(hi)) return NaN;
@@ -187,7 +187,7 @@
     return (lo + hi) / 2;
   }
 
-  // Schnittgeschwindigkeit → Drehzahl: n = vc / (π · d), vc in m/min, d in mm, n in 1/min
+  // Cutting speed -> rotational speed: n = vc / (π · d), vc in m/min, d in mm, n in 1/min
   const drehzahl = (vc, d) => vc * 1000 / (Math.PI * d);
 
   const Core = { MINUS, fmt, tickLabel, parseNum, parsePoint, pointText, quadrant, linScale, logScale, ticks, niceStep,

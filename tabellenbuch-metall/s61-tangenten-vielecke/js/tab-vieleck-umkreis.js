@@ -1,9 +1,9 @@
-/* Reiter 5: Regelmäßiges Vieleck im Umkreis (Tabellenbuch Metall S. 61, 5. Zeile)
-   Gegeben: Kreis mit Durchmesser d
-   1. AB in n gleiche Teile teilen (nach Seite 60).
-   2. Kreisbogen mit Radius r = AB um A schlagen -> ergibt C und D auf der Querachse.
-   3. C und D mit 1, 3 ... (ungerade Zahlen) bzw. 2, 4 ... (gerade Zahlen) verbinden.
-      Die Schnittpunkte mit dem Kreis ergeben das gesuchte Vieleck. */
+/* Tab 5: Regular Polygon in Circumcircle (Tabellenbuch Metall p. 61, row 5)
+   Given: Circle with diameter d
+   1. Divide AB into n equal parts (per page 60).
+   2. Strike circular arc with radius r = AB centered at A -> yields C and D on the transverse axis.
+   3. Connect C and D through 1, 3 ... (odd counts) or 2, 4 ... (even counts).
+      The intersections with the circle yield the required polygon. */
 (() => {
   'use strict';
   const { $, setSeg, seg, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -12,10 +12,10 @@
 
   const W = 640, H = 460, SCALE = 2.4; // 2.4 px = 1 mm
   const STEPS = [
-    [1, 'AB in n Teile teilen', 'Vertikalen Durchmesser <span class="overline">AB</span> in <i>n</i> gleiche Teile teilen (nach Strahlensatz, Seite 60).'],
-    [2, 'Polpunkte C und D', 'Kreisbogen mit Radius <i>r</i> = <span class="overline">AB</span> um A schlagen; schneidet die Querachse in C und D ($R\\sqrt{3}$).'],
-    [3, 'Polstrahlen ziehen', 'C und D mit 1, 3 ... (ungerade Eckzahl) bzw. 2, 4 ... (gerade Eckzahl) verbinden $\\to$ Schnittpunkte mit Kreis.'],
-    [4, 'Vieleck verbinden', 'Die Schnittpunkte mit dem Kreis zum gesuchten regelmäßigen Vieleck verbinden.']
+    [1, 'Divide AB into n parts', 'Divide vertical diameter <span class="overline">AB</span> into <i>n</i> equal parts (by intercept theorem, page 60).'],
+    [2, 'Pole points C and D', 'Strike a circular arc with radius <i>r</i> = <span class="overline">AB</span> centered at A; intersects the transverse axis at C and D (<i>R</i>√3).'],
+    [3, 'Draw pole rays', 'Connect C and D through 1, 3 ... (odd number of sides) or 2, 4 ... (even number of sides) → intersections with circle.'],
+    [4, 'Connect polygon', 'Connect the intersection points on the circle to form the required regular polygon.']
   ];
 
   const BOOK_STATE = () => ({
@@ -45,11 +45,11 @@
     const RPx = RMm * SCALE;
     const res = Core.constructRegularPolygonApprox(st.M, RPx, st.n);
 
-    // Gegebener Umkreis
+    // Given circumcircle
     SVG.circle(svg, st.M, RPx, { cls: 'given-line', w: 2.2 });
     SVG.centerMark(svg, st.M, 14);
 
-    // Vertikaler Durchmesser AB und horizontale Mittellinie
+    // Vertical diameter AB and horizontal centerline
     el(svg, 'line', {
       x1: st.M.x.toFixed(1), y1: (st.M.y - RPx - 25).toFixed(1),
       x2: st.M.x.toFixed(1), y2: (st.M.y + RPx + 25).toFixed(1),
@@ -61,7 +61,7 @@
       class: 'thin-line', 'stroke-dasharray': '6 4'
     });
 
-    // Durchmesser AB Bemaßung links
+    // Diameter AB dimension on left
     SVG.dimension(svg, { x: st.M.x - RPx, y: st.M.y - RPx }, { x: st.M.x - RPx, y: st.M.y + RPx }, '*d*', { offset: -35 });
 
     const { A, B, C, D, divisionPoints, rays, vertices, exactVertices } = res;
@@ -69,7 +69,7 @@
     SVG.point(svg, A, { label: 'A', dx: 0, dy: 18 });
     SVG.point(svg, B, { label: 'B', dx: 0, dy: -12 });
 
-    // Schritt 1: AB in n Teile teilen
+    // Step 1: Divide AB into n parts
     if (st.step >= 1) {
       const isHl = hl === 1;
       for (const dp of divisionPoints) {
@@ -86,11 +86,11 @@
       SVG.stepNum(svg, st.M.x + 14, st.M.y - RPx * 0.45, 1, { hl: isHl });
     }
 
-    // Schritt 2: Kreisbogen mit Radius AB = 2R um A -> C und D
+    // Step 2: Circular arc with radius AB = 2R centered at A -> C and D
     if (st.step >= 2) {
       const isHl = hl === 2;
       const rHelp = 2 * RPx;
-      // Bogen um A durch C und D
+      // Arc centered at A through C and D
       SVG.arcBetweenPoints(svg, A, rHelp, C, D, 12, {
         cls: isHl ? 'hl-arc' : 'arc-line', w: isHl ? 2.0 : 1.2
       });
@@ -99,7 +99,7 @@
       SVG.stepNum(svg, (D.x + st.M.x) / 2 + 10, st.M.y - 18, 2, { hl: isHl });
     }
 
-    // Schritt 3: Strahlen durch Teilpunkte
+    // Step 3: Rays through division points
     if (st.step >= 3) {
       const isHl = hl === 3;
       if (st.showRayLines) {
@@ -116,7 +116,7 @@
       SVG.stepNum(svg, st.M.x + 35, st.M.y + RPx * 0.45, 3, { hl: isHl });
     }
 
-    // Schritt 4: Vieleck verbinden
+    // Step 4: Connect polygon
     if (st.step >= 4) {
       const isHl = hl === 4;
       const polyPts = vertices.map(v => `${v.pt.x.toFixed(1)},${v.pt.y.toFixed(1)}`).join(' ');
@@ -127,12 +127,12 @@
         fill: 'rgba(56, 189, 248, 0.08)'
       });
 
-      // Ecken markieren
+      // Mark vertices
       for (const v of vertices) {
         SVG.point(svg, v.pt, { r: 3.8, res: true });
       }
 
-      // Optional: Theoretisch exaktes Vieleck zum optischen Vergleich
+      // Optional: Theoretically exact polygon for visual comparison
       if (st.showExactOverlay) {
         const exPts = exactVertices.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
         el(svg, 'polygon', {
@@ -152,26 +152,26 @@
     const resEl = $('viel-result');
     const isOdd = st.n % 2 === 1;
     resEl.className = 'result';
-    resEl.innerHTML = `Regelmäßiges ${st.n}-Eck &nbsp;·&nbsp; Genauigkeit ${fmt(res.relAccuracyPct, 2)}%`;
+    resEl.innerHTML = `Regular ${st.n}-gon &nbsp;·&nbsp; Accuracy ${fmt(res.relAccuracyPct, 2)}%`;
 
     const sConstructMm = res.edgeLengths[0] / SCALE;
     const sExactMm = res.exactEdgeLen / SCALE;
     const maxDevMm = res.maxEdgeDev / SCALE;
 
     $('viel-details').innerHTML = [
-      ['Eckzahl <i>n</i>', `${st.n} (${isOdd ? 'ungerade $\\to$ 1, 3...' : 'gerade $\\to$ 2, 4...'})`],
-      ['Durchmesser <i>d</i>', `${fmt(st.dMm, 0)} mm`],
-      ['Polabstand <span class="overline">MC</span> = <span class="overline">MD</span>', `${fmt(res.poleDist / SCALE, 1)} mm (<i>R</i>√3)`],
-      ['Konstruierte Kantenlänge <i>s</i>', `${fmt(sConstructMm, 2)} mm`],
-      ['Mathematisch exakte Kante', `${fmt(sExactMm, 2)} mm`],
-      ['Maximale Abweichung Δ<i>s</i>', `${fmt(maxDevMm, 2)} mm (${fmt(100 - res.relAccuracyPct, 2)}%)`],
-      ['Formel Polpunktabstand', `<i>x</i><sub>C,D</sub> = ± <i>R</i> · √3`]
+      ['Number of sides <i>n</i>', `${st.n} (${isOdd ? 'odd → 1, 3...' : 'even → 2, 4...'})`],
+      ['Diameter <i>d</i>', `${fmt(st.dMm, 0)} mm`],
+      ['Pole distance <span class="overline">MC</span> = <span class="overline">MD</span>', `${fmt(res.poleDist / SCALE, 1)} mm (<i>R</i>√3)`],
+      ['Constructed edge length <i>s</i>', `${fmt(sConstructMm, 2)} mm`],
+      ['Mathematically exact edge', `${fmt(sExactMm, 2)} mm`],
+      ['Maximum deviation Δ<i>s</i>', `${fmt(maxDevMm, 2)} mm (${fmt(100 - res.relAccuracyPct, 2)}%)`],
+      ['Pole distance formula', `<i>x</i><sub>C,D</sub> = ± <i>R</i> · √3`]
     ].map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
 
-    $('viel-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} richtig` : '';
+    $('viel-score').textContent = st.score[1] ? `${st.score[0]} / ${st.score[1]} correct` : '';
   }
 
-  // Umschalten der Eckzahl n (3..10)
+  // Switch number of sides n (3..10)
   seg('viel-n', v => {
     st.n = +v;
     render();
@@ -198,8 +198,8 @@
 
     st.quiz = { n, d, R, ask, truth, answered: false };
     $('viel-task').innerHTML = ask === 's'
-      ? `Ein Kreis mit Durchmesser <i>d</i> = <b>${d} mm</b> (<i>R</i> = ${R} mm) wird mit einem regelmäßigen <b>${n}-Eck</b> versehen. Wie groß ist die mathematisch exakte Kantenlänge <i>s</i> ($s = 2R \\cdot \\sin(180° / n)$)?`
-      : `Ein Kreis hat den Radius <i>R</i> = <b>${R} mm</b>. In welchem horizontalen Abstand von der Mitte befinden sich die Polpunkte C und D ($x = R \\cdot \\sqrt{3}$)?`;
+      ? `A circle with diameter <i>d</i> = <b>${d} mm</b> (<i>R</i> = ${R} mm) is inscribed with a regular <b>${n}-gon</b>. What is the mathematically exact edge length <i>s</i> (<i>s</i> = 2<i>R</i> · sin(180° / <i>n</i>))?`
+      : `A circle has radius <i>R</i> = <b>${R} mm</b>. At what horizontal distance from the center are pole points C and D located (<i>x</i> = <i>R</i> · √3)?`;
 
     $('viel-ans-unit').textContent = 'mm';
     $('viel-ans').value = '';
@@ -211,7 +211,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('viel-ans').value);
     if (isNaN(val)) {
-      feedback('viel-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('viel-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.3;
@@ -219,9 +219,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('viel-feedback', ok
-      ? `Richtig! Wert: ${fmt(st.quiz.truth, 1)} mm.`
-      : `Leider falsch. Richtig wäre: ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('viel-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Value: ${fmt(st.quiz.truth, 1)} mm.`
+      : `Incorrect. Correct answer: ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('viel-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('viel-quiz').addEventListener('click', newQuiz);

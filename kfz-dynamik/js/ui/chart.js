@@ -1,6 +1,6 @@
-/* KChart – kleine Canvas-Diagrammkomponente für die Buchdiagramme.
-   Linien und Punkte, lineare/logarithmische Achsen, optionale rechte y-Achse,
-   Annotationen (Linien, Punkte, Flächen, Text), Fadenkreuz mit Werten, Legende zum Ausblenden. */
+/* KChart – lightweight Canvas plotting component for textbook diagrams.
+   Lines and points, linear/logarithmic axes, optional right y-axis,
+   annotations (lines, points, shaded bands, text), crosshair readout, toggleable legend. */
 (function (root) {
   'use strict';
 
@@ -8,7 +8,7 @@
     if (!isFinite(v)) return '–';
     const a = Math.abs(v);
     const d = digits !== undefined ? digits : a >= 1000 ? 0 : a >= 100 ? 1 : a >= 10 ? 2 : a >= 1 ? 2 : a >= 0.01 ? 3 : 4;
-    return v.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: d });
+    return v.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: d });
   };
 
   function niceStep(span, target) {
@@ -175,7 +175,7 @@
       this._geom = { X, Y, Y2, m, pw, ph };
 
       ctx.font = '11px ' + cssVar('--font-mono', 'monospace');
-      // Gitter und Achsen
+      // Grid and axes
       const xt = xr.log ? logTicks(xr.lo, xr.hi) : linTicks(xr.lo, xr.hi, Math.max(3, Math.floor(pw / 80)));
       const yt = yr.log ? logTicks(yr.lo, yr.hi) : linTicks(yr.lo, yr.hi, Math.max(3, Math.floor(ph / 45)));
       ctx.strokeStyle = col.grid; ctx.lineWidth = 1;
@@ -197,13 +197,13 @@
         ctx.textAlign = 'left';
         for (const v of y2t.ticks) ctx.fillText(fmtNum(v, Math.max(0, -Math.floor(Math.log10(y2t.step) + 1e-9))), m.l + pw + 6, Y2(v));
       }
-      // Nulllinien betonen
+      // Highlight zero axes
       ctx.strokeStyle = col.axis;
       if (!yr.log && yr.lo < 0 && yr.hi > 0) { const py = Math.round(Y(0)) + 0.5; ctx.beginPath(); ctx.moveTo(m.l, py); ctx.lineTo(m.l + pw, py); ctx.stroke(); }
       if (!xr.log && xr.lo < 0 && xr.hi > 0) { const px = Math.round(X(0)) + 0.5; ctx.beginPath(); ctx.moveTo(px, m.t); ctx.lineTo(px, m.t + ph); ctx.stroke(); }
       ctx.strokeRect(m.l + 0.5, m.t + 0.5, pw, ph);
 
-      // Achsbeschriftungen
+      // Axis labels
       ctx.fillStyle = col.text; ctx.font = '12px ' + cssVar('--font-sans', 'sans-serif');
       ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
       ctx.fillText(this.opts.xLabel, m.l + pw / 2, H - 2);
@@ -217,7 +217,7 @@
       ctx.save();
       ctx.beginPath(); ctx.rect(m.l, m.t, pw, ph); ctx.clip();
 
-      // Flächen-Annotationen zuerst
+      // Area annotations first
       for (const a of this.annotations) {
         if (a.type === 'poly') {
           ctx.fillStyle = a.color; ctx.beginPath();
@@ -228,7 +228,7 @@
         }
       }
 
-      // Serien
+      // Data series
       for (const s of this.series) {
         if (this.hidden.has(s.name)) continue;
         const Yf = s.axis === 'right' ? Y2 : Y;
@@ -256,7 +256,7 @@
         }
       }
 
-      // Linien- und Punkt-Annotationen
+      // Line and point annotations
       ctx.font = '11px ' + cssVar('--font-sans', 'sans-serif');
       for (const a of this.annotations) {
         ctx.strokeStyle = a.color || col.axis; ctx.fillStyle = a.color || col.text;
@@ -264,7 +264,7 @@
         if (a.type === 'vline') {
           const px = X(a.x); ctx.beginPath(); ctx.moveTo(px, m.t); ctx.lineTo(px, m.t + ph); ctx.stroke();
           if (a.label) {
-            // Beschriftung links der Linie, wenn sie rechts aus dem Diagramm ragen würde
+            // Place label to the left of the line if it would overflow the right edge
             const left = px + 4 + ctx.measureText(a.label).width > m.l + pw;
             ctx.setLineDash([]); ctx.textAlign = left ? 'right' : 'left'; ctx.textBaseline = 'top';
             ctx.fillText(a.label, px + (left ? -4 : 4), m.t + 4 + (a.row || 0) * 14);
@@ -282,7 +282,7 @@
           ctx.fillStyle = a.fill || a.color || col.strong; ctx.fill();
           ctx.lineWidth = 2; ctx.strokeStyle = cssVar('--bg-primary', '#000'); ctx.stroke();
           if (a.label) {
-            // unter den Punkt, wenn oben kein Platz ist; nach links, wenn rechts kein Platz ist
+            // Place below point if near top, and left if near right edge
             const w = ctx.measureText(a.label).width;
             const right = a.align === 'right' || (a.align !== 'left' && px + 8 + w > m.l + pw);
             const below = py - 18 < m.t;
@@ -354,7 +354,7 @@
     }
   }
 
-  // y(x) für Serien mit (abschnittsweise) monotoner x-Folge; nimmt den ersten passenden Abschnitt
+  // y(x) for series with (piecewise) monotonic x; picks the first matching segment
   function interpSeries(s, x) {
     const xs = s.x, ys = s.y;
     for (let i = 1; i < xs.length; i++) {

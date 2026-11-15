@@ -1,6 +1,6 @@
-/* Prüft die Rechenkerne gegen Zahlenwerte aus Mitschke/Wallentowitz, Dynamik der Kraftfahrzeuge, 5. Aufl.
-   Aufruf:  node tests/verify.js
-   Die Prüfliste steht in js/engine/pruefung.js und erscheint auch im Reiter „Prüfung“ der App. */
+/* Verifies simulation kernels against numerical values from Mitschke/Wallentowitz, Dynamik der Kraftfahrzeuge, 5th ed.
+   Usage:  node tests/verify.js
+   The test list lives in js/engine/pruefung.js and also appears in the app's “Verification” tab. */
 'use strict';
 const path = require('path');
 for (const f of ['core', 'data', 'reifen', 'laengs', 'bremsung', 'schwingung', 'einspur', 'pruefung']) {
@@ -14,11 +14,11 @@ for (const r of rows) {
   if (r.kind === 'info') {
     infos++;
     const dev = (r.got - r.want) / r.want * 100;
-    console.log(`info  ${r.label.padEnd(44)} ${p(r.got)}  Buch ${p(r.want)}  (${dev > 0 ? '+' : ''}${dev.toFixed(1)} %, ${r.ref})`);
+    console.log(`info  ${r.label.padEnd(44)} ${p(r.got)}  Book ${p(r.want)}  (${dev > 0 ? '+' : ''}${dev.toFixed(1)} %, ${r.ref})`);
     continue;
   }
   if (r.ok) oks++; else fails++;
-  console.log(`${r.ok ? 'ok  ' : 'FAIL'}  ${r.label.padEnd(44)} ${p(r.got)}  Buch ${p(r.want)}  (±${+(r.tol * 100).toFixed(1)} %, ${r.ref})`);
+  console.log(`${r.ok ? 'ok  ' : 'FAIL'}  ${r.label.padEnd(44)} ${p(r.got)}  Book ${p(r.want)}  (±${+(r.tol * 100).toFixed(1)} %, ${r.ref})`);
 }
-console.log(`\n${oks} bestanden, ${fails} fehlgeschlagen, ${infos} bekannte Abweichungen.`);
+console.log(`\n${oks} passed, ${fails} failed, ${infos} known deviations.`);
 process.exitCode = fails === 0 ? 0 : 1;

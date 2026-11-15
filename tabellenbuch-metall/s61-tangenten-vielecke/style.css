@@ -1,9 +1,9 @@
-/* Tabellenbuch Metall S. 61 · 3.2 Geometrische Grundkonstruktionen (Tangenten, Kreisbögen, Vielecke) –
-   Design wie S. 58, S. 59 & S. 60: Blueprint-Dunkelmodus als Standard, helles Königsblau-Design umschaltbar */
+/* Tabellenbuch Metall p. 61 · 3.2 Basic Geometric Constructions (Tangents, Circular Arcs, Polygons) –
+   Design matching p. 58, p. 59 & p. 60: Blueprint dark mode default, toggleable royal-blue light theme */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
-  --accent: #c8102e;          /* Rote Konstruktions-Schrittnummern 1..6 wie im Buch */
+  --accent: #c8102e;          /* Red construction step numbers 1..6 as in the handbook */
   --accent-blue: #0066b3;
   --accent-green: #15803d;
   --accent-2: #d97706;
@@ -20,9 +20,9 @@
   --ink: #111827;
   --arc-stroke: #334155;
   --grid: #cbd5e1;
-  --dia-plain: #eef0f3;       /* Grauer Konstruktionshintergrund wie in der linken Spalte von S. 61 */
+  --dia-plain: #eef0f3;       /* Gray construction background matching left column of p. 61 */
   --hl: #f59e0b;
-  --given-bg: #fef9c3;        /* Gelber Kopfbalken wie im Tabellenbuch rechts */
+  --given-bg: #fef9c3;        /* Yellow header bar as on the right side of the handbook */
   --given-border: #eab308;
   --pt-fill: #ffffff;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
@@ -63,7 +63,7 @@ body.theme-blueprint {
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* Kopfzeile im Stil des Tabellenbuchs mit Seitenzahl 61 und Fachbuchstabe K */
+/* Header bar in handbook style with page number 61 and section letter K */
 .tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
 body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
 .tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -96,12 +96,12 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .card h3 .score { margin-left: auto; }
 .side .card h3 { font-size: 0.9rem; }
 
-/* Gelber Buch-Kopfkasten „Gegeben: ...“ */
+/* Yellow handbook header box "Given: ..." */
 .given-box { background: var(--given-bg); border-left: 4px solid var(--given-border); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin-bottom: 10px; }
 .given-box b { color: var(--text); }
 .overline { text-decoration: overline; }
 
-/* Konstruktions-Zeichenfläche (SVG) nach DIN ISO 128 */
+/* Construction drawing canvas (SVG) per DIN ISO 128 */
 .dia { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; font-family: var(--font-dia); --halo: var(--dia-plain); border-radius: 6px; border: 1px solid var(--border-subtle); }
 .dia text { fill: var(--ink); }
 .dia .bg-plain { fill: var(--dia-plain); }
@@ -128,7 +128,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .dia text.hl-text { fill: var(--hl) !important; font-weight: 800; }
 .dia .center-mark line { stroke: var(--muted); opacity: 0.65; }
 
-/* Bedienelemente */
+/* Controls */
 .ctl-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 8px 0; }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
 .seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
@@ -146,7 +146,7 @@ body.theme-blueprint .btn { color: #0b1526; }
 input.num { font: 0.9rem var(--mono); padding: 5px 8px; width: 88px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); }
 input.num:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
 
-/* Nummerierte Konstruktionsschritte (1..6 wie im Buch) */
+/* Numbered construction steps (1..6 as in the handbook) */
 .rules { list-style: none; margin: 0; padding: 0; }
 .rules li { display: flex; align-items: flex-start; gap: 9px; border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.84rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: pointer; transition: background 0.12s; }
 .rules li b { color: var(--text); }

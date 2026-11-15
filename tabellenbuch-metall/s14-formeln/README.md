@@ -1,52 +1,51 @@
-# Formeln, Gleichungen, Diagramme – Tabellenbuch Metall S. 14
+# Formulas, Equations, Diagrams – Tabellenbuch Metall p. 14
 
-Interaktive Lernhilfe zur Seite 14 „1.2 Formeln“ aus Tabellenbuch Metall, 48. Auflage
-(Europa-Lehrmittel), Kapitel Technische Mathematik. Texte und Grafiken sind eigenständig erstellt.
-Aus dem Buch stammen nur die Regeln (sinngemäß) und die Beispielwerte (vc mit d = 200 mm,
-n = 630/min; M mit P = 15 kW, n = 750/min; y = 0,5 · x + 1; KG = 60 €/Stck · M + 200 000 €,
-E = 110 €/Stck · M).
+Interactive learning aid for page 14 "1.2 Formulas" of *Tabellenbuch Metall*, 48th edition
+(Europa-Lehrmittel), chapter Technical Mathematics. All texts and graphics are independently created.
+Only the underlying rules (paraphrased) and worked example values come from the book (`vc` with `d = 200 mm`,
+`n = 630/min`; `M` with `P = 15 kW`, `n = 750/min`; `y = 0.5 · x + 1`; `KG = 60 €/unit · M + 200 000 €`,
+`E = 110 €/unit · M`).
 
-`index.html` per Doppelklick öffnen. Die App braucht keinen Server, keine Bibliotheken und kein Netz
-(klassische Skripte, Formelsatz in HTML, SVG).
+Open `index.html` by double-clicking. The app requires no server, no external libraries, and no internet connection
+(classic scripts, HTML math typesetting, SVG).
 
-## Reiter
+## Tabs
 
-| Reiter | Inhalt |
+| Tab | Contents |
 |---|---|
-| 1 Formeln | Größengleichung vc = π · d · n, gesucht vc, n oder d. d in mm, cm oder m, n in 1/min oder 1/s; der Rechengang zeigt jede Umrechnung als Bruch (1 m / 1000 mm, 1 min / 60 s). Drehen oder Fräsen als bewegtes Bild (50-fach verlangsamt) mit Umfang und Weg je Minute. Bestandteile einer Formel antippen: Formelzeichen, Operatoren, Konstanten oder Zahlen leuchten im Rechengang auf. Übung mit Diagnose „um den Faktor 1000 daneben“. |
-| 2 Zahlenwertgleichungen | M = 9550 · P / n, gesucht M, P oder n. Schalter „P eingesetzt in W (falsch)“ zeigt das 1000-fach zu große Ergebnis. M-n-Hyperbel bei konstanter Leistung mit ziehbarem Betriebspunkt A, Tabelle der vorgeschriebenen Einheiten, Herleitung von 9550 aus M = P / (2π · n), Vergleich Größen- und Zahlenwertgleichung. Übung mit W-Falle. |
-| 3 Lineare Funktion | y = m · x + b mit ziehbaren Punkten B(0 \| b) und P(1 \| b + m), Steigungsdreieck, Maß b, Nullstelle. Wertetabelle wie im Buch, x-Werte änderbar. Übung „Gerade ablesen“ mit Diagnose (Vorzeichen, Δx und Δy vertauscht). |
-| 4 Kosten & Gewinnschwelle | Gesamtkosten durchgezogen, Erlös gestrichelt wie im Buch, Verlust- und Gewinnfläche, Gewinnschwelle mit Ablesung, Menge M per Klick oder Ziehen. Variablen der Buchlegende antippen: das Element leuchtet im Diagramm auf. Wertetabelle für M = 0, Gs und M, Rechengang für die Gewinnschwelle. Szenarien Buchbeispiel, Drehteil, Spritzgussteil, Stanzteil. Übung zu Gewinnschwelle und Ergebnis. |
+| 1 Formulas | Quantity equation `vc = π · d · n`, solve for `vc`, `n`, or `d`. `d` in `mm`, `cm`, or `m`; `n` in `1/min` or `1/s`; the step-by-step calculation shows each unit conversion as a fraction (`1 m / 1000 mm`, `1 min / 60 s`). Turning or milling as an animated view (slowed 50×) with circumference and distance per minute. Tap formula parts so symbols, operators, constants, or numerical values highlight throughout the calculation. Practice exercise with diagnostic feedback ("off by a factor of 1000"). |
+| 2 Numerical-Value Equations | `M = 9550 · P / n`, solve for `M`, `P`, or `n`. Toggle "`P` entered in W (wrong)" shows the 1000× oversized result. `M`–`n` hyperbola at constant power with draggable operating point `A`, table of prescribed units, derivation of `9550` from `M = P / (2π · n)`, comparison of quantity vs. numerical-value equation. Practice exercise featuring the W trap. |
+| 3 Linear Function | `y = m · x + b` with draggable points `B(0 | b)` and `P(1 | b + m)`, slope triangle, dimension `b`, x-intercept. Value table as in the book with editable `x` values. Practice exercise "Read line equation" with diagnostic feedback (sign error, `Δx` and `Δy` swapped). |
+| 4 Cost & Break-Even | Total cost solid line, revenue dashed line as in the book, loss and profit shading, break-even point readout, quantity `M` selectable by clicking or dragging. Tap legend variables to highlight the corresponding element in the diagram. Value table for `M = 0`, `BEP`, and `M`, plus step-by-step break-even calculation. Presets: Book example, Turned part, Injection-molded part, Stamped part. Practice exercise on break-even and profit/loss. |
 
-Oben rechts: „Buchwerte laden“ setzt alle Reiter auf die Beispiele der Seite zurück.
-Das dunkle Blueprint-Design ist Standard. „Heller Modus“ schaltet auf das helle Design um; die Wahl wird im Browser gespeichert, `?theme=light` bzw. `?theme=dark` erzwingt eines der beiden.
-Reiter sind per Adresse erreichbar: `#formeln`, `#zahlenwert`, `#linear`, `#kosten`. Die Adressen der
-Vorversion (`#tab-overview`, `#tab-vc`, `#tab-torque`, `#tab-linear`, `#tab-breakeven`, `#tab-quiz`, `#tab-book`) führen auf den passenden Reiter.
+Top right: "Load Book Values" resets all tabs to the page examples.
+The dark Blueprint theme is default. "Light Mode" switches to the light theme; the preference is saved in the browser, and `?theme=light` or `?theme=dark` forces either mode.
+Tabs are directly addressable by hash: `#formeln`, `#zahlenwert`, `#linear`, `#kosten`. Legacy URLs from the previous version (`#tab-overview`, `#tab-vc`, `#tab-torque`, `#tab-linear`, `#tab-breakeven`, `#tab-quiz`, `#tab-book`) redirect to the matching tab.
 
-## Annahmen und Abweichungen
+## Assumptions and Notes
 
-- **Erlösfunktion:** Das Buch druckt „E = E/Stück · M“. Die App übernimmt diese Schreibweise; gemeint ist der Erlös je Stück mal Menge.
-- **Szenarien Drehteil, Spritzgussteil, Stanzteil:** frei gewählte Zahlenbeispiele, nicht aus dem Buch. Die App kennzeichnet sie so.
-- **9550:** Der exakte Faktor ist 60 000 / (2π) = 9549,297. Die App rechnet wie das Buch mit 9550 und zeigt den exakten Wert und die Abweichung (+0,0074 %) daneben.
-- **Gegenüber der Vorversion entfallen:** die Werkstoff-Richtwerte für vc (Quelle nicht belegt), die Übersichtstafel und der eigene Übungsreiter. Jeder Reiter hat jetzt seine eigene Übung.
+- **Revenue function:** The book prints "`E = E/Stück · M`" (revenue per unit times quantity). The app preserves `E/unit · M` to stay faithful to the book notation.
+- **Turned part, Injection-molded part, Stamped part presets:** freely chosen realistic numerical examples, not from the book; labeled accordingly in the app.
+- **9550:** The exact factor is `60 000 / (2π) = 9549.297`. The app calculates with `9550` like the book and displays the exact value and `+0.0074 %` deviation beside it.
+- **Removed compared to earlier version:** empirical material cutting-speed tables (`vc` reference values without verified source), overview board, and separate quiz tab (each tab now includes its own interactive exercise).
 
-## Prüfung
+## Verification
 
 ```
-node tests/verify.js                     # Rechenkern: 49 Prüfungen, u. a. 395,84 m/min, 191 N · m, Gs = 4000 Stück
-node tests/screenshots.js <ausgabeordner> # Headless-Edge: Zustände aus tests/steps.json als PNG
+node tests/verify.js                     # Calculation core: 49 checks, including 395.84 m/min, 191 N·m, BEP = 4000 units
+node tests/screenshots.js <output-dir>   # Headless Edge: captures states from tests/steps.json as PNGs
 ```
 
-`screenshots.js` legt je Lauf ein Edge-Profil `%TEMP%\edge-shot-*` an; danach löschen.
+`screenshots.js` creates an Edge profile `%TEMP%\edge-shot-*` per run; delete afterward if needed.
 
-## Aufbau
+## Structure
 
 ```
 index.html, style.css
-js/core.js            Zahlenformat (Dezimalkomma, Minuszeichen, Tausender), Eingabe lesen, Skalen, Formeln der Seite
-js/svg.js             SVG-Hilfen: Text mit *kursiv*/_{tief}/^{hoch}, Pfeile, Ziehen
-js/ui.js              Segmentschalter, Rückmeldungen, Formelsatz (Bruch, Rechengang), Register der Reiter
-js/tab-*.js           je ein Reiter
-js/app.js             Reiterwechsel per Hash, Design, Buchwerte
+js/core.js            Number formatting (decimal point, minus sign, thousands), input parsing, scales, page formulas
+js/svg.js             SVG helpers: text with *italic*/_{sub}/^{sup}, arrows, dragging
+js/ui.js              Segmented controls, feedback, math typesetting (fractions, steps), tab registry
+js/tab-*.js           One module per tab
+js/app.js             Hash routing, theme toggle, book-value reset
 tests/                verify.js, screenshots.js, steps.json
 ```

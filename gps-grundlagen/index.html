@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPS-Grundlagen • Form- und Lagetoleranzen nach ISO 1101 und ISO 8015</title>
-  <meta name="description" content="Interaktive Lernhilfe zur Geometrischen Produktspezifikation: die 14 Toleranzarten nach DIN EN ISO 1101 mit Zeichnungseintrag, Toleranzzone und Abweichung, Toleranzrahmen-Prüfer, die 13 Grundsätze nach DIN EN ISO 8015 und Übungsaufgaben.">
+  <title>GPS Fundamentals • Geometrical Tolerances per ISO 1101 and ISO 8015</title>
+  <meta name="description" content="Interactive learning guide to Geometrical Product Specifications (GPS): the 14 tolerance types per DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, tolerance frame checker, the 13 principles of DIN EN ISO 8015, and practice exercises.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Crect x='4' y='10' width='24' height='12' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cline x1='12' y1='10' x2='12' y2='22' stroke='white' stroke-width='1.6'/%3E%3Cline x1='22' y1='10' x2='22' y2='22' stroke='white' stroke-width='1.6'/%3E%3Cpath d='M6 19L9 13M8.5 19L11.5 13' stroke='%23fbbf24' stroke-width='1.4'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,85 +15,85 @@
         <span class="page-badge">GPS</span>
         <span class="subject-tag">ISO</span>
         <div>
-          <h1>Geometrische Produktspezifikation • Form- und Lagetoleranzen</h1>
-          <div class="sub">14 Toleranzarten nach DIN EN ISO 1101 • Grundsätze nach DIN EN ISO 8015:2011 • Bezüge nach DIN EN ISO 5459</div>
+          <h1>Geometrical Product Specifications • Geometrical Tolerances</h1>
+          <div class="sub">14 tolerance types per DIN EN ISO 1101 • Principles per DIN EN ISO 8015:2011 • Datums per DIN EN ISO 5459</div>
         </div>
       </div>
       <div class="tbb-tools">
-        <a href="../" class="back-link" title="Zurück zum Portfolio">← Portfolio</a>
-        <a href="../tabellenbuch-metall/" class="back-link" title="Tabellenbuch Metall: interaktive Lehrmodelle">Tabellenbuch</a>
-        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+        <a href="../" class="back-link" title="Back to Portfolio">← Portfolio</a>
+        <a href="../tabellenbuch-metall/" class="back-link" title="Mechanical Engineering Handbook: interactive teaching models">Handbook</a>
+        <button class="btn-header" id="btn-theme" title="Toggle between light theme and blueprint dark mode">◐ <span id="theme-label">Light Mode</span></button>
       </div>
     </div>
     <nav class="tabs" id="tabs">
-      <button data-tab="uebersicht" class="active">1 Übersicht</button>
-      <button data-tab="toleranzarten">2 Toleranzarten</button>
-      <button data-tab="rahmen">3 Toleranzrahmen</button>
-      <button data-tab="grundsaetze">4 Grundsätze ISO 8015</button>
-      <button data-tab="uebung">5 Übung</button>
+      <button data-tab="uebersicht" class="active">1 Overview</button>
+      <button data-tab="toleranzarten">2 Tolerance Types</button>
+      <button data-tab="rahmen">3 Tolerance Frame</button>
+      <button data-tab="grundsaetze">4 ISO 8015 Principles</button>
+      <button data-tab="uebung">5 Practice</button>
     </nav>
   </header>
 
   <main>
     <section class="tab active" id="tab-uebersicht">
       <div class="tab-head">
-        <h2>Die 14 Toleranzarten auf einen Blick</h2>
-        <p>Vier Gruppen: Form, Richtung, Ort und Lauf. Die Gruppe entscheidet, ob ein Bezug nötig ist. Linien- und Flächenprofil stehen in drei Gruppen, je nachdem, ob und wie sie sich auf einen Bezug beziehen. Ein Klick auf ein Symbol öffnet die Toleranzart im Detail.</p>
+        <h2>The 14 Tolerance Types at a Glance</h2>
+        <p>Four groups: form, orientation, location, and run-out. The group determines whether a datum is required. Line profile and surface profile appear in three groups depending on whether and how they reference a datum. Click any symbol to inspect that tolerance in detail.</p>
       </div>
       <div class="ovgrid" id="overview"></div>
     </section>
 
     <section class="tab" id="tab-toleranzarten">
       <div class="tab-head">
-        <h2>Toleranzarten im Detail</h2>
-        <p>Je Toleranzart: der Eintrag in der Zeichnung, die Form der Toleranzzone und wie die Abweichung <i>f</i> ermittelt wird. Eine Anforderung ist erfüllt, wenn <i>f</i> ≤ <i>t</i>. Die Abweichungsbilder sind überhöht gezeichnet.</p>
+        <h2>Tolerance Types in Detail</h2>
+        <p>For each tolerance type: the drawing callout, the shape of the tolerance zone, and how the deviation <i>f</i> is determined. A requirement is satisfied when <i>f</i> ≤ <i>t</i>. Deviation diagrams are drawn exaggerated for clarity.</p>
       </div>
-      <div class="ctl-row"><span>Gruppe:</span><span class="seg" id="grp-seg"></span></div>
+      <div class="ctl-row"><span>Group:</span><span class="seg" id="grp-seg"></span></div>
       <div id="types"></div>
     </section>
 
     <section class="tab" id="tab-rahmen">
       <div class="tab-head">
-        <h2>Toleranzrahmen lesen und prüfen</h2>
-        <p>Toleranzrahmen zusammenstellen: Die Seite liest ihn in Worten vor und prüft die häufigsten formalen Fehler aus Zeichnungsprüfung und Abschlussprüfung.</p>
+        <h2>Read and Check Tolerance Frames</h2>
+        <p>Assemble a tolerance frame: the page reads it aloud in plain language and checks for the most common formal errors in drawing reviews and engineering exams.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <label>Toleranzart <select id="b-type"></select></label>
-            <label>Wert <input class="num" id="b-val" value="0,05"></label>
+            <label>Tolerance type <select id="b-type"></select></label>
+            <label>Value <input class="num" id="b-val" value="0.05"></label>
             <label class="chk"><input type="checkbox" id="b-dia"> Ø</label>
             <label class="chk"><input type="checkbox" id="b-mmr"> Ⓜ</label>
           </div>
           <div class="ctl-row">
-            <span>Bezüge:</span>
-            <input class="num short" id="b-d1" value="" placeholder="1." maxlength="3" aria-label="Primärer Bezug">
-            <input class="num short" id="b-d2" value="" placeholder="2." maxlength="3" aria-label="Sekundärer Bezug">
-            <input class="num short" id="b-d3" value="" placeholder="3." maxlength="3" aria-label="Tertiärer Bezug">
+            <span>Datums:</span>
+            <input class="num short" id="b-d1" value="" placeholder="1st" maxlength="3" aria-label="Primary datum">
+            <input class="num short" id="b-d2" value="" placeholder="2nd" maxlength="3" aria-label="Secondary datum">
+            <input class="num short" id="b-d3" value="" placeholder="3rd" maxlength="3" aria-label="Tertiary datum">
           </div>
-          <div class="framebig"><svg id="b-svg" viewBox="0 0 200 34" role="img" aria-label="Toleranzrahmen"></svg></div>
+          <div class="framebig"><svg id="b-svg" viewBox="0 0 200 34" role="img" aria-label="Tolerance frame"></svg></div>
           <div id="b-read" class="reading"></div>
           <div class="ctl-row" id="b-examples">
-            <span>Beispiele:</span>
-            <button class="btn ghost" data-ex="pos|0,1|1|0|A|B|C">Bohrungsposition</button>
-            <button class="btn ghost" data-ex="recht|0,02|1|0|A">Bohrung ⊥ A</button>
-            <button class="btn ghost" data-ex="lauf|0,05|0|0|A-B">Rundlauf A-B</button>
-            <button class="btn ghost" data-ex="eben|0,05|0|0|A">Fehler: Ebenheit mit Bezug</button>
-            <button class="btn ghost" data-ex="para|0,1|0|0">Fehler: Parallelität ohne Bezug</button>
+            <span>Examples:</span>
+            <button class="btn ghost" data-ex="pos|0.1|1|0|A|B|C">Hole position</button>
+            <button class="btn ghost" data-ex="recht|0.02|1|0|A">Hole ⊥ A</button>
+            <button class="btn ghost" data-ex="lauf|0.05|0|0|A-B">Circular run-out A-B</button>
+            <button class="btn ghost" data-ex="eben|0.05|0|0|A">Error: flatness with datum</button>
+            <button class="btn ghost" data-ex="para|0.1|0|0">Error: parallelism without datum</button>
           </div>
         </div>
         <div class="side">
           <div class="card">
-            <h3>Prüfung</h3>
+            <h3>Validation</h3>
             <ul class="checks" id="b-check"></ul>
           </div>
           <div class="card">
-            <h3>So ist der Rahmen aufgebaut</h3>
+            <h3>How the Frame Is Structured</h3>
             <ul class="rules plain">
-              <li><b>1. Feld:</b> Symbol der Toleranzart</li>
-              <li><b>2. Feld:</b> Toleranzwert in mm, Ø bei zylindrischer Zone, dahinter Modifikatoren wie Ⓜ, Ⓛ, CZ</li>
-              <li><b>3. bis 5. Feld:</b> Bezüge in der Reihenfolge primär, sekundär, tertiär. A-B in einem Feld ist ein gemeinsamer Bezug</li>
-              <li><b>Bezugsbuchstaben:</b> Großbuchstaben, nicht I, O, Q, X (ISO 5459)</li>
+              <li><b>1st compartment:</b> Tolerance characteristic symbol</li>
+              <li><b>2nd compartment:</b> Tolerance value in mm, Ø for a cylindrical or circular zone, followed by modifiers such as Ⓜ, Ⓛ, CZ</li>
+              <li><b>3rd to 5th compartments:</b> Datums in primary, secondary, tertiary order. A-B in one compartment denotes a common datum</li>
+              <li><b>Datum letters:</b> Uppercase letters, excluding I, O, Q, X (ISO 5459)</li>
             </ul>
           </div>
         </div>
@@ -102,21 +102,21 @@
 
     <section class="tab" id="tab-grundsaetze">
       <div class="tab-head">
-        <h2>Die 13 Grundsätze nach DIN EN ISO 8015:2011</h2>
-        <p>Die Grundnorm des GPS-Systems. Sie gilt für jede Zeichnung, auf der eine GPS-Angabe steht, auch wenn sie dort nicht genannt ist. Kurzfassungen in eigenen Worten, Abschnittsnummern wie in der Norm.</p>
+        <h2>The 13 Principles of DIN EN ISO 8015:2011</h2>
+        <p>The fundamental GPS standard. It applies to every drawing containing any GPS indication, even if not explicitly cited there. Concise summaries in plain language; clause numbers match the standard.</p>
       </div>
       <div class="layout">
         <div class="card"><div id="principles" class="plist"></div></div>
         <div class="side">
           <div class="card">
-            <h3>Unabhängigkeit oder Hüllbedingung Ⓔ</h3>
-            <div class="given-box"><b>Welle Ø20 −0,1</b>, also 19,90 … 20,00 mm</div>
-            <div class="slider"><span>Zweipunktmaß <i>d</i></span><input type="range" id="e-d" min="19.85" max="20.05" step="0.01" value="19.95"><output id="e-d-out"></output></div>
-            <div class="slider"><span>Krümmung der Achse <i>f</i></span><input type="range" id="e-f" min="0" max="0.2" step="0.01" value="0.08"><output id="e-f-out"></output></div>
-            <label class="chk"><input type="checkbox" id="e-E"> Hüllbedingung Ⓔ an der Maßangabe</label>
-            <svg class="dia" id="e-svg" viewBox="0 0 240 150" role="img" aria-label="Gekrümmte Welle mit Hüllzylinder"></svg>
+            <h3>Independency vs. Envelope Requirement Ⓔ</h3>
+            <div class="given-box"><b>Shaft Ø20 −0.1</b>, i.e. 19.90 … 20.00 mm</div>
+            <div class="slider"><span>Two-point size <i>d</i></span><input type="range" id="e-d" min="19.85" max="20.05" step="0.01" value="19.95"><output id="e-d-out"></output></div>
+            <div class="slider"><span>Axis bow <i>f</i></span><input type="range" id="e-f" min="0" max="0.2" step="0.01" value="0.08"><output id="e-f-out"></output></div>
+            <label class="chk"><input type="checkbox" id="e-E"> Envelope requirement Ⓔ on size dimension</label>
+            <svg class="dia" id="e-svg" viewBox="0 0 240 150" role="img" aria-label="Bowed shaft with envelope cylinder"></svg>
             <ul class="checks" id="e-res"></ul>
-            <p class="note">Mit Ⓔ (ISO 14405-1) darf die Welle die Hülle mit dem Maximum-Material-Maß nicht durchdringen: <i>d</i> + <i>f</i> ≤ 20,00. Die Krümmung ist stark überhöht gezeichnet.</p>
+            <p class="note">With Ⓔ (ISO 14405-1), the shaft must not penetrate the envelope of perfect form at Maximum Material Size: <i>d</i> + <i>f</i> ≤ 20.00. Bow is drawn heavily exaggerated.</p>
           </div>
         </div>
       </div>
@@ -124,19 +124,19 @@
 
     <section class="tab" id="tab-uebung">
       <div class="tab-head">
-        <h2>Übung</h2>
-        <p>Zufällige Aufgaben aus allen 14 Toleranzarten. Bei den Toleranzrahmen enthält gut die Hälfte einen typischen Fehler.</p>
+        <h2>Practice</h2>
+        <p>Randomized questions across all 14 tolerance types. Roughly half of the tolerance frame questions contain a typical error.</p>
       </div>
       <div class="card quiz">
         <div class="ctl-row">
-          <label>Aufgabenart
+          <label>Question type
             <select id="q-kind">
-              <option value="">gemischt</option>
-              <option value="sym">Symbol erkennen</option>
-              <option value="group">Gruppe zuordnen</option>
-              <option value="datum">Bezug nötig?</option>
-              <option value="zone">Zone erkennen</option>
-              <option value="frame">Rahmen prüfen</option>
+              <option value="">mixed</option>
+              <option value="sym">Identify symbol</option>
+              <option value="group">Assign group</option>
+              <option value="datum">Datum required?</option>
+              <option value="zone">Identify zone</option>
+              <option value="frame">Check frame</option>
             </select>
           </label>
           <span class="score" id="q-score">0 / 0</span>
@@ -145,15 +145,15 @@
         <div id="q-svg" class="qsvg"></div>
         <div class="ctl-row" id="q-choices"></div>
         <div class="feedback" id="q-feedback"></div>
-        <button class="btn" id="q-next">Nächste Aufgabe</button>
+        <button class="btn" id="q-next">Next Question</button>
       </div>
     </section>
   </main>
 
   <footer>
-    Grundlage: DIN EN ISO 1101 (Tolerierung von Form, Richtung, Ort und Lauf), DIN EN ISO 8015:2011 Abschnitt 5, DIN EN ISO 5459:2011 (Bezüge), ISO 2692 (Ⓜ), ISO 14405-1 (Ⓔ),
-    B. Klein: Toleranzdesign im Maschinen- und Fahrzeugbau (5. Aufl. 2021), G. Henzold: Geometrical Dimensioning and Tolerancing (3rd ed 2021), ZEISS-Poster GPS (2023).
-    Texte und Zeichnungen sind eigene Darstellungen, keine Normenauszüge. Verbindlich ist der Normtext.
+    Basis: DIN EN ISO 1101 (Geometrical tolerancing — Tolerances of form, orientation, location and run-out), DIN EN ISO 8015:2011 Clause 5, DIN EN ISO 5459:2011 (Datums), ISO 2692 (Ⓜ), ISO 14405-1 (Ⓔ),
+    B. Klein: Toleranzdesign im Maschinen- und Fahrzeugbau (5th ed. 2021), G. Henzold: Geometrical Dimensioning and Tolerancing (3rd ed. 2021), ZEISS GPS Poster (2023).
+    Texts and drawings are original illustrations, not verbatim standard extracts. The published standard text is authoritative.
   </footer>
 
   <script src="js/bundle.js"></script>

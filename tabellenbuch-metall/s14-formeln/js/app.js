@@ -1,9 +1,9 @@
-/* Reiter per Adress-Hash, Blueprint-Modus, Buchwerte */
+/* Tab switching via URL hash, blueprint mode, and book-value reset */
 (() => {
   'use strict';
   const { $, tabs } = UI;
   const nav = $('tabs');
-  // Adressen der früheren Fassung (#tab-vc …) führen weiter zum passenden Reiter
+  // Legacy hashes (#tab-vc …) continue routing to the matching tab
   const OLD = { 'tab-overview': 'formeln', 'tab-vc': 'formeln', 'tab-torque': 'zahlenwert', 'tab-linear': 'linear',
     'tab-breakeven': 'kosten', 'tab-quiz': 'formeln', 'tab-book': 'formeln' };
 
@@ -22,13 +22,13 @@
 
   function setTheme(dark) {
     document.body.classList.toggle('theme-blueprint', dark);
-    $('theme-label').textContent = dark ? 'Heller Modus' : 'Blueprint-Modus';
-    try { localStorage.setItem('tbb14-theme', dark ? 'dark' : 'light'); } catch (e) { /* ohne Speicher weiter */ }
+    $('theme-label').textContent = dark ? 'Light Mode' : 'Blueprint Mode';
+    try { localStorage.setItem('tbb14-theme', dark ? 'dark' : 'light'); } catch (e) { /* continue without storage */ }
   }
   $('btn-theme').addEventListener('click', () => setTheme(!document.body.classList.contains('theme-blueprint')));
-  // Blueprint ist Standard (Klasse steht schon im <body>); hell nur nach Umschalten oder mit ?theme=light
+  // Blueprint is the default (class already set on <body>); light only after toggle or with ?theme=light
   let saved = null;
-  try { saved = localStorage.getItem('tbb14-theme'); } catch (e) { /* ohne Speicher weiter */ }
+  try { saved = localStorage.getItem('tbb14-theme'); } catch (e) { /* continue without storage */ }
   const forced = /[?&]theme=(dark|light)/.exec(location.search);
   setTheme((forced ? forced[1] : saved) !== 'light');
 

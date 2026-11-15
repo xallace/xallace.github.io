@@ -1,12 +1,12 @@
-/* Geometrischer Rechenkern ohne DOM für Tabellenbuch Metall S. 62:
-   „3.2 Geometrische Grundkonstruktionen – Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale“
-   1. Inkreis eines Dreiecks (Winkelhalbierende, Lotfußpunkt, r = A/s)
-   2. Umkreis eines Dreiecks (Mittelsenkrechte, Sinussatz, R = abc / 4A)
-   3. Bestimmung des Kreismittelpunktes (Beliebige Sehnen AB & CD, Mittelsenkrechte)
-   4. Ellipsenkonstruktion aus zwei Kreisen (Scheitelkreise a & b, De La Hire / Papyrus)
-   5. Ellipsenkonstruktion im Parallelogramm (Konjugierte Durchmesser, Halbkreisübertragung)
-   6. Spirale (Zirkelnäherung mit 4 Zentren im Quadrat a/4, Ganghöhe a)
-   Läuft im Browser (window.Core) und in Node (module.exports) für tests/verify.js. */
+/* Pure-math geometric core without DOM for Tabellenbuch Metall p. 62:
+   "3.2 Basic Geometric Constructions – Incircle, Circumcircle, Circle Center, Ellipse, Spiral"
+   1. Incircle of a triangle (angle bisectors, perpendicular foot, r = A/s)
+   2. Circumcircle of a triangle (perpendicular bisectors, law of sines, R = abc / 4A)
+   3. Determining the circle center (arbitrary chords AB & CD, perpendicular bisectors)
+   4. Ellipse construction from two circles (concentric circles a & b, de La Hire / Pappus)
+   5. Ellipse construction in a parallelogram (conjugate diameters, semicircle projection)
+   6. Spiral (compass approximation with 4 centers in a square a/4, pitch a)
+   Runs in browser (window.Core) and Node (module.exports) for tests/verify.js. */
 (function (root) {
   'use strict';
 
@@ -15,7 +15,7 @@
   const DEG = Math.PI / 180;
   const RAD = 180 / Math.PI;
 
-  // Zahl im deutschen Format: Dezimalkomma, echtes Minuszeichen, ohne überflüssige Nullen.
+  // Format number in English notation: decimal point, true minus sign, no trailing zeros.
   function fmt(v, dec = 1, opts = {}) {
     if (!isFinite(v)) return '–';
     if (Math.abs(v) < 0.5 * Math.pow(10, -dec)) v = 0;
@@ -23,7 +23,7 @@
     if (!opts.keepZeros && s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
     let [int, frac] = s.split('.');
     if (opts.group && int.length > 4) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
-    s = frac ? int + ',' + frac : int;
+    s = frac ? int + '.' + frac : int;
     const sign = v < 0 && !opts.noMinus ? MINUS : (v > 0 && opts.plus ? '+' : '');
     return sign + s;
   }
@@ -34,7 +34,7 @@
     return Number(s);
   }
 
-  // ================================================================ 2D-Vektorgeometrie
+  // ================================================================ 2D Vector Geometry
   function pt(x, y) { return { x: +x, y: +y }; }
   function add(a, b) { return { x: a.x + b.x, y: a.y + b.y }; }
   function sub(a, b) { return { x: a.x - b.x, y: a.y - b.y }; }
@@ -51,7 +51,7 @@
     return l < 1e-12 ? { x: 1, y: 0 } : { x: v.x / l, y: v.y / l };
   }
 
-  // Drehung um +90° mathematisch positiv (gegen Uhrzeigersinn: -y, x)
+  // Rotate +90° mathematically positive (counterclockwise: -y, x)
   function perp(v) { return { x: -v.y, y: v.x }; }
 
   function normDeg(deg) {
@@ -77,7 +77,7 @@
 
   function lineIntersection(p1, v1, p2, v2) {
     const d = cross(v1, v2);
-    if (Math.abs(d) < 1e-10) return null; // Parallel oder identisch
+    if (Math.abs(d) < 1e-10) return null; // Parallel or coincident
     const dp = sub(p2, p1);
     const t = cross(dp, v2) / d;
     return { pt: add(p1, scale(v1, t)), t };
@@ -95,7 +95,7 @@
     return { foot, t, dist: d, signedDist };
   }
 
-  // Schnittpunkte zweier Kreise
+  // Intersection points of two circles
   function circleCircleIntersection(c1, r1, c2, r2) {
     const d = dist(c1, c2);
     if (d > r1 + r2 + 1e-9 || d < Math.abs(r1 - r2) - 1e-9 || d < 1e-12) return null;
@@ -111,7 +111,7 @@
     };
   }
 
-  // ================================================================ 1. Inkreis eines Dreiecks
+  // ================================================================ 1. Incircle of a Triangle
   function constructIncircle(A, B, C, arcRadiusA = 35, arcRadiusB = 35) {
     const a = dist(B, C);
     const b = dist(C, A);
@@ -119,20 +119,20 @@
     const peri = a + b + c;
     if (peri < 1e-6) return { ok: false, reason: 'degenerate' };
 
-    // Fläche nach Gauß / Kreuzprodukt
+    // Area via shoelace / cross product
     const area = 0.5 * Math.abs(cross(sub(B, A), sub(C, A)));
     if (area < 1e-4) return { ok: false, reason: 'collinear' };
 
     const s = peri / 2;
     const inradius = area / s;
 
-    // Baryzentrische Koordinaten des Inkreismittelpunkts M: (a : b : c)
+    // Barycentric coordinates of incenter M: (a : b : c)
     const M = {
       x: (a * A.x + b * B.x + c * C.x) / peri,
       y: (a * A.y + b * B.y + c * C.y) / peri
     };
 
-    // Innenwinkel in Grad
+    // Interior angles in degrees
     const uAB = unit(sub(B, A)), uAC = unit(sub(C, A));
     const uBA = unit(sub(A, B)), uBC = unit(sub(C, B));
     const uCA = unit(sub(A, C)), uCB = unit(sub(B, C));
@@ -141,27 +141,27 @@
     const betaDeg = angleVectorsDeg(uBA, uBC);
     const gammaDeg = 180 - alphaDeg - betaDeg;
 
-    // Winkelhalbierende Einheitsvektoren
+    // Angle bisector unit vectors
     const bisectorA = unit(add(uAB, uAC));
     const bisectorB = unit(add(uBA, uBC));
 
-    // Zirkelhilfspunkte für Schritt 1 (Winkel alpha halbieren):
+    // Compass auxiliary points for Step 1 (bisect angle alpha):
     const pA1 = add(A, scale(uAB, arcRadiusA));
     const pA2 = add(A, scale(uAC, arcRadiusA));
-    // Kreuzungsbogen um pA1 und pA2:
+    // Intersecting arcs centered at pA1 and pA2:
     const arcCrossA = add(A, scale(bisectorA, arcRadiusA * 1.5));
 
-    // Zirkelhilfspunkte für Schritt 2 (Winkel beta halbieren):
+    // Compass auxiliary points for Step 2 (bisect angle beta):
     const pB1 = add(B, scale(uBA, arcRadiusB));
     const pB2 = add(B, scale(uBC, arcRadiusB));
     const arcCrossB = add(B, scale(bisectorB, arcRadiusB * 1.5));
 
-    // Berührpunkte (Lotfußpunkte von M auf die Seiten)
+    // Tangency points (perpendicular feet from M onto the sides)
     const footAB = projectPointOnLine(M, A, B).foot;
     const footBC = projectPointOnLine(M, B, C).foot;
     const footCA = projectPointOnLine(M, C, A).foot;
 
-    // Tangentenabschnitte von den Ecken:
+    // Tangent segment lengths from the vertices:
     const segA = s - a;
     const segB = s - b;
     const segC = s - c;
@@ -178,7 +178,7 @@
     };
   }
 
-  // ================================================================ 2. Umkreis eines Dreiecks
+  // ================================================================ 2. Circumcircle of a Triangle
   function constructCircumcircle(A, B, C, arcRadiusAB = null, arcRadiusBC = null) {
     const a = dist(B, C);
     const b = dist(C, A);
@@ -186,44 +186,44 @@
     const area = 0.5 * Math.abs(cross(sub(B, A), sub(C, A)));
     if (area < 1e-4) return { ok: false, reason: 'collinear' };
 
-    // Umkreisradius R = a * b * c / (4 * A)
+    // Circumradius R = a * b * c / (4 * A)
     const circumradius = (a * b * c) / (4 * area);
 
-    // Mittelsenkrechte auf AB
+    // Perpendicular bisector on AB
     const midAB = mid(A, B);
     const dirAB = sub(B, A);
     const normAB = unit(perp(dirAB));
 
-    // Mittelsenkrechte auf BC
+    // Perpendicular bisector on BC
     const midBC = mid(B, C);
     const dirBC = sub(C, B);
     const normBC = unit(perp(dirBC));
 
-    // Schnittpunkt M
+    // Intersection M
     const inter = lineIntersection(midAB, normAB, midBC, normBC);
     if (!inter) return { ok: false, reason: 'parallel_bisectors' };
     const M = inter.pt;
 
-    // Mittelsenkrechte auf CA (Kontrolle)
+    // Perpendicular bisector on CA (check)
     const midCA = mid(C, A);
     const dirCA = sub(A, C);
     const normCA = unit(perp(dirCA));
 
-    // Radien für Zirkelbögen (mindestens > c/2 bzw. > a/2)
+    // Compass arc radii (at least > c/2 and > a/2)
     const rArcAB = arcRadiusAB || (c * 0.65);
     const rArcBC = arcRadiusBC || (a * 0.65);
 
-    // Zirkelschnittpunkte für Mittelsenkrechte AB
+    // Compass intersection points for perpendicular bisector AB
     const arcsAB = circleCircleIntersection(A, rArcAB, B, rArcAB);
-    // Zirkelschnittpunkte für Mittelsenkrechte BC
+    // Compass intersection points for perpendicular bisector BC
     const arcsBC = circleCircleIntersection(B, rArcBC, C, rArcBC);
 
-    // Innenwinkel
+    // Interior angles
     const alphaDeg = angleVectorsDeg(sub(B, A), sub(C, A));
     const betaDeg = angleVectorsDeg(sub(A, B), sub(C, B));
     const gammaDeg = 180 - alphaDeg - betaDeg;
 
-    // Dreiecksform
+    // Triangle classification (internal enum preserved)
     let triangleType = 'spitzwinklig';
     const maxAng = Math.max(alphaDeg, betaDeg, gammaDeg);
     if (Math.abs(maxAng - 90) < 0.15) triangleType = 'rechtwinklig';
@@ -241,7 +241,7 @@
     };
   }
 
-  // ================================================================ 3. Bestimmung des Kreismittelpunktes
+  // ================================================================ 3. Determining the Circle Center
   function constructCircleCenterFromSecants(circleCenter, R, secant1, secant2, arcR1 = null, arcR2 = null) {
     // secant1: { lineDeg, distFromCenter }
     // secant2: { lineDeg, distFromCenter }
@@ -250,21 +250,21 @@
     const d1 = Math.min(Math.abs(secant1.distFromCenter), R * 0.95);
     const d2 = Math.min(Math.abs(secant2.distFromCenter), R * 0.95);
 
-    // Richtung der Sehnen
+    // Direction of chords
     const ang1 = secant1.lineDeg * DEG;
     const ang2 = secant2.lineDeg * DEG;
 
     const u1 = { x: Math.cos(ang1), y: Math.sin(ang1) };
-    const n1 = perp(u1); // Normalenvektor
+    const n1 = perp(u1); // Normal vector
 
     const u2 = { x: Math.cos(ang2), y: Math.sin(ang2) };
     const n2 = perp(u2);
 
-    // Fußpunkte der Lote von circleCenter auf Sehnen
+    // Perpendicular feet from circleCenter onto chords
     const mid1 = add(circleCenter, scale(n1, d1 * (secant1.distFromCenter < 0 ? -1 : 1)));
     const mid2 = add(circleCenter, scale(n2, d2 * (secant2.distFromCenter < 0 ? -1 : 1)));
 
-    // Sehnen-Halblängen
+    // Half-chord lengths
     const halfLen1 = Math.sqrt(Math.max(0, R * R - d1 * d1));
     const halfLen2 = Math.sqrt(Math.max(0, R * R - d2 * d2));
 
@@ -274,19 +274,19 @@
     const C = sub(mid2, scale(u2, halfLen2));
     const D = add(mid2, scale(u2, halfLen2));
 
-    // Mittelsenkrechten:
-    // Die Mittelsenkrechte von AB geht durch mid1 mit Richtung n1.
-    // Die Mittelsenkrechte von CD geht durch mid2 mit Richtung n2.
+    // Perpendicular bisectors:
+    // The perpendicular bisector of AB passes through mid1 with direction n1.
+    // The perpendicular bisector of CD passes through mid2 with direction n2.
     const inter = lineIntersection(mid1, n1, mid2, n2);
     if (!inter) return { ok: false, reason: 'parallel_secants' };
 
     const foundCenter = inter.pt;
     const errorDist = dist(foundCenter, circleCenter);
 
-    // Schnittwinkel der Geraden a und b
+    // Intersection angle of lines a and b
     const angleSecantsDeg = angleVectorsDeg(u1, u2);
 
-    // Zirkelradien für die Mittelsenkrechten-Konstruktion
+    // Compass radii for perpendicular bisector construction
     const rArc1 = arcR1 || Math.max(halfLen1 * 1.25, R * 0.4);
     const rArc2 = arcR2 || Math.max(halfLen2 * 1.25, R * 0.4);
 
@@ -309,37 +309,37 @@
     };
   }
 
-  // ================================================================ 4. Ellipsenkonstruktion aus zwei Kreisen
+  // ================================================================ 4. Ellipse Construction from Two Circles
   function constructEllipseFromTwoCircles(M, a, b, rayAnglesDeg = [30, 45, 60, 120, 135, 150, 210, 225, 240, 300, 315, 330]) {
     if (a <= 0 || b <= 0) return { ok: false, reason: 'invalid_axes' };
     const major = Math.max(a, b);
     const minor = Math.min(a, b);
-    const e = Math.sqrt(Math.max(0, major * major - minor * minor)); // Lineare Exzentrizität
-    const eps = major > 0 ? e / major : 0; // Numerische Exzentrizität
+    const e = Math.sqrt(Math.max(0, major * major - minor * minor)); // Linear eccentricity
+    const eps = major > 0 ? e / major : 0; // Numerical eccentricity
     const area = Math.PI * a * b;
-    // Ramanujan-Näherung für Ellipsenumfang
+    // Ramanujan approximation for ellipse perimeter
     const h = Math.pow((a - b) / (a + b), 2);
     const perimeter = Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
 
-    // Brennpunkte (auf x-Achse bezüglich M)
+    // Foci (on x-axis relative to M)
     const F1 = { x: M.x - e, y: M.y };
     const F2 = { x: M.x + e, y: M.y };
 
-    // Punkte für gegebene Strahlen berechnen
+    // Compute points for given rays
     const rays = rayAnglesDeg.map(deg => {
       const rad = deg * DEG;
       const cosA = Math.cos(rad);
       const sinA = Math.sin(rad);
 
-      // E auf innerem Kreis (Radius b)
+      // E on inner circle (radius b)
       const E = { x: M.x + b * cosA, y: M.y + b * sinA };
-      // F auf äußerem Kreis (Radius a)
+      // F on outer circle (radius a)
       const F = { x: M.x + a * cosA, y: M.y + a * sinA };
 
-      // Ellipsenpunkt P: x aus F, y aus E
+      // Ellipse point P: x from F, y from E
       const P = { x: F.x, y: E.y };
 
-      // Prüfung Ellipsengleichung: (x - Mx)^2 / a^2 + (y - My)^2 / b^2 == 1
+      // Check ellipse equation: (x - Mx)^2 / a^2 + (y - My)^2 / b^2 == 1
       const eqVal = Math.pow((P.x - M.x) / a, 2) + Math.pow((P.y - M.y) / b, 2);
 
       return { deg, E, F, P, eqVal };
@@ -354,38 +354,38 @@
     };
   }
 
-  // ================================================================ 5. Ellipsenkonstruktion im Parallelogramm
+  // ================================================================ 5. Ellipse Construction in a Parallelogram
   function constructEllipseInParallelogram(M, a, b, tiltAngleDeg = 75, numDivisions = 4) {
     if (a <= 0 || b <= 0 || numDivisions < 2) return { ok: false, reason: 'invalid_params' };
 
-    // Hauptachse AB (Länge 2a, horizontal)
+    // Major axis AB (length 2a, horizontal)
     const u = { x: a, y: 0 };
 
-    // Konjugierte Achse CD (Länge 2b, geneigt um tiltAngleDeg)
+    // Conjugate axis CD (length 2b, inclined at tiltAngleDeg)
     const tiltRad = tiltAngleDeg * DEG;
     const v = { x: b * Math.cos(tiltRad), y: -b * Math.sin(tiltRad) };
 
     const A = sub(M, u);
     const B = add(M, u);
-    const C = sub(M, v); // unten bzw. oben je nach y
+    const C = sub(M, v); // bottom or top depending on y
     const D = add(M, v);
 
-    // Parallelogramm-Eckpunkte (Tangenten-Umschreibung)
+    // Parallelogram vertices (tangent bounding box)
     const P1 = add(add(M, u), v);
     const P2 = add(sub(M, u), v);
     const P3 = sub(sub(M, u), v);
     const P4 = sub(add(M, u), v);
 
-    // Radius r = MC = b für den Hilfshalbkreis
+    // Radius r = MC = b for the auxiliary semicircle
     const rMC = len(v);
 
-    // Punkt E auf der erweiterten oberen Achse:
-    // Der Halbkreis um A mit Radius rMC ergibt E
-    // Richtung entlang der Parallelogrammseite (Richtung v)
+    // Point E on the extended upper axis:
+    // The semicircle centered at A with radius rMC yields E
+    // Direction along the parallelogram side (direction v)
     const unitV = unit(v);
     const E = add(A, scale(unitV, rMC));
 
-    // Teilungspunkte auf Strecke AM (bzw. BM)
+    // Division points along segment AM (and BM)
     const divAM = [];
     const divBM = [];
     for (let k = 1; k < numDivisions; k++) {
@@ -394,20 +394,20 @@
       divBM.push({ k, pt: lerp(M, B, frac) });
     }
 
-    // Teilungspunkte auf Strecke EA
+    // Division points along segment EA
     const divEA = [];
     for (let k = 1; k < numDivisions; k++) {
       const frac = k / numDivisions;
       const ptEA = lerp(E, A, frac);
-      // Schnittpunkt F mit dem Kreisbogen um A (Radius rMC)
-      // Kreisbogen: x^2 + y^2 = rMC^2 relativ zu A
-      // Parallele durch ptEA in Richtung senkrecht zu EA
-      // Im Buch wird der Halbkreis um A nach DIN projiziert
+      // Intersection F with circular arc centered at A (radius rMC)
+      // Circular arc: x^2 + y^2 = rMC^2 relative to A
+      // Parallel through ptEA perpendicular to EA
+      // In the handbook the semicircle around A is projected per DIN
       const theta = Math.asin(Math.max(-1, Math.min(1, 1 - frac)));
       divEA.push({ k, pt: ptEA, thetaDeg: +(theta * RAD).toFixed(1) });
     }
 
-    // Affine Ellipsenpunkte für Vollkurve
+    // Affine ellipse points for full curve
     const curvePoints = [];
     const N = 48;
     for (let i = 0; i <= N; i++) {
@@ -418,7 +418,7 @@
       });
     }
 
-    // Konstruierte Stützpunkte nach Parallelogramm-Methode
+    // Constructed support points via parallelogram method
     const ellipsePoints = [];
     for (let k = 1; k < numDivisions; k++) {
       const th = Math.asin(k / numDivisions);
@@ -445,16 +445,16 @@
     };
   }
 
-  // ================================================================ 6. Spirale (Zirkelnäherung)
+  // ================================================================ 6. Spiral (Compass Approximation)
   function constructSquareSpiral(center, pitchMm, numQuadrants = 8) {
     if (pitchMm <= 0 || numQuadrants < 1) return { ok: false, reason: 'invalid_params' };
 
-    const s = pitchMm / 4; // Kantenlänge des Zentralquadrats ABCD
+    const s = pitchMm / 4; // Edge length of central square ABCD
 
-    // Buch S. 62 Anordnung der Zentren:
-    // Quadrat ABCD im Uhrzeigersinn um den Schwerpunkt (center):
-    // D (oben links), A (oben rechts)
-    // C (unten links), B (unten rechts)
+    // Handbook p. 62 arrangement of centers:
+    // Square ABCD clockwise around centroid (center):
+    // D (top left), A (top right)
+    // C (bottom left), B (bottom right)
     const A = { x: center.x + s / 2, y: center.y - s / 2 };
     const B = { x: center.x + s / 2, y: center.y + s / 2 };
     const C = { x: center.x - s / 2, y: center.y + s / 2 };
@@ -463,22 +463,22 @@
     const centers = [A, B, C, D];
     const centerNames = ['A', 'B', 'C', 'D'];
 
-    // Bögen:
-    // 1. Quadrat ABCD
-    // 2. Viertelkreis um A mit Radius AD = s -> ergibt E (Startwinkel: 180° -> 270° bzw. nach unten)
-    // Orientierung wie im Buch (von D nach rechts oben/unten):
-    // D liegt links von A: Winkel von A nach D ist 180° (nach links).
-    // Bogen um A geht von 180° bis 90° (nach unten auf Bildschirm) bzw. 270° (nach oben).
-    // Im Buch verläuft die Spirale im Uhrzeigersinn nach außen:
-    // Bogen 1 (Zentrum A): Radius 1*s, von D(links) nach E(oben) -> Winkel 180° bis 270° (bzw. -90°)
-    // Bogen 2 (Zentrum B): Radius 2*s, von E(oben) nach F(rechts) -> Winkel -90° bis 0°
-    // Bogen 3 (Zentrum C): Radius 3*s, von F(rechts) nach G(unten) -> Winkel 0° bis 90°
-    // Bogen 4 (Zentrum D): Radius 4*s = a, von G(unten) nach H(links) -> Winkel 90° bis 180°
-    // Bogen 5 (Zentrum A): Radius 5*s, von H(links) nach I(oben) -> Winkel 180° bis 270°
-    // und so weiter!
+    // Arcs:
+    // 1. Square ABCD
+    // 2. Quarter circle centered at A with radius AD = s -> yields E (start angle: 180° -> 270°)
+    // Orientation as in handbook (from D clockwise outward):
+    // D lies to the left of A: angle from A to D is 180° (left).
+    // Arc centered at A runs from 180° to 270° (upward on screen).
+    // In the handbook the spiral winds outward clockwise:
+    // Arc 1 (center A): radius 1*s, from D (left) to E (top) -> angles 180° to 270° (or -90°)
+    // Arc 2 (center B): radius 2*s, from E (top) to F (right) -> angles -90° to 0°
+    // Arc 3 (center C): radius 3*s, from F (right) to G (bottom) -> angles 0° to 90°
+    // Arc 4 (center D): radius 4*s = a, from G (bottom) to H (left) -> angles 90° to 180°
+    // Arc 5 (center A): radius 5*s, from H (left) to I (top) -> angles 180° to 270°
+    // and so on!
 
     const arcs = [];
-    const baseAngles = [180, 270, 0, 90]; // Startwinkel für Center A, B, C, D (mathematisch)
+    const baseAngles = [180, 270, 0, 90]; // Start angles for centers A, B, C, D (mathematical)
     const arcLabels = ['E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q'];
 
     for (let k = 1; k <= numQuadrants; k++) {
@@ -488,7 +488,7 @@
       const startDeg = baseAngles[cIdx];
       const endDeg = startDeg + 90;
 
-      // Start- und Endpunkt des Bogens
+      // Start and end point of the arc
       const startPt = polarPt(c, r, startDeg);
       const endPt = polarPt(c, r, endDeg);
 
@@ -505,11 +505,11 @@
       });
     }
 
-    // Vergleichswerte mit der idealen Archimedischen Spirale r(th) = a * th / (2 * PI)
-    // Nach k Vierteln (th = k * PI / 2):
+    // Comparison values with the ideal Archimedean spiral r(th) = a * th / (2 * PI)
+    // After k quarters (th = k * PI / 2):
     // r_archimedes = a * (k * PI / 2) / (2 * PI) = k * a / 4 = k * s !
-    // An den 90°-Quadrantengrenzen stimmt die Zirkelnäherung EXAKT mit der idealen Archimedischen Spirale überein!
-    // Zwischen den Quadranten weicht sie maximal um ca. 1,4% ab!
+    // At the 90° quadrant boundaries, the compass approximation matches the ideal Archimedean spiral EXACTLY!
+    // Between quadrants it deviates by at most approx. 1.4%!
     const maxDeviationPct = 1.38;
 
     return {

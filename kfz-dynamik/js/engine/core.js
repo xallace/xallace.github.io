@@ -1,6 +1,6 @@
-/* KfzDyn – gemeinsame Mathematik-Helfer.
-   Klassische Skripte (kein ES-Modul), damit die App auch per file:// läuft.
-   Alle Engine-Dateien hängen sich an globalThis.KfzDyn. */
+/* KfzDyn – shared math utilities.
+   Classic scripts (no ES modules) so the app also works via file://.
+   All engine files attach to globalThis.KfzDyn. */
 (function (root) {
   'use strict';
   const K = root.KfzDyn = root.KfzDyn || {};
@@ -8,7 +8,7 @@
   const G_ACC = 9.81;
   const DEG = Math.PI / 180;
 
-  // ---- komplexe Zahlen als [re, im] ----
+  // ---- complex numbers as [re, im] ----
   const C = {
     add: (a, b) => [a[0] + b[0], a[1] + b[1]],
     sub: (a, b) => [a[0] - b[0], a[1] - b[1]],
@@ -22,7 +22,7 @@
     scale: (a, s) => [a[0] * s, a[1] * s],
   };
 
-  // Gauß-Elimination mit Pivotsuche für komplexe n×n-Systeme A·x = b
+  // Gaussian elimination with partial pivoting for complex n×n systems A·x = b
   function solveComplex(A, b) {
     const n = b.length;
     const M = A.map((row, i) => row.map((v) => v.slice()).concat([b[i].slice()]));
@@ -44,7 +44,7 @@
     return x;
   }
 
-  // lineare Interpolation in einer Tabelle [[x, y], ...]; außerhalb wird der Randwert gehalten
+  // linear interpolation in a table [[x, y], ...]; clamps to boundary values outside range
   function interp(table, x) {
     if (x <= table[0][0]) return table[0][1];
     const last = table[table.length - 1];
@@ -68,14 +68,14 @@
     return linspace(Math.log10(a), Math.log10(b), n).map((e) => Math.pow(10, e));
   }
 
-  // Trapezregel über Stützstellen
+  // trapezoidal rule over sample points
   function trapz(xs, ys) {
     let s = 0;
     for (let i = 1; i < xs.length; i++) s += 0.5 * (ys[i] + ys[i - 1]) * (xs[i] - xs[i - 1]);
     return s;
   }
 
-  // Nullstelle per Bisektion, f(a) und f(b) mit verschiedenem Vorzeichen
+  // root-finding by bisection; f(a) and f(b) must have opposite signs
   function bisect(f, a, b, tol = 1e-9, maxIt = 200) {
     let fa = f(a);
     for (let i = 0; i < maxIt; i++) {
@@ -86,7 +86,7 @@
     return 0.5 * (a + b);
   }
 
-  // ein klassischer Runge-Kutta-Schritt für y' = f(t, y)
+  // single classical Runge-Kutta (RK4) step for y' = f(t, y)
   function rk4Step(f, t, y, h) {
     const k1 = f(t, y);
     const k2 = f(t + h / 2, y.map((v, i) => v + h / 2 * k1[i]));
@@ -95,7 +95,7 @@
     return y.map((v, i) => v + h / 6 * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]));
   }
 
-  // reproduzierbarer Zufallsgenerator (mulberry32) für Straßenprofile
+  // reproducible PRNG (mulberry32) for road profiles
   function rng(seed) {
     let a = seed >>> 0;
     return function () {

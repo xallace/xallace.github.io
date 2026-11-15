@@ -32,7 +32,7 @@
             <span class="badge-tag badge-amber">Euler-Bernoulli</span>
           </h1>
           <p class="brand-desc">
-            Einfeldträger mit Gleichstreckenlast (UDL) · Real-Time Statics, Diagrams (SFD / BMD), Deflection &amp; Cross-Section Modeler
+            Simply Supported Beam with Uniformly Distributed Load (UDL) · Real-Time Statics, Diagrams (SFD / BMD), Deflection &amp; Cross-Section Modeler
           </p>
         </div>
       </div>
@@ -148,7 +148,7 @@
               <option value="steel_s235" selected>Structural Steel (S235 / A36) — 210 GPa</option>
               <option value="steel_s355">High-Strength Steel (S355 / A572) — 210 GPa</option>
               <option value="stainless_304">Stainless Steel (1.4301 / 304) — 195 GPa</option>
-              <option value="aluminum_6082">Aluminium (EN AW-6082 T6) — 70 GPa</option>
+              <option value="aluminum_6082">Aluminum (EN AW-6082 T6) — 70 GPa</option>
               <option value="timber_c24">Structural Timber (C24 Softwood) — 11 GPa</option>
               <option value="concrete_c25">Reinforced Concrete (C25/30) — 31 GPa</option>
               <option value="custom">Custom Material...</option>
@@ -292,7 +292,7 @@
             <div class="diagram-header">
               <div class="diagram-title-group">
                 <span class="diagram-title">1. Free Body &amp; Loading Diagram (FBD)</span>
-                <span class="diagram-badge">Systemskizze · Auflagerreaktionen &amp; UDL</span>
+                <span class="diagram-badge">Structural Model · Support Reactions &amp; UDL</span>
               </div>
               <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Hover / Drag cursor to evaluate x</span>
             </div>
@@ -327,7 +327,7 @@
           <div class="diagram-card">
             <div class="diagram-header">
               <div class="diagram-title-group">
-                <span class="diagram-title">4. Deflection Curve (Biegelinie)</span>
+                <span class="diagram-title">4. Deflection Curve (Elastic Curve)</span>
                 <span class="diagram-badge">\(\delta(x) = \frac{w x}{24EI} (L^3 - 2Lx^2 + x^3)\)</span>
               </div>
               <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
@@ -348,19 +348,19 @@
 
           <div class="formula-grid">
             <div class="formula-box">
-              <div class="formula-name">1. Support Reaction Forces (Auflagerkräfte)</div>
+              <div class="formula-name">1. Support Reaction Forces</div>
               <div class="math-display">$$R_A = R_B = \frac{w \cdot L}{2}$$</div>
               <div class="math-sub">Derived from vertical equilibrium \(\sum F_z = 0\) and moment equilibrium \(\sum M_A = 0\).</div>
             </div>
 
             <div class="formula-box">
-              <div class="formula-name">2. Shear Force Equation (Querkraftfunktion)</div>
+              <div class="formula-name">2. Shear Force Equation</div>
               <div class="math-display">$$V(x) = w \cdot \left(\frac{L}{2} - x\right)$$</div>
               <div class="math-sub">Linear gradient with maximum \(V_{\max} = \frac{wL}{2}\) at supports and zero crossing at \(x = L/2\).</div>
             </div>
 
             <div class="formula-box">
-              <div class="formula-name">3. Bending Moment Equation (Biegemoment)</div>
+              <div class="formula-name">3. Bending Moment Equation</div>
               <div class="math-display">$$M(x) = \frac{w \cdot x}{2} \cdot (L - x), \quad M_{\max} = \frac{w \cdot L^2}{8}$$</div>
               <div class="math-sub">Quadratic parabola. Peak at \(x = L/2\): \(M_{\max} = \frac{w \cdot L^2}{8}\).</div>
             </div>
@@ -372,13 +372,13 @@
             </div>
 
             <div class="formula-box">
-              <div class="formula-name">5. Support Rotation Angle (Verdrehwinkel)</div>
+              <div class="formula-name">5. Support Rotation Angle</div>
               <div class="math-display">$$\theta_A = \theta_B = \frac{w \cdot L^3}{24 \cdot E \cdot I}$$</div>
               <div class="math-sub">Slope of the elastic curve at bearings in radians.</div>
             </div>
 
             <div class="formula-box">
-              <div class="formula-name">6. Maximum Bending Stress (Biegespannung)</div>
+              <div class="formula-name">6. Maximum Bending Stress</div>
               <div class="math-display">$$\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max} \cdot (h / 2)}{I_y}$$</div>
               <div class="math-sub">Extreme fiber tensile &amp; compressive stress in outer fibers.</div>
             </div>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagramme • Tabellenbuch Metall S. 58</title>
-  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 58: kartesisches Koordinatensystem, Diagrammaufbau nach DIN 461, Ausschnitte, logarithmische Teilung und Ablesen einer Federkennlinie.">
+  <title>Diagrams • Tabellenbuch Metall p. 58</title>
+  <meta name="description" content="Interactive learning aid for Tabellenbuch Metall p. 58: Cartesian coordinate system, diagram layout per DIN 461, coordinate windows, logarithmic scales, and reading a spring characteristic curve.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cpath d='M7 26V6M7 26h20' stroke='white' stroke-width='2.5' fill='none'/%3E%3Cpath d='M8 25C13 12 19 10 26 9' stroke='%23ff6b6b' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-blueprint">
-  <!-- Gemeinsame SVG-Definitionen (nicht display:none, sonst greifen die Verläufe nicht) -->
+  <!-- Shared SVG definitions (do not use display:none, otherwise gradients fail) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="diaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -25,33 +25,33 @@
         <span class="page-badge">58</span>
         <span class="subject-tag">K</span>
         <div>
-          <h1>3.1 Diagramme • Kartesisches Koordinatensystem</h1>
-          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • vgl. DIN 461, DIN EN ISO 80000-2</div>
+          <h1>3.1 Diagrams • Cartesian Coordinate System</h1>
+          <div class="sub">Tabellenbuch Metall • 48th Edition • Technical Communication • cf. DIN 461, DIN EN ISO 80000-2</div>
         </div>
       </div>
       <div class="tbb-tools">
-        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
-        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
-        <a href="../s59-polarkoordinaten/" class="back-link" title="Weiter zu Seite 59: Polarkoordinatensysteme, Flächendiagramme">S. 59 →</a>
-        <a href="../s60-grundkonstruktionen/" class="back-link" title="Weiter zu Seite 60: Geometrische Grundkonstruktionen">S. 60 →</a>
-        <button class="btn-header" id="btn-book" title="Alle Reiter auf die Beispiele von Seite 58 zurücksetzen">↺ Buchwerte laden</button>
-        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+        <a href="../" class="back-link" title="Back to Tabellenbuch Metall overview">← Tabellenbuch</a>
+        <a href="../s14-formeln/" class="back-link" title="Go to Page 14: Formulas, Equations, Diagrams">← p. 14</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Go to Page 59: Polar Coordinate Systems, Area Charts">p. 59 →</a>
+        <a href="../s60-grundkonstruktionen/" class="back-link" title="Go to Page 60: Basic Geometric Constructions">p. 60 →</a>
+        <button class="btn-header" id="btn-book" title="Reset all tabs to the worked examples on page 58">↺ Load Book Values</button>
+        <button class="btn-header" id="btn-theme" title="Toggle between light theme and blueprint dark mode">◐ <span id="theme-label">Light Mode</span></button>
       </div>
     </div>
     <nav class="tabs" id="tabs">
-      <button data-tab="koordinaten" class="active">1 Koordinatensystem</button>
-      <button data-tab="aufbau">2 Diagrammaufbau</button>
-      <button data-tab="skalen">3 Ausschnitt &amp; Skalen</button>
-      <button data-tab="feder">4 Federkennlinie</button>
+      <button data-tab="koordinaten" class="active">1 Coordinate System</button>
+      <button data-tab="aufbau">2 Diagram Layout</button>
+      <button data-tab="skalen">3 Window &amp; Scales</button>
+      <button data-tab="feder">4 Spring Characteristic</button>
     </nav>
   </header>
 
   <main>
-    <!-- ================= 1 Koordinatensystem ================= -->
+    <!-- ================= 1 Coordinate System ================= -->
     <section class="tab active" id="tab-koordinaten">
       <div class="tab-head">
-        <h2>Punkte im kartesischen Koordinatensystem</h2>
-        <p>Punkte ziehen, durch Klick ins Diagramm hinzufügen oder unten eintippen. Ein Punkt ist ein geordnetes Paar: zuerst der x-Wert, dann der y-Wert.</p>
+        <h2>Points in the Cartesian Coordinate System</h2>
+        <p>Drag points, add points by clicking in the diagram, or type coordinates below. A point is an ordered pair: x-value first, then y-value.</p>
       </div>
       <div class="layout">
         <div class="card">
@@ -60,179 +60,179 @@
               <button data-v="semi" class="on">P(x; y)</button><button data-v="bar">P(x | y)</button><button data-v="comma">P(x, y)</button>
             </span>
             <span class="seg" id="k-dir">
-              <button data-v="heads" class="on">Pfeilspitzen</button><button data-v="parallel">Pfeile parallel</button>
+              <button data-v="heads" class="on">Arrowheads</button><button data-v="parallel">Parallel arrows</button>
             </span>
-            <span class="seg" id="k-snap" title="Rasterweite beim Ziehen und Klicken">
-              <button data-v="1">Raster 1</button><button data-v="0.5" class="on">0,5</button><button data-v="0.1">0,1</button>
+            <span class="seg" id="k-snap" title="Snap grid step when dragging and clicking">
+              <button data-v="1">Grid 1</button><button data-v="0.5" class="on">0.5</button><button data-v="0.1">0.1</button>
             </span>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="k-proj" checked> Projektionslinien</label>
-            <label class="chk"><input type="checkbox" id="k-names" checked> Bezeichnungen</label>
-            <label class="chk"><input type="checkbox" id="k-nums" checked> Zahlenwerte</label>
-            <label class="chk"><input type="checkbox" id="k-grid"> Netzlinien</label>
-            <label class="chk"><input type="checkbox" id="k-path"> Weg vom Nullpunkt</label>
+            <label class="chk"><input type="checkbox" id="k-proj" checked> Projection lines</label>
+            <label class="chk"><input type="checkbox" id="k-names" checked> Point labels</label>
+            <label class="chk"><input type="checkbox" id="k-nums" checked> Numerical values</label>
+            <label class="chk"><input type="checkbox" id="k-grid"> Grid lines</label>
+            <label class="chk"><input type="checkbox" id="k-path"> Path from origin</label>
           </div>
-          <svg class="dia" id="k-svg" viewBox="0 0 640 500" role="img" aria-label="Koordinatensystem mit Punkten"></svg>
+          <svg class="dia" id="k-svg" viewBox="0 0 640 500" role="img" aria-label="Coordinate system with points"></svg>
         </div>
         <div class="side">
           <div class="card">
-            <h3>Ausgewählter Punkt <span class="quad" id="k-quad"></span></h3>
+            <h3>Selected Point <span class="quad" id="k-quad"></span></h3>
             <div class="notation" id="k-notation"></div>
             <p class="note" id="k-way"></p>
           </div>
           <div class="card">
-            <h3>Punkt eingeben</h3>
+            <h3>Enter Point</h3>
             <div class="ctl-row">
-              <input class="txt" id="k-input" placeholder="P3(−1,5; 2)" spellcheck="false">
-              <button class="btn" id="k-set">Setzen</button>
+              <input class="txt" id="k-input" placeholder="P3(−1.5; 2)" spellcheck="false">
+              <button class="btn" id="k-set">Set</button>
             </div>
             <div class="feedback" id="k-input-msg"></div>
             <ul class="pt-list" id="k-list"></ul>
           </div>
           <div class="card">
-            <h3>Übung <span class="score" id="k-score"></span></h3>
+            <h3>Exercise <span class="score" id="k-score"></span></h3>
             <span class="seg" id="k-mode">
-              <button data-v="free" class="on">Erkunden</button><button data-v="place">Punkt setzen</button><button data-v="read">Ablesen</button>
+              <button data-v="free" class="on">Explore</button><button data-v="place">Place point</button><button data-v="read">Read coordinates</button>
             </span>
             <div id="k-task" class="note"></div>
             <div class="ctl-row" id="k-read-inputs" hidden>
               <label>x = <input class="num" id="k-ans-x"></label>
               <label>y = <input class="num" id="k-ans-y"></label>
-              <button class="btn" id="k-check">Prüfen</button>
+              <button class="btn" id="k-check">Check</button>
             </div>
             <div class="feedback" id="k-feedback"></div>
-            <button class="btn ghost" id="k-next" hidden>Nächste Aufgabe</button>
+            <button class="btn ghost" id="k-next" hidden>Next Problem</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 2 Diagrammaufbau ================= -->
+    <!-- ================= 2 Diagram Layout ================= -->
     <section class="tab" id="tab-aufbau">
       <div class="tab-head">
-        <h2>Aufbau eines Diagramms</h2>
-        <p>Eine Regel in der Liste antippen: Das zugehörige Element leuchtet im Diagramm auf. Unter „Fehler finden“ baut die App Regelverstöße ein, die gefunden werden sollen.</p>
+        <h2>Structure of a Diagram</h2>
+        <p>Tap a rule in the list to highlight the corresponding element in the diagram. In "Find Errors", the app injects rule violations for you to identify.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
             <span class="seg" id="a-dir">
-              <button data-v="parallel" class="on">Pfeile parallel</button><button data-v="heads">Pfeilspitzen</button>
+              <button data-v="parallel" class="on">Parallel arrows</button><button data-v="heads">Arrowheads</button>
             </span>
             <span class="seg" id="a-unit">
-              <button data-v="between" class="on">Einheit zwischen Zahlen</button><button data-v="symbol">Einheit hinter Formelzeichen</button>
+              <button data-v="between" class="on">Unit between numbers</button><button data-v="symbol">Unit behind symbol</button>
             </span>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="a-callouts" checked> Beschriftungen</label>
-            <label class="chk"><input type="checkbox" id="a-grid"> Netzlinien</label>
-            <span class="seg" id="a-widths" title="Linienbreiten Netzlinie : Achse : Kennlinie in mm">
-              <button data-v="0.18">0,18 : 0,35 : 0,7</button><button data-v="0.25" class="on">0,25 : 0,5 : 1</button><button data-v="0.35">0,35 : 0,7 : 1,4</button>
+            <label class="chk"><input type="checkbox" id="a-callouts" checked> Callouts</label>
+            <label class="chk"><input type="checkbox" id="a-grid"> Grid lines</label>
+            <span class="seg" id="a-widths" title="Line widths grid : axis : curve in mm">
+              <button data-v="0.18">0.18 : 0.35 : 0.7</button><button data-v="0.25" class="on">0.25 : 0.5 : 1</button><button data-v="0.35">0.35 : 0.7 : 1.4</button>
             </span>
           </div>
-          <svg class="dia" id="a-svg" viewBox="0 0 640 460" role="img" aria-label="Spannungs-Dehnungs-Diagramm mit Beschriftung der Diagrammteile"></svg>
+          <svg class="dia" id="a-svg" viewBox="0 0 640 460" role="img" aria-label="Stress-strain diagram with callouts of diagram components"></svg>
           <div class="width-legend" id="a-legend"></div>
-          <p class="note">Beispielkurve <i>σ</i>(<i>ε</i>) ohne Werkstoffbezug. Das Buch druckt an der Ordinate <i>δ</i>; Einheit N/mm² und Abszisse <i>ε</i> sprechen für die Spannung <i>σ</i>.</p>
+          <p class="note">Sample curve <i>σ</i>(<i>ε</i>) without reference to a specific material. The book prints <i>δ</i> on the ordinate; the unit N/mm² and abscissa <i>ε</i> indicate stress <i>σ</i>.</p>
         </div>
         <div class="side">
           <div class="card">
-            <h3>Regeln</h3>
+            <h3>Rules</h3>
             <ul class="rules" id="a-rules"></ul>
           </div>
           <div class="card">
-            <h3>Fehler finden <span class="score" id="a-score"></span></h3>
-            <p class="note" id="a-quiz-intro">Erzeugt ein Diagramm mit zwei bis drei Regelverstößen.</p>
-            <div class="ctl-row"><button class="btn" id="a-new">Fehlerhaftes Diagramm</button><button class="btn ghost" id="a-fix" hidden>Korrektes Diagramm</button></div>
+            <h3>Find Errors <span class="score" id="a-score"></span></h3>
+            <p class="note" id="a-quiz-intro">Generates a diagram with two to three rule violations.</p>
+            <div class="ctl-row"><button class="btn" id="a-new">Faulty Diagram</button><button class="btn ghost" id="a-fix" hidden>Correct Diagram</button></div>
             <ul class="rules" id="a-faults" hidden></ul>
-            <div class="ctl-row"><button class="btn" id="a-check" hidden>Prüfen</button></div>
+            <div class="ctl-row"><button class="btn" id="a-check" hidden>Check</button></div>
             <div class="feedback" id="a-feedback"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 3 Ausschnitt & Skalen ================= -->
+    <!-- ================= 3 Window & Scales ================= -->
     <section class="tab" id="tab-skalen">
       <div class="tab-head">
-        <h2>Diagramm-Ausschnitt und Skalenteilung</h2>
-        <p>Liegen alle Werte weit vom Nullpunkt entfernt, zeigt erst ein Ausschnitt den Verlauf. Überspannen die Werte mehrere Zehnerpotenzen, hilft eine logarithmische Teilung.</p>
+        <h2>Diagram Window and Scale Graduation</h2>
+        <p>When all values lie far from zero, only a cropped coordinate window reveals the trend. When values span several orders of magnitude, logarithmic graduation helps.</p>
       </div>
       <div class="card">
-        <h3>Ausschnitt mit unterdrücktem Nullpunkt <span class="note" id="s-readout"></span></h3>
+        <h3>Cropped Window with Suppressed Zero Origin <span class="note" id="s-readout"></span></h3>
         <div class="ctl-row">
           <div class="slider" style="min-width:300px;flex:1">
-            <span>Ausdehnungskoeffizient <i>α</i></span>
+            <span>Expansion coefficient <i>α</i></span>
             <input type="range" id="s-alpha" min="6" max="26" step="0.5" value="12">
             <output id="s-alpha-out"></output>
           </div>
           <span class="seg" id="s-preset">
-            <button data-v="12" class="on">Stahl ≈ 12</button><button data-v="16.5">Kupfer ≈ 16,5</button><button data-v="23.5">Aluminium ≈ 23,5</button>
+            <button data-v="12" class="on">Steel ≈ 12</button><button data-v="16.5">Copper ≈ 16.5</button><button data-v="23.5">Aluminum ≈ 23.5</button>
           </span>
-          <label class="chk"><input type="checkbox" id="s-grid" checked> Netzlinien</label>
+          <label class="chk"><input type="checkbox" id="s-grid" checked> Grid lines</label>
         </div>
         <div class="dia-pair">
-          <figure><svg class="dia" id="s-full" viewBox="0 0 440 360" role="img" aria-label="Diagramm mit Nullpunkt"></svg><figcaption>Mit Nullpunkt: Die Längenänderung verschwindet in der Linienbreite.</figcaption></figure>
-          <figure><svg class="dia" id="s-cut" viewBox="0 0 440 360" role="img" aria-label="Diagramm-Ausschnitt"></svg><figcaption>Ausschnitt: Nullpunkt unterdrückt, Teilung an den Wertebereich angepasst.</figcaption></figure>
+          <figure><svg class="dia" id="s-full" viewBox="0 0 440 360" role="img" aria-label="Diagram with zero origin"></svg><figcaption>With zero origin: the length change disappears inside the line thickness.</figcaption></figure>
+          <figure><svg class="dia" id="s-cut" viewBox="0 0 440 360" role="img" aria-label="Diagram window"></svg><figcaption>Cropped window: zero origin suppressed, scale matched to value range.</figcaption></figure>
         </div>
-        <p class="note">Stab mit <i>l</i><sub>0</sub> = 1000 mm bei 20 °C, Länge <i>l</i> = <i>l</i><sub>0</sub> · (1 + <i>α</i> · Δ<i>ϑ</i>). Die Werkstoffwerte sind gerundete Richtwerte in 10<sup>−6</sup>/K.</p>
+        <p class="note">Rod with <i>l</i><sub>0</sub> = 1000 mm at 20 °C, length <i>l</i> = <i>l</i><sub>0</sub> · (1 + <i>α</i> · Δ<i>ϑ</i>). Material coefficients are rounded guide values in 10<sup>−6</sup>/K.</p>
       </div>
       <div class="card">
-        <h3>Lineare und logarithmische Teilung <span class="note" id="l-readout"></span></h3>
+        <h3>Linear and Logarithmic Graduation <span class="note" id="l-readout"></span></h3>
         <div class="ctl-row">
-          <span>Abszisse <i>d</i>:</span>
-          <span class="seg" id="l-xs"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmisch</button></span>
+          <span>Abscissa <i>d</i>:</span>
+          <span class="seg" id="l-xs"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmic</button></span>
           <span>Ordinate <i>n</i>:</span>
-          <span class="seg" id="l-ys"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmisch</button></span>
-          <span>Hervorheben <i>v</i><sub>c</sub>:</span>
+          <span class="seg" id="l-ys"><button data-v="lin">linear</button><button data-v="log" class="on">logarithmic</button></span>
+          <span>Highlight <i>v</i><sub>c</sub>:</span>
           <span class="seg" id="l-vc"><button data-v="25">25</button><button data-v="50">50</button><button data-v="100" class="on">100</button><button data-v="200">200 m/min</button></span>
         </div>
-        <svg class="dia" id="l-svg" viewBox="0 0 760 440" role="img" aria-label="Drehzahl über Durchmesser"></svg>
-        <p class="note">Drehzahl <i>n</i> = <i>v</i><sub>c</sub> / (π · <i>d</i>) für vier Schnittgeschwindigkeiten. Bei doppelt logarithmischer Teilung werden die Hyperbeln zu parallelen Geraden. Maus über das Diagramm: Ablesung auf der hervorgehobenen Linie.</p>
+        <svg class="dia" id="l-svg" viewBox="0 0 760 440" role="img" aria-label="Rotational speed versus diameter"></svg>
+        <p class="note">Rotational speed <i>n</i> = <i>v</i><sub>c</sub> / (π · <i>d</i>) for four cutting speeds. With log-log scales, the hyperbolas become parallel straight lines. Move cursor across the diagram to read values along the highlighted curve.</p>
       </div>
     </section>
 
-    <!-- ================= 4 Federkennlinie ================= -->
+    <!-- ================= 4 Spring Characteristic ================= -->
     <section class="tab" id="tab-feder">
       <div class="tab-head">
-        <h2>Beispiel Federkennlinie einer Tellerfeder</h2>
-        <p>Messwerte in die Tabelle eintragen oder die Punkte ziehen. Die Kennlinie verbindet die Werte; über Punkt A wird der gesuchte Wert abgelesen.</p>
+        <h2>Example: Disc-Spring Characteristic Curve</h2>
+        <p>Edit measured values in the table or drag the points directly. The characteristic curve connects the points; the target value is read off at operating point A.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span class="seg" id="f-curve"><button data-v="pchip" class="on">Glatte Kennlinie</button><button data-v="linear">Polygonzug</button></span>
-            <span class="seg" id="f-dir"><button data-v="sF" class="on"><i>F</i> aus <i>s</i></button><button data-v="Fs"><i>s</i> aus <i>F</i></button></span>
-            <label class="chk"><input type="checkbox" id="f-grid"> Netzlinien</label>
-            <label class="chk"><input type="checkbox" id="f-tangent"> Tangente in A</label>
+            <span class="seg" id="f-curve"><button data-v="pchip" class="on">Smooth curve</button><button data-v="linear">Polyline</button></span>
+            <span class="seg" id="f-dir"><button data-v="sF" class="on"><i>F</i> from <i>s</i></button><button data-v="Fs"><i>s</i> from <i>F</i></button></span>
+            <label class="chk"><input type="checkbox" id="f-grid"> Grid lines</label>
+            <label class="chk"><input type="checkbox" id="f-tangent"> Tangent at A</label>
           </div>
           <div class="slider" id="f-slider-row">
             <span id="f-slider-label"></span>
             <input type="range" id="f-slider">
             <output id="f-slider-out"></output>
           </div>
-          <svg class="dia" id="f-svg" viewBox="0 0 640 500" role="img" aria-label="Federkennlinie mit Ablesung"></svg>
+          <svg class="dia" id="f-svg" viewBox="0 0 640 500" role="img" aria-label="Spring characteristic curve with readout"></svg>
         </div>
         <div class="side">
           <div class="card example">
-            <h3>Wertetabelle</h3>
+            <h3>Value Table</h3>
             <div class="vtable-wrap"><table class="vtable" id="f-table"></table></div>
-            <div class="ctl-row"><button class="btn ghost" id="f-add">+ Wert</button><button class="btn ghost" id="f-del">− Wert</button></div>
+            <div class="ctl-row"><button class="btn ghost" id="f-add">+ Value</button><button class="btn ghost" id="f-del">− Value</button></div>
             <div class="feedback" id="f-table-msg"></div>
           </div>
           <div class="card">
-            <h3>Ablesung</h3>
+            <h3>Readout</h3>
             <div class="result" id="f-result"></div>
             <div class="kv" id="f-details"></div>
             <p class="note" id="f-book"></p>
           </div>
           <div class="card">
-            <h3>Ablesen üben <span class="score" id="f-score"></span></h3>
-            <div class="ctl-row"><button class="btn" id="f-quiz">Neue Aufgabe</button><button class="btn ghost" id="f-quiz-end" hidden>Beenden</button></div>
+            <h3>Practice Reading <span class="score" id="f-score"></span></h3>
+            <div class="ctl-row"><button class="btn" id="f-quiz">New Problem</button><button class="btn ghost" id="f-quiz-end" hidden>Finish</button></div>
             <div id="f-task" class="note"></div>
             <div class="ctl-row" id="f-answer-row" hidden>
               <input class="num" id="f-answer"> <span id="f-answer-unit"></span>
-              <button class="btn" id="f-check">Prüfen</button>
+              <button class="btn" id="f-check">Check</button>
             </div>
             <div class="feedback" id="f-feedback"></div>
           </div>
@@ -242,7 +242,7 @@
   </main>
 
   <footer>
-    Lernhilfe nach Tabellenbuch Metall, 48. Auflage, Seite 58 (Verlag Europa-Lehrmittel). Texte und Grafiken sind eigenständig erstellt; übernommen sind nur die Beispielwerte der Seite. Normbezug: DIN 461, DIN EN ISO 80000-2.
+    Learning aid based on Tabellenbuch Metall, 48th edition, page 58 (Verlag Europa-Lehrmittel). Texts and graphics are independently created; only the worked example values are taken from the book. Standards: DIN 461, DIN EN ISO 80000-2.
   </footer>
 
   <script src="js/core.js"></script>

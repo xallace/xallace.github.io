@@ -1,4 +1,4 @@
-/* Bedienelemente: Parameterpanel (Regler + Zahlenfeld), Vorlagen, Kennwert-Kacheln, Formeln (KaTeX). */
+/* UI controls: parameter panel (sliders + numeric inputs), presets, KPI tiles, formulas (KaTeX). */
 (function (root) {
   'use strict';
   const fmt = root.KFmt;
@@ -10,7 +10,7 @@
     return e;
   }
 
-  // ruft fn höchstens einmal pro Animationsframe auf
+  // invokes fn at most once per animation frame
   function scheduler(fn) {
     let pending = false;
     return () => {
@@ -25,8 +25,8 @@
     return Number((Math.round(v / step) * step).toFixed(d));
   };
 
-  /* defs: Liste aus { group } oder { key, label, unit, min, max, step, scale, type, options, hint, log }.
-     scale rechnet den gespeicherten SI-Wert in die Anzeige um (Anzeige = Wert · scale). */
+  /* defs: array of { group } or { key, label, unit, min, max, step, scale, type, options, hint, log }.
+     scale converts stored SI values to display units (display = value * scale). */
   function paramPanel(container, defs, values, onChange) {
     const rows = {};
     let groupEl = container;
@@ -57,7 +57,7 @@
       } else {
         const num = el('input', 'pnum'); num.type = 'number'; num.step = d.step; num.min = d.min; num.max = d.max;
         const rng = el('input', 'prange'); rng.type = 'range';
-        // logarithmische Regler für Größen über mehrere Dekaden
+        // logarithmic sliders for quantities spanning multiple decades
         const toR = d.log ? (v) => Math.log10(v) : (v) => v;
         const fromR = d.log ? (r) => Math.pow(10, r) : (r) => r;
         rng.min = toR(d.min); rng.max = toR(d.max); rng.step = d.log ? (toR(d.max) - toR(d.min)) / 400 : d.step;
@@ -94,7 +94,7 @@
     };
   }
 
-  // Vorlagen als Knopfleiste
+  // Preset pill bar
   function presets(container, list, onPick) {
     const wrap = el('div', 'presets');
     const btns = [];
@@ -112,7 +112,7 @@
     return { mark(i) { btns.forEach((x, j) => x.classList.toggle('on', i === j)); }, clear() { btns.forEach((x) => x.classList.remove('on')); } };
   }
 
-  /* Kennwerte: items = [{ label, value, unit, digits, sub, state: 'ok'|'warn'|'bad', ref }] */
+  /* KPI tiles: items = [{ label, value, unit, digits, sub, state: 'ok'|'warn'|'bad', ref }] */
   function kpis(container, items) {
     container.innerHTML = '';
     for (const it of items) {
@@ -128,12 +128,12 @@
 
   function tex(target, latex, display = true) {
     if (root.katex) {
-      try { root.katex.render(latex, target, { displayMode: display, throwOnError: false, strict: false }); return; } catch (e) { /* Fallback unten */ }
+      try { root.katex.render(latex, target, { displayMode: display, throwOnError: false, strict: false }); return; } catch (e) { /* Fallback below */ }
     }
     target.textContent = latex;
   }
 
-  /* Formelliste: items = [{ tex, ref, note }] */
+  /* Formula list: items = [{ tex, ref, note }] */
   function formulas(container, items) {
     container.innerHTML = '';
     for (const it of items) {
@@ -146,7 +146,7 @@
     }
   }
 
-  // Karte mit Titel, Diagramm-Container und Bildunterschrift
+  // Card with title, chart container, and caption
   function card(parent, title, caption, cls = '') {
     const c = el('section', 'card ' + cls);
     if (title) c.appendChild(el('h3', 'card-title', title));
@@ -157,13 +157,13 @@
     return body;
   }
 
-  // wie scheduler, aber erst nach einer Ruhepause (für teure Rechnungen)
+  // like scheduler, but fires after an idle pause (for expensive computations)
   function debounce(fn, ms) {
     let id = 0;
     return () => { clearTimeout(id); id = setTimeout(fn, ms); };
   }
 
-  // Umschalter: options = [[wert, text], ...]
+  // Segmented toggle: options = [[value, label], ...]
   function seg(container, options, value, onChange) {
     const wrap = el('div', 'seg');
     const btns = options.map(([v, t]) => {
@@ -180,7 +180,7 @@
     return wrap;
   }
 
-  /* Grundgerüst eines Reiters: Kopf, links Parameter, rechts Kennwerte, Karten, Formeln */
+  /* Standard tab layout: header, left parameter sidebar, right KPIs, cards, formulas */
   function tabLayout(section, { title, intro, src }) {
     section.innerHTML = '';
     const head = el('div', 'tab-head');
@@ -196,13 +196,13 @@
     const kpiEl = el('div', 'kpis'); main.appendChild(kpiEl);
     const cards = el('div', 'cards'); main.appendChild(cards);
     const det = el('details', 'formulas');
-    det.appendChild(el('summary', '', 'Formeln und Quellen'));
+    det.appendChild(el('summary', '', 'Formulas & Sources'));
     const fbody = el('div', ''); det.appendChild(fbody);
     main.appendChild(det);
     return { aside, main, kpis: kpiEl, cards, formulas: fbody };
   }
 
-  // Serienfarben, gleiche Reihenfolge wie --c1 … --c7
+  // Series colors, matching --c1 … --c7 order
   const COL = ['#38bdf8', '#f59e0b', '#34d399', '#f472b6', '#a78bfa', '#f87171', '#e2e8f0'];
 
   root.UI = { el, scheduler, debounce, seg, tabLayout, COL, paramPanel, presets, kpis, tex, formulas, card };

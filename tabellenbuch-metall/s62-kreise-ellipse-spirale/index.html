@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Geometrische Grundkonstruktionen: Inkreis, Umkreis, Kreismittelpunkt, Ellipse, Spirale • Tabellenbuch Metall S. 62</title>
-  <meta name="description" content="Interaktive Lernhilfe zu Tabellenbuch Metall S. 62 (3.2 Geometrische Grundkonstruktionen – Inkreis und Umkreis beim Dreieck, Kreismittelpunkt, Ellipse, Spirale): Zirkel- und Linealkonstruktionen mit Schritt-für-Schritt-Animation und mathematischer Prüfung nach DIN ISO 128.">
+  <title>Basic Geometric Constructions: Incircle, Circumcircle, Circle Center, Ellipse, Spiral • Tabellenbuch Metall p. 62</title>
+  <meta name="description" content="Interactive study aid for Tabellenbuch Metall p. 62 (3.2 Basic Geometric Constructions – Incircle and Circumcircle of a Triangle, Circle Center, Ellipse, Spiral): compass-and-straightedge constructions with step-by-step animation and mathematical verification per DIN ISO 128.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23004b87'/%3E%3Cpolygon points='6,26 26,26 16,7' stroke='white' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='19' r='6' stroke='%23f87171' stroke-width='2' fill='none'/%3E%3Cellipse cx='16' cy='16' rx='12' ry='7' stroke='%23fbbf24' stroke-width='1.8' fill='none'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,407 +15,407 @@
         <span class="page-badge">62</span>
         <span class="subject-tag">K</span>
         <div>
-          <h1>3.2 Geometrische Grundkonstruktionen • Inkreis, Umkreis, Ellipse, Spirale</h1>
-          <div class="sub">Tabellenbuch Metall • 48. Auflage • Technische Kommunikation • Zirkel- und Linealkonstruktionen nach DIN ISO 128</div>
+          <h1>3.2 Basic Geometric Constructions • Incircle, Circumcircle, Ellipse, Spiral</h1>
+          <div class="sub">Mechanical &amp; Metal Trades Handbook (Tabellenbuch Metall) • 48th Ed. • Technical Communication • Compass-and-straightedge constructions per DIN ISO 128</div>
         </div>
       </div>
       <div class="tbb-tools">
-        <a href="../" class="back-link" title="Zurück zur Übersicht Tabellenbuch Metall">← Tabellenbuch</a>
-        <a href="../s14-formeln/" class="back-link" title="Zu Seite 14: Formeln, Gleichungen, Diagramme">← S. 14</a>
-        <a href="../s58-diagramme/" class="back-link" title="Zu Seite 58: Kartesisches Koordinatensystem">← S. 58</a>
-        <a href="../s59-polarkoordinaten/" class="back-link" title="Zu Seite 59: Polarkoordinatensysteme, Flächendiagramme">← S. 59</a>
-        <a href="../s60-grundkonstruktionen/" class="back-link" title="Zu Seite 60: Strecken, Lote, Winkel">← S. 60</a>
-        <a href="../s61-tangenten-vielecke/" class="back-link" title="Zu Seite 61: Tangenten, Kreisbögen, Vielecke">← S. 61</a>
-        <button class="btn-header" id="btn-book" title="Alle 6 Grundkonstruktionen auf die Buchdarstellung von Seite 62 zurücksetzen">↺ Buchwerte laden</button>
-        <button class="btn-header" id="btn-theme" title="Zwischen hellem Design und Blueprint-Dunkelmodus umschalten">◐ <span id="theme-label">Heller Modus</span></button>
+        <a href="../" class="back-link" title="Back to Tabellenbuch Metall overview">← Handbook</a>
+        <a href="../s14-formeln/" class="back-link" title="Go to page 14: Formulas, Equations, Diagrams">← p. 14</a>
+        <a href="../s58-diagramme/" class="back-link" title="Go to page 58: Cartesian Coordinate System">← p. 58</a>
+        <a href="../s59-polarkoordinaten/" class="back-link" title="Go to page 59: Polar Coordinate Systems, Area Charts">← p. 59</a>
+        <a href="../s60-grundkonstruktionen/" class="back-link" title="Go to page 60: Segments, Perpendiculars, Angles">← p. 60</a>
+        <a href="../s61-tangenten-vielecke/" class="back-link" title="Go to page 61: Tangents, Circular Arcs, Polygons">← p. 61</a>
+        <button class="btn-header" id="btn-book" title="Reset all 6 basic constructions to the handbook layout on page 62">↺ Handbook Values</button>
+        <button class="btn-header" id="btn-theme" title="Toggle between light mode and Blueprint dark mode">◐ <span id="theme-label">Light Mode</span></button>
       </div>
     </div>
     <nav class="tabs" id="tabs">
-      <button data-tab="inkreis" class="active">1 Inkreis Dreieck</button>
-      <button data-tab="umkreis">2 Umkreis Dreieck</button>
-      <button data-tab="kreismittelpunkt">3 Kreismittelpunkt</button>
-      <button data-tab="ellipse-kreise">4 Ellipse (Zwei Kreise)</button>
-      <button data-tab="ellipse-parallelogramm">5 Ellipse (Parallelogramm)</button>
-      <button data-tab="spirale">6 Spirale (Zirkel)</button>
+      <button data-tab="inkreis" class="active">1 Triangle Incircle</button>
+      <button data-tab="umkreis">2 Triangle Circumcircle</button>
+      <button data-tab="kreismittelpunkt">3 Circle Center</button>
+      <button data-tab="ellipse-kreise">4 Ellipse (Two Circles)</button>
+      <button data-tab="ellipse-parallelogramm">5 Ellipse (Parallelogram)</button>
+      <button data-tab="spirale">6 Spiral (Compass)</button>
     </nav>
   </header>
 
   <main>
-    <!-- ================= 1 Inkreis eines Dreiecks ================= -->
+    <!-- ================= 1 Incircle of a Triangle ================= -->
     <section class="tab active" id="tab-inkreis">
       <div class="tab-head">
-        <h2>Inkreis eines Dreiecks</h2>
-        <p>Der Inkreismittelpunkt <i>M</i> entsteht durch den Schnittpunkt zweier Winkelhalbierenden (z. B. <i>w</i><sub>α</sub> und <i>w</i><sub>β</sub>). Durch Fällen des Lotes von <i>M</i> auf eine Dreiecksseite erhält man den Inkreisradius <i>r</i> = <i>A</i>/<i>s</i>, der alle drei Seiten tangential berührt.</p>
+        <h2>Incircle of a Triangle</h2>
+        <p>The incenter <i>M</i> is found at the intersection of two angle bisectors (e.g. <i>w</i><sub>α</sub> and <i>w</i><sub>β</sub>). Dropping the perpendicular from <i>M</i> to a triangle side gives the inradius <i>r</i> = <i>A</i>/<i>s</i>, which touches all three sides tangentially.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="inkreis-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Winkel α halbieren</button>
-              <button data-v="2">2 Winkel β halbieren (M)</button>
-              <button data-v="3" class="on">3 Inkreis um M</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Bisect angle α</button>
+              <button data-v="2">2 Bisect angle β (M)</button>
+              <button data-v="3" class="on">3 Incircle at M</button>
             </span>
-            <button class="btn ghost" id="inkreis-play">▶ Animation</button>
+            <button class="btn ghost" id="inkreis-play">▶ Animate</button>
           </div>
           <div class="ctl-row">
-            <span>Vorlagen:</span>
-            <button class="btn" id="inkreis-preset-book">Buchvorlage (S. 62)</button>
-            <button class="btn" id="inkreis-preset-right">Rechtwinklig (3-4-5)</button>
-            <button class="btn" id="inkreis-preset-equi">Gleichseitig</button>
+            <span>Presets:</span>
+            <button class="btn" id="inkreis-preset-book">Handbook Preset (p. 62)</button>
+            <button class="btn" id="inkreis-preset-right">Right-Angled (3-4-5)</button>
+            <button class="btn" id="inkreis-preset-equi">Equilateral</button>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="inkreis-arcs" checked> Zirkelbögen &amp; Ticks zeigen</label>
-            <label class="chk"><input type="checkbox" id="inkreis-lots" checked> Berührpunkte &amp; Lote von M zeigen</label>
+            <label class="chk"><input type="checkbox" id="inkreis-arcs" checked> Show compass arcs &amp; ticks</label>
+            <label class="chk"><input type="checkbox" id="inkreis-lots" checked> Show tangency points &amp; perpendiculars from M</label>
           </div>
-          <svg class="dia" id="inkreis-svg" viewBox="0 0 640 460" role="img" aria-label="Inkreis eines Dreiecks"></svg>
-          <p class="note">Die Eckpunkte <b>A</b>, <b>B</b> und <b>C</b> können mit der Maus oder dem Finger direkt auf der Zeichenfläche verschoben werden.</p>
+          <svg class="dia" id="inkreis-svg" viewBox="0 0 640 460" role="img" aria-label="Incircle of a triangle"></svg>
+          <p class="note">Vertices <b>A</b>, <b>B</b>, and <b>C</b> can be dragged directly on the drawing canvas with mouse or touch.</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Dreieck</div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Triangle</div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="inkreis-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="inkreis-result"></div>
             <div class="kv" id="inkreis-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="inkreis-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="inkreis-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="inkreis-task">Klicken Sie auf „Neue Aufgabe“, um eine Berechnungs- und Konstruktionsfrage zum Inkreis zu starten.</p>
+              <p id="inkreis-task">Click “New Question” to start a calculation and construction question on the incircle.</p>
               <div class="quiz-row" id="inkreis-ans-row" hidden>
-                <input type="text" id="inkreis-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="inkreis-ans" placeholder="Enter numeric value">
                 <span class="unit">mm</span>
-                <button class="btn primary" id="inkreis-check">Prüfen</button>
+                <button class="btn primary" id="inkreis-check">Check</button>
               </div>
               <div id="inkreis-feedback"></div>
-              <button class="btn ghost" id="inkreis-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="inkreis-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 2 Umkreis eines Dreiecks ================= -->
+    <!-- ================= 2 Circumcircle of a Triangle ================= -->
     <section class="tab" id="tab-umkreis">
       <div class="tab-head">
-        <h2>Umkreis eines Dreiecks</h2>
-        <p>Der Umkreismittelpunkt <i>M</i> entsteht durch den Schnittpunkt zweier Mittelsenkrechten (z. B. auf <span class="overline">AB</span> und <span class="overline">BC</span>). Der Zirkelkreis um <i>M</i> mit Radius <i>R</i> = <i>MA</i> = <i>MB</i> = <i>MC</i> verläuft exakt durch alle drei Dreiecksecken.</p>
+        <h2>Circumcircle of a Triangle</h2>
+        <p>The circumcenter <i>M</i> is found at the intersection of two perpendicular bisectors (e.g. on <span class="overline">AB</span> and <span class="overline">BC</span>). The compass circle centered at <i>M</i> with radius <i>R</i> = <i>MA</i> = <i>MB</i> = <i>MC</i> passes through all three vertices of the triangle.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="umkreis-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Mittelsenkrechte AB</button>
-              <button data-v="2">2 Mittelsenkrechte BC (M)</button>
-              <button data-v="3" class="on">3 Umkreis um M</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Perp. bisector AB</button>
+              <button data-v="2">2 Perp. bisector BC (M)</button>
+              <button data-v="3" class="on">3 Circumcircle at M</button>
             </span>
-            <button class="btn ghost" id="umkreis-play">▶ Animation</button>
+            <button class="btn ghost" id="umkreis-play">▶ Animate</button>
           </div>
           <div class="ctl-row">
-            <span>Vorlagen:</span>
-            <button class="btn" id="umkreis-preset-book">Buchvorlage (spitzwinklig)</button>
-            <button class="btn" id="umkreis-preset-right">Rechtwinklig (Thaleskreis)</button>
-            <button class="btn" id="umkreis-preset-obtuse">Stumpfwinklig (M liegt außen)</button>
+            <span>Presets:</span>
+            <button class="btn" id="umkreis-preset-book">Handbook Preset (acute)</button>
+            <button class="btn" id="umkreis-preset-right">Right-Angled (Thales circle)</button>
+            <button class="btn" id="umkreis-preset-obtuse">Obtuse (M lies outside)</button>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="umkreis-arcs" checked> Zirkelschnittbögen zeigen</label>
-            <label class="chk"><input type="checkbox" id="umkreis-third"> 3. Mittelsenkrechte (CA) einblenden</label>
+            <label class="chk"><input type="checkbox" id="umkreis-arcs" checked> Show intersecting compass arcs</label>
+            <label class="chk"><input type="checkbox" id="umkreis-third"> Show 3rd perpendicular bisector (CA)</label>
           </div>
-          <svg class="dia" id="umkreis-svg" viewBox="0 0 640 460" role="img" aria-label="Umkreis eines Dreiecks"></svg>
-          <p class="note">Punkte <b>A</b>, <b>B</b> und <b>C</b> ziehen. Beachten Sie: Bei einem stumpfwinkligen Dreieck wandert der Umkreismittelpunkt <b>M</b> automatisch nach außen!</p>
+          <svg class="dia" id="umkreis-svg" viewBox="0 0 640 460" role="img" aria-label="Circumcircle of a triangle"></svg>
+          <p class="note">Drag points <b>A</b>, <b>B</b>, and <b>C</b>. Note: for an obtuse triangle, the circumcenter <b>M</b> automatically moves outside the triangle!</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Dreieck</div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Triangle</div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="umkreis-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="umkreis-result"></div>
             <div class="kv" id="umkreis-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="umkreis-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="umkreis-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="umkreis-task">Klicken Sie auf „Neue Aufgabe“, um eine Frage zum Umkreis zu starten.</p>
+              <p id="umkreis-task">Click “New Question” to start a question on the circumcircle.</p>
               <div class="quiz-row" id="umkreis-ans-row" hidden>
-                <input type="text" id="umkreis-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="umkreis-ans" placeholder="Enter numeric value">
                 <span class="unit">mm</span>
-                <button class="btn primary" id="umkreis-check">Prüfen</button>
+                <button class="btn primary" id="umkreis-check">Check</button>
               </div>
               <div id="umkreis-feedback"></div>
-              <button class="btn ghost" id="umkreis-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="umkreis-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 3 Bestimmung des Kreismittelpunktes ================= -->
+    <!-- ================= 3 Determining the Center of a Circle ================= -->
     <section class="tab" id="tab-kreismittelpunkt">
       <div class="tab-head">
-        <h2>Bestimmung des Kreismittelpunktes</h2>
-        <p>Liegt ein Kreis ohne bekanntes Zentrum vor (z. B. auf einem Werkstück nach DIN), werden zwei Sehnen <span class="overline">AB</span> und <span class="overline">CD</span> erzeugt. Die Schnittgerade ihrer beiden Mittelsenkrechten bestimmt exakt den Kreismittelpunkt <i>M</i>.</p>
+        <h2>Determining the Center of a Circle</h2>
+        <p>Given a circle whose center is unknown (e.g. on a workpiece per DIN), two chords <span class="overline">AB</span> and <span class="overline">CD</span> are drawn. The intersection of their two perpendicular bisectors determines the exact circle center <i>M</i>.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="kmp-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Gerade a (A, B)</button>
-              <button data-v="2">2 Gerade b (C, D)</button>
-              <button data-v="3">3 Mittelsenkrechte</button>
-              <button data-v="4" class="on">4 Mittelpunkt M</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Line a (A, B)</button>
+              <button data-v="2">2 Line b (C, D)</button>
+              <button data-v="3">3 Perp. bisector</button>
+              <button data-v="4" class="on">4 Center M</button>
             </span>
-            <button class="btn ghost" id="kmp-play">▶ Animation</button>
+            <button class="btn ghost" id="kmp-play">▶ Animate</button>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="kmp-hide"> Wahren Mittelpunkt verbergen (Werkstattmodus)</label>
-            <label class="chk"><input type="checkbox" id="kmp-arcs" checked> Zirkelbögen 1, 2 und 3, 3 zeigen</label>
+            <label class="chk"><input type="checkbox" id="kmp-hide"> Hide true center (workshop mode)</label>
+            <label class="chk"><input type="checkbox" id="kmp-arcs" checked> Show compass arcs 1, 2 and 3, 3</label>
           </div>
           <div class="slider">
-            <span>Kreisradius <i>R</i></span>
+            <span>Circle radius <i>R</i></span>
             <input type="range" id="kmp-r" min="30" max="65" step="1" value="50">
             <output id="kmp-r-out">50 mm</output>
           </div>
           <div class="slider">
-            <span>Winkel Gerade <i>a</i></span>
+            <span>Angle of line <i>a</i></span>
             <input type="range" id="kmp-ang1" min="0" max="180" step="1" value="28">
             <output id="kmp-ang1-out">28°</output>
           </div>
           <div class="slider">
-            <span>Winkel Gerade <i>b</i></span>
+            <span>Angle of line <i>b</i></span>
             <input type="range" id="kmp-ang2" min="0" max="180" step="1" value="118">
             <output id="kmp-ang2-out">118°</output>
           </div>
-          <svg class="dia" id="kmp-svg" viewBox="0 0 640 460" role="img" aria-label="Bestimmung des Kreismittelpunktes"></svg>
-          <p class="note">Werkstatttipp: Um eine möglichst geringe Schnittunsicherheit zu erzielen, wird Gerade <i>b</i> möglichst rechtwinklig zu Gerade <i>a</i> gewählt.</p>
+          <svg class="dia" id="kmp-svg" viewBox="0 0 640 460" role="img" aria-label="Determining the center of a circle"></svg>
+          <p class="note">Workshop tip: To minimize intersection uncertainty, choose line <i>b</i> as close to perpendicular to line <i>a</i> as possible.</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Kreis (Mittelpunkt unbekannt)</div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Circle (center unknown)</div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="kmp-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="kmp-result"></div>
             <div class="kv" id="kmp-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="kmp-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="kmp-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="kmp-task">Klicken Sie auf „Neue Aufgabe“, um eine Werkstattaufgabe zu starten.</p>
+              <p id="kmp-task">Click “New Question” to start a workshop problem.</p>
               <div class="quiz-row" id="kmp-ans-row" hidden>
-                <input type="text" id="kmp-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="kmp-ans" placeholder="Enter numeric value">
                 <span class="unit">mm</span>
-                <button class="btn primary" id="kmp-check">Prüfen</button>
+                <button class="btn primary" id="kmp-check">Check</button>
               </div>
               <div id="kmp-feedback"></div>
-              <button class="btn ghost" id="kmp-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="kmp-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 4 Ellipsenkonstruktion aus zwei Kreisen ================= -->
+    <!-- ================= 4 Ellipse Construction from Two Circles ================= -->
     <section class="tab" id="tab-ellipse-kreise">
       <div class="tab-head">
-        <h2>Ellipsenkonstruktion aus zwei Kreisen</h2>
-        <p>Klassische Scheitelkreismethode (nach De La Hire / Papyrus): Zwei konzentrische Kreise mit den Durchmessern <span class="overline">AB</span> = 2<i>a</i> und <span class="overline">CD</span> = 2<i>b</i> werden von Strahlen unter Winkeln φ geschnitten. Die Parallelen durch die Schnittpunkte <i>E</i> und <i>F</i> schneiden sich in exakten Ellipsenpunkten <i>P</i>(<i>a</i>·cos φ; <i>b</i>·sin φ).</p>
+        <h2>Ellipse Construction from Two Circles</h2>
+        <p>Classical concentric-circle method (de La Hire / Pappus): Two concentric circles with diameters <span class="overline">AB</span> = 2<i>a</i> and <span class="overline">CD</span> = 2<i>b</i> are intersected by rays at angles φ. Parallels through the intersections <i>E</i> and <i>F</i> meet at exact ellipse points <i>P</i>(<i>a</i>·cos φ, <i>b</i>·sin φ).</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="ellk-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Kreise um M</button>
-              <button data-v="2">2 Strahlen durch M (E, F)</button>
-              <button data-v="3" class="on">3 Parallelen &amp; Ellipse</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Circles at M</button>
+              <button data-v="2">2 Rays through M (E, F)</button>
+              <button data-v="3" class="on">3 Parallels &amp; Ellipse</button>
             </span>
-            <button class="btn ghost" id="ellk-play">▶ Animation</button>
+            <button class="btn ghost" id="ellk-play">▶ Animate</button>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="ellk-foci" checked> Brennpunkte F₁, F₂ zeigen</label>
+            <label class="chk"><input type="checkbox" id="ellk-foci" checked> Show foci F₁, F₂</label>
           </div>
           <div class="slider">
-            <span>Große Halbachse <i>a</i></span>
+            <span>Semi-major axis <i>a</i></span>
             <input type="range" id="ellk-a" min="35" max="75" step="1" value="52">
             <output id="ellk-a-out">52 mm</output>
           </div>
           <div class="slider">
-            <span>Kleine Halbachse <i>b</i></span>
+            <span>Semi-minor axis <i>b</i></span>
             <input type="range" id="ellk-b" min="18" max="50" step="1" value="32">
             <output id="ellk-b-out">32 mm</output>
           </div>
           <div class="slider">
-            <span>Aktiver Strahlwinkel <i>φ</i></span>
+            <span>Active ray angle <i>φ</i></span>
             <input type="range" id="ellk-ang" min="0" max="360" step="5" value="45">
             <output id="ellk-ang-out">45°</output>
           </div>
-          <svg class="dia" id="ellk-svg" viewBox="0 0 640 460" role="img" aria-label="Ellipsenkonstruktion aus zwei Kreisen"></svg>
-          <p class="note">Mit dem Strahlwinkel <b>φ</b> kann der Konstruktionsstrahl dynamisch um 360° gedreht werden. Jeder Punkt erfüllt exakt die Ellipsengleichung <i>x</i>²/<i>a</i>² + <i>y</i>²/<i>b</i>² = 1.</p>
+          <svg class="dia" id="ellk-svg" viewBox="0 0 640 460" role="img" aria-label="Ellipse construction from two circles"></svg>
+          <p class="note">With ray angle <b>φ</b>, the construction ray can be rotated dynamically through 360°. Every point satisfies the ellipse equation <i>x</i>²/<i>a</i>² + <i>y</i>²/<i>b</i>² = 1 exactly.</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Achsen <span class="overline">AB</span> und <span class="overline">CD</span></div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Axes <span class="overline">AB</span> and <span class="overline">CD</span></div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="ellk-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="ellk-result"></div>
             <div class="kv" id="ellk-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="ellk-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="ellk-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="ellk-task">Klicken Sie auf „Neue Aufgabe“, um eine Ellipsenrechnung zu starten.</p>
+              <p id="ellk-task">Click “New Question” to start an ellipse calculation.</p>
               <div class="quiz-row" id="ellk-ans-row" hidden>
-                <input type="text" id="ellk-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="ellk-ans" placeholder="Enter numeric value">
                 <span class="unit">mm²</span>
-                <button class="btn primary" id="ellk-check">Prüfen</button>
+                <button class="btn primary" id="ellk-check">Check</button>
               </div>
               <div id="ellk-feedback"></div>
-              <button class="btn ghost" id="ellk-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="ellk-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 5 Ellipsenkonstruktion in einem Parallelogramm ================= -->
+    <!-- ================= 5 Ellipse Construction in a Parallelogram ================= -->
     <section class="tab" id="tab-ellipse-parallelogramm">
       <div class="tab-head">
-        <h2>Ellipsenkonstruktion in einem Parallelogramm</h2>
-        <p>Wird ein Kreis schräg projiziert (axonometrische Schrägbilder, Isometrie und Dimetrie nach DIN ISO 5456-3), erscheint er als Ellipse in einem Parallelogramm. Durch Halbieren, Vierteln und Achteln der Achsen und Übertragung per Hilfshalbkreis mit Radius <i>r</i> = <span class="overline">MC</span> entstehen die Stützpunkte.</p>
+        <h2>Ellipse Construction in a Parallelogram</h2>
+        <p>When a circle is projected obliquely (axonometric pictorials, isometry and dimetry per DIN ISO 5456-3), it appears as an ellipse inside a parallelogram. Halving, quartering, and eighthing the axes and projecting via an auxiliary semicircle of radius <i>r</i> = <span class="overline">MC</span> yields the curve points.</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="ellp-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Halbkreis um A (E)</button>
-              <button data-v="2">2 Teilung AM</button>
-              <button data-v="3">3 Teilung EA (F)</button>
-              <button data-v="4">4 Parallelen</button>
-              <button data-v="5" class="on">5 Ellipsenpunkte</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Semicircle at A (E)</button>
+              <button data-v="2">2 Divide AM</button>
+              <button data-v="3">3 Divide EA (F)</button>
+              <button data-v="4">4 Parallels</button>
+              <button data-v="5" class="on">5 Ellipse points</button>
             </span>
-            <button class="btn ghost" id="ellp-play">▶ Animation</button>
+            <button class="btn ghost" id="ellp-play">▶ Animate</button>
           </div>
           <div class="slider">
-            <span>Halbachse <i>a</i> (Strecke AM)</span>
+            <span>Semi-axis <i>a</i> (segment AM)</span>
             <input type="range" id="ellp-a" min="30" max="65" step="1" value="48">
             <output id="ellp-a-out">48 mm</output>
           </div>
           <div class="slider">
-            <span>Halbachse <i>b</i> (Strecke MC)</span>
+            <span>Semi-axis <i>b</i> (segment MC)</span>
             <input type="range" id="ellp-b" min="18" max="42" step="1" value="28">
             <output id="ellp-b-out">28 mm</output>
           </div>
           <div class="slider">
-            <span>Scherwinkel <i>ψ</i> der Achse CD</span>
+            <span>Shear angle <i>ψ</i> of axis CD</span>
             <input type="range" id="ellp-tilt" min="50" max="90" step="1" value="68">
             <output id="ellp-tilt-out">68°</output>
           </div>
-          <svg class="dia" id="ellp-svg" viewBox="0 0 640 460" role="img" aria-label="Ellipsenkonstruktion in einem Parallelogramm"></svg>
-          <p class="note">Bei einem Neigungswinkel von <b>90°</b> geht das Parallelogramm in ein Rechteck über (Standard-Riß). Bei <b>60°</b> bzw. <b>75°</b> entsteht eine isometrische bzw. dimetrische Ellipse.</p>
+          <svg class="dia" id="ellp-svg" viewBox="0 0 640 460" role="img" aria-label="Ellipse construction in a parallelogram"></svg>
+          <p class="note">At a tilt angle of <b>90°</b>, the parallelogram becomes a rectangle (orthographic ellipse). At <b>60°</b> and <b>75°</b>, isometric and dimetric ellipses are produced.</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Parallelogramm mit den Achsen <span class="overline">AB</span> und <span class="overline">CD</span></div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Parallelogram with axes <span class="overline">AB</span> and <span class="overline">CD</span></div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="ellp-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="ellp-result"></div>
             <div class="kv" id="ellp-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="ellp-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="ellp-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="ellp-task">Klicken Sie auf „Neue Aufgabe“, um eine technische Zeichenfrage zu starten.</p>
+              <p id="ellp-task">Click “New Question” to start a technical drawing question.</p>
               <div class="quiz-row" id="ellp-ans-row" hidden>
-                <input type="text" id="ellp-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="ellp-ans" placeholder="Enter numeric value">
                 <span class="unit">mm</span>
-                <button class="btn primary" id="ellp-check">Prüfen</button>
+                <button class="btn primary" id="ellp-check">Check</button>
               </div>
               <div id="ellp-feedback"></div>
-              <button class="btn ghost" id="ellp-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="ellp-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 6 Spirale (Näherungskonstruktion mit dem Zirkel) ================= -->
+    <!-- ================= 6 Spiral (Approximate Construction with Compass) ================= -->
     <section class="tab" id="tab-spirale">
       <div class="tab-head">
-        <h2>Spirale (Näherungskonstruktion mit dem Zirkel)</h2>
-        <p>Die Vier-Zentren-Spirale nähert eine archimedische Spirale (konstante Steigung <i>a</i> pro 360°-Umlauf) durch aneinandergesetzte Viertelkreise an. Das quadratische Zentrum <i>ABCD</i> mit Seitenlänge <i>s</i> = <i>a</i>/4 liefert fortlaufende Einstichpunkte, wodurch alle Übergänge exakt tangential (<i>C</i>¹-stetig) verlaufen.</p>
+        <h2>Spiral (Approximate Construction with a Compass)</h2>
+        <p>The four-center spiral approximates an Archimedean spiral (constant pitch <i>a</i> per 360° turn) by joining quarter-circle arcs. The central square <i>ABCD</i> of side length <i>s</i> = <i>a</i>/4 provides successive compass centers so that all transitions are strictly tangential (<i>C</i>¹-continuous).</p>
       </div>
       <div class="layout">
         <div class="card">
           <div class="ctl-row">
-            <span>Konstruktionsschritt:</span>
+            <span>Construction step:</span>
             <span class="seg" id="spirale-step">
-              <button data-v="0">Gegeben</button>
-              <button data-v="1">1 Quadrat ABCD</button>
-              <button data-v="2">2 Bogen 1 um A (E)</button>
-              <button data-v="3">3 Bogen 2 um B (F)</button>
-              <button data-v="4">4 Bogen 3 um C (G)</button>
-              <button data-v="5">5 Bogen 4 um D (H)</button>
-              <button data-v="6" class="on">6 Bogen 5 um A (I)</button>
+              <button data-v="0">Given</button>
+              <button data-v="1">1 Square ABCD</button>
+              <button data-v="2">2 Arc 1 at A (E)</button>
+              <button data-v="3">3 Arc 2 at B (F)</button>
+              <button data-v="4">4 Arc 3 at C (G)</button>
+              <button data-v="5">5 Arc 4 at D (H)</button>
+              <button data-v="6" class="on">6 Arc 5 at A (I)</button>
             </span>
-            <button class="btn ghost" id="spirale-play">▶ Animation</button>
+            <button class="btn ghost" id="spirale-play">▶ Animate</button>
           </div>
           <div class="ctl-row">
-            <label class="chk"><input type="checkbox" id="spirale-arch" checked> Ideale Archimedische Spirale <i>r</i>(φ) = <i>a</i>·φ/(2π) einblenden</label>
-            <label class="chk"><input type="checkbox" id="spirale-zoom" checked> Zentralquadrat-Vergrößerung anzeigen</label>
+            <label class="chk"><input type="checkbox" id="spirale-arch" checked> Show ideal Archimedean spiral <i>r</i>(φ) = <i>a</i>·φ/(2π)</label>
+            <label class="chk"><input type="checkbox" id="spirale-zoom" checked> Show magnified central square</label>
           </div>
           <div class="slider">
-            <span>Steigung (Ganghöhe) <i>a</i></span>
+            <span>Pitch (lead) <i>a</i></span>
             <input type="range" id="spirale-a" min="24" max="64" step="4" value="48">
             <output id="spirale-a-out">48 mm</output>
           </div>
-          <svg class="dia" id="spirale-svg" viewBox="0 0 640 460" role="img" aria-label="Spirale mit dem Zirkel"></svg>
-          <p class="note">Technische Anwendungen: Förderschnecken, Schneckengehäuse von Kreiselpumpen und Radialventilatoren, Spiralfedern in Messgeräten.</p>
+          <svg class="dia" id="spirale-svg" viewBox="0 0 640 460" role="img" aria-label="Spiral constructed with compass"></svg>
+          <p class="note">Engineering applications: Screw conveyors, volute casings of centrifugal pumps and radial fans, spiral springs in measuring instruments.</p>
         </div>
         <div class="side">
           <div class="card">
-            <div class="given-box"><b>Gegeben:</b> Steigung <i>a</i> (Ganghöhe pro volle Umdrehung)</div>
-            <h3>Konstruktionsschritte (S. 62)</h3>
+            <div class="given-box"><b>Given:</b> Pitch <i>a</i> (lead per full revolution)</div>
+            <h3>Construction Steps (p. 62)</h3>
             <ul class="rules" id="spirale-steps"></ul>
           </div>
           <div class="card">
-            <h3>Geometrische Prüfung</h3>
+            <h3>Geometric Verification</h3>
             <div class="result" id="spirale-result"></div>
             <div class="kv" id="spirale-details"></div>
           </div>
           <div class="card">
-            <h3>Interaktive Übung <span class="score" id="spirale-score">0 / 0 richtig</span></h3>
+            <h3>Interactive Practice <span class="score" id="spirale-score">0 / 0 correct</span></h3>
             <div class="quiz-box">
-              <p id="spirale-task">Klicken Sie auf „Neue Aufgabe“, um eine Spiralberechnung zu starten.</p>
+              <p id="spirale-task">Click “New Question” to start a spiral calculation.</p>
               <div class="quiz-row" id="spirale-ans-row" hidden>
-                <input type="text" id="spirale-ans" placeholder="Zahlenwert eingeben">
+                <input type="text" id="spirale-ans" placeholder="Enter numeric value">
                 <span class="unit">mm</span>
-                <button class="btn primary" id="spirale-check">Prüfen</button>
+                <button class="btn primary" id="spirale-check">Check</button>
               </div>
               <div id="spirale-feedback"></div>
-              <button class="btn ghost" id="spirale-quiz" style="margin-top:8px">Neue Aufgabe</button>
+              <button class="btn ghost" id="spirale-quiz" style="margin-top:8px">New Question</button>
             </div>
           </div>
         </div>

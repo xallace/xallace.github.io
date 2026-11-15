@@ -1,5 +1,5 @@
-/* SVG-Hilfen für Tabellenbuch Metall S. 59:
-   Elemente, Text mit Kursiv/Index, Pfeile, Messwertzeichen (○, ×, □), Kreisbögen, Sektoren, Polarkurven, Ziehen */
+/* SVG helpers for Tabellenbuch Metall p. 59:
+   Elements, text with italics/subscripts/superscripts, arrows, data markers (○, ×, □), circular arcs, sectors, polar curves, dragging */
 const SVG = (() => {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
@@ -14,7 +14,7 @@ const SVG = (() => {
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
-  // Text mit kleiner Auszeichnung: *kursiv*, _{tief}, ^{hoch}. Schriftgröße über attrs['font-size'].
+  // Text with lightweight markup: *italic*, _{sub}, ^{sup}. Font size via attrs['font-size'].
   function text(parent, x, y, markup, attrs = {}) {
     const fs = +(attrs['font-size'] || 14);
     const t = el(parent, 'text', Object.assign({ x: +x.toFixed(1), y: +y.toFixed(1), 'font-size': fs }, attrs));
@@ -36,7 +36,7 @@ const SVG = (() => {
 
   const nameMarkup = name => String(name).replace(/^([A-Za-z]+)(\d+)$/, '$1_{$2}');
 
-  // Gefüllte Pfeilspitze mit Spitze in (x, y), Richtung in Grad (SVG-Koordinaten: 0 = rechts, −90 = oben, 90 = unten)
+  // Filled arrowhead with tip at (x, y), direction in degrees (SVG coordinates: 0 = right, −90 = up, 90 = down)
   function arrowHead(parent, x, y, deg, l = 12, b = 4, cls = 'ax-head') {
     const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
     const bx = x - l * c, by = y - l * s;
@@ -54,7 +54,7 @@ const SVG = (() => {
     return g;
   }
 
-  // Besondere Zeichen für streuende Messwerte nach DIN 461: 'cross' (×), 'circle' (○), 'square' (□), 'triangle' (△)
+  // Distinct point markers for scattered data per DIN 461: 'cross' (×), 'circle' (○), 'square' (□), 'triangle' (△)
   function marker(parent, kind, x, y, r = 4.6, cls = 'pt-mark') {
     const cx = +x.toFixed(1), cy = +y.toFixed(1);
     if (kind === 'cross') {
@@ -91,7 +91,7 @@ const SVG = (() => {
     return path(pts);
   }
 
-  // Polare Kurve rFn(deg) für 0°…360° als geschlossener Pfad; rToPx bildet den Radius auf Pixel ab
+  // Polar curve rFn(deg) over 0°…360° as closed path; rToPx maps radius to pixels
   function plotPolar(rFn, cx, cy, rToPx, n = 240) {
     const pts = [];
     for (let i = 0; i < n; i++) {
@@ -102,7 +102,7 @@ const SVG = (() => {
     return path(pts, true);
   }
 
-  // Kreisbogen von deg0 nach deg1 (mathematisch positiv = gegen den Uhrzeigersinn)
+  // Circular arc from deg0 to deg1 (mathematically positive = counterclockwise)
   function arcPath(cx, cy, rPx, deg0, deg1) {
     const span = deg1 - deg0;
     if (Math.abs(span) < 1e-6) return '';
@@ -112,11 +112,11 @@ const SVG = (() => {
     const [x0, y0] = Core.polarToScreen(cx, cy, rPx, deg0);
     const [x1, y1] = Core.polarToScreen(cx, cy, rPx, deg1);
     const large = Math.abs(span) > 180 ? 1 : 0;
-    const sweep = span > 0 ? 0 : 1; // SVG y-Achse nach unten: gegen Uhrzeigersinn ist sweep = 0
+    const sweep = span > 0 ? 0 : 1; // SVG y-axis points down: counterclockwise corresponds to sweep = 0
     return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${rPx.toFixed(1)} ${rPx.toFixed(1)} 0 ${large} ${sweep} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
   }
 
-  // Kreissektor (Tortenscheibe) von deg0 nach deg1 gegen den Uhrzeigersinn
+  // Circular sector (pie slice) from deg0 to deg1 counterclockwise
   function sectorPath(cx, cy, rPx, deg0, deg1) {
     const span = deg1 - deg0;
     if (Math.abs(span) <= 1e-6) return '';
@@ -128,7 +128,7 @@ const SVG = (() => {
     return `M ${cx.toFixed(1)} ${cy.toFixed(1)} L ${x0.toFixed(1)} ${y0.toFixed(1)} A ${rPx.toFixed(1)} ${rPx.toFixed(1)} 0 ${large} ${sweep} ${x1.toFixed(1)} ${y1.toFixed(1)} Z`;
   }
 
-  // Winkelbogen mit Pfeilspitze am Ende deg1 (für +φ im Polardiagramm und Mittelpunktswinkel α)
+  // Angle arc with arrowhead at deg1 (for +φ in the polar diagram and central angle α)
   function angleArc(parent, cx, cy, rPx, deg0, deg1, opts = {}) {
     const span = deg1 - deg0;
     if (Math.abs(span) < 0.5) return null;

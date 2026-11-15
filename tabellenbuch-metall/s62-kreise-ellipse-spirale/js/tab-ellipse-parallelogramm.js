@@ -1,10 +1,10 @@
-/* Reiter 5: Ellipsenkonstruktion in einem Parallelogramm (Tabellenbuch Metall S. 62, 5. Zeile)
-   Gegeben: Parallelogramm mit den Achsen AB und CD
-   1. Halbkreis mit Radius r = MC um A ergibt E.
-   2. AM (bzw. BM) halbieren, vierteln und achteln ergibt Punkte 1, 2 und 3. Durch diese Punkte Parallelen zur Achse CD ziehen.
-   3. EA halbieren, vierteln und achteln ergibt die Punkte 1, 2 und 3 auf der Achse AE. Parallelen durch die Punkte zur Achse CD ergeben Schnittpunkte F am Kreisbogen.
-   4. Durch Schnittpunkte F Parallelen zu AE bis zur Halbkreisachse, von dort Parallelen zur Achse AB ziehen.
-   5. Parallelenschnittpunkte entsprechender Zahlen sind Ellipsenpunkte. */
+/* Tab 5: Ellipse Construction in a Parallelogram (Tabellenbuch Metall p. 62, row 5)
+   Given: Parallelogram with axes AB and CD
+   1. Semicircle with radius r = MC centered at A yields E.
+   2. Halving, quartering, and eighthing AM (and BM) yields points 1, 2, and 3. Draw parallels to axis CD through these points.
+   3. Halving, quartering, and eighthing EA yields points 1, 2, and 3 on axis AE. Parallels to axis CD through these points yield intersections F on the circular arc.
+   4. Through intersections F draw parallels to AE to the semicircle axis, and from there draw parallels to axis AB.
+   5. Intersections of parallels with matching numbers are ellipse points. */
 (() => {
   'use strict';
   const { $, chk, feedback, onEnter, bindStepPlayer } = UI;
@@ -13,11 +13,11 @@
 
   const W = 640, H = 460;
   const STEPS = [
-    [1, 'Halbkreis um A (r = MC)', 'Um Punkt A einen Halbkreis mit Radius r = MC schlagen. Schnittpunkt mit der Achsenverlängerung ergibt E.'],
-    [2, 'Teilung AM & Parallelen zu CD', 'Strecke AM (bzw. BM) halbieren, vierteln (und achteln) -> Punkte 1, 2, 3. Durch diese Punkte Parallelen zur Achse CD ziehen.'],
-    [3, 'Teilung EA & Punkte F am Bogen', 'Ebenso Strecke EA in 1, 2, 3 teilen. Parallelen zur Achse CD schneiden den Kreisbogen in den Punkten F.'],
-    [4, 'Parallelen zu AE und AB', 'Von den Bogenpunkten F Parallelen zu AE bis zur Halbkreisachse ziehen, und von dort Parallelen zur Hauptachse AB.'],
-    [5, 'Ellipsenpunkte 1, 2, 3 verbinden', 'Die Schnittpunkte gleicher Ziffern (1 mit 1, 2 mit 2, 3 mit 3) sind Ellipsenpunkte. Durch Ausrunden entsteht die Ellipse im Parallelogramm.']
+    [1, 'Semicircle at A (r = MC)', 'Draw a semicircle centered at point A with radius r = MC. Its intersection with the axis extension gives E.'],
+    [2, 'Divide AM & parallels to CD', 'Halve, quarter (and eighth) segment AM (and BM) → points 1, 2, 3. Draw parallels to axis CD through these points.'],
+    [3, 'Divide EA & points F on arc', 'Similarly divide segment EA into 1, 2, 3. Parallels to axis CD intersect the circular arc at points F.'],
+    [4, 'Parallels to AE and AB', 'From arc points F draw parallels to AE to the semicircle axis, and from there draw parallels to major axis AB.'],
+    [5, 'Connect ellipse points 1, 2, 3', 'The intersections of matching numbers (1 with 1, 2 with 2, 3 with 3) are ellipse points. Smooth curve fitting yields the ellipse in the parallelogram.']
   ];
 
   const BOOK_STATE = () => ({
@@ -48,13 +48,13 @@
 
     const res = Core.constructEllipseInParallelogram(st.M, aPx, bPx, st.tiltDeg, st.numDiv);
 
-    // Parallelogramm zeichnen
+    // Draw parallelogram
     el(svg, 'polygon', {
       points: `${res.P1.x.toFixed(1)},${res.P1.y.toFixed(1)} ${res.P2.x.toFixed(1)},${res.P2.y.toFixed(1)} ${res.P3.x.toFixed(1)},${res.P3.y.toFixed(1)} ${res.P4.x.toFixed(1)},${res.P4.y.toFixed(1)}`,
       class: 'given-line', 'stroke-width': 1.8, fill: 'rgba(0, 75, 135, 0.02)'
     });
 
-    // Achsen AB und CD
+    // Axes AB and CD
     SVG.line(svg, res.A, res.B, { cls: 'thin-line', dash: '5 3' });
     SVG.line(svg, res.C, res.D, { cls: 'thin-line', dash: '5 3' });
 
@@ -66,24 +66,24 @@
     SVG.centerMark(svg, st.M, 14);
     SVG.point(svg, st.M, { label: 'M', dx: -12, dy: 16 });
 
-    // Schritt 1: Halbkreis mit r = MC um A ergibt E
+    // Step 1: Semicircle with r = MC centered at A yields E
     if (st.step >= 1) {
       const isHl = hl === 1;
       const angV = Core.angleBetween(res.A, res.E);
 
-      // Halbkreis um A
+      // Semicircle centered at A
       SVG.compassArc(svg, res.A, res.rMC, angV - 90, angV + 90, {
         cls: isHl ? 'hl-line' : 'arc-line', w: isHl ? 2.2 : 1.3
       });
 
-      // Hilfsachse AE
+      // Auxiliary axis AE
       SVG.line(svg, res.A, res.E, { cls: 'thin-line', w: 1.1 });
       SVG.point(svg, res.E, { label: 'E', dx: -14, dy: -6 });
 
       SVG.stepNum(svg, res.A.x - 28, res.A.y - res.rMC * 0.6, 1, { hl: isHl });
     }
 
-    // Schritt 2: AM teilen und Parallelen zu CD
+    // Step 2: Divide AM and draw parallels to CD
     if (st.step >= 2) {
       const isHl = hl === 2;
       for (const item of res.divAM) {
@@ -92,7 +92,7 @@
           'font-size': 11, 'text-anchor': 'middle', fill: 'var(--muted)'
         });
 
-        // Parallele zu CD durch Teilungspunkt
+        // Parallel to CD through division point
         const pTop = add(item.pt, res.v);
         const pBot = sub(item.pt, res.v);
         SVG.line(svg, pTop, pBot, {
@@ -100,7 +100,7 @@
         });
       }
 
-      // Ebenso BM teilen
+      // Similarly divide BM
       for (const item of res.divBM) {
         SVG.point(svg, item.pt, { r: 2.5 });
         SVG.text(svg, item.pt.x, item.pt.y + 14, String(item.k), {
@@ -114,7 +114,7 @@
       SVG.stepNum(svg, (res.A.x + st.M.x) / 2, res.A.y - 20, 2, { hl: isHl });
     }
 
-    // Schritt 3: EA teilen und Punkte F am Kreisbogen
+    // Step 3: Divide EA and find points F on circular arc
     if (st.step >= 3) {
       const isHl = hl === 3;
       for (const item of res.divEA) {
@@ -123,7 +123,7 @@
           'font-size': 11, 'text-anchor': 'middle', fill: 'var(--muted)'
         });
 
-        // Projektion zum Kreisbogen F
+        // Projection onto circular arc F
         const angV = Core.angleBetween(res.A, res.E);
         const perpDir = { x: -Math.sin(angV * Core.DEG), y: Math.cos(angV * Core.DEG) };
         const h = Math.sqrt(Math.max(0, res.rMC * res.rMC - dist(res.A, item.pt) * dist(res.A, item.pt)));
@@ -136,16 +136,16 @@
       SVG.stepNum(svg, res.E.x + 14, res.E.y + 20, 3, { hl: isHl });
     }
 
-    // Schritt 4: Parallelen zu AE und AB
+    // Step 4: Parallels to AE and AB
     if (st.step >= 4) {
       const isHl = hl === 4;
       SVG.stepNum(svg, res.A.x + 22, res.A.y - res.rMC * 0.75, 4, { hl: isHl });
     }
 
-    // Schritt 5: Schnittpunkte verbinden & Ellipse
+    // Step 5: Connect intersections & ellipse
     if (st.step >= 5) {
       const isHl = hl === 5;
-      // Kurvenzug der Ellipse
+      // Ellipse curve polyline
       const ptsStr = res.curvePoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
       el(svg, 'polygon', {
         points: ptsStr,
@@ -154,7 +154,7 @@
         'stroke-width': 2.2
       });
 
-      // Konstruierte Ellipsenpunkte
+      // Constructed ellipse points
       for (const ep of res.ellipsePoints) {
         SVG.point(svg, ep.P, { r: 3.5, sel: true });
         SVG.text(svg, ep.P.x + 6, ep.P.y - 6, String(ep.k), {
@@ -170,17 +170,17 @@
 
   function updateSide(res, SCALE_MM) {
     $('ellp-result').innerHTML = `
-      <b>Inskribierte Ellipse im Parallelogramm</b><br>
-      <span style="font-size:0.8rem;color:var(--muted)">Scherwinkel: <b>${st.tiltDeg}°</b> • Halbachsen: <i>a</i> = ${fmt(st.aMm, 1)} mm, <i>b</i> = ${fmt(st.bMm, 1)} mm</span>
+      <b>Inscribed Ellipse in Parallelogram</b><br>
+      <span style="font-size:0.8rem;color:var(--muted)">Shear angle: <b>${st.tiltDeg}°</b> • Semi-axes: <i>a</i> = ${fmt(st.aMm, 1)} mm, <i>b</i> = ${fmt(st.bMm, 1)} mm</span>
     `;
 
     $('ellp-details').innerHTML = `
-      <dt>Hauptachse <i>AB</i> (2<i>a</i>):</dt><dd>${fmt(st.aMm * 2, 1)} mm</dd>
-      <dt>Konjugierte Achse <i>CD</i> (2<i>b</i>):</dt><dd>${fmt(st.bMm * 2, 1)} mm</dd>
-      <dt>Halbkreisradius <i>r</i> = <i>MC</i>:</dt><dd>${fmt(st.bMm, 1)} mm</dd>
-      <dt>Neigungswinkel ψ der Achse CD:</dt><dd>${fmt(st.tiltDeg, 0)}°</dd>
-      <dt>Teilungsschritte:</dt><dd>Halbieren, Vierteln (<i>n</i> = ${st.numDiv})</dd>
-      <dt>Anwendung:</dt><dd style="font-size:0.75rem;color:var(--muted)">Konstruktion von Ellipsen in axonometrischen Schrägbildern (Isometrie 30°/30°, Dimetrie 7°/42° nach DIN ISO 5456-3).</dd>
+      <dt>Major axis <i>AB</i> (2<i>a</i>):</dt><dd>${fmt(st.aMm * 2, 1)} mm</dd>
+      <dt>Conjugate axis <i>CD</i> (2<i>b</i>):</dt><dd>${fmt(st.bMm * 2, 1)} mm</dd>
+      <dt>Semicircle radius <i>r</i> = <i>MC</i>:</dt><dd>${fmt(st.bMm, 1)} mm</dd>
+      <dt>Inclination angle ψ of axis CD:</dt><dd>${fmt(st.tiltDeg, 0)}°</dd>
+      <dt>Division steps:</dt><dd>Halving, quartering (<i>n</i> = ${st.numDiv})</dd>
+      <dt>Application:</dt><dd style="font-size:0.75rem;color:var(--muted)">Construction of ellipses in axonometric pictorials (isometry 30°/30°, dimetry 7°/42° per DIN ISO 5456-3).</dd>
     `;
   }
 
@@ -204,7 +204,7 @@
     const a = 40, b = 25;
     const rMC = b;
     st.quiz = { truth: rMC, answered: false };
-    $('ellp-task').innerHTML = `Für ein Parallelogramm mit den Achsen <i>AB</i> = ${2 * a} mm und <i>CD</i> = ${2 * b} mm (Mittelpunkt M): Welchen Radius <i>r</i> = <i>MC</i> muss der Hilfshalbkreis um Punkt A besitzen?`;
+    $('ellp-task').innerHTML = `For a parallelogram with axes <i>AB</i> = ${2 * a} mm and <i>CD</i> = ${2 * b} mm (center M), what radius <i>r</i> = <i>MC</i> must the auxiliary semicircle centered at point A have?`;
     $('ellp-ans').value = '';
     $('ellp-ans-row').hidden = false;
     feedback('ellp-feedback', '');
@@ -214,7 +214,7 @@
     if (!st.quiz || st.quiz.answered) return;
     const val = Core.parseNum($('ellp-ans').value);
     if (isNaN(val)) {
-      feedback('ellp-feedback', 'Bitte eine Zahl eingeben.', false);
+      feedback('ellp-feedback', 'Please enter a number.', false);
       return;
     }
     const ok = Math.abs(val - st.quiz.truth) <= 0.2;
@@ -222,9 +222,9 @@
     st.score[1]++;
     if (ok) st.score[0]++;
     feedback('ellp-feedback', ok
-      ? `Richtig! Radius r = MC = ${fmt(st.quiz.truth, 1)} mm.`
-      : `Leider falsch. Richtig wäre r = ${fmt(st.quiz.truth, 1)} mm.`, ok);
-    $('ellp-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
+      ? `Correct! Radius r = MC = ${fmt(st.quiz.truth, 1)} mm.`
+      : `Incorrect. Correct answer: r = ${fmt(st.quiz.truth, 1)} mm.`, ok);
+    $('ellp-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
   }
 
   $('ellp-quiz').addEventListener('click', newQuiz);

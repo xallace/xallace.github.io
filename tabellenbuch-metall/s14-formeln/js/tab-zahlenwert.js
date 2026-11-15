@@ -1,4 +1,4 @@
-/* Reiter 2: Zahlenwertgleichung M = 9550 · P / n – vorgeschriebene Einheiten, Fehlerbild, M-n-Kennlinie, Herleitung, Übung */
+/* Tab 2: Numerical-Value Equation M = 9550 · P / n – prescribed units, error illustration, M-n hyperbola, derivation, exercise */
 (() => {
   'use strict';
   const { $, seg, setSeg, chk, feedback, frac, q, ln } = UI;
@@ -23,7 +23,7 @@
     else st.n = Core.drehzahlAusMoment(st.P, st.M);
   }
 
-  // ---------------------------------------------------------------- Rechengang
+  // ---------------------------------------------------------------- Step-by-step calculation
   function calcHtml() {
     const wrong = st.pUnit === 'W' && st.goal !== 'P';
     const pVal = wrong ? st.P * 1000 : st.P;
@@ -43,8 +43,8 @@
       out.push(ln('', `${frac(`9550 · ${pTxt(pVal)}`, mTxt(st.M))}&#8239;${PER_MIN}`));
       out.push(ln('', `<span class="res${wrong ? ' bad' : ''}">${nTxt(n)}&#8239;${PER_MIN}</span>`));
     }
-    if (wrong) out.push(why(`Falsch: <i>P</i> wurde in W eingesetzt (${pTxt(st.P * 1000)} W). Vorgeschrieben ist kW: ${pTxt(st.P * 1000)} W = ${pTxt(st.P)} kW. Das Ergebnis ist 1000-fach zu groß.`, 'bad'));
-    else out.push(why('Zahlenwerte in den vorgeschriebenen Einheiten einsetzen; die Einheit des Ergebnisses ist vorgegeben.'));
+    if (wrong) out.push(why(`Wrong: <i>P</i> was entered in W (${pTxt(st.P * 1000)} W). The prescribed unit is kW: ${pTxt(st.P * 1000)} W = ${pTxt(st.P)} kW. The result is 1000 times too large.`, 'bad'));
+    else out.push(why('Insert numerical values in the prescribed units only; the unit of the result is predetermined.'));
     return out.join('');
   }
 
@@ -61,7 +61,7 @@
       + ln('', `<span class="res">${fmt(Core.K_EXAKT, 1)}</span> · ${frac('<i>P</i>', '<i>n</i>')}&#8239;${NM}`);
   }
 
-  // ---------------------------------------------------------------- Diagramm M über n bei P = konstant
+  // ---------------------------------------------------------------- Diagram M vs. n at constant P
   function domain() {
     if (st.lockDom) return st.lockDom;
     const raw = Math.max(2.2 * st.M, Core.moment(st.P, NMAX) * 1.5, 5);
@@ -95,18 +95,18 @@
       SVG.text(svg, PX0 - 9, Y(v) + 5, Core.tickLabel(v, dm, { group: true }), { 'text-anchor': 'end', 'font-size': 14 });
     });
     const xm = (PX0 + PX1) / 2, ym = (PY0 + PY1) / 2;
-    SVG.text(svg, xm + 10, PY0 + 54, 'Drehzahl *n*', { 'text-anchor': 'end', 'font-size': 15 });
-    SVG.arrow(svg, xm + 20, PY0 + 49, xm + 80, PY0 + 49, { w: 1.1, l: 10, b: 3.5 });
-    SVG.text(svg, 30, ym + 64, 'Drehmoment *M*', { 'font-size': 15, transform: `rotate(-90 30 ${ym + 64})` });
-    SVG.arrow(svg, 25, ym - 74, 25, ym - 134, { w: 1.1, l: 10, b: 3.5 });
+    SVG.text(svg, xm + 25, PY0 + 54, 'Rotational speed *n*', { 'text-anchor': 'end', 'font-size': 15 });
+    SVG.arrow(svg, xm + 35, PY0 + 49, xm + 95, PY0 + 49, { w: 1.1, l: 10, b: 3.5 });
+    SVG.text(svg, 30, ym + 42, 'Torque *M*', { 'font-size': 15, transform: `rotate(-90 30 ${ym + 42})` });
+    SVG.arrow(svg, 25, ym - 40, 25, ym - 100, { w: 1.1, l: 10, b: 3.5 });
 
-    // Hyperbel M = 9550 · P / n, beginnt dort, wo sie den oberen Rand verlässt
+    // Hyperbola M = 9550 · P / n, starting where it enters from top edge
     const n0 = Math.max(Core.drehzahlAusMoment(st.P, Dm.M1), 1);
     el(svg, 'path', { d: SVG.plotFn(n => Core.moment(st.P, n), n0, NMAX, X, Y, 200), class: 'curve', 'stroke-width': 2.4 });
     const nl = NMAX * 0.93, Ml = Core.moment(st.P, nl);
     SVG.text(svg, X(nl), Y(Ml) - 12, `*P* = ${pTxt(st.P)} kW`, { 'text-anchor': 'end', 'font-size': 15, class: 'lbl-accent halo' });
 
-    // Betriebspunkt A mit Ablesung
+    // Operating point A with readout lines
     if (isFinite(st.n) && isFinite(st.M) && st.n <= NMAX && st.M <= Dm.M1) {
       const ax = X(st.n), ay = Y(st.M);
       el(svg, 'line', { x1: ax, y1: PY0, x2: ax, y2: ay, class: 'read' });
@@ -116,28 +116,28 @@
     }
     const bx = PX1 - 186, by = PY1 + 4;
     el(svg, 'rect', { x: bx, y: by, width: 186, height: 70, rx: 6, class: 'legend-box' });
-    SVG.text(svg, bx + 10, by + 20, 'Betriebspunkt A', { 'font-size': 13.5, class: 'lbl-strong' });
+    SVG.text(svg, bx + 10, by + 20, 'Operating point A', { 'font-size': 13.5, class: 'lbl-strong' });
     SVG.text(svg, bx + 10, by + 40, `*n* = ${nTxt(st.n)} 1/min`, { 'font-size': 13.5 });
     SVG.text(svg, bx + 10, by + 60, `*M* = ${mTxt(st.M)} N · m`, { 'font-size': 13.5 });
 
     $('z-formula').innerHTML = formulaHtml();
-    $('z-flabel').textContent = st.goal === 'M' ? 'Zahlenwertgleichung für das Drehmoment' : `Nach ${st.goal} umgestellt`;
+    $('z-flabel').textContent = st.goal === 'M' ? 'Numerical-Value Equation for Torque' : `Rearranged for ${st.goal}`;
     $('z-calc').innerHTML = calcHtml();
     const kv = [];
-    if (st.goal === 'M') kv.push(['exakt mit 60 000/(2π)', fmt(Core.moment(st.P, st.n, Core.K_EXAKT), 3, { group: true }) + ' N · m']);
-    if (st.goal === 'P') kv.push(['exakt mit 60 000/(2π)', fmt(Core.leistung(st.M, st.n, Core.K_EXAKT), 3) + ' kW']);
-    if (st.goal === 'n') kv.push(['exakt mit 60 000/(2π)', nTxt(Core.drehzahlAusMoment(st.P, st.M, Core.K_EXAKT)) + ' 1/min']);
-    kv.push(['Abweichung durch 9550', fmt((Core.K_BUCH / Core.K_EXAKT - 1) * 100, 4, { sign: true }) + ' %']);
+    if (st.goal === 'M') kv.push(['exact with 60 000/(2π)', fmt(Core.moment(st.P, st.n, Core.K_EXAKT), 3, { group: true }) + ' N · m']);
+    if (st.goal === 'P') kv.push(['exact with 60 000/(2π)', fmt(Core.leistung(st.M, st.n, Core.K_EXAKT), 3) + ' kW']);
+    if (st.goal === 'n') kv.push(['exact with 60 000/(2π)', nTxt(Core.drehzahlAusMoment(st.P, st.M, Core.K_EXAKT)) + ' 1/min']);
+    kv.push(['Deviation from 9550', fmt((Core.K_BUCH / Core.K_EXAKT - 1) * 100, 4, { sign: true }) + ' %']);
     $('z-details').innerHTML = kv.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('');
     const isBook = st.goal === 'M' && st.pUnit === 'kW' && st.P === 15 && st.n === 750;
     $('z-book').innerHTML = isBook
-      ? 'Buchbeispiel: Elektromotor mit <i>P</i> = 15 kW und <i>n</i> = 750/min, <i>M</i> = 191 N · m.'
-      : 'Eigene Werte. „Buchwerte laden“ stellt das Beispiel der Seite wieder her.';
-    $('z-note').innerHTML = 'Bei gleicher Leistung fällt das Drehmoment mit steigender Drehzahl: <i>M</i> · <i>n</i> = 9550 · <i>P</i> bleibt konstant (Hyperbel). '
-      + (st.goal === 'P' ? 'Ziehen im Diagramm verschiebt den Betriebspunkt frei; die Hyperbel folgt der neuen Leistung.' : st.goal === 'M' ? 'Ziehen im Diagramm ändert die Drehzahl.' : 'Ziehen im Diagramm ändert das Drehmoment.');
+      ? 'Book example: electric motor with <i>P</i> = 15 kW and <i>n</i> = 750/min, <i>M</i> = 191 N · m.'
+      : 'Custom values. "Load Book Values" restores the worked example from the page.';
+    $('z-note').innerHTML = 'At constant power, torque decreases as rotational speed increases: <i>M</i> · <i>n</i> = 9550 · <i>P</i> remains constant (hyperbola). '
+      + (st.goal === 'P' ? 'Dragging in the diagram moves the operating point freely; the hyperbola follows the new power.' : st.goal === 'M' ? 'Dragging in the diagram changes the rotational speed.' : 'Dragging in the diagram changes the torque.');
   }
 
-  // ---------------------------------------------------------------- Regler und Ziehen
+  // ---------------------------------------------------------------- Controls and dragging
   function syncSliders() {
     $('z-row-P').hidden = st.goal === 'P';
     $('z-row-n').hidden = st.goal === 'n';
@@ -173,26 +173,26 @@
     SVG.startDrag(svg, e, move, () => { st.lockDom = null; render(); });
   });
 
-  // ---------------------------------------------------------------- Übung
+  // ---------------------------------------------------------------- Exercise
   function newQuiz() {
     const t = UI.pick(['M', 'M', 'P', 'n']);
     let z;
     if (t === 'M') {
       const P = UI.pick(NORM_P), n = UI.rnd(100, 3000, 10), inW = Math.random() < 0.35;
       z = { t, P, n, inW, truth: Core.moment(P, n), unit: 'N · m', dec: 1,
-        text: `Ein Motor gibt bei <i>n</i> = ${n}/min die Leistung <i>P</i> = ${inW ? fmt(P * 1000, 0, { group: true }) + ' W' : pTxt(P) + ' kW'} ab. Wie groß ist das Drehmoment <i>M</i> in N · m?` };
+        text: `A motor delivers power <i>P</i> = ${inW ? fmt(P * 1000, 0, { group: true }) + ' W' : pTxt(P) + ' kW'} at <i>n</i> = ${n}/min. What is the torque <i>M</i> in N · m?` };
     } else if (t === 'P') {
       const M = UI.rnd(20, 900, 5), n = UI.rnd(60, 1500, 10);
       z = { t, M, n, truth: Core.leistung(M, n), unit: 'kW', dec: 2,
-        text: `An einer Welle werden <i>M</i> = ${M} N · m bei <i>n</i> = ${n}/min gemessen. Welche Leistung <i>P</i> in kW wird übertragen?` };
+        text: `On a shaft, <i>M</i> = ${M} N · m is measured at <i>n</i> = ${n}/min. How much power <i>P</i> in kW is transmitted?` };
     } else {
       let P, M, n;
       do { P = UI.pick(NORM_P); M = UI.rnd(10, 400, 5); n = Core.drehzahlAusMoment(P, M); } while (n < 100 || n > 6000);
       z = { t, P, M, truth: n, unit: '1/min', dec: 0,
-        text: `Ein Antrieb mit <i>P</i> = ${pTxt(P)} kW soll das Drehmoment <i>M</i> = ${M} N · m liefern. Bei welcher Drehzahl <i>n</i> in 1/min ist das der Fall?` };
+        text: `A drive rated at <i>P</i> = ${pTxt(P)} kW is to supply torque <i>M</i> = ${M} N · m. At what rotational speed <i>n</i> in 1/min does this occur?` };
     }
     st.quiz = z;
-    $('z-task').innerHTML = z.text + ' (Toleranz ± 1 %)';
+    $('z-task').innerHTML = z.text + ' (Tolerance ± 1 %)';
     $('z-ans-unit').textContent = z.unit;
     $('z-ans').value = '';
     $('z-ans-row').hidden = false;
@@ -203,7 +203,7 @@
   function solution(z) {
     const T = fmt(z.truth, z.dec + 1, { group: true });
     if (z.t === 'M') {
-      const conv = z.inW ? why(`Erst umrechnen: ${fmt(z.P * 1000, 0, { group: true })} W = ${pTxt(z.P)} kW`) : '';
+      const conv = z.inW ? why(`Convert first: ${fmt(z.P * 1000, 0, { group: true })} W = ${pTxt(z.P)} kW`) : '';
       return conv + ln('<i>M</i>', `${frac(`9550 · ${pTxt(z.P)}`, z.n)}&#8239;${NM}`) + ln('', `<b>${T}&#8239;${NM}</b>`);
     }
     if (z.t === 'P') return ln('<i>P</i>', `${frac(`${z.M} · ${z.n}`, '9550')}&#8239;kW`) + ln('', `<b>${T}&#8239;kW</b>`);
@@ -214,13 +214,13 @@
     const z = st.quiz;
     if (!z) return;
     const a = Core.parseNum($('z-ans').value);
-    if (!isFinite(a)) { feedback('z-feedback', 'Bitte eine Zahl eingeben.', false); return; }
+    if (!isFinite(a)) { feedback('z-feedback', 'Please enter a number.', false); return; }
     const ok = Math.abs(a - z.truth) <= 0.01 * z.truth;
     const off1000 = !ok && Math.abs(a / (z.truth * 1000) - 1) < 0.01;
     st.score[1]++;
     if (ok) st.score[0]++;
-    $('z-score').textContent = `${st.score[0]} / ${st.score[1]} richtig`;
-    const head = ok ? 'Richtig.' : off1000 ? 'Um den Faktor 1000 zu groß: Die Leistung muss in kW eingesetzt werden.' : `Nicht richtig, eingegeben ${fmt(a, 2, { group: true })} ${z.unit}.`;
+    $('z-score').textContent = `${st.score[0]} / ${st.score[1]} correct`;
+    const head = ok ? 'Correct.' : off1000 ? 'Too large by a factor of 1000: power must be entered in kW.' : `Incorrect, entered ${fmt(a, 2, { group: true })} ${z.unit}.`;
     feedback('z-feedback', `${head}<div class="calc">${solution(z)}</div>`, ok);
     $('z-ans-row').hidden = true;
     st.quiz = null;

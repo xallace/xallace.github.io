@@ -1,5 +1,5 @@
-// SVG-Bausteine als Strings: Linien, Pfeile, Toleranzrahmen, Bezugsdreiecke, Symbole nach ISO 1101.
-// Alles liefert Text, damit die Zeichnungen auch in Node (tests/verify.mjs) geprüft werden können.
+// SVG building blocks as strings: lines, arrows, tolerance frames, datum triangles, and ISO 1101 symbols.
+// Everything returns strings so drawings can also be verified in Node (tests/verify.mjs).
 
 export const f1 = (v) => (Math.round(v * 10) / 10).toString();
 
@@ -20,7 +20,7 @@ export const poly = (pts, cls = 'part', closed = false) =>
 export const text = (x, y, s, cls = 'lbl', anchor = 'middle') =>
   `<text class="${cls}" x="${f1(x)}" y="${f1(y)}" text-anchor="${anchor}">${s}</text>`;
 
-// Gefüllte Pfeilspitze an (x2, y2), Linie von (x1, y1)
+// Filled arrowhead at (x2, y2), line from (x1, y1)
 export function arrow(x1, y1, x2, y2, cls = 'thin', size = 7) {
   const a = Math.atan2(y2 - y1, x2 - x1), w = size * 0.32;
   const bx = x2 - size * Math.cos(a), by = y2 - size * Math.sin(a);
@@ -28,8 +28,8 @@ export function arrow(x1, y1, x2, y2, cls = 'thin', size = 7) {
   return line(x1, y1, bx, by, cls) + poly(head, 'head', true);
 }
 
-// Bemaßung zwischen zwei Punkten mit Pfeilen an beiden Enden.
-// Beschriftung neben der Maßlinie: side = 1 oberhalb (waagerecht) bzw. rechts (senkrecht), side = -1 gegenüber
+// Dimension between two points with arrows at both ends.
+// Label beside dimension line: side = 1 above (horizontal) or right (vertical), side = -1 opposite
 export function dim(x1, y1, x2, y2, label, side = 1, cls = 'dimtxt') {
   const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
   const vert = Math.abs(x2 - x1) < Math.abs(y2 - y1);
@@ -38,13 +38,13 @@ export function dim(x1, y1, x2, y2, label, side = 1, cls = 'dimtxt') {
   return arrow(mx, my, x1, y1, 'thin', 6) + arrow(mx, my, x2, y2, 'thin', 6) + (label ? text(tx, ty, label, cls, vert ? (s > 0 ? 'start' : 'end') : 'middle') : '');
 }
 
-// Theoretisch genaues Maß (TED): Wert im Rahmen
+// Theoretically exact dimension (TED): value enclosed in a frame
 export function ted(x, y, s) {
   const w = s.length * 6.4 + 8;
   return rect(x - w / 2, y - 10, w, 14, 'tedbox') + text(x, y, s, 'dimtxt');
 }
 
-// Bezugsdreieck auf einer Fläche bei (x, y); dir: Richtung vom Werkstück weg
+// Datum triangle on a surface at (x, y); dir: direction pointing away from workpiece
 export function datum(x, y, letter, dir = 'down', len = 14) {
   const v = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[dir];
   const n = [-v[1], v[0]], s = 5.5, h = 8;
@@ -55,7 +55,7 @@ export function datum(x, y, letter, dir = 'down', len = 14) {
     rect(bx, by, b, b, 'framebox') + text(bx + b / 2, by + b / 2 + 4.2, letter, 'frametxt');
 }
 
-// Welliger Linienzug (Ist-Element), deterministisch über die Phase
+// Wavy polyline (actual feature), deterministic via phase
 export function wavePts(x1, y1, x2, y2, amp, n = 48, phase = 0) {
   const pts = [], dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), nx = -dy / L, ny = dx / L;
   for (let i = 0; i <= n; i++) {
@@ -66,10 +66,10 @@ export function wavePts(x1, y1, x2, y2, amp, n = 48, phase = 0) {
   return pts;
 }
 
-// Abstand eines Punktes von der Geraden durch p0 mit Richtung u (vorzeichenbehaftet)
+// Signed distance of a point from the line through p0 with direction u
 export const sdist = (p, p0, u) => ((p[0] - p0[0]) * -u[1] + (p[1] - p0[1]) * u[0]) / Math.hypot(u[0], u[1]);
 
-// Symbole der 14 Toleranzarten, gezeichnet im 16×16-Feld
+// Symbols of the 14 tolerance types, drawn in a 16×16 box
 const S = {
   gerad: '<path d="M2 8H14"/>',
   eben: '<path d="M2.5 11.5L5.5 4.5H13.5L10.5 11.5Z"/>',
@@ -90,14 +90,14 @@ const S = {
 export const symbolIds = Object.keys(S);
 
 export function sym(id, x, y, size = 16) {
-  if (!S[id]) throw new Error(`Unbekanntes Symbol ${id}`);
+  if (!S[id]) throw new Error(`Unknown symbol ${id}`);
   return `<g class="sym" transform="translate(${f1(x)} ${f1(y)}) scale(${(size / 16).toFixed(4)})">${S[id]}</g>`;
 }
 
 export const symbolSvg = (id, px = 40) =>
   `<svg class="symsvg" viewBox="-2 -2 20 20" width="${px}" height="${px}" aria-hidden="true">${sym(id, 0, 0)}</svg>`;
 
-// Toleranzrahmen: Symbol | Wert | Bezüge. Liefert {svg, w, h}
+// Tolerance frame: symbol | value | datums. Returns {svg, w, h}
 export function frame(x, y, { s, value, dia = false, mods = [], datums = [] }, h = 18) {
   const val = (dia ? 'Ø' : '') + value + mods.map((m) => ` ${m}`).join('');
   const vw = Math.max(26, val.length * 6.6 + 10);

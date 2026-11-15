@@ -1,4 +1,4 @@
-// Screenshots der App im Headless-Edge über CDP: node tests/screenshots.js <outdir> [steps.json] [url]
+// App screenshots in headless Edge via CDP: node tests/screenshots.js <outdir> [steps.json] [url]
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 const [, , outDir, stepsArg, urlArg] = process.argv;
@@ -11,7 +11,7 @@ const edge = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 if (!outDir) {
-  console.error('Verwendung: node tests/screenshots.js <ausgabe-ordner>');
+  console.error('Usage: node tests/screenshots.js <output-dir>');
   process.exit(1);
 }
 
@@ -22,7 +22,7 @@ async function getJSON(p) {
   for (let i = 0; i < 80; i++) {
     try { const r = await fetch(`http://127.0.0.1:${port}${p}`); return await r.json(); } catch (e) { await sleep(150); }
   }
-  throw new Error('CDP nicht erreichbar');
+  throw new Error('CDP unreachable');
 }
 function connect(wsUrl) {
   const ws = new WebSocket(wsUrl);
@@ -85,6 +85,6 @@ function connect(wsUrl) {
   const b = await connect(ver.webSocketDebuggerUrl);
   await b.send('Browser.close').catch(() => {});
   b.close();
-  console.log(`Fertig: ${steps.length} Screenshots in ${outDir}`);
+  console.log(`Done: ${steps.length} screenshots in ${outDir}`);
   process.exit(0);
-})().catch((e) => { console.error('FEHLER:', e); process.exit(1); });
+})().catch((e) => { console.error('ERROR:', e); process.exit(1); });

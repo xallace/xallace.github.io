@@ -1,31 +1,31 @@
-/* Teil III – Schwingungen, Viertelfahrzeug mit Sitz-Mensch (Kap. 11–13).
-   Bewegungsgleichungen (13.1)–(13.3), Unebenheitsspektrum (11.92),
-   Streuungen (13.12), (13.15), (13.16) und Bewertete Schwingstärken (13.13)/(13.14). */
+/* Part III – Vibrations, quarter-car with seat-occupant (Ch. 11–13).
+   Equations of motion (13.1)–(13.3), road roughness PSD (11.92),
+   variances (13.12), (13.15), (13.16), and weighted vibration intensities K (13.13)/(13.14). */
 (function (root) {
   'use strict';
   const K = root.KfzDyn;
   const { C, solveComplex, interp, linspace, trapz, rk4Step, rng } = K.core;
 
-  // Beispielfahrzeug 1 aus Tab. 13.1 (Mittelklasse-Pkw, Werte je Rad), Straße nach S. 372
+  // Example Vehicle 1 from Table 13.1 (mid-size passenger car, per wheel), road per p. 372
   const DEFAULTS = {
-    m1: 31, m2: 229, m3: 28,          // kg   Rad, Aufbau, Sitz-Mensch
-    c1: 128000, c2: 20200, c3: 9900,  // N/m  Reifen, Aufbaufeder, Sitzfeder
-    k2: 1140, k3: 260,                // Ns/m Aufbau-, Sitzdämpfer
-    Fzstat: 2820,                     // N    statische Radlast
-    PhiOmega0: 4e-6,                  // m³   Unebenheitsmaß Φh(Ω0) = 4 cm³
+    m1: 31, m2: 229, m3: 28,          // kg   wheel, body, seat-occupant
+    c1: 128000, c2: 20200, c3: 9900,  // N/m  tire, body spring, seat spring
+    k2: 1140, k3: 260,                // Ns/m body damper, seat damper
+    Fzstat: 2820,                     // N    static wheel load
+    PhiOmega0: 4e-6,                  // m³   road roughness Φh(Ω0) = 4 cm³
     Omega0: 1,                        // 1/m
-    w: 2,                             // –    Welligkeit
+    w: 2,                             // –    waviness
     v: 20,                            // m/s
-    fMax: 25,                         // Hz   obere Integrationsgrenze ω = 50π
-    bSet: '13.2',                     // Bewertungsfunktionen: '13.2' oder '12.7'
+    fMax: 25,                         // Hz   upper integration limit ω = 50π
+    bSet: '13.2',                     // weighting curves: '13.2' or '12.7'
   };
 
-  /* Bewertungsfunktionen B in s²/m für vertikale Anregung [f in Hz, B]. Das Buch gibt sie nur als
-     Diagramme an, deshalb digitalisiert. Es gibt zwei Fassungen:
-     - Abb. 13.2 f/k (als 1,26²·B² aufgetragen): damit sind die Beispielwerte in Kap. 13 gerechnet
-       (KSitz = 18,5, KFuß = 5,9). Standard in der App.
-     - Abb. 12.7 b–d: die Bewertungsfunktionen aus Kap. 12; unter etwa 2 Hz um 30–50 % höher.
-     Für die Hand gibt es nur Abb. 12.7 d. */
+  /* Frequency weighting functions B in s²/m for vertical excitation [f in Hz, B]. The textbook provides them
+     only as plots, so they are digitized here. Two versions exist:
+     - Fig. 13.2 f/k (plotted as 1.26²·B²): used to compute the numerical examples in Ch. 13
+       (Kseat = 18.5, Kfoot = 5.9). Default in the app.
+     - Fig. 12.7 b–d: the weighting curves from Ch. 12; 30–50 % higher below ~2 Hz.
+     For the hand, only Fig. 12.7 d is given. */
   const B_SITZ_132 = [[0.4, 50.2], [0.75, 38.1], [1, 31.9], [1.25, 25.8], [1.5, 20.8], [1.75, 17.5], [2, 14.9],
     [2.25, 13.6], [2.5, 13.6], [2.75, 14.7], [3, 17.1], [3.25, 19.5], [3.5, 21.9], [3.75, 23.9], [4, 26.0],
     [4.25, 27.8], [4.5, 29.7], [5, 31.1], [5.25, 29.5], [5.5, 28.1], [5.75, 26.7], [6, 25.5], [6.5, 23.4],
@@ -50,14 +50,14 @@
     [4.25, 4.9], [4.5, 5.2], [5, 5.9], [5.5, 6.9], [6, 7.9], [6.5, 9.2], [7, 10.6], [7.5, 11.6], [8, 12.0],
     [8.5, 11.3], [9, 10.4], [9.5, 9.3], [10, 8.5], [11, 7.0], [12, 5.85], [13, 4.9], [14, 4.1], [15, 3.4],
     [16, 2.9], [17, 2.5], [18, 2.3], [19, 2.15], [20, 2.1]];
-  const G_STOCH = 1.26;   // Tab. 12.1
+  const G_STOCH = 1.26;   // Table 12.1
   const G_MA = { sitz: 1.1, hand: 0.75, fuss: 1.3 };
 
   function withDefaults(params) {
     return Object.assign({}, DEFAULTS, params);
   }
 
-  // bezogene Kenngrößen (13.4)–(13.10)
+  // Characteristic parameters (13.4)–(13.10)
   function characteristics(p) {
     const nu1 = Math.sqrt((p.c1 + p.c2) / p.m1), nu2 = Math.sqrt(p.c2 / p.m2);
     const nu3 = p.m3 > 0 ? Math.sqrt(p.c3 / p.m3) : NaN;
@@ -69,7 +69,7 @@
     };
   }
 
-  // komplexe Antworten z1, z2, z3 auf h = 1 bei Kreisfrequenz ω
+  // Complex responses z1, z2, z3 to unit excitation h = 1 at angular frequency ω
   function response(p, w) {
     const jw = [0, w];
     const Z2 = C.add([p.c2, 0], C.scale(jw, p.k2));   // c2 + jω k2
@@ -92,7 +92,7 @@
     return { z1, z2, z3: z2 };
   }
 
-  // Beträge der Vergrößerungsfunktionen (Abb. 13.2 b, d, h, m, p)
+  // Magnitudes of frequency-response magnification functions (Figs. 13.2 b, d, h, m, p)
   function magnitudes(p, w) {
     const { z1, z2, z3 } = response(p, w);
     const w2 = w * w;
@@ -105,7 +105,7 @@
     };
   }
 
-  // Unebenheitsspektrum: Φh(Ω) nach (11.92), Φh(ω) = Φh(Ω)/v mit Ω = ω/v
+  // Road roughness PSD: Φh(Ω) per (11.92), Φh(ω) = Φh(Ω)/v with Ω = ω/v
   function roadPSD(p, w) {
     const Om = w / p.v;
     return p.PhiOmega0 * Math.pow(Om / p.Omega0, -p.w) / p.v;
@@ -148,7 +148,7 @@
     };
   }
 
-  // Frequenzkurven für die Diagramme (Abszisse Erregerfrequenz in Hz)
+  // Frequency curves for plots (abscissa excitation frequency in Hz)
   function frequencyCurves(params, n = 600) {
     const p = withDefaults(params);
     const F = linspace(0.05, p.fMax, n);
@@ -160,8 +160,8 @@
     };
   }
 
-  /* Konfliktschaubild (Abb. 13.12 b): für feste Aufbaueigenfrequenzen ν2/2π wird D2 variiert.
-     Liefert je Kurve Punkte (σF/Fzstat, Kges). */
+  /* Conflict diagram (Fig. 13.12 b): for fixed body natural frequencies ν2/2π, D2 is varied.
+     Returns points (σF/Fzstat, Kges) for each curve. */
   function conflict(params, f2List = [0.8, 1.1, 1.5, 1.8, 2.1], D2List = null) {
     const p = withDefaults(params);
     const Ds = D2List || [0.05, 0.08, 0.11, 0.15, 0.2, 0.25, 0.3, 0.37, 0.45, 0.55, 0.7];
@@ -176,8 +176,8 @@
     });
   }
 
-  /* Zeitsimulation auf einem stochastischen Straßenprofil, das aus dem Spektrum (11.92)
-     als Summe von Kosinusschwingungen mit Zufallsphasen erzeugt wird. */
+  /* Time-domain simulation on a stochastic road profile synthesized from PSD (11.92)
+     as a sum of cosine waves with random phases. */
   function roadProfile(params, seed = 7, nWaves = 200) {
     const p = withDefaults(params);
     const r = rng(seed);
@@ -201,7 +201,7 @@
     const p = withDefaults(params);
     const road = roadProfile(p, seed);
     const hasSeat = p.m3 > 0;
-    // Zustand [z1, z2, z3, ż1, ż2, ż3] relativ zur statischen Ruhelage
+    // State [z1, z2, z3, ż1, ż2, ż3] relative to static equilibrium
     const f = (t, y) => {
       const h = road(p.v * t);
       const [z1, z2, z3, v1, v2, v3] = y;
@@ -212,7 +212,7 @@
       const a3 = hasSeat ? -F3 / p.m3 : a2;
       return [v1, v2, hasSeat ? v3 : v2, a1, a2, a3];
     };
-    // Start in Ruhe auf der Höhe des Profils, damit kein Anfangssprung entsteht
+    // Start at rest at road profile height to avoid an initial step discontinuity
     const h0 = road(0);
     let y = [h0, h0, h0, 0, 0, 0];
     const out = { t: [], x: [], h: [], z1: [], z2: [], z3: [], Fdyn: [], acc2: [] };
