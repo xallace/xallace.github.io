@@ -14,6 +14,17 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 * **[kfz-dynamik](https://xallace.github.io/kfz-dynamik/)** — *KfzDyn*: Interactive vehicle dynamics models from Mitschke/Wallentowitz (*Dynamik der Kraftfahrzeuge*, 5th ed.) with 3D wheel forces, longitudinal performance, braking, quarter-car vibrations & single-track handling.
 * **[solar-utc-clock](https://xallace.github.io/solar-utc-clock/)** — *Helios & Chronos*: Dual astronomical solar & universal UTC decimal day percentage clocks with NOAA solar calculations, 60 FPS live mode & interactive time scrubber.
 * **[beam-calculator](https://xallace.github.io/beam-calculator/)** — *BeamLab*: Euler-Bernoulli simply supported beam calculator (`StructX 001`) with real-time SFD/BMD/deflection curves, Eurocode profiles & KaTeX step-by-step math.
+* **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling & cross-section inspection studio with STL/OBJ export.
+* **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — 1967 Book Plate 3D & 2D kinematics studio covering the Wankel 1:3 rotary engine, robotics cycloidal reducers (10:1 / 15:1) & roulette curves with 1-click AutoCAD DXF/SVG export.
+* **[metamaterial-shock-lab](https://xallace.github.io/metamaterial-shock-lab/)** — *Granular Metamaterial Shock Lab*: impact on Hertzian sphere chains in SI units (solitary wave, tapered, stepped and diatomic chains, Newton's cradle), checked against the Hertz solution and Nesterenko's wave speed.
+* **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
+* **[hoerbuch-generator](https://github.com/xallace/hoerbuch-generator)** — 6-stage CLI & Web Studio (`web.py`) pipeline generating CEFR-graded (`A1`–`B2`) language-learning audiobooks (`.mp3`), Anki decks (`.apkg`), and study guides from YouTube videos, URLs, or text.
+* **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
+
+### 📁 Technical Design & Standards (`#technical-design`)
+
+* **[iso1101-straightness](https://xallace.github.io/iso1101-straightness/)** — *Straightness Lab*: Interactive 1967 book-plate 3D & 2D inspection lab for DIN EN ISO 1101:2017 intersection (`⟨[ // | A ]`, `⟨[ ⊥ | A ]`) and orientation (`⟨[ ⊥ | A ]⟩`, `⟨[ // | B ]⟩`) plane indicators with exact Chebyshev MZS solvers.
+* **[gps-grundlagen](https://xallace.github.io/gps-grundlagen/)** — *GPS Fundamentals*: the 14 geometric tolerance types of DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, a feature-control-frame checker, the 13 principles of DIN EN ISO 8015 with an envelope-requirement (Ⓔ) calculator, and exercises.
 * **[tabellenbuch-metall](https://xallace.github.io/tabellenbuch-metall/)** — *Tabellenbuch Metall (48th ed.)* central hub uniting:
   * **[p. 14 · Formulas, Equations, Charts](https://xallace.github.io/tabellenbuch-metall/s14-formeln/)** ($v_c = \pi \cdot d \cdot n$, $M = 9550 \cdot P / n$, linear functions & break-even $K_G = E$).
   * **[p. 58 · Charts: Cartesian Coordinate System](https://xallace.github.io/tabellenbuch-metall/s58-diagramme/)** (DIN 461 chart anatomy, fault-finding exercises, suppressed zero & log scales, reading a disc-spring characteristic curve).
@@ -21,13 +32,6 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
   * **[p. 60 · Geometric Constructions: Lines, Perpendiculars, Angles](https://xallace.github.io/tabellenbuch-metall/s60-grundkonstruktionen/)** (6 compass-and-straightedge constructions with step animation: parallel line via rhombus, perpendicular bisector, dropping a perpendicular, erecting a perpendicular at $P$ via Thales circle, angle bisector & dividing a segment into $n=5$ equal parts).
   * **[p. 61 · Geometric Constructions: Tangents, Arcs, Polygons](https://xallace.github.io/tabellenbuch-metall/s61-tangenten-vielecke/)** (6 compass-and-straightedge constructions: tangent at point $P$, tangent from external $P$ via Thales, corner fillet $t = r/\tan(\alpha/2)$, two-circle blend $R_i, R_a$, Bion regular polygon approximation & circumscribed hexagon/dodecagon with DIN EN ISO 4014 wrench size).
   * **[p. 62 · Geometric Constructions: Incircle, Circumcircle, Ellipse, Spiral](https://xallace.github.io/tabellenbuch-metall/s62-kreise-ellipse-spirale/)** (6 compass-and-straightedge constructions: incenter & incircle $r = A/s$, circumcircle $R = abc/4A$, finding circle center via chords, two-circle ellipse construction, parallelogram affine ellipse & 4-center smooth $C^1$ spiral).
-* **[gps-grundlagen](https://xallace.github.io/gps-grundlagen/)** — *GPS Fundamentals*: the 14 geometric tolerance types of DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, a feature-control-frame checker, the 13 principles of DIN EN ISO 8015 with an envelope-requirement (Ⓔ) calculator, and exercises.
-* **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling & cross-section inspection studio with STL/OBJ export.
-* **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — 1967 Book Plate 3D & 2D kinematics studio covering the Wankel 1:3 rotary engine, robotics cycloidal reducers (10:1 / 15:1) & roulette curves with 1-click AutoCAD DXF/SVG export.
-* **[metamaterial-shock-lab](https://xallace.github.io/metamaterial-shock-lab/)** — *Granular Metamaterial Shock Lab*: impact on Hertzian sphere chains in SI units (solitary wave, tapered, stepped and diatomic chains, Newton's cradle), checked against the Hertz solution and Nesterenko's wave speed.
-* **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
-* **[hoerbuch-generator](https://github.com/xallace/hoerbuch-generator)** — 6-stage CLI & Web Studio (`web.py`) pipeline generating CEFR-graded (`A1`–`B2`) language-learning audiobooks (`.mp3`), Anki decks (`.apkg`), and study guides from YouTube videos, URLs, or text.
-* **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
 
 ---
 

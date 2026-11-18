@@ -93,6 +93,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1.5rem;
 }
 
 .brand-logo {
@@ -105,6 +106,8 @@ body {
   font-weight: 700;
   font-size: 1.05rem;
   letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo-symbol {
@@ -126,14 +129,15 @@ body {
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.05rem;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: color var(--transition-fast);
 }
 
@@ -400,6 +404,145 @@ body {
 .grid-subhead {
   grid-column: 1 / -1;
   margin-top: 2.5rem;
+}
+
+/* ==========================================================================
+   Technical Design Project Folder (#technical-design)
+   ========================================================================== */
+.tech-folder {
+  background: rgba(9, 14, 24, 0.72);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42), 0 0 24px rgba(56, 189, 248, 0.08);
+  overflow: hidden;
+}
+
+.tech-folder-header {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.95rem 1.4rem;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.14) 0%, rgba(16, 24, 39, 0.95) 60%);
+  border-bottom: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.tech-folder:not([open]) .tech-folder-header {
+  border-bottom: none;
+}
+
+.tech-folder-header::-webkit-details-marker {
+  display: none;
+}
+
+.tech-folder-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.folder-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.18rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(45, 212, 191, 0.14);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  color: var(--accent-teal);
+}
+
+.tech-folder-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.folder-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  transition: transform var(--transition-fast);
+}
+
+.tech-folder:not([open]) .folder-chevron {
+  transform: rotate(-90deg);
+}
+
+.tech-folder-body {
+  padding: 1.35rem 1.4rem 1.6rem;
+}
+
+.folder-tree-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius-md);
+  background: rgba(6, 10, 18, 0.75);
+  border: 1px dashed rgba(56, 189, 248, 0.28);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.folder-tree-bar a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+.folder-tree-bar a:hover {
+  text-decoration: underline;
+}
+
+.tech-folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.35rem;
+}
+
+.tech-folder .tbb-vis {
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  padding-top: 2.35rem;
+  padding-bottom: 1.05rem;
+}
+
+.tech-folder .vis-tbb-badge {
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 4px;
+  max-width: calc(100% - 16px);
+  margin-bottom: 6px;
+}
+
+.tech-folder .vis-tbb-badge .vis-tbb-page {
+  white-space: nowrap;
+  font-size: 0.63rem;
+  padding: 0.14rem 0.42rem;
+}
+
+.tech-folder .vis-tbb-symbol {
+  font-size: 1.65rem;
+  line-height: 1.25;
 }
 
 .project-card {
