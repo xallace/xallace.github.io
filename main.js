@@ -128,4 +128,126 @@
     });
   });
 
+  // 3. Seven-Principles-inspired 3D Spring-Physics Collector Cards
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cards = document.querySelectorAll('.project-card');
+  const cardStates = [];
+
+  cards.forEach((card) => {
+    // Inject translucent foil, stardust, glare, and celestial filigree corner frame
+    const foil = document.createElement('div');
+    foil.className = 'card-foil';
+    foil.setAttribute('aria-hidden', 'true');
+
+    const sparkles = document.createElement('div');
+    sparkles.className = 'card-sparkles';
+    sparkles.setAttribute('aria-hidden', 'true');
+
+    const glare = document.createElement('div');
+    glare.className = 'card-glare';
+    glare.setAttribute('aria-hidden', 'true');
+
+    const frame = document.createElement('div');
+    frame.className = 'card-filigree-frame';
+    frame.setAttribute('aria-hidden', 'true');
+    frame.innerHTML =
+      '<span class="cf-c cf-tl"></span><span class="cf-c cf-tr"></span>' +
+      '<span class="cf-c cf-bl"></span><span class="cf-c cf-br"></span>';
+
+    card.appendChild(foil);
+    card.appendChild(sparkles);
+    card.appendChild(glare);
+    card.appendChild(frame);
+
+    if (reducedMotion) return;
+
+    const state = {
+      card,
+      foil,
+      glare,
+      active: false,
+      bounds: null,
+      target: { rx: 0, ry: 0, px: 0.5, py: 0.5, scale: 1 },
+      current: { rx: 0, ry: 0, px: 0.5, py: 0.5, scale: 1 }
+    };
+
+    card.addEventListener('mouseenter', () => {
+      state.active = true;
+      state.bounds = card.getBoundingClientRect();
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      if (!state.bounds || state.bounds.width === 0) state.bounds = card.getBoundingClientRect();
+      const b = state.bounds;
+      const cx = b.left + b.width / 2;
+      const cy = b.top + b.height / 2;
+      const nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (b.width * 0.55)));
+      const ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (b.height * 0.55)));
+      const maxTilt = card.classList.contains('featured') ? 4.5 : 7.5;
+      state.target.rx = -ny * maxTilt;
+      state.target.ry = nx * maxTilt;
+      state.target.px = (nx + 1) * 0.5;
+      state.target.py = (ny + 1) * 0.5;
+      state.target.scale = 1.015;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      state.active = false;
+      state.target.rx = 0;
+      state.target.ry = 0;
+      state.target.px = 0.5;
+      state.target.py = 0.5;
+      state.target.scale = 1;
+    });
+
+    cardStates.push(state);
+  });
+
+  if (cardStates.length > 0) {
+    window.addEventListener('resize', () => {
+      cardStates.forEach((s) => { s.bounds = null; });
+    });
+
+    function animateCards() {
+      const lerp = 0.14;
+      for (const s of cardStates) {
+        s.current.rx += (s.target.rx - s.current.rx) * lerp;
+        s.current.ry += (s.target.ry - s.current.ry) * lerp;
+        s.current.px += (s.target.px - s.current.px) * lerp;
+        s.current.py += (s.target.py - s.current.py) * lerp;
+        s.current.scale += (s.target.scale - s.current.scale) * lerp;
+
+        const { rx, ry, px, py, scale } = s.current;
+        const moving = s.active || Math.abs(rx) > 0.02 || Math.abs(ry) > 0.02 || Math.abs(scale - 1) > 0.001;
+        if (!moving) {
+          s.card.style.transform = '';
+          s.glare.style.opacity = '0';
+          s.foil.style.opacity = '0.12';
+          continue;
+        }
+
+        const hyp = Math.min(1, Math.hypot(px - 0.5, py - 0.5) * 2);
+        const angle = Math.atan2(py - 0.5, px - 0.5) * (180 / Math.PI) + 132;
+
+        s.card.style.transform =
+          `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(${scale.toFixed(3)}, ${scale.toFixed(3)}, 1) translateY(${s.active ? '-4px' : '0px'})`;
+        s.card.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+        s.card.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+        s.card.style.setProperty('--hyp', hyp.toFixed(3));
+        s.card.style.setProperty('--foil-angle', `${angle.toFixed(1)}deg`);
+        s.card.style.setProperty('--pan-x', `${((px - 0.5) * -10).toFixed(1)}px`);
+        s.card.style.setProperty('--pan-y', `${((py - 0.5) * -10).toFixed(1)}px`);
+
+        s.glare.style.background =
+          `radial-gradient(circle at ${px * 100}% ${py * 100}%, rgba(255, 255, 255, 0.28) 0%, rgba(139, 92, 246, 0.10) 30%, transparent 65%)`;
+        s.glare.style.opacity = s.active ? (0.25 + hyp * 0.45).toFixed(2) : '0';
+
+        s.foil.style.backgroundPosition = `${px * 180}% ${py * 180}%, ${px * 120}% ${py * 120}%`;
+        s.foil.style.opacity = s.active ? (0.28 + hyp * 0.36).toFixed(2) : '0.12';
+      }
+      requestAnimationFrame(animateCards);
+    }
+    requestAnimationFrame(animateCards);
+  }
+
 })();

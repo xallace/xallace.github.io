@@ -7,7 +7,7 @@
   <meta name="description" content="Portfolio of Walter Lehn (@xallace), Technical Product Designer (IHK): mechanical design, kinematics, and interactive engineering web apps.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -116,34 +116,62 @@
 
             <div class="tech-folder-grid">
               <!-- Module 1: ISO 1101 Straightness Plane Indicators Lab -->
-              <article class="project-card">
-                <div class="project-media">
-                  <div class="preview-overlay">
-                    <span class="preview-badge" style="background: rgba(217, 68, 38, 0.18); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">New · 3D Book Plate</span>
+              <article class="project-card" style="--card-accent:#f97316; --card-sec:#38bdf8;">
+                <div class="project-media has-art">
+                  <div class="card-serial-strip">
+                    <span class="serial-code">TD-01 · ISO 1101:2017</span>
+                    <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">New · 3D Book Plate</span>
                   </div>
-                  <div class="schematic-vis tbb-vis">
-                    <div class="vis-tbb-badge">
-                      <span class="vis-tbb-page">ISO 1101:2017</span>
-                      <span class="vis-tbb-page" style="background:#0284c7;">⟨[ // | A ]</span>
-                      <span class="vis-tbb-page" style="background:#0369a1;">⟨[ ⊥ | A ]⟩</span>
-                      <span class="vis-tbb-page" style="background:#b45309;">MZS</span>
-                    </div>
-                    <div class="vis-tbb-symbol" style="animation: none; font-family: var(--font-mono); font-size: 1.35rem; font-weight: 800;">— &nbsp; ⟨[ // | A ]</div>
-                    <div class="vis-tbb-formula">Intersection &amp; Orientation Plane Indicators</div>
+                  <div class="art-scene art-iso1101" aria-hidden="true">
+                    <svg viewBox="0 0 360 190" class="art-svg-bg">
+                      <defs>
+                        <radialGradient id="isoGlow" cx="50%" cy="45%" r="55%">
+                          <stop offset="0%" stop-color="#f97316" stop-opacity="0.22"/>
+                          <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.10"/>
+                          <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                        </radialGradient>
+                        <linearGradient id="isoPlane" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stop-color="#fb923c" stop-opacity="0.34"/>
+                          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.08"/>
+                        </linearGradient>
+                      </defs>
+                      <rect width="360" height="190" fill="url(#isoGlow)"/>
+                      <g class="geo-spin-slow" style="transform-origin:180px 96px;" opacity="0.35">
+                        <circle cx="180" cy="96" r="76" fill="none" stroke="#d4af37" stroke-width="0.9" stroke-dasharray="6 9"/>
+                        <circle cx="180" cy="96" r="54" fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="16 6"/>
+                      </g>
+                      <polygon points="82,118 232,68 278,104 128,154" fill="url(#isoPlane)" stroke="#fb923c" stroke-width="1.3"/>
+                      <path d="M96 122 C136 96, 178 134, 214 98 S256 110, 266 92" fill="none" stroke="#fff3c4" stroke-width="2.6" stroke-linecap="round"/>
+                      <line x1="92" y1="86" x2="262" y2="58" stroke="#38bdf8" stroke-width="1.1" stroke-dasharray="4 3"/>
+                      <circle cx="178" cy="111" r="4.5" fill="#fb923c" stroke="#fff3c4" stroke-width="1.4"/>
+                      <rect x="116" y="42" width="128" height="22" rx="4" fill="rgba(8,12,22,0.85)" stroke="rgba(212,175,55,0.5)"/>
+                      <text x="180" y="57" fill="#fff3c4" font-family="JetBrains Mono,monospace" font-size="10.5" font-weight="700" text-anchor="middle">—  ⟨[ // | A ]  MZS</text>
+                    </svg>
                   </div>
                 </div>
                 <div class="project-content">
+                  <div class="card-head-row">
+                    <div>
+                      <h3 class="card-title">Straightness Lab · ISO 1101 Plane Indicators</h3>
+                      <div class="card-kicker">Intersection &amp; Orientation Planes · Chebyshev MZS</div>
+                    </div>
+                    <span class="card-crest-gem" aria-hidden="true"></span>
+                  </div>
                   <div class="card-tags">
                     <span class="tag">Three.js 3D</span>
                     <span class="tag">DIN EN ISO 1101</span>
                     <span class="tag">Chebyshev MZS</span>
                     <span class="tag">Plane Indicators</span>
                   </div>
-                  <h3 class="card-title">Straightness Lab · ISO 1101 Plane Indicators</h3>
                   <p class="card-text">
                     1967 book-plate 3D &amp; 2D inspection lab demonstrating ISO 1101 Intersection Plane Indicators (<code>⟨[ // | A ]</code>, <code>⟨[ ⊥ | A ]</code>)
                     and Orientation Plane Indicators (<code>⟨[ ⊥ | A ]⟩</code>, <code>⟨[ // | B ]⟩</code>) with exact Chebyshev minimum-zone solvers, animated probes, and the Ruled Twist Paradox.
                   </p>
+                  <div class="card-metrics-strip">
+                    <div class="metric-cell"><span>3D ENGINE</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+                    <div class="metric-cell"><span>CHEBYSHEV MZS</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                    <div class="metric-cell"><span>STANDARDS</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                  </div>
                   <div class="card-actions">
                     <a href="https://xallace.github.io/iso1101-straightness/" target="_blank" rel="noopener noreferrer" class="card-btn primary">
                       <span>Open 3D Lab</span>
@@ -157,34 +185,61 @@
               </article>
 
               <!-- Module 2: GPS Fundamentals (Geometric Dimensioning & Tolerancing) -->
-              <article class="project-card">
-                <div class="project-media">
-                  <div class="preview-overlay">
-                    <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">Study Guide</span>
+              <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#2dd4bf;">
+                <div class="project-media has-art">
+                  <div class="card-serial-strip">
+                    <span class="serial-code">TD-02 · ISO GPS</span>
+                    <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">Study Guide · 14 Symbols</span>
                   </div>
-                  <div class="schematic-vis tbb-vis">
-                    <div class="vis-tbb-badge">
-                      <span class="vis-tbb-page">ISO 1101</span>
-                      <span class="vis-tbb-page" style="background:#0284c7;">ISO 8015</span>
-                      <span class="vis-tbb-page" style="background:#0369a1;">ISO 5459</span>
-                      <span class="vis-tbb-page" style="background:#075985;">ISO 2692</span>
-                    </div>
-                    <div class="vis-tbb-symbol">⌖</div>
-                    <div class="vis-tbb-formula">Form · Orientation · Location · Runout</div>
+                  <div class="art-scene art-gps" aria-hidden="true">
+                    <svg viewBox="0 0 360 190" class="art-svg-bg">
+                      <defs>
+                        <radialGradient id="gpsGlow" cx="50%" cy="50%" r="55%">
+                          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.24"/>
+                          <stop offset="60%" stop-color="#2dd4bf" stop-opacity="0.08"/>
+                          <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="360" height="190" fill="url(#gpsGlow)"/>
+                      <g class="geo-spin-slow" style="transform-origin:180px 95px;">
+                        <circle cx="180" cy="95" r="74" fill="none" stroke="#d4af37" stroke-width="0.9" stroke-dasharray="10 6" opacity="0.5"/>
+                        <circle cx="180" cy="95" r="46" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="22 8" opacity="0.65"/>
+                      </g>
+                      <g class="geo-spin-reverse" style="transform-origin:180px 95px;" opacity="0.45">
+                        <circle cx="180" cy="95" r="60" fill="none" stroke="#2dd4bf" stroke-width="0.9" stroke-dasharray="3 7"/>
+                      </g>
+                      <line x1="88" y1="95" x2="272" y2="95" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="6 4" opacity="0.6"/>
+                      <line x1="180" y1="22" x2="180" y2="168" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="6 4" opacity="0.6"/>
+                      <circle cx="180" cy="95" r="22" fill="rgba(6,12,24,0.8)" stroke="#fff3c4" stroke-width="1.6"/>
+                      <circle cx="180" cy="95" r="10" fill="none" stroke="#38bdf8" stroke-width="1.6"/>
+                      <rect x="116" y="138" width="128" height="22" rx="4" fill="rgba(8,12,22,0.86)" stroke="rgba(56,189,248,0.45)"/>
+                      <text x="180" y="153" fill="#e2e8f0" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" text-anchor="middle">|⌖| Ø0.05 | A | B | C |</text>
+                    </svg>
                   </div>
                 </div>
                 <div class="project-content">
+                  <div class="card-head-row">
+                    <div>
+                      <h3 class="card-title">GPS Fundamentals • Geometric Dimensioning &amp; Tolerancing</h3>
+                      <div class="card-kicker">Form · Orientation · Location · Runout &amp; ISO 8015</div>
+                    </div>
+                    <span class="card-crest-gem" aria-hidden="true"></span>
+                  </div>
                   <div class="card-tags">
                     <span class="tag">ISO GPS</span>
                     <span class="tag">Geometric Tolerances</span>
                     <span class="tag">DIN EN ISO 1101</span>
                     <span class="tag">DIN EN ISO 8015</span>
                   </div>
-                  <h3 class="card-title">GPS Fundamentals • Geometric Dimensioning &amp; Tolerancing</h3>
                   <p class="card-text">
                     The 14 geometric tolerance types per DIN EN ISO 1101, each illustrated with drawing callout, tolerance zone, and deviation diagrams.
                     Includes a tolerance frame checker, the 13 principles of DIN EN ISO 8015 with an envelope requirement (Ⓔ) calculator, and practice exercises.
                   </p>
+                  <div class="card-metrics-strip">
+                    <div class="metric-cell"><span>TOLERANCE TYPES</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                    <div class="metric-cell"><span>FRAME CHECKER</span><div class="m-track"><div class="m-fill" style="width:90%"></div></div></div>
+                    <div class="metric-cell"><span>ENVELOPE Ⓔ</span><div class="m-track"><div class="m-fill" style="width:88%"></div></div></div>
+                  </div>
                   <div class="card-actions">
                     <a href="gps-grundlagen/" class="card-btn primary">
                       <span>Open Study Guide</span>
@@ -198,44 +253,66 @@
               </article>
 
               <!-- Module 3: Engineering Graphics & Math Studio (1967 Drafting Plates) -->
-              <article class="project-card">
-                <div class="project-media">
-                  <div class="preview-overlay">
-                    <span class="preview-badge" style="background: rgba(24, 23, 21, 0.86); color: #faf5e8; border-color: rgba(217, 68, 38, 0.65);">6 Plates · 1967 Drafting</span>
+              <article class="project-card" style="--card-accent:#f97316; --card-sec:#d4af37;">
+                <div class="project-media has-art">
+                  <div class="card-serial-strip">
+                    <span class="serial-code">TD-03 · PLATES I–VI</span>
+                    <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">6 Plates · 1967 Drafting</span>
                   </div>
-                  <div class="schematic-vis eng-plate-vis">
-                    <div class="vis-ep-header">
-                      <span class="vis-ep-plate">PLATES I–VI</span>
-                      <span class="vis-ep-std">DIN 461</span>
-                      <span class="vis-ep-std">ISO 128</span>
-                      <span class="vis-ep-std">ISO 80000</span>
-                    </div>
-                    <svg class="vis-ep-svg" viewBox="0 0 210 74" aria-hidden="true">
-                      <line x1="16" y1="60" x2="108" y2="60" stroke="#181715" stroke-width="1.3"/>
-                      <line x1="26" y1="12" x2="26" y2="66" stroke="#181715" stroke-width="1.3"/>
-                      <path d="M26 56 Q62 42 98 16" stroke="#d94426" stroke-width="2" fill="none"/>
-                      <line x1="26" y1="48" x2="98" y2="24" stroke="#355c7d" stroke-width="1.4" stroke-dasharray="3 2"/>
-                      <circle cx="162" cy="39" r="22" stroke="#181715" stroke-width="1.4" fill="none"/>
-                      <path d="M138 52 A26 26 0 0 1 182 22" stroke="#d94426" stroke-width="1.4" stroke-dasharray="3 2" fill="none"/>
-                      <circle cx="162" cy="39" r="2.8" fill="#047857"/>
-                      <line x1="142" y1="17" x2="188" y2="17" stroke="#355c7d" stroke-width="1.5"/>
+                  <div class="art-scene" aria-hidden="true">
+                    <svg viewBox="0 0 360 190" class="art-svg-bg">
+                      <defs>
+                        <radialGradient id="egGlow" cx="50%" cy="48%" r="56%">
+                          <stop offset="0%" stop-color="#f97316" stop-opacity="0.22"/>
+                          <stop offset="60%" stop-color="#d4af37" stop-opacity="0.10"/>
+                          <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="360" height="190" fill="url(#egGlow)"/>
+                      <g stroke="rgba(148,163,184,0.12)" stroke-width="0.7">
+                        <line x1="48" y1="32" x2="48" y2="148"/>
+                        <line x1="92" y1="32" x2="92" y2="148"/>
+                        <line x1="136" y1="32" x2="136" y2="148"/>
+                        <line x1="40" y1="68" x2="178" y2="68"/>
+                        <line x1="40" y1="104" x2="178" y2="104"/>
+                      </g>
+                      <line x1="56" y1="42" x2="56" y2="138" stroke="#cbd5e1" stroke-width="1.6"/>
+                      <line x1="48" y1="130" x2="180" y2="130" stroke="#cbd5e1" stroke-width="1.6"/>
+                      <path d="M56 122 Q112 100 172 48" stroke="#fb923c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                      <line x1="56" y1="108" x2="172" y2="62" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="5 3"/>
+                      <g class="geo-spin-slow" style="transform-origin:256px 90px;" opacity="0.68">
+                        <circle cx="256" cy="90" r="46" stroke="#d4af37" stroke-width="1" stroke-dasharray="6 5" fill="none"/>
+                      </g>
+                      <circle cx="256" cy="90" r="34" stroke="#fff3c4" stroke-width="1.6" fill="rgba(56,189,248,0.06)"/>
+                      <line x1="218" y1="56" x2="294" y2="56" stroke="#38bdf8" stroke-width="1.8"/>
+                      <circle cx="256" cy="90" r="3.8" fill="#34d399"/>
+                      <circle cx="256" cy="56" r="3.8" fill="#fb923c"/>
+                      <text x="180" y="164" fill="#fb923c" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" text-anchor="middle">ISO 80000 · DIN 461 · DIN ISO 128</text>
                     </svg>
-                    <div class="vis-ep-caption">v_c = π·d·n · Polar Grids · CAD Constructions</div>
                   </div>
                 </div>
                 <div class="project-content">
+                  <div class="card-head-row">
+                    <div>
+                      <h3 class="card-title">Engineering Graphics &amp; Math Studio</h3>
+                      <div class="card-kicker">Six Drafting Plates · Formulas, Charts &amp; Constructions</div>
+                    </div>
+                    <span class="card-crest-gem" aria-hidden="true"></span>
+                  </div>
                   <div class="card-tags">
                     <span class="tag">1967 Plate</span>
-                    <span class="tag">Interactive Models</span>
                     <span class="tag">DIN ISO 128</span>
                     <span class="tag">DIN 461</span>
-                    <span class="tag">6 Plates · 30 Modules</span>
+                    <span class="tag">30 Modules · 250 Tests</span>
                   </div>
-                  <h3 class="card-title">Engineering Graphics &amp; Math Studio</h3>
                   <p class="card-text">
-                    Curated suite of 1967 Drafting Plate interactive modules covering engineering equations, DIN 461 diagrams, and DIN ISO 128 compass constructions:
-                    engineering mathematics, DIN 461 technical charts, and classical compass-and-straightedge constructions per DIN ISO 128 featuring interactive vector plots, step-by-step animations, and calculation checks.
+                    Curated suite of 1967 Drafting Plate interactive modules covering engineering equations, DIN 461 technical diagrams, and classical compass-and-straightedge constructions per DIN ISO 128 with vector plots, animated steps, and calculation checks.
                   </p>
+                  <div class="card-metrics-strip">
+                    <div class="metric-cell"><span>PLATES &amp; TABS</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                    <div class="metric-cell"><span>VECTOR SVG</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                    <div class="metric-cell"><span>UNIT VERIFIED</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                  </div>
                   <div class="card-actions">
                     <a href="engineering-graphics/" class="card-btn primary">
                       <span>Open Models</span>
@@ -290,19 +367,41 @@
 
         <div class="projects-grid">
           <!-- Featured Project: PLA-100 Linear Axis -->
-          <article class="project-card featured">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card featured" style="--card-accent:#f59e0b; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">CAD-01 · 14 SOLIDS</span>
                 <span class="preview-badge" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; border-color: #f59e0b;">🚧 Work in Progress</span>
               </div>
-              <div class="schematic-vis pla100-vis">
-                <div class="vis-pla-base">
-                  <div class="vis-pla-screw"></div>
-                  <div class="vis-pla-carriage">PLA-100</div>
-                </div>
+              <div class="art-scene art-pla" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="plaGlow" cx="50%" cy="52%" r="55%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+                      <stop offset="65%" stop-color="#f59e0b" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#plaGlow)"/>
+                  <line x1="40" y1="98" x2="320" y2="98" stroke="#d4af37" stroke-width="0.9" stroke-dasharray="10 4 2 4" opacity="0.5"/>
+                  <rect x="64" y="84" width="232" height="28" rx="4" fill="rgba(15,23,42,0.88)" stroke="rgba(56,189,248,0.5)" stroke-width="1.3"/>
+                  <line x1="78" y1="98" x2="282" y2="98" stroke="#94a3b8" stroke-width="5" stroke-dasharray="3 3"/>
+                  <g class="pla-carriage-anim">
+                    <rect x="148" y="68" width="64" height="58" rx="6" fill="rgba(2,132,199,0.85)" stroke="#fff3c4" stroke-width="1.5"/>
+                    <text x="180" y="101" fill="#ffffff" font-family="JetBrains Mono,monospace" font-size="11" font-weight="800" text-anchor="middle">PLA-100</text>
+                  </g>
+                  <text x="180" y="156" fill="#fbbf24" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Stroke 0…100 mm · Ø12×4 Ball Screw</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">PLA-100 · Modular Precision Linear Axis <span style="font-size: 0.8rem; color: #f59e0b; font-weight: 600;">(WIP)</span></h3>
+                  <div class="card-kicker">Parametric B-Rep Assembly · Section A-A Kinematics</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08);">Work in Progress</span>
                 <span class="tag">FreeCAD / NX / Onshape</span>
@@ -310,7 +409,6 @@
                 <span class="tag">ISO GPS &amp; DIN 7168</span>
                 <span class="tag">STEP AP214</span>
               </div>
-              <h3 class="card-title">PLA-100 · Modular Precision Linear Axis <span style="font-size: 0.8rem; color: #f59e0b; font-weight: 600;">(WIP)</span></h3>
               <p class="card-text">
                 Fully parametrically generated industrial mechanical assembly: 14 solid bodies, ball screw drive (Ø12×4 mm), 
                 dual MGN12H linear rail guides (55 mm rail spacing), preloaded angular contact ball bearings (7001-B back-to-back arrangement), 
@@ -319,6 +417,11 @@
                 <br><br>
                 <em style="color: #f59e0b; font-size: 0.85rem; display: block;">Note: Linear actuator detailing is actively underway (Work in Progress).</em>
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>14 SOLIDS</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+                <div class="metric-cell"><span>KINEMATICS</span><div class="m-track"><div class="m-fill" style="width:95%"></div></div></div>
+                <div class="metric-cell"><span>STEP AP214</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="pla-100.html" class="card-btn primary">
                   <span>Open 3D Inspector</span>
@@ -333,27 +436,57 @@
           </article>
 
           <!-- Project: Packstation & Sorting Cell (Three.js + Rapier.js WASM) -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#2dd4bf; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-01 · RAPIER WASM</span>
                 <span class="preview-badge" style="background: rgba(45, 212, 191, 0.2); color: var(--accent-teal); border-color: var(--accent-teal);">Digital Twin</span>
               </div>
-              <div class="schematic-vis" style="display: flex; align-items: center; justify-content: center; height: 100%; background: #0b1120;">
-                <span style="font-family: var(--font-mono); font-size: 1.05rem; color: var(--accent-cyan); font-weight: 700;">📦 Sorting Cell &amp; Palletizing (WASM)</span>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="packGlow" cx="50%" cy="48%" r="55%">
+                      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.22"/>
+                      <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.08"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#packGlow)"/>
+                  <path d="M40 125 L145 125 L195 95 L310 95" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-dasharray="6 4"/>
+                  <rect x="74" y="108" width="28" height="22" rx="3" fill="rgba(245,158,11,0.28)" stroke="#f59e0b" stroke-width="1.4"/>
+                  <rect x="220" y="78" width="28" height="22" rx="3" fill="rgba(45,212,191,0.26)" stroke="#2dd4bf" stroke-width="1.4"/>
+                  <g stroke="#fff3c4" stroke-width="2" fill="none" stroke-linecap="round">
+                    <path d="M276 142 L262 104 L236 86"/>
+                    <circle cx="276" cy="142" r="5" fill="#2dd4bf"/>
+                    <circle cx="262" cy="104" r="3.5" fill="#d4af37"/>
+                  </g>
+                  <path d="M195 95 A52 52 0 0 1 255 58" fill="none" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="4 4" opacity="0.7"/>
+                  <text x="180" y="160" fill="#67e8f9" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">IK Dual-Robot · ZPA Accumulator</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Packstation &amp; Palletizing Robots · Digital Twin</h3>
+                  <div class="card-kicker">Articulated IK, Diverter &amp; Euro-Pallet Stacking</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag" style="color: var(--accent-teal); border-color: rgba(45, 212, 191, 0.4); background: rgba(45, 212, 191, 0.08);">Three.js + Rapier.js</span>
                 <span class="tag">Digital Twin</span>
                 <span class="tag">2× Palletizing Robots</span>
                 <span class="tag">PLA-100 Diverter</span>
-                <span class="tag">IK &amp; ZPA Conveyors</span>
               </div>
-              <h3 class="card-title">Packstation &amp; Palletizing Robots · Digital Twin</h3>
               <p class="card-text">
                 Browser-based physics automation simulation: parcels pass through the infeed, optical barcode scanner, and mechatronic PLA-100 diverter with zero-pressure accumulation (ZPA) conveyor logic before two articulated robots (inverse kinematics &amp; vacuum grippers) palletize them in two layers onto Euro pallets.
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>RAPIER WASM</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+                <div class="metric-cell"><span>ROBOT IK</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+                <div class="metric-cell"><span>CONVEYOR PLC</span><div class="m-track"><div class="m-fill" style="width:90%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="packstation.html" class="card-btn primary">
                   <span>Open Simulation</span>
@@ -364,31 +497,55 @@
           </article>
 
           <!-- Project: KfzDyn · Vehicle Dynamics -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#fbbf24; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-02 · 5 MODULES</span>
                 <span class="preview-badge" style="background: rgba(245, 158, 11, 0.18); color: #fbbf24; border-color: #fbbf24;">New · Vehicle Dynamics</span>
               </div>
-              <div class="schematic-vis kfz-vis">
-                <div class="vis-kfz-grid"></div>
-                <div class="vis-kfz-badge">
-                  <span>5 MODULES · THREE.JS</span>
-                </div>
-                <div class="vis-kfz-symbol">🚗</div>
-                <div class="vis-kfz-formula">δL = iL·l/ρ + EG·ÿ</div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="kfzGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.24"/>
+                      <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.08"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#kfzGlow)"/>
+                  <g class="geo-spin-slow" style="transform-origin:115px 92px;">
+                    <ellipse cx="115" cy="92" rx="44" ry="34" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="10 5" opacity="0.7"/>
+                  </g>
+                  <line x1="115" y1="92" x2="146" y2="70" stroke="#fff3c4" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="146" cy="70" r="3.5" fill="#f59e0b"/>
+                  <path d="M170 112 Q204 62 238 112 T306 106" fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+                  <path d="M170 132 L306 132" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+                  <text x="180" y="160" fill="#fbbf24" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">δL = iL·l/ρ + EG·ÿ · Kamm Circle</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">KfzDyn · Vehicle Dynamics</h3>
+                  <div class="card-kicker">Tire Slip, Stopping Distance &amp; Single-Track Handling</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">HSRI Tire Model</span>
                 <span class="tag">Quarter-Car</span>
                 <span class="tag">Single-Track Model</span>
                 <span class="tag">Three.js</span>
               </div>
-              <h3 class="card-title">KfzDyn · Vehicle Dynamics</h3>
               <p class="card-text">
                 Interactive calculation models from Mitschke/Wallentowitz, <i>Dynamik der Kraftfahrzeuge</i> (5th ed.): tire forces with 3D visualization, longitudinal driving performance, brake force distribution and stopping distance, quarter-car vibration on random road profiles, and single-track handling with top-down animation. Verified against the textbook's worked examples, with documented deviations.
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>HSRI MODEL</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+                <div class="metric-cell"><span>5 SOLVERS</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                <div class="metric-cell"><span>VALIDATION</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="kfz-dynamik/" class="card-btn primary">
                   <span>Open App</span>
@@ -402,29 +559,56 @@
           </article>
 
           <!-- Project: BeamLab · Simply Supported Beam with UDL -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#8b5cf6;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-03 · STATICS</span>
                 <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">New · StructX 001</span>
               </div>
-              <div class="schematic-vis beam-vis">
-                <div class="vis-beam-badge">
-                  <span>STATICS · EULER-BERNOULLI</span>
-                </div>
-                <div class="vis-beam-symbol">📐</div>
-                <div class="vis-beam-formula">M_max = wL²/8 · δ_max = 5wL⁴/384EI</div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="beamGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+                      <stop offset="65%" stop-color="#8b5cf6" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#beamGlow)"/>
+                  <g stroke="#38bdf8" stroke-width="1.3" opacity="0.65">
+                    <line x1="90" y1="48" x2="90" y2="70"/><line x1="135" y1="48" x2="135" y2="70"/>
+                    <line x1="180" y1="48" x2="180" y2="70"/><line x1="225" y1="48" x2="225" y2="70"/>
+                    <line x1="270" y1="48" x2="270" y2="70"/>
+                  </g>
+                  <line x1="76" y1="74" x2="284" y2="74" stroke="#fff3c4" stroke-width="3.2" stroke-linecap="round"/>
+                  <polygon points="76,77 68,91 84,91" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+                  <circle cx="284" cy="84" r="6" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+                  <path d="M76 74 Q180 144 284 74" fill="rgba(56,189,248,0.14)" stroke="#38bdf8" stroke-width="2.2" stroke-dasharray="5 3"/>
+                  <text x="180" y="158" fill="#67e8f9" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">M_max = wL²/8 · δ_max = 5wL⁴/384EI</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">BeamLab · Simply Supported Beam with UDL</h3>
+                  <div class="card-kicker">Euler-Bernoulli SFD, BMD &amp; Elastic Deflection</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Beam Statics &amp; SFD/BMD</span>
                 <span class="tag">Eurocode &amp; AISC</span>
                 <span class="tag">Section Generator</span>
               </div>
-              <h3 class="card-title">BeamLab · Simply Supported Beam with UDL</h3>
               <p class="card-text">
                 Modernized interactive adaptation of <i>StructX Beam Formulas 001</i>: vector statics calculator with real-time internal forces (shear force diagram <i>V</i>(<i>x</i>), bending moment diagram <i>M</i>(<i>x</i>), and elastic deflection curve &delta;(<i>x</i>)), cross-section generator (IPE, HEB, rectangle, hollow tube), and material database (steel, aluminum, timber, concrete).
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>PROFILES</span><div class="m-track"><div class="m-fill" style="width:95%"></div></div></div>
+                <div class="metric-cell"><span>V(X) / M(X)</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                <div class="metric-cell"><span>EUROCODE</span><div class="m-track"><div class="m-fill" style="width:90%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="beam-calculator/" class="card-btn primary">
                   <span>Open Calculator</span>
@@ -438,26 +622,55 @@
           </article>
 
           <!-- Project: Web-CAD Studio -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#d4af37;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">CAD-02 · THREE.JS B-REP</span>
                 <span class="preview-badge">Live Demo</span>
               </div>
-              <div class="schematic-vis cad-vis">
-                <div class="vis-cad-grid"></div>
-                <div class="vis-cad-icon">⚙️</div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="cadGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+                      <stop offset="65%" stop-color="#d4af37" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#cadGlow)"/>
+                  <g class="geo-spin-slow" style="transform-origin:180px 92px;">
+                    <circle cx="180" cy="92" r="52" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="11 7"/>
+                    <circle cx="180" cy="92" r="40" fill="none" stroke="#fff3c4" stroke-width="1.4"/>
+                  </g>
+                  <g class="geo-spin-reverse" style="transform-origin:180px 92px;">
+                    <circle cx="180" cy="92" r="24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="5 5"/>
+                  </g>
+                  <circle cx="180" cy="92" r="9" fill="rgba(56,189,248,0.22)" stroke="#38bdf8" stroke-width="1.6"/>
+                  <text x="180" y="162" fill="#e2e8f0" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Gears · Flanges · Section Planes</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Web-CAD Studio</h3>
+                  <div class="card-kicker">Parametric Mechanical Components &amp; Mesh Export</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Three.js 3D CAD</span>
                 <span class="tag">Parametric B-Rep</span>
                 <span class="tag">STL / OBJ Export</span>
               </div>
-              <h3 class="card-title">Web-CAD Studio</h3>
               <p class="card-text">
                 Parametric 3D CAD studio for real-time modeling of mechanical components (spur gears, pipe flanges, housings, shafts), section-plane inspection, and physical mass/volume calculation.
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>PARAMETRIC</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+                <div class="metric-cell"><span>MASS / VOL</span><div class="m-track"><div class="m-fill" style="width:88%"></div></div></div>
+                <div class="metric-cell"><span>STL / OBJ</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="https://xallace.github.io/web-cad-studio/" target="_blank" class="card-btn primary">
                   <span>Open Live CAD</span>
@@ -471,28 +684,55 @@
           </article>
 
           <!-- Project: Cycloid & Planetary Kinematics Lab -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#f97316; --card-sec:#2dd4bf;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-04 · 1967 BOOK PLATE</span>
                 <span class="preview-badge" style="background: rgba(217, 68, 38, 0.16); color: #f97316; border-color: rgba(217, 68, 38, 0.55);">3D WebGL · 1967 Book Plate · Live</span>
               </div>
-              <div class="schematic-vis cycloid-vis">
-                <div class="vis-wankel-housing"></div>
-                <div class="vis-wankel-rotor"></div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="cycGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#f97316" stop-opacity="0.24"/>
+                      <stop offset="65%" stop-color="#2dd4bf" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#cycGlow)"/>
+                  <path d="M180,38 C236,38 244,72 232,96 C244,120 236,154 180,154 C124,154 116,120 128,96 C116,72 124,38 180,38 Z" fill="rgba(45,212,191,0.08)" stroke="#38bdf8" stroke-width="2"/>
+                  <g class="geo-spin-slow" style="transform-origin:180px 96px;">
+                    <path d="M180,58 Q218,96 206,122 Q180,134 154,122 Q142,96 180,58 Z" fill="rgba(249,115,22,0.20)" stroke="#fb923c" stroke-width="1.8"/>
+                    <circle cx="180" cy="96" r="68" fill="none" stroke="#d4af37" stroke-width="0.8" stroke-dasharray="4 8" opacity="0.5"/>
+                  </g>
+                  <circle cx="180" cy="96" r="4" fill="#fff3c4"/>
+                  <text x="180" y="172" fill="#fb923c" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Wankel 1:3 · Cycloidal Reducers · DXF</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Cycloid & Planetary Kinematics Lab</h3>
+                  <div class="card-kicker">Epitrochoids, Cycloidal Reducers &amp; CAD Export</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Three.js 3D</span>
                 <span class="tag">Wankel Kinematics</span>
                 <span class="tag">Cycloidal Reducers</span>
                 <span class="tag">CAD DXF / SVG</span>
               </div>
-              <h3 class="card-title">Cycloid & Planetary Kinematics Lab</h3>
               <p class="card-text">
                 1967 book-plate 3D &amp; 2D kinematics laboratory covering Wankel rotary epitrochoids, robotics cycloidal reducers (10:1 / 15:1),
                 and roulette curves with guided tour, synchronized Pan/Zoom blueprint plots, and 1-click CAD export (AutoCAD AC1009 DXF &amp; SVG).
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>3D EPITROCHOID</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                <div class="metric-cell"><span>DXF / SVG</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                <div class="metric-cell"><span>GUIDED TOUR</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="https://xallace.github.io/cycloid-simulation/" target="_blank" class="card-btn primary">
                   <span>Open Live Lab</span>
@@ -506,32 +746,56 @@
           </article>
 
           <!-- Project 4: Metamaterial Shock Lab -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#a78bfa;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-05 · HERTZIAN CHAIN</span>
                 <span class="preview-badge" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border-color: #38bdf8;">New · 3D WebGL · Live</span>
               </div>
-              <div class="schematic-vis shock-vis">
-                <div class="chain-bead cb1"></div>
-                <div class="chain-bead cb2"></div>
-                <div class="chain-bead cb3"></div>
-                <div class="chain-bead cb4"></div>
-                <div class="shock-wave"></div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="shockGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.26"/>
+                      <stop offset="65%" stop-color="#8b5cf6" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#shockGlow)"/>
+                  <circle cx="96" cy="94" r="26" fill="rgba(56,189,248,0.18)" stroke="#38bdf8" stroke-width="1.6"/>
+                  <circle cx="146" cy="94" r="20" fill="rgba(56,189,248,0.22)" stroke="#67e8f9" stroke-width="1.6"/>
+                  <circle cx="186" cy="94" r="15" fill="rgba(167,139,250,0.26)" stroke="#a78bfa" stroke-width="1.6"/>
+                  <circle cx="218" cy="94" r="11" fill="rgba(212,175,55,0.26)" stroke="#d4af37" stroke-width="1.5"/>
+                  <circle cx="242" cy="94" r="8" fill="rgba(255,243,196,0.4)" stroke="#fff3c4" stroke-width="1.5"/>
+                  <path d="M52 132 C110 132, 138 62, 178 94 S235 132, 308 132" fill="none" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4 3"/>
+                  <text x="180" y="162" fill="#a5f3fc" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Nesterenko Solitary Wave · SI Readout</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Granular Metamaterial Shock Lab</h3>
+                  <div class="card-kicker">Solitary Force Pulses &amp; Live Oscilloscope</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Three.js 3D</span>
                 <span class="tag">Hertzian Mechanics</span>
                 <span class="tag">Solitary Waves</span>
                 <span class="tag">SI Units</span>
               </div>
-              <h3 class="card-title">Granular Metamaterial Shock Lab</h3>
               <p class="card-text">
                 Impact dynamics on Hertzian sphere chains (steel, tungsten carbide, aluminum, PTFE): solitary wave,
                 tapered, stepped, and diatomic chains, plus Newton's cradle. Live oscilloscope for striker and wall forces.
                 Verified against the Hertz closed-form solution and Nesterenko's solitary wave speed (940 vs. 929 m/s).
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>WAVE SPEED</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                <div class="metric-cell"><span>OSCILLOSCOPE</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+                <div class="metric-cell"><span>MATERIALS</span><div class="m-track"><div class="m-fill" style="width:90%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="https://xallace.github.io/metamaterial-shock-lab/" target="_blank" rel="noopener" class="card-btn primary">
                   <span>Open Lab</span>
@@ -551,9 +815,10 @@
           </div>
 
           <!-- Project: Hörbuch-Generator (Audiobook Studio) -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#34d399; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">APP-01 · AUDIO &amp; ANKI</span>
                 <span class="preview-badge">New · Python · CLI &amp; Web</span>
               </div>
               <div class="schematic-vis hoerbuch-vis" aria-hidden="true">
@@ -571,16 +836,27 @@
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Audiobook Studio (Hörbuch-Generator)</h3>
+                  <div class="card-kicker">6-Stage Audio Synthesis &amp; Spaced Repetition</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Python 3.10+</span>
                 <span class="tag">Gemini SSE</span>
                 <span class="tag">edge-tts &amp; ffmpeg</span>
                 <span class="tag">Anki .apkg</span>
               </div>
-              <h3 class="card-title">Audiobook Studio (Hörbuch-Generator)</h3>
               <p class="card-text">
                 6-stage pipeline transforming YouTube transcripts, web articles, or text into CEFR-graded language-learning audiobooks (A1–B2), synchronized Anki decks (.apkg) with word and sentence clips, and bilingual study guides. Includes a Web Studio (<code>web.py</code>), offline tests, plus Docker, systemd, and portable Windows setups.
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>PIPELINE</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                <div class="metric-cell"><span>WEB STUDIO</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+                <div class="metric-cell"><span>ANKI SYNC</span><div class="m-track"><div class="m-fill" style="width:94%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="https://github.com/xallace/hoerbuch-generator" target="_blank" rel="noopener noreferrer" class="card-btn primary">
                   <span>Open on GitHub</span>
@@ -594,38 +870,54 @@
           </article>
 
           <!-- Project: Helios & Chronos — Solar & UTC Percentage Clocks -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#f59e0b; --card-sec:#0ea5e9;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">APP-02 · EPHEMERIS</span>
                 <span class="preview-badge" style="background: rgba(245, 158, 11, 0.18); color: #f59e0b; border-color: #f59e0b;">New · Astronomy · Live</span>
               </div>
-              <div class="schematic-vis" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; background: radial-gradient(circle at center, rgba(245,158,11,0.15) 0%, rgba(15,23,42,0.95) 70%);">
-                <svg viewBox="0 0 160 92" style="width: 130px; height: 75px;" aria-hidden="true">
-                  <!-- Helios circular dial -->
-                  <circle cx="50" cy="46" r="30" fill="none" stroke="rgba(245,158,11,0.2)" stroke-width="5"/>
-                  <circle cx="50" cy="46" r="30" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="188" stroke-dashoffset="60" stroke-linecap="round"/>
-                  <circle cx="50" cy="46" r="4" fill="#f59e0b"/>
-                  <!-- Chronos circular dial -->
-                  <circle cx="110" cy="46" r="30" fill="none" stroke="rgba(14,165,233,0.2)" stroke-width="5"/>
-                  <circle cx="110" cy="46" r="30" fill="none" stroke="#0ea5e9" stroke-width="5" stroke-dasharray="188" stroke-dashoffset="85" stroke-linecap="round"/>
-                  <circle cx="110" cy="46" r="4" fill="#0ea5e9"/>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="solGlow" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
+                      <stop offset="65%" stop-color="#0ea5e9" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#solGlow)"/>
+                  <circle cx="122" cy="96" r="42" fill="none" stroke="rgba(245,158,11,0.22)" stroke-width="6"/>
+                  <circle cx="122" cy="96" r="42" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="264" stroke-dashoffset="82" stroke-linecap="round"/>
+                  <circle cx="122" cy="96" r="5" fill="#f59e0b"/>
+                  <circle cx="238" cy="96" r="42" fill="none" stroke="rgba(14,165,233,0.22)" stroke-width="6"/>
+                  <circle cx="238" cy="96" r="42" fill="none" stroke="#0ea5e9" stroke-width="6" stroke-dasharray="264" stroke-dashoffset="118" stroke-linecap="round"/>
+                  <circle cx="238" cy="96" r="5" fill="#0ea5e9"/>
+                  <text x="180" y="162" fill="#f59e0b" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" text-anchor="middle">HELIOS % DAYLIGHT · CHRONOS UTC</text>
                 </svg>
-                <div style="font-size:0.75rem; font-family:'JetBrains Mono',monospace; color:#f59e0b; font-weight:600; letter-spacing:0.05em; margin-top:2px;">
-                  HELIOS · CHRONOS
-                </div>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">Helios &amp; Chronos · Solar &amp; UTC Percentage Clocks</h3>
+                  <div class="card-kicker">NOAA Astronomical Daylight &amp; Decimal Time</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Astronomy</span>
                 <span class="tag">NOAA Ephemeris</span>
                 <span class="tag">UTC Decimal Time</span>
                 <span class="tag">60 FPS Live</span>
               </div>
-              <h3 class="card-title">Helios &amp; Chronos · Solar &amp; UTC Percentage Clocks</h3>
               <p class="card-text">
                 Scientific dual clock designed for human time perception: <strong>Helios</strong> visualizes usable astronomical daylight in real time (0% sunrise to 100% sunset) via NOAA solar ephemeris and the equation of time; <strong>Chronos</strong> maps the coordinated 24h rotation of Earth as universal decimal day progress (0–100%). Includes a 60 FPS precision readout, interactive time scrubber, sub-second decimals (.0 to .0000), and GPS/city presets.
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>NOAA SOLAR</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                <div class="metric-cell"><span>60 FPS DIAL</span><div class="m-track"><div class="m-fill" style="width:96%"></div></div></div>
+                <div class="metric-cell"><span>GPS PRESETS</span><div class="m-track"><div class="m-fill" style="width:90%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="https://xallace.github.io/solar-utc-clock/" target="_blank" rel="noopener" class="card-btn primary">
                   <span>Open Clock</span>
@@ -639,31 +931,56 @@
           </article>
 
           <!-- Project: City QR (Metro QR) -->
-          <article class="project-card">
-            <div class="project-media">
-              <div class="preview-overlay">
+          <article class="project-card" style="--card-accent:#c084fc; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">APP-03 · LEVEL-H QR</span>
                 <span class="preview-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc; border-color: #c084fc;">New · 3D QR Morph</span>
               </div>
-              <div class="schematic-vis cityqr-vis">
-                <div class="vis-cityqr-grid"></div>
-                <div class="vis-cityqr-badge">
-                  <span>3D METROPOLIS · THREE.JS</span>
-                </div>
-                <div class="vis-cityqr-skyline">🏙️</div>
-                <div class="vis-cityqr-tagline">3D Skyline ⇄ Scannable QR</div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="cityGlow" cx="50%" cy="55%" r="55%">
+                      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.26"/>
+                      <stop offset="65%" stop-color="#38bdf8" stop-opacity="0.10"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#cityGlow)"/>
+                  <g fill="rgba(168,85,247,0.22)" stroke="#c084fc" stroke-width="1.2">
+                    <rect x="78" y="88" width="22" height="52" rx="2"/>
+                    <rect x="108" y="64" width="26" height="76" rx="2"/>
+                    <rect x="142" y="48" width="28" height="92" rx="2" stroke="#38bdf8"/>
+                    <rect x="178" y="72" width="24" height="68" rx="2"/>
+                    <rect x="210" y="56" width="26" height="84" rx="2" stroke="#38bdf8"/>
+                    <rect x="244" y="82" width="24" height="58" rx="2"/>
+                  </g>
+                  <text x="180" y="164" fill="#c084fc" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" text-anchor="middle">3D Skyline ⇄ Scannable Level-H QR</text>
+                </svg>
               </div>
             </div>
             <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title">City QR · Procedural 3D Metropolis &amp; QR Generator</h3>
+                  <div class="card-kicker">Animated Skyline Morphing to Error-Corrected Code</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
               <div class="card-tags">
                 <span class="tag">Three.js WebGL</span>
                 <span class="tag">Procedural 3D City</span>
                 <span class="tag">QR Code (Level H)</span>
                 <span class="tag">Web Audio API</span>
               </div>
-              <h3 class="card-title">City QR · Procedural 3D Metropolis &amp; QR Generator</h3>
               <p class="card-text">
                 Inspired by <i>Bubbbly Bloom</i>: a procedural 3D skyline with glowing windows and moving traffic morphs seamlessly on click into a scannable QR code (Level-H error correction, 5 architectural styles &amp; 6 lighting palettes).
               </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>5 STYLES</span><div class="m-track"><div class="m-fill" style="width:92%"></div></div></div>
+                <div class="metric-cell"><span>QR LEVEL-H</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                <div class="metric-cell"><span>WEB AUDIO</span><div class="m-track"><div class="m-fill" style="width:86%"></div></div></div>
+              </div>
               <div class="card-actions">
                 <a href="city-qr/" class="card-btn primary">
                   <span>Open City QR</span>
