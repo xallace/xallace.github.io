@@ -399,7 +399,6 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 1.65rem;
-  perspective: 1400px;
 }
 
 .grid-subhead {
@@ -517,7 +516,6 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 1.45rem;
-  perspective: 1400px;
 }
 
 /* ==========================================================================

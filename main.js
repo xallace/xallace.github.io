@@ -166,29 +166,29 @@
       foil,
       glare,
       active: false,
-      bounds: null,
       target: { rx: 0, ry: 0, px: 0.5, py: 0.5, scale: 1 },
       current: { rx: 0, ry: 0, px: 0.5, py: 0.5, scale: 1 }
     };
 
     card.addEventListener('mouseenter', () => {
       state.active = true;
-      state.bounds = card.getBoundingClientRect();
     });
 
     card.addEventListener('mousemove', (e) => {
-      if (!state.bounds || state.bounds.width === 0) state.bounds = card.getBoundingClientRect();
-      const b = state.bounds;
+      const b = card.getBoundingClientRect();
+      if (b.width === 0 || b.height === 0) return;
       const cx = b.left + b.width / 2;
       const cy = b.top + b.height / 2;
       const nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (b.width * 0.55)));
       const ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (b.height * 0.55)));
-      const maxTilt = card.classList.contains('featured') ? 4.5 : 7.5;
+      // Keep physical Z displacement consistent across tall Row-1 and compact cards, avoiding extreme vertical skew.
+      const longEdge = Math.max(b.width, b.height, 360);
+      const maxTilt = Math.max(3.2, Math.min(6.5, 3200 / longEdge));
       state.target.rx = -ny * maxTilt;
       state.target.ry = nx * maxTilt;
       state.target.px = (nx + 1) * 0.5;
       state.target.py = (ny + 1) * 0.5;
-      state.target.scale = 1.015;
+      state.target.scale = 1.012;
     });
 
     card.addEventListener('mouseleave', () => {
@@ -204,10 +204,6 @@
   });
 
   if (cardStates.length > 0) {
-    window.addEventListener('resize', () => {
-      cardStates.forEach((s) => { s.bounds = null; });
-    });
-
     function animateCards() {
       const lerp = 0.14;
       for (const s of cardStates) {
@@ -229,8 +225,9 @@
         const hyp = Math.min(1, Math.hypot(px - 0.5, py - 0.5) * 2);
         const angle = Math.atan2(py - 0.5, px - 0.5) * (180 / Math.PI) + 132;
 
+        // Per-card perspective keeps the vanishing point centered on each card rather than shearing off-axis across tall grids.
         s.card.style.transform =
-          `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(${scale.toFixed(3)}, ${scale.toFixed(3)}, 1) translateY(${s.active ? '-4px' : '0px'})`;
+          `perspective(1600px) translateY(${s.active ? '-4px' : '0px'}) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(${scale.toFixed(3)}, ${scale.toFixed(3)}, 1)`;
         s.card.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
         s.card.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
         s.card.style.setProperty('--hyp', hyp.toFixed(3));
