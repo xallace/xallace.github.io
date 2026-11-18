@@ -52,9 +52,9 @@
         
         <p class="hero-subtitle">
           I'm <strong>Walter Lehn</strong> (<span class="code-tag">@xallace</span>), a <strong>Technical Product Designer (IHK)</strong>
-          specializing in plant and mechanical engineering. Here I showcase engineering and study projects:
-          interactive web apps for <strong>mechanics, kinematics, and vehicle dynamics</strong> as well as the <strong>Tabellenbuch Metall</strong> mechanical reference tables.
-          The apps are built with AI coding agents; where stated, results are verified against textbook or reference values.
+          specializing in plant and mechanical engineering. Here I showcase engineering and technical drafting projects:
+          interactive web apps for <strong>mechanics, kinematics, vehicle dynamics, GD&amp;T, and CAD geometry</strong>.
+          The apps are built with AI coding agents; results are verified against engineering standards (DIN ISO 128, DIN 461, ISO 1101, ISO 80000) and analytical test suites.
         </p>
 
         <div class="hero-actions">
@@ -111,7 +111,7 @@
               <span><strong>technical-design/</strong></span>
               <span>├── <a href="https://xallace.github.io/iso1101-straightness/" target="_blank" rel="noopener noreferrer">iso1101-straightness/</a></span>
               <span>├── <a href="gps-grundlagen/">gps-grundlagen/</a></span>
-              <span>└── <a href="tabellenbuch-metall/">tabellenbuch-metall/</a></span>
+              <span>└── <a href="engineering-graphics/">engineering-graphics/</a></span>
             </div>
 
             <div class="tech-folder-grid">
@@ -197,42 +197,51 @@
                 </div>
               </article>
 
-              <!-- Module 3: Tabellenbuch Metall (interactive models) -->
+              <!-- Module 3: Engineering Graphics & Math Studio (1967 Drafting Plates) -->
               <article class="project-card">
                 <div class="project-media">
                   <div class="preview-overlay">
-                    <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">Interactive Models</span>
+                    <span class="preview-badge" style="background: rgba(24, 23, 21, 0.86); color: #faf5e8; border-color: rgba(217, 68, 38, 0.65);">6 Plates · 1967 Drafting</span>
                   </div>
-                  <div class="schematic-vis tbb-vis">
-                    <div class="vis-tbb-badge">
-                      <span class="vis-tbb-page">TBB 48</span>
-                      <span class="vis-tbb-page" style="background:#0284c7;">DIN 461</span>
-                      <span class="vis-tbb-page" style="background:#0369a1;">ISO 128</span>
-                      <span class="vis-tbb-page" style="background:#075985;">ISO 5456</span>
+                  <div class="schematic-vis eng-plate-vis">
+                    <div class="vis-ep-header">
+                      <span class="vis-ep-plate">PLATES I–VI</span>
+                      <span class="vis-ep-std">DIN 461</span>
+                      <span class="vis-ep-std">ISO 128</span>
+                      <span class="vis-ep-std">ISO 80000</span>
                     </div>
-                    <div class="vis-tbb-symbol">📐</div>
-                    <div class="vis-tbb-formula">Mathematics · Charts · Basic Constructions</div>
+                    <svg class="vis-ep-svg" viewBox="0 0 210 74" aria-hidden="true">
+                      <line x1="16" y1="60" x2="108" y2="60" stroke="#181715" stroke-width="1.3"/>
+                      <line x1="26" y1="12" x2="26" y2="66" stroke="#181715" stroke-width="1.3"/>
+                      <path d="M26 56 Q62 42 98 16" stroke="#d94426" stroke-width="2" fill="none"/>
+                      <line x1="26" y1="48" x2="98" y2="24" stroke="#355c7d" stroke-width="1.4" stroke-dasharray="3 2"/>
+                      <circle cx="162" cy="39" r="22" stroke="#181715" stroke-width="1.4" fill="none"/>
+                      <path d="M138 52 A26 26 0 0 1 182 22" stroke="#d94426" stroke-width="1.4" stroke-dasharray="3 2" fill="none"/>
+                      <circle cx="162" cy="39" r="2.8" fill="#047857"/>
+                      <line x1="142" y1="17" x2="188" y2="17" stroke="#355c7d" stroke-width="1.5"/>
+                    </svg>
+                    <div class="vis-ep-caption">v_c = π·d·n · Polar Grids · CAD Constructions</div>
                   </div>
                 </div>
                 <div class="project-content">
                   <div class="card-tags">
-                    <span class="tag">Tabellenbuch Metall</span>
+                    <span class="tag">1967 Plate</span>
                     <span class="tag">Interactive Models</span>
                     <span class="tag">DIN ISO 128</span>
                     <span class="tag">DIN 461</span>
-                    <span class="tag">TBB 48</span>
+                    <span class="tag">6 Plates · 30 Modules</span>
                   </div>
-                  <h3 class="card-title">Tabellenbuch Metall • Interactive Learning Models</h3>
+                  <h3 class="card-title">Engineering Graphics &amp; Math Studio</h3>
                   <p class="card-text">
-                    Curated suite of interactive digital models accompanying the 48th edition of <i>Tabellenbuch Metall</i> (Europa-Lehrmittel):
+                    Curated suite of 1967 Drafting Plate interactive modules covering engineering equations, DIN 461 diagrams, and DIN ISO 128 compass constructions:
                     engineering mathematics, DIN 461 technical charts, and classical compass-and-straightedge constructions per DIN ISO 128 featuring interactive vector plots, step-by-step animations, and calculation checks.
                   </p>
                   <div class="card-actions">
-                    <a href="tabellenbuch-metall/" class="card-btn primary">
+                    <a href="engineering-graphics/" class="card-btn primary">
                       <span>Open Models</span>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
-                    <a href="https://github.com/xallace/xallace.github.io/tree/main/tabellenbuch-metall" target="_blank" rel="noopener noreferrer" class="card-btn secondary">
+                    <a href="https://github.com/xallace/xallace.github.io/tree/main/engineering-graphics" target="_blank" rel="noopener noreferrer" class="card-btn secondary">
                       <span>Source Code</span>
                     </a>
                   </div>

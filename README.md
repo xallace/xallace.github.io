@@ -3,7 +3,7 @@
 > Official GitHub Pages Portfolio: `xallace.github.io`  
 > Live URL: [https://xallace.github.io](https://xallace.github.io)
 
-Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics and kinematics simulations, CAD projects, and Python tools. The web apps are built with AI coding agents; where stated, they are verified against textbook or reference values.
+Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics and kinematics simulations, GD&T & CAD drafting plates, and Python tools. The web apps are built with AI coding agents and verified against engineering standards and analytical test suites.
 
 ---
 
@@ -13,13 +13,13 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 
 * **[iso1101-straightness](https://xallace.github.io/iso1101-straightness/)** — *Straightness Lab*: Interactive 1967 book-plate 3D & 2D inspection lab for DIN EN ISO 1101:2017 intersection (`⟨[ // | A ]`, `⟨[ ⊥ | A ]`) and orientation (`⟨[ ⊥ | A ]⟩`, `⟨[ // | B ]⟩`) plane indicators with exact Chebyshev MZS solvers.
 * **[gps-grundlagen](https://xallace.github.io/gps-grundlagen/)** — *GPS Fundamentals*: the 14 geometric tolerance types of DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, a feature-control-frame checker, the 13 principles of DIN EN ISO 8015 with an envelope-requirement (Ⓔ) calculator, and exercises.
-* **[tabellenbuch-metall](https://xallace.github.io/tabellenbuch-metall/)** — *Tabellenbuch Metall (48th ed.)* central hub uniting:
-  * **[p. 14 · Formulas, Equations, Charts](https://xallace.github.io/tabellenbuch-metall/s14-formeln/)** ($v_c = \pi \cdot d \cdot n$, $M = 9550 \cdot P / n$, linear functions & break-even $K_G = E$).
-  * **[p. 58 · Charts: Cartesian Coordinate System](https://xallace.github.io/tabellenbuch-metall/s58-diagramme/)** (DIN 461 chart anatomy, fault-finding exercises, suppressed zero & log scales, reading a disc-spring characteristic curve).
-  * **[p. 59 · Charts: Polar Coordinate Systems & Area Charts](https://xallace.github.io/tabellenbuch-metall/s59-polarkoordinaten/)** (multiple characteristic curves with scatter bands $R_m/R_e$, polar coordinates, $2000:1$ roundness check of a turned bushing & alloy composition charts).
-  * **[p. 60 · Geometric Constructions: Lines, Perpendiculars, Angles](https://xallace.github.io/tabellenbuch-metall/s60-grundkonstruktionen/)** (6 compass-and-straightedge constructions with step animation: parallel line via rhombus, perpendicular bisector, dropping a perpendicular, erecting a perpendicular at $P$ via Thales circle, angle bisector & dividing a segment into $n=5$ equal parts).
-  * **[p. 61 · Geometric Constructions: Tangents, Arcs, Polygons](https://xallace.github.io/tabellenbuch-metall/s61-tangenten-vielecke/)** (6 compass-and-straightedge constructions: tangent at point $P$, tangent from external $P$ via Thales, corner fillet $t = r/\tan(\alpha/2)$, two-circle blend $R_i, R_a$, Bion regular polygon approximation & circumscribed hexagon/dodecagon with DIN EN ISO 4014 wrench size).
-  * **[p. 62 · Geometric Constructions: Incircle, Circumcircle, Ellipse, Spiral](https://xallace.github.io/tabellenbuch-metall/s62-kreise-ellipse-spirale/)** (6 compass-and-straightedge constructions: incenter & incircle $r = A/s$, circumcircle $R = abc/4A$, finding circle center via chords, two-circle ellipse construction, parallelogram affine ellipse & 4-center smooth $C^1$ spiral).
+* **[engineering-graphics](https://xallace.github.io/engineering-graphics/)** — *Engineering Graphics & Math Studio*: 1967 Drafting Plate interactive suite uniting six plates:
+  * **[Plate I · Engineering Formulas & Break-Even Analysis](https://xallace.github.io/engineering-graphics/formulas-equations/)** (ISO 80000-2 quantity equation $v_c = \pi \cdot d \cdot n$ with unit tracking, torque equation $M = 9550 \cdot P / n$, linear functions & break-even $K_G = E$).
+  * **[Plate II · Cartesian Diagrams & DIN 461 Scaling](https://xallace.github.io/engineering-graphics/cartesian-diagrams/)** (DIN 461 four-quadrant coordinate anatomy, fault-finding exercises, 1-2-5 scaling & log grids, progressive spring characteristic curves).
+  * **[Plate III · Polar Coordinates, Roundness & Area Charts](https://xallace.github.io/engineering-graphics/polar-area-charts/)** (multi-curve steel strength scatter bands $R_m/R_e$, 360° polar coordinate grid, $2000:1$ roundness deviation check & central-angle alloy/production charts).
+  * **[Plate IV · Basic Geometric Constructions: Segments, Perpendiculars & Angles](https://xallace.github.io/engineering-graphics/basic-constructions/)** (6 compass-and-straightedge constructions with step animation per DIN ISO 128: parallel line via rhombus, perpendicular bisector, dropping a perpendicular, erecting a perpendicular at $P$ via Thales circle, angle bisector & dividing a segment via intercept theorem).
+  * **[Plate V · Tangents, Circular Arcs & Regular Polygons](https://xallace.github.io/engineering-graphics/tangents-polygons/)** (6 compass-and-straightedge constructions: tangent at circle point $P$, tangent from external $P$ via Thales, corner fillet $t = r/\tan(\alpha/2)$, two-circle blend $R_i, R_a$, Bion regular polygon approximation & circumscribed hexagon/dodecagon with DIN EN ISO 4014 hex head geometry).
+  * **[Plate VI · Incircle, Circumcircle, Ellipses & Spirals](https://xallace.github.io/engineering-graphics/conics-spirals/)** (6 compass-and-straightedge constructions: incenter & incircle $r = A/s$, circumcircle $R = abc/4A$, circle center via chords, concentric-circle ellipse, parallelogram affine ellipse per DIN ISO 5456-3 & 4-center smooth $C^1$ spiral).
 
 ### ⚙️ Interactive Simulations & Software
 

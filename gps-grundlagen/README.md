@@ -1,6 +1,6 @@
 # GPS Fundamentals • Geometrical Tolerances
 
-Interactive learning guide to Geometrical Product Specifications (GPS) per DIN EN ISO 1101 and DIN EN ISO 8015:2011. Styled after the Mechanical Engineering Handbook apps: blueprint dark mode by default, toggleable to light mode.
+Interactive learning guide to Geometrical Product Specifications (GPS) per DIN EN ISO 1101 and DIN EN ISO 8015:2011. Features blueprint dark mode by default with a toggleable royal-blue light theme.
 
 ## Tabs
 

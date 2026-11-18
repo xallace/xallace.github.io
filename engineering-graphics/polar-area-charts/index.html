@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plate III · Polar Coordinates, Roundness &amp; Area Charts</title>
+  <meta name="description" content="Interactive polar &amp; statistical engineering charts studio: multi-curve scatter strength envelopes, polar coordinate system per DIN 461, 2000:1 roundness inspection, and alloy/production area charts.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23efe6d3' stroke='%23181715' stroke-width='6'/%3E%3Ccircle cx='50' cy='50' r='30' stroke='%23181715' stroke-width='5' fill='none'/%3E%3Cpath d='M50 50L75 30' stroke='%23d94426' stroke-width='6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../plate-theme.css">
+</head>
+<body class="plate-mode">
+  <!-- Shared SVG definitions (must not be display:none or gradients will not render) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="diaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--dia-top)"/>
+        <stop offset="1" style="stop-color: var(--dia-bottom)"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="plate-header">
+    <div class="plate-top">
+      <div class="plate-meta">
+        <span class="plate-badge">PLATE III</span>
+        <span class="discipline-tag">K · DIAGRAMS II</span>
+        <div>
+          <h1>Polar Coordinates, Roundness Inspection &amp; Area Charts <span class="sub-tag">DIN 461</span></h1>
+          <div class="sub">Multi-Curve Scatter Envelopes · Polar Grid (360°) · 2000:1 Roundness Profile · Central-Angle Charts</div>
+        </div>
+      </div>
+      <div class="plate-tools">
+        <a href="../" class="nav-pill" title="Back to Engineering Graphics Studio">← Studio Hub</a>
+        <a href="../formulas-equations/" class="nav-pill" title="Plate I: Formulas & Break-Even">I Formulas</a>
+        <a href="../cartesian-diagrams/" class="nav-pill" title="Plate II: Cartesian Diagrams">II Diagrams</a>
+        <a href="./" class="nav-pill current">III Polar</a>
+        <a href="../basic-constructions/" class="nav-pill" title="Plate IV: Lines & Perpendiculars">IV Lines</a>
+        <a href="../tangents-polygons/" class="nav-pill" title="Plate V: Tangents & Polygons">V Tangents</a>
+        <a href="../conics-spirals/" class="nav-pill" title="Plate VI: Circles, Ellipses & Spirals">VI Conics</a>
+        <button class="btn-header" id="btn-reset" title="Reset all tabs to default examples">↺ Reset Defaults</button>
+      </div>
+    </div>
+    <div class="plate-tabs-bar">
+      <nav class="tabs" id="tabs">
+        <button data-tab="kennlinien" class="active">1 Multiple Curves</button>
+        <button data-tab="polar">2 Polar Coordinates</button>
+        <button data-tab="rundheit">3 Roundness Testing</button>
+        <button data-tab="flaechen">4 Area Charts</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= 1 Multiple Curves ================= -->
+    <section class="tab active" id="tab-kennlinien">
+      <div class="tab-head">
+        <h2>Cartesian Coordinate System (cont.) • Charts with Multiple Curves</h2>
+        <p>When measured data exhibit wide scatter, a distinct symbol is used for each curve (e.g., ○, ×, □). The curves themselves are distinguished by quantity symbols/labels, different colors, or different line types.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Labeling:</span>
+            <span class="seg" id="m-id">
+              <button data-v="color" class="on">Color &amp; Symbols</button>
+              <button data-v="dash">Line Types (B/W)</button>
+              <button data-v="both">Both</button>
+            </span>
+            <span>Curve fit:</span>
+            <span class="seg" id="m-fit">
+              <button data-v="smooth" class="on">Fitted Curve</button>
+              <button data-v="band">Scatter Band</button>
+              <button data-v="zigzag">Unsmoothed</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="m-marks" checked> Data markers (×, ○, □)</label>
+            <label class="chk"><input type="checkbox" id="m-third"> 3rd curve <i>R</i><sub>e2</sub> (□, Material 2)</label>
+            <label class="chk"><input type="checkbox" id="m-read" checked> Reading line</label>
+          </div>
+          <div class="slider">
+            <span>Temperature <i>T</i></span>
+            <input type="range" id="m-temp" min="0" max="600" step="10" value="300">
+            <output id="m-temp-out">300 °C</output>
+          </div>
+          <svg class="dia" id="m-svg" viewBox="0 0 640 500" role="img" aria-label="High-temperature strength chart showing tensile strength Rm and yield strength Re versus temperature"></svg>
+          <p class="note">Synthetic alloy-steel elevated-temperature strength envelope: tensile strength <i>R</i><sub>m</sub> (×) and yield strength <i>R</i><sub>e</sub> (○) in N/mm² versus temperature in °C. Individual scatter points can be dragged vertically in the chart.</p>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Reading &amp; Scatter</h3>
+            <div class="result" id="m-result"></div>
+            <div class="kv" id="m-details"></div>
+          </div>
+          <div class="card">
+            <h3>Rules (DIN 461)</h3>
+            <ul class="rules" id="m-rules"></ul>
+          </div>
+          <div class="card">
+            <h3>Reading Practice <span class="score" id="m-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="m-quiz">New Problem</button>
+              <button class="btn ghost" id="m-quiz-end" hidden>Finish</button>
+            </div>
+            <div id="m-task" class="note"></div>
+            <div class="ctl-row" id="m-ans-row" hidden>
+              <input class="num" id="m-ans" inputmode="decimal"> <span id="m-ans-unit"></span>
+              <button class="btn" id="m-check">Check</button>
+            </div>
+            <div class="feedback" id="m-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2 Polar Coordinate System ================= -->
+    <section class="tab" id="tab-polar">
+      <div class="tab-head">
+        <h2>Polar Coordinate System • 360° Scale, Pole, Angle +<i>φ</i> and Radius <i>r</i></h2>
+        <p>From the origin (pole), the angle <i>φ</i> is measured counterclockwise from the horizontal right axis (0°); the radius <i>r</i> gives the radial distance from the pole.</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Circle division:</span>
+            <span class="seg" id="p-div">
+              <button data-v="15">15°</button>
+              <button data-v="30" class="on">30°</button>
+              <button data-v="45">45°</button>
+            </span>
+            <span>Angle snap:</span>
+            <span class="seg" id="p-snap">
+              <button data-v="15" class="on">15°</button>
+              <button data-v="5">5°</button>
+              <button data-v="1">1°</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <label class="chk"><input type="checkbox" id="p-curve" checked> Eccentric cam curve <i>r</i>(<i>φ</i>)</label>
+            <label class="chk"><input type="checkbox" id="p-nums" checked> Numbers &amp; angles</label>
+            <label class="chk"><input type="checkbox" id="p-cart"> Cartesian triangle (<i>x</i>, <i>y</i>)</label>
+          </div>
+          <svg class="dia" id="p-svg" viewBox="0 0 640 500" role="img" aria-label="Polar coordinate system with 360-degree graduation"></svg>
+        </div>
+        <div class="side">
+          <div class="card">
+            <h3>Selected Point <span class="quad" id="p-region"></span></h3>
+            <div id="p-readout" class="note" style="font-size:0.92rem;color:var(--text)"></div>
+            <p class="note" id="p-cart-info"></p>
+          </div>
+          <div class="card">
+            <h3><span>Enter Polar Point P(<i>r</i>; <i>φ</i>)</span></h3>
+            <div class="ctl-row">
+              <input class="txt" id="p-input" placeholder="P3(3.5; 120°)" spellcheck="false">
+              <button class="btn" id="p-set">Set</button>
+            </div>
+            <div class="feedback" id="p-input-msg"></div>
+            <ul class="pt-list" id="p-list"></ul>
+          </div>
+          <div class="card">
+            <h3>Rules (DIN 461)</h3>
+            <ul class="rules" id="p-rules"></ul>
+          </div>
+          <div class="card">
+            <h3>Practice <span class="score" id="p-score"></span></h3>
+            <span class="seg" id="p-mode">
+              <button data-v="free" class="on">Explore</button>
+              <button data-v="place">Place Point</button>
+              <button data-v="read">Read</button>
+            </span>
+            <div id="p-task" class="note"></div>
+            <div class="ctl-row" id="p-read-inputs" hidden>
+              <label><i>r</i> = <input class="num" id="p-ans-r" inputmode="decimal"></label>
+              <label><i>φ</i> = <input class="num" id="p-ans-deg" inputmode="decimal"> °</label>
+              <button class="btn" id="p-check">Check</button>
+            </div>
+            <div class="feedback" id="p-feedback"></div>
+            <button class="btn ghost" id="p-next" hidden>Next Problem</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3 Roundness Testing ================= -->
+    <section class="tab" id="tab-rundheit">
+      <div class="tab-head">
+        <h2>Polar Coordinate Inspection • Roundness Profile of a Turned Bushing</h2>
+        <p>A coordinate measuring machine plots radial deviation Δ<i>r</i> from a reference circle at high radial magnification versus circumferential angle <i>φ</i> (standard chart scale: 10 mm ≙ 5 µm, magnification 2000 : 1).</p>
+      </div>
+      <div class="layout">
+        <div class="card">
+          <div class="ctl-row">
+            <span>Clamping mode:</span>
+            <span class="seg" id="r-kind">
+              <button data-v="trilobe" class="on">3-Lobe Asym.</button>
+              <button data-v="oval">2-Jaw (Oval)</button>
+              <button data-v="3jaw">3-Jaw Chuck</button>
+              <button data-v="4jaw">4-Jaw Chuck</button>
+            </span>
+          </div>
+          <div class="ctl-row">
+            <span>Scale:</span>
+            <span class="seg" id="r-scale">
+              <button data-v="2.5">10 mm ≙ 2.5 µm</button>
+              <button data-v="5" class="on">10 mm ≙ 5 µm (2000:1)</button>
+              <button data-v="10">10 mm ≙ 10 µm</button>
+            </span>
+            <label class="chk"><input type="checkbox" id="r-tol-show" checked> Tolerance band</label>
+            <label class="chk"><input type="checkbox" id="r-jaws" checked> Chuck jaws</label>
+          </div>
+          <div class="slider">
+            <span>Clamping deformation <i>A</i></span>
+            <input type="range" id="r-amp" min="0.5" max="7.5" step="0.5" value="4.0">
+            <output id="r-amp-out">± 4.0 µm</output>
+          </div>
+          <div class="slider">
+            <span>Roundness tolerance <i>t</i></span>
+            <input type="range" id="r-tol" min="2.0" max="12.0" step="0.5" value="6.0">
+            <output id="r-tol-out">6.0 µm</output>
+          </div>
+          <div class="slider">
+            <span>Probe angle <i>φ</i></span>
+            <input type="range" id="r-deg" min="0" max="355" step="5" value="90">
+            <output id="r-deg-out">90°</output>
+          </div>
+          <svg class="dia" id="r-svg" viewBox="0 0 640 500" role="img" aria-label="Polar chart of roundness testing of a turned bushing"></svg>
+        </div>
+        <div class="side">
+          <div class="card example">
+            <h3>Metrology Diagnostics</h3>
+            <p class="note" style="color:var(--text);margin-top:2px">
+              Roundness inspection checks whether circumferential radial deviations remain inside tolerance <i>t</i>.<br><br>
+              When a thin-walled sleeve is over-clamped in a three-jaw chuck, the jaws (arrows) elastically indent the wall. Turning cuts the deformed inner/outer diameter round under load; upon unclamping, spring-back produces characteristic radial lobes opposite each jaw.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Chart Evaluation</h3>
+            <div class="result" id="r-result"></div>
+            <div class="kv" id="r-details"></div>
+          </div>
+          <div class="card">
+            <h3>Scale &amp; Roundness Practice <span class="score" id="r-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="r-quiz">New Problem</button>
+              <button class="btn ghost" id="r-quiz-end" hidden>Finish</button>
+            </div>
+            <div id="r-task" class="note"></div>
+            <div class="ctl-row" id="r-ans-row" hidden>
+              <input class="num" id="r-ans" inputmode="decimal"> <span id="r-ans-unit"></span>
+              <button class="btn" id="r-check">Check</button>
+            </div>
+            <div class="feedback" id="r-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 Area Charts ================= -->
+    <section class="tab" id="tab-flaechen">
+      <div class="tab-head">
+        <h2>Area Charts • Pie Chart (Central Angle <i>α</i>) &amp; Column / Bar Chart</h2>
+        <p>In a pie chart, the full circle corresponds to 100 % (≙ 360°). In column and horizontal bar charts, quantities are displayed as equal-width vertical columns or horizontal bars.</p>
+      </div>
+      <div class="layout">
+        <div>
+          <div class="card">
+            <h3><span>Pie Chart &amp; Central Angle <i>α</i></span></h3>
+            <div class="ctl-row">
+              <span>Preset:</span>
+              <span class="seg" id="c-preset">
+                <button data-v="alloy" class="on">CuZn39Pb3 Brass</button>
+                <button data-v="cost">Shop Cost Breakdown</button>
+                <button data-v="cusn8">CuSn8 Bronze</button>
+                <button data-v="cuni">CuNi18Zn20</button>
+              </span>
+            </div>
+            <svg class="dia" id="c-pie-svg" viewBox="0 0 560 400" role="img" aria-label="Pie chart with central angle alpha"></svg>
+            <div id="c-formula-box"></div>
+            <p class="note" id="c-sum-msg"></p>
+          </div>
+
+          <div class="card">
+            <div class="ctl-row" style="justify-content:space-between;margin-top:0">
+              <h3 style="margin:0">Column Chart &amp; Bar Chart (CNC Output 2022–2025)</h3>
+              <span class="seg" id="c-orient">
+                <button data-v="col" class="on">Vertical Columns</button>
+                <button data-v="bar">Horizontal Bars</button>
+              </span>
+            </div>
+            <svg class="dia" id="c-bar-svg" viewBox="0 0 560 310" role="img" aria-label="Column or horizontal bar chart of workshop output"></svg>
+            <p class="note" id="c-bar-summary"></p>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="card example">
+            <h3>Standard Alloy Example: CuZn39Pb3</h3>
+            <p class="note" style="color:var(--text);margin-top:2px">
+              <b>Question:</b> What central angle <i>α</i> represents the lead fraction of free-machining brass <b>CuZn39Pb3</b> (EN 12164)?<br>
+              <span class="note">(Nominal composition: 39 % Zn, 3 % Pb, remainder 58 % Cu)</span>
+            </p>
+            <div class="formula-line">
+              <i>α</i> = <span class="frac"><span>360° · 3 %</span><span>100 %</span></span> = <b>10.8°</b>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Shares &amp; Central Angles <button class="btn ghost" id="c-norm-btn" title="Normalize shares to 100 %">Normalize to 100 %</button></h3>
+            <div class="vtable-wrap"><table class="vtable" id="c-pie-table"></table></div>
+            <p class="note">Click a sector in the chart or drag a dividing boundary to calculate the central angle <i>α</i> live.</p>
+          </div>
+
+          <div class="card">
+            <h3>Central Angle Practice <span class="score" id="c-score"></span></h3>
+            <div class="ctl-row">
+              <button class="btn" id="c-quiz">New Problem</button>
+              <button class="btn ghost" id="c-quiz-end" hidden>Finish</button>
+            </div>
+            <div id="c-task" class="note"></div>
+            <div class="ctl-row" id="c-ans-row" hidden>
+              <input class="num" id="c-ans" inputmode="decimal"> <span id="c-ans-unit"></span>
+              <button class="btn" id="c-check">Check</button>
+            </div>
+            <div class="feedback" id="c-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Engineering Graphics &amp; Math Studio · Plate III: Polar Coordinates, Roundness Inspection &amp; Area Charts · Standards: DIN 461, DIN EN ISO 80000-2, EN 12164.
+  </footer>
+
+  <script src="js/core.js"></script>
+  <script src="js/svg.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tab-kennlinien.js"></script>
+  <script src="js/tab-polar.js"></script>
+  <script src="js/tab-rundheit.js"></script>
+  <script src="js/tab-flaechen.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

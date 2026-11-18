@@ -1,0 +1,17 @@
+[
+  { "name": "1-parallele-default", "hash": "parallele", "clip": "#tab-parallele" },
+  { "name": "1-parallele-rhombus", "hash": "parallele", "clip": "#tab-parallele",
+    "js": "document.getElementById('par-rhombus').click(); document.getElementById('par-dist').click(); document.querySelector('#par-steps [data-step=\"3\"]').click(); document.getElementById('par-result').textContent" },
+  { "name": "2-halbieren-default", "hash": "halbieren", "clip": "#tab-halbieren" },
+  { "name": "2-halbieren-warn", "hash": "halbieren", "clip": "#tab-halbieren",
+    "js": "document.getElementById('bis-ratio').value='0.44'; document.getElementById('bis-ratio').dispatchEvent(new Event('input')); document.getElementById('bis-result').textContent" },
+  { "name": "3-lot-default", "hash": "lot", "clip": "#tab-lot" },
+  { "name": "4-senkrechte-default", "hash": "senkrechte", "clip": "#tab-senkrechte",
+    "js": "document.getElementById('sen-thales').click(); document.getElementById('sen-result').textContent" },
+  { "name": "5-winkel-default", "hash": "winkel", "clip": "#tab-winkel" },
+  { "name": "6-teilen-default", "hash": "teilen", "clip": "#tab-teilen" },
+  { "name": "7-reset-senkrechte", "hash": "senkrechte", "clip": "#tab-senkrechte",
+    "js": "document.getElementById('btn-reset').click(); 'body: ' + document.body.className" },
+  { "name": "8-teilen-seven", "hash": "teilen", "clip": "#tab-teilen",
+    "js": "document.querySelector('#div-n [data-v=\"7\"]').click(); document.getElementById('div-result').textContent" }
+]

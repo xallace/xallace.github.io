@@ -1,0 +1,17 @@
+[
+  { "name": "1-kennlinien-default", "hash": "kennlinien", "clip": "#tab-kennlinien" },
+  { "name": "1-kennlinien-band-third", "hash": "kennlinien", "clip": "#tab-kennlinien",
+    "js": "document.querySelector('#m-id [data-v=both]').click(); document.querySelector('#m-fit [data-v=band]').click(); document.getElementById('m-third').click(); document.querySelector('#m-rules [data-key=scatter]').click(); document.getElementById('m-result').textContent" },
+  { "name": "2-polar-default", "hash": "polar", "clip": "#tab-polar" },
+  { "name": "2-polar-cart-quiz", "hash": "polar", "clip": "#tab-polar",
+    "js": "document.getElementById('p-cart').click(); document.getElementById('p-input').value='P3(4,5; 240°)'; document.getElementById('p-set').click(); document.querySelector('#p-rules [data-key=ccw]').click(); document.getElementById('p-input-msg').textContent" },
+  { "name": "3-rundheit-default", "hash": "rundheit", "clip": "#tab-rundheit" },
+  { "name": "3-rundheit-3jaw", "hash": "rundheit", "clip": "#tab-rundheit",
+    "js": "document.querySelector('#r-kind [data-v=\"3jaw\"]').click(); document.getElementById('r-amp').value='2.5'; document.getElementById('r-amp').dispatchEvent(new Event('input')); document.getElementById('r-result').textContent" },
+  { "name": "4-flaechen-default", "hash": "flaechen", "clip": "#tab-flaechen" },
+  { "name": "4-flaechen-cost-bar", "hash": "flaechen", "clip": "#tab-flaechen",
+    "js": "document.querySelector('#c-preset [data-v=cost]').click(); document.querySelector('#c-orient [data-v=bar]').click(); document.getElementById('c-quiz').click(); const q=UI.tabs.flaechen.state.quiz; document.getElementById('c-ans').value=String(q.truth).replace('.',','); document.getElementById('c-check').click(); document.getElementById('c-feedback').textContent" },
+  { "name": "5-reset-polar", "hash": "polar",
+    "js": "document.getElementById('btn-reset').click(); 'ok'" },
+  { "name": "8-narrow-rundheit", "hash": "rundheit", "width": 500 }
+]

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Graphics &amp; Math Studio · Interactive Plates I–VI</title>
+  <meta name="description" content="Six browser-based drafting plates covering ISO 80000-2 engineering formulas, DIN 461 cartesian &amp; polar charts, roundness inspection, and DIN ISO 128 compass-and-straightedge geometric constructions.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23efe6d3' stroke='%23181715' stroke-width='6'/%3E%3Ccircle cx='50' cy='50' r='28' stroke='%23355c7d' stroke-width='5' fill='none'/%3E%3Cpath d='M22 76L78 24' stroke='%23d94426' stroke-width='6'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%23181715'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="studio-header">
+    <div class="studio-top">
+      <div class="studio-brand">
+        <span class="studio-badge">PLATES I–VI</span>
+        <div>
+          <div class="studio-brand-title">Engineering Graphics &amp; Math Studio</div>
+          <div class="studio-brand-sub">ISO 80000-2 Equations · DIN 461 Charts · DIN ISO 128 Euclidean Drafting</div>
+        </div>
+      </div>
+      <nav class="studio-nav" aria-label="Studio Navigation">
+        <a href="../" class="nav-pill" title="Back to Portfolio">← Portfolio</a>
+        <a href="../gps-grundlagen/" class="nav-pill accent" title="Open GPS &amp; GD&amp;T Studio">GPS Studio</a>
+        <a href="formulas-equations/" class="nav-pill">I Formulas</a>
+        <a href="cartesian-diagrams/" class="nav-pill">II Diagrams</a>
+        <a href="polar-area-charts/" class="nav-pill">III Polar</a>
+        <a href="basic-constructions/" class="nav-pill">IV Lines</a>
+        <a href="tangents-polygons/" class="nav-pill">V Tangents</a>
+        <a href="conics-spirals/" class="nav-pill">VI Conics</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="studio-main">
+    <section class="hero-plate">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">TECHNICAL COMMUNICATION · INTERACTIVE DRAFTING PLATES</div>
+        <h1>Engineering <span>Graphics &amp; Math</span> Studio</h1>
+        <p class="hero-lead">
+          Six self-contained drafting plates uniting technical mathematics, DIN 461 engineering diagrams,
+          and classical compass-and-straightedge CAD constructions. Drag vertices, adjust machining parameters,
+          step through animated construction sequences, and verify analytical formulas directly in SVG.
+        </p>
+        <div class="spec-strip">
+          <div class="spec-chip"><code>6</code> Interactive Plates</div>
+          <div class="spec-chip"><code>30</code> Live Constructions &amp; Modules</div>
+          <div class="spec-chip"><code>100%</code> Client-Side HTML5 / SVG</div>
+          <div class="spec-chip"><code>Node.js</code> Analytical Test Suites</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="filter-group" id="filters" role="group" aria-label="Filter Plates">
+        <button type="button" class="filter-btn active" data-filter="all">All Plates (6)</button>
+        <button type="button" class="filter-btn" data-filter="math">Engineering Math (1)</button>
+        <button type="button" class="filter-btn" data-filter="diagrams">DIN 461 Diagrams (2)</button>
+        <button type="button" class="filter-btn" data-filter="geometry">Geometric Constructions (3)</button>
+      </div>
+      <div class="filter-count" id="filter-count">Showing 6 of 6 plates</div>
+    </div>
+
+    <section class="plates-grid" id="plates-grid">
+      <!-- Plate I -->
+      <article class="plate-card" data-cat="math">
+        <a class="plate-preview" href="formulas-equations/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE I</span>
+            <span class="plate-cat math">M · MATH</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <path d="M40 20V142H292" stroke="#181715" stroke-width="1.6" fill="none"/>
+            <path d="M40 142L272 34" stroke="#355c7d" stroke-width="2.2" fill="none"/>
+            <path d="M40 104L272 52" stroke="#d94426" stroke-width="2" fill="none"/>
+            <line x1="40" y1="104" x2="272" y2="104" stroke="#736b5f" stroke-width="1.1" stroke-dasharray="4 3"/>
+            <line x1="176" y1="78" x2="176" y2="142" stroke="#047857" stroke-width="1.3" stroke-dasharray="3 3"/>
+            <circle cx="176" cy="78" r="4.5" fill="#faf5e8" stroke="#181715" stroke-width="2"/>
+            <rect x="48" y="24" width="122" height="24" rx="4" fill="#f3ead5" stroke="rgba(24,23,21,0.18)"/>
+            <text x="58" y="40" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="#d94426">v_c = π · d · n</text>
+            <text x="184" y="72" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" fill="#047857">BEP</text>
+            <text x="275" y="138" font-family="Inter,sans-serif" font-size="10" fill="#4b463e">x</text>
+            <text x="28" y="26" font-family="Inter,sans-serif" font-size="10" fill="#4b463e">K,E</text>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Engineering Formulas &amp; Break-Even Analysis</h2>
+          <p class="plate-desc">
+            ISO 80000-2 quantity equations with unit tracking (turning speed v_c), empirical torque equations
+            (M = 9550·P/n), linear graphs, and break-even cost-revenue modeling.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="formulas-equations/#formeln">1 Formulas</a>
+            <a class="tab-jump" href="formulas-equations/#zahlenwert">2 Numerical Eq.</a>
+            <a class="tab-jump" href="formulas-equations/#linear">3 Linear Fn</a>
+            <a class="tab-jump" href="formulas-equations/#kosten">4 Break-Even</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">ISO 80000-2 · 49 checks</span>
+            <a class="btn-open" href="formulas-equations/">Open Plate I →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Plate II -->
+      <article class="plate-card" data-cat="diagrams">
+        <a class="plate-preview" href="cartesian-diagrams/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE II</span>
+            <span class="plate-cat">K · DIAGRAMS I</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <g stroke="rgba(24,23,21,0.10)" stroke-width="0.8">
+              <line x1="60" y1="16" x2="60" y2="154"/><line x1="110" y1="16" x2="110" y2="154"/>
+              <line x1="210" y1="16" x2="210" y2="154"/><line x1="260" y1="16" x2="260" y2="154"/>
+              <line x1="28" y1="45" x2="292" y2="45"/><line x1="28" y1="125" x2="292" y2="125"/>
+            </g>
+            <line x1="28" y1="85" x2="292" y2="85" stroke="#181715" stroke-width="1.5"/>
+            <line x1="160" y1="16" x2="160" y2="154" stroke="#181715" stroke-width="1.5"/>
+            <path d="M56 142 Q160 112 272 28" stroke="#d94426" stroke-width="2.3" fill="none"/>
+            <line x1="226" y1="54" x2="226" y2="85" stroke="#355c7d" stroke-width="1.3" stroke-dasharray="3 2"/>
+            <line x1="160" y1="54" x2="226" y2="54" stroke="#355c7d" stroke-width="1.3" stroke-dasharray="3 2"/>
+            <circle cx="226" cy="54" r="4.2" fill="#d94426" stroke="#181715" stroke-width="1.4"/>
+            <text x="234" y="50" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700" fill="#181715">P1(x;y)</text>
+            <text x="166" y="28" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#355c7d">+y</text>
+            <text x="280" y="79" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#355c7d">+x</text>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Cartesian Diagrams &amp; DIN 461 Scaling</h2>
+          <p class="plate-desc">
+            Four-quadrant coordinate systems, DIN 461 1-2-5 axis ticks, linear and logarithmic grids,
+            and progressive elastomer/spring deflection curves with live tangent readouts.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="cartesian-diagrams/#koordinaten">1 Quadrants</a>
+            <a class="tab-jump" href="cartesian-diagrams/#skalen">2 Axis Scaling</a>
+            <a class="tab-jump" href="cartesian-diagrams/#logarithmisch">3 Log Scales</a>
+            <a class="tab-jump" href="cartesian-diagrams/#feder">4 Spring Curve</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">DIN 461 · 40 checks</span>
+            <a class="btn-open" href="cartesian-diagrams/">Open Plate II →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Plate III -->
+      <article class="plate-card" data-cat="diagrams">
+        <a class="plate-preview" href="polar-area-charts/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE III</span>
+            <span class="plate-cat">K · DIAGRAMS II</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <g transform="translate(105,85)">
+              <circle r="58" stroke="rgba(24,23,21,0.20)" fill="none" stroke-dasharray="4 3"/>
+              <circle r="40" stroke="rgba(24,23,21,0.18)" fill="none"/>
+              <circle r="22" stroke="rgba(24,23,21,0.16)" fill="none"/>
+              <line x1="-64" y1="0" x2="64" y2="0" stroke="rgba(24,23,21,0.22)"/>
+              <line x1="0" y1="-64" x2="0" y2="64" stroke="rgba(24,23,21,0.22)"/>
+              <path d="M46 0 C44 26 24 38 0 42 C-24 46 -46 22 -42 0 C-38 -24 -22 -46 0 -44 C26 -42 48 -24 46 0Z" stroke="#d94426" stroke-width="2.2" fill="rgba(217,68,38,0.10)"/>
+              <line x1="0" y1="0" x2="34" y2="-30" stroke="#355c7d" stroke-width="1.8"/>
+              <circle cx="34" cy="-30" r="3.8" fill="#355c7d" stroke="#181715" stroke-width="1.2"/>
+            </g>
+            <g transform="translate(242,85)">
+              <path d="M0 0 L42 0 A42 42 0 1 1 -18 -38 Z" fill="#ead8a6" stroke="#181715" stroke-width="1.2"/>
+              <path d="M0 0 L-18 -38 A42 42 0 0 1 30 -29 Z" fill="#4f799e" stroke="#181715" stroke-width="1.2"/>
+              <path d="M0 0 L30 -29 A42 42 0 0 1 42 0 Z" fill="#d94426" stroke="#181715" stroke-width="1.2"/>
+            </g>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Polar Coordinates, Roundness &amp; Area Charts</h2>
+          <p class="plate-desc">
+            Multi-curve steel strength scatter bands, 360° polar coordinate plotting, 2000:1 trilobe
+            roundness deviation traces, and central-angle material/output area diagrams.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="polar-area-charts/#kennlinien">1 Multi-Curves</a>
+            <a class="tab-jump" href="polar-area-charts/#polar">2 Polar Grid</a>
+            <a class="tab-jump" href="polar-area-charts/#rundheit">3 Roundness</a>
+            <a class="tab-jump" href="polar-area-charts/#flaechen">4 Area Charts</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">DIN 461 · 50 checks</span>
+            <a class="btn-open" href="polar-area-charts/">Open Plate III →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Plate IV -->
+      <article class="plate-card" data-cat="geometry">
+        <a class="plate-preview" href="basic-constructions/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE IV</span>
+            <span class="plate-cat">K · CONSTRUCTIONS I</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <line x1="48" y1="126" x2="262" y2="126" stroke="#181715" stroke-width="2.2"/>
+            <line x1="74" y1="54" x2="274" y2="54" stroke="#355c7d" stroke-width="2.1"/>
+            <path d="M74 126 A72 72 0 0 1 144 64" stroke="#736b5f" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+            <path d="M180 42 A72 72 0 0 1 218 82" stroke="#d94426" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <polygon points="74,126 106,54 210,54 178,126" fill="rgba(53,92,125,0.08)" stroke="rgba(53,92,125,0.55)" stroke-width="1.2" stroke-dasharray="5 3"/>
+            <circle cx="74" cy="126" r="4" fill="#fffcf4" stroke="#181715" stroke-width="1.8"/>
+            <circle cx="106" cy="54" r="4" fill="#d94426" stroke="#181715" stroke-width="1.6"/>
+            <circle cx="178" cy="126" r="4" fill="#fffcf4" stroke="#181715" stroke-width="1.8"/>
+            <circle cx="210" cy="54" r="4" fill="#047857" stroke="#181715" stroke-width="1.6"/>
+            <text x="150" y="45" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700" fill="#d94426">3</text>
+            <text x="218" y="49" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#047857">D</text>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Segments, Perpendiculars &amp; Angles</h2>
+          <p class="plate-desc">
+            Six foundational Euclidean compass constructions with step animation and interactive point dragging:
+            parallels, bisectors, dropped &amp; erected perpendiculars, angle bisection, and intercept theorem.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="basic-constructions/#parallele">1 Parallel</a>
+            <a class="tab-jump" href="basic-constructions/#halbieren">2 Bisect</a>
+            <a class="tab-jump" href="basic-constructions/#lot">3 Drop ⊥</a>
+            <a class="tab-jump" href="basic-constructions/#senkrechte">4 Erect ⊥</a>
+            <a class="tab-jump" href="basic-constructions/#winkel">5 Angle</a>
+            <a class="tab-jump" href="basic-constructions/#teilen">6 Divide</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">DIN ISO 128 · 62 checks</span>
+            <a class="btn-open" href="basic-constructions/">Open Plate IV →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Plate V -->
+      <article class="plate-card" data-cat="geometry">
+        <a class="plate-preview" href="tangents-polygons/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE V</span>
+            <span class="plate-cat">K · CONSTRUCTIONS II</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <circle cx="110" cy="88" r="46" stroke="#181715" stroke-width="1.8" fill="none"/>
+            <line x1="110" y1="88" x2="256" y2="88" stroke="#736b5f" stroke-width="1.1" stroke-dasharray="10 3 2 3"/>
+            <circle cx="183" cy="88" r="73" stroke="#355c7d" stroke-width="1.2" stroke-dasharray="5 3" fill="none"/>
+            <line x1="256" y1="88" x2="124" y2="44" stroke="#d94426" stroke-width="2.2"/>
+            <line x1="110" y1="88" x2="124" y2="44" stroke="#181715" stroke-width="1.4"/>
+            <circle cx="110" cy="88" r="3.5" fill="#181715"/>
+            <circle cx="124" cy="44" r="4" fill="#047857" stroke="#181715" stroke-width="1.5"/>
+            <circle cx="256" cy="88" r="4.2" fill="#d94426" stroke="#181715" stroke-width="1.5"/>
+            <text x="119" y="34" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#047857">T (90°)</text>
+            <text x="262" y="92" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#d94426">P</text>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Tangents, Circular Arcs &amp; Regular Polygons</h2>
+          <p class="plate-desc">
+            Circle tangents via Thales’ theorem, corner fillets, concave/convex two-circle blends,
+            Bion regular polygons (n = 3…10), and DIN EN ISO 4014 hex head geometry.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="tangents-polygons/#tangente-p">1 Tan @ P</a>
+            <a class="tab-jump" href="tangents-polygons/#tangente-aussen">2 External</a>
+            <a class="tab-jump" href="tangents-polygons/#rundung-winkel">3 Fillet</a>
+            <a class="tab-jump" href="tangents-polygons/#kreisverbindung">4 Blend</a>
+            <a class="tab-jump" href="tangents-polygons/#vieleck-umkreis">5 Polygon</a>
+            <a class="tab-jump" href="tangents-polygons/#sechseck-zwoelfeck">6 Hexagon</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">ISO 128 · 24 checks</span>
+            <a class="btn-open" href="tangents-polygons/">Open Plate V →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Plate VI -->
+      <article class="plate-card" data-cat="geometry">
+        <a class="plate-preview" href="conics-spirals/">
+          <div class="plate-preview-top">
+            <span class="plate-num">PLATE VI</span>
+            <span class="plate-cat">K · CONSTRUCTIONS III</span>
+          </div>
+          <svg class="plate-svg" viewBox="0 0 320 170" aria-hidden="true">
+            <rect width="320" height="170" fill="#fffcf4"/>
+            <g transform="translate(96,88)">
+              <ellipse cx="0" cy="0" rx="68" ry="40" stroke="#355c7d" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+              <circle cx="0" cy="0" r="68" stroke="rgba(24,23,21,0.22)" stroke-width="1" fill="none"/>
+              <circle cx="0" cy="0" r="40" stroke="rgba(24,23,21,0.22)" stroke-width="1" fill="none"/>
+              <line x1="-76" y1="0" x2="76" y2="0" stroke="#736b5f" stroke-width="0.9" stroke-dasharray="8 3 2 3"/>
+              <line x1="0" y1="-56" x2="0" y2="56" stroke="#736b5f" stroke-width="0.9" stroke-dasharray="8 3 2 3"/>
+              <ellipse cx="0" cy="0" rx="68" ry="40" stroke="#d94426" stroke-width="2.1" fill="none"/>
+            </g>
+            <g transform="translate(238,88)">
+              <rect x="-6" y="-6" width="12" height="12" fill="none" stroke="#181715" stroke-width="1.2"/>
+              <path d="M-6,-6 A12,12 0 0,1 6,-6 A24,24 0 0,1 6,18 A36,36 0 0,1 -30,18 A48,48 0 0,1 -30,-30" fill="none" stroke="#047857" stroke-width="2.2"/>
+            </g>
+          </svg>
+        </a>
+        <div class="plate-body">
+          <h2 class="plate-title">Incircle, Circumcircle, Ellipses &amp; Spirals</h2>
+          <p class="plate-desc">
+            Triangle incircle and circumcircle with Euler checks, circle center localization, concentric-circle
+            and axonometric parallelogram ellipses (DIN ISO 5456-3), and 4-center C¹ spirals.
+          </p>
+          <div class="tab-jumps">
+            <a class="tab-jump" href="conics-spirals/#inkreis">1 Incircle</a>
+            <a class="tab-jump" href="conics-spirals/#umkreis">2 Circumcircle</a>
+            <a class="tab-jump" href="conics-spirals/#kreismittelpunkt">3 Center</a>
+            <a class="tab-jump" href="conics-spirals/#ellipse-kreise">4 Ellipse</a>
+            <a class="tab-jump" href="conics-spirals/#ellipse-parallelogramm">5 ISO Ellipse</a>
+            <a class="tab-jump" href="conics-spirals/#spirale">6 Spiral</a>
+          </div>
+          <div class="plate-actions">
+            <span class="plate-std">ISO 5456-3 · 25 checks</span>
+            <a class="btn-open" href="conics-spirals/">Open Plate VI →</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="standards-panel" aria-labelledby="std-heading">
+      <h2 id="std-heading">Engineering Standards &amp; Analytical Verification</h2>
+      <p>
+        Every formula, scale rule, and geometric construction is derived directly from first principles and open international engineering standards.
+      </p>
+      <div class="standards-grid">
+        <div class="std-box">
+          <h3>ISO 80000-2 &amp; DIN 461</h3>
+          <p>
+            Quantity equations track SI units symbolically before substitution; Cartesian, logarithmic, and polar charts follow 1-2-5 scaling intervals and labeled arrowheads.
+          </p>
+        </div>
+        <div class="std-box draft">
+          <h3>DIN ISO 128 &amp; 5456-3</h3>
+          <p>
+            Constructions follow technical drawing conventions: continuous thick contours, narrow centerlines, compass arcs, right-angle dot notation, and isometric/dimetric projections.
+          </p>
+        </div>
+        <div class="std-box verify">
+          <h3>250 Automated Node.js Checks</h3>
+          <p>
+            Each plate ships with a headless <code>tests/verify.js</code> mathematical verification suite checking intersection coordinates, perpendicularity tolerances, and break-even identities.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="studio-footer">
+    <span>Engineering Graphics &amp; Math Studio · Interactive Vector Plates I–VI</span>
+    <span><a href="../">← Back to Portfolio</a> · <a href="../gps-grundlagen/">Open GPS &amp; GD&amp;T Studio</a></span>
+  </footer>
+
+  <script>
+    (() => {
+      const filters = document.getElementById('filters');
+      const cards = Array.from(document.querySelectorAll('.plate-card'));
+      const count = document.getElementById('filter-count');
+      filters.addEventListener('click', e => {
+        const btn = e.target.closest('button[data-filter]');
+        if (!btn) return;
+        const cat = btn.dataset.filter;
+        for (const b of filters.querySelectorAll('button')) b.classList.toggle('active', b === btn);
+        let visible = 0;
+        for (const c of cards) {
+          const show = cat === 'all' || c.dataset.cat === cat;
+          c.hidden = !show;
+          if (show) visible++;
+        }
+        count.textContent = `Showing ${visible} of ${cards.length} plates`;
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+/* Plate I · Engineering Formulas & Break-Even Analysis — Module styles (tokens provided by ../plate-theme.css) */
+:root {
+  --primary: #355c7d;
+  --primary-light: rgba(53, 92, 125, 0.11);
+  --accent: #d94426;
+  --accent-2: #b45309;
+  --ok: #047857;
+  --bad: #b91c1c;
+  --bg-app: #efe6d3;
+  --bg-card: #faf5e8;
+  --bg-alt: #f2ead7;
+  --border: rgba(24, 23, 21, 0.19);
+  --border-subtle: rgba(24, 23, 21, 0.12);
+  --text: #181715;
+  --muted: #4b463e;
+  --light: #736b5f;
+  --ink: #181715;
+  --grid: rgba(24, 23, 21, 0.16);
+  --dia-top: #fffdf7;
+  --dia-bottom: #f6efe0;
+  --hl: #b45309;
+  --hl-bg: rgba(180, 83, 9, 0.16);
+  --example-bg: rgba(4, 120, 87, 0.06);
+  --example-border: #047857;
+  --formula: #d94426;
+  --formula-bg: #f3ead5;
+  --line: #355c7d;
+  --work: #e3d9c3;
+  --tool: #d97706;
+  --gain: rgba(4, 120, 87, 0.14);
+  --loss: rgba(185, 28, 28, 0.12);
+  --shadow: 0 8px 22px -6px rgba(24, 23, 21, 0.10);
+  --radius: 11px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-dia: 'Inter', 'Bahnschrift', 'DIN Alternate', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* Header bar layout */
+.plate-header { background: var(--bg-panel); color: var(--text); }
+.plate-top { max-width: 1360px; margin: 0 auto; padding: 11px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.plate-meta { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.plate-meta h1 { margin: 0; font-size: 1.06rem; font-weight: 800; }
+.plate-meta .sub { font-size: 0.76rem; color: var(--muted); }
+.plate-tools { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
+.tab { display: none; }
+.tab.active { display: block; }
+.tab-head h2 { margin: 0 0 4px; font-size: 1.3rem; color: var(--primary); }
+.tab-head p { margin: 0 0 14px; color: var(--muted); max-width: 920px; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
+@media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+.main-col { min-width: 0; }
+.card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px; min-width: 0; }
+.card + .card { margin-top: 14px; }
+.card h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--primary); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.side .card h3 { font-size: 0.9rem; }
+
+/* Diagram surface */
+.dia { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; font-family: var(--font-dia); }
+.dia { --halo: var(--dia-bottom); }
+.dia text { fill: var(--ink); }
+.dia .bg { fill: url(#diaGrad); }
+.dia .halo { paint-order: stroke; stroke: var(--halo); stroke-width: 4px; stroke-linejoin: round; }
+.dia .ax { stroke: var(--ink); fill: none; stroke-linecap: square; }
+.dia .ax-head { fill: var(--ink); stroke: none; }
+.dia .tick { stroke: var(--ink); }
+.dia .grid { stroke: var(--grid); fill: none; }
+.dia .curve { stroke: var(--accent); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.dia .curve.dash { stroke-dasharray: 10 6; stroke-linecap: butt; }
+.dia .line-f { stroke: var(--line); fill: none; stroke-linecap: round; }
+.dia .curve-muted { stroke: var(--muted); fill: none; }
+.dia .pt { fill: var(--bg-card); stroke: var(--ink); stroke-width: 1.5; }
+.dia .pt.sel { stroke: var(--primary); stroke-width: 2.5; }
+.dia .pt-f { fill: var(--line); stroke: var(--bg-card); stroke-width: 1.5; }
+.dia .pt-hit { fill: transparent; cursor: grab; }
+.dia .pt-hit:active { cursor: grabbing; }
+.dia .read { stroke: var(--ink); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
+.dia .read-head { fill: var(--ink); }
+.dia .legend-box { fill: var(--bg-card); fill-opacity: 0.88; stroke: var(--border); stroke-width: 1; }
+.dia text.lbl-strong { font-weight: 700; }
+.dia text.lbl-muted { fill: var(--muted); }
+.dia text.lbl-accent { fill: var(--accent); font-weight: 700; }
+.dia text.lbl-line { fill: var(--line); font-weight: 700; }
+.dia text.lbl-ok { fill: var(--ok); font-weight: 700; }
+.dia text.lbl-bad { fill: var(--bad); font-weight: 700; }
+.dia .hl { stroke: var(--hl) !important; }
+.dia text.hl-text { fill: var(--hl) !important; font-weight: 700; }
+.dia .hl-glow { stroke: var(--hl); stroke-width: 9; opacity: 0.45; fill: none; stroke-linecap: round; }
+.dia .target { stroke: var(--hl); stroke-width: 2.6; stroke-dasharray: 8 5; fill: none; }
+.dia .area-gain { fill: var(--gain); }
+.dia .area-loss { fill: var(--loss); }
+.dia .fix { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 7 5; fill: none; }
+.dia .m-mark { stroke: var(--hl); stroke-width: 1.6; fill: none; }
+.dia .dim { stroke: var(--ink); stroke-width: 1; fill: none; }
+.dia .dim-head { fill: var(--ink); }
+/* Workpiece, tool, centerlines */
+.dia .work { fill: var(--work); stroke: var(--ink); stroke-width: 1.6; }
+.dia .work-mark { stroke: var(--ink); stroke-width: 1.4; opacity: 0.55; }
+.dia .tool { fill: var(--tool); stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.dia .shank { fill: var(--muted); stroke: var(--ink); stroke-width: 1.2; opacity: 0.85; }
+.dia .cutter { fill: var(--primary-light); stroke: var(--ink); stroke-width: 1.6; }
+.dia .chip { fill: none; stroke: var(--tool); stroke-width: 2.2; stroke-linecap: round; }
+.dia .cl { stroke: var(--ink); stroke-width: 0.9; stroke-dasharray: 16 3 2 3; opacity: 0.7; }
+.dia .vc { stroke: var(--accent); stroke-width: 2.6; }
+.dia .vc-head { fill: var(--accent); }
+.dia .n-arc { stroke: var(--primary); stroke-width: 2; fill: none; }
+.dia .n-head { fill: var(--primary); }
+.dia text.lbl-vc { fill: var(--accent); font-weight: 700; }
+.dia text.lbl-n { fill: var(--primary); font-weight: 700; }
+
+/* Controls */
+.ctl-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--primary); color: #faf5e8; }
+label.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text); cursor: pointer; }
+.slider { display: grid; grid-template-columns: 200px 1fr auto; gap: 8px; align-items: center; font-size: 0.85rem; margin: 4px 0; }
+.slider input[type=range] { width: 100%; accent-color: var(--accent); }
+.slider output { font: 600 0.85rem var(--mono); min-width: 96px; text-align: right; }
+.btn { appearance: none; border: 1px solid var(--accent); background: var(--accent); color: #faf5e8; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--border); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+input.num { font: 0.9rem var(--mono); padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); width: 96px; }
+input.num:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
+
+/* Rules / Key points */
+.rules { list-style: none; margin: 0; padding: 0; }
+.rules li { border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.86rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: default; }
+.rules li b { color: var(--text); }
+.rules li.hover-able { cursor: pointer; }
+.rules li.hover-able:hover, .rules li.active { border-left-color: var(--hl); background: var(--primary-light); }
+.note { font-size: 0.82rem; color: var(--muted); margin: 8px 0 0; }
+
+/* Formula box specimen header */
+.fbox { margin: 0 0 12px; }
+.fbox .flabel { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+.fbox .fmath { border-top: 3px solid var(--formula); background: var(--formula-bg); padding: 10px 14px; text-align: center; }
+.math, .math-s { font-family: var(--font-dia); white-space: nowrap; }
+.math { font-size: 1.3rem; line-height: 1.3; }
+.math-s { font-size: 1rem; font-weight: 400; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; margin: 0 0.1em; }
+.frac > span { display: block; padding: 0 0.18em; line-height: 1.2; }
+.frac > span:first-child { border-bottom: 1.3px solid currentColor; }
+.frac .frac { font-size: 0.92em; }
+
+/* Step-by-step calculation: one line per equals sign */
+.calc { font-family: var(--font-dia); font-size: 1.05rem; line-height: 1.25; overflow-x: auto; padding: 2px 0 6px; }
+.calc .ln { display: flex; align-items: center; gap: 0.32em; padding: 3px 0; white-space: nowrap; }
+.calc .ln > .lhs { min-width: 1.6em; text-align: right; }
+.calc .res { font-weight: 700; color: var(--accent); }
+.calc .bad { color: var(--bad); }
+.calc .why { font-family: var(--font); font-size: 0.78rem; color: var(--muted); white-space: normal; padding: 0 0 2px 2em; }
+.calc .why.bad { color: var(--bad); }
+
+/* Formula part highlighting (Tab 1) */
+[data-hl="sym"] [data-p="sym"], [data-hl="const"] [data-p="const"], [data-hl="num"] [data-p="num"],
+[data-hl="op"] [data-p="op"]:not(.frac) { background: var(--hl-bg); box-shadow: 0 0 0 2px var(--hl); border-radius: 3px; }
+[data-hl="op"] .frac[data-p="op"] > span:first-child { border-bottom: 3px solid var(--hl); }
+
+/* Value tables */
+.vtable { border-collapse: collapse; font-size: 0.88rem; margin: 6px 0; width: 100%; }
+.vtable th, .vtable td { border: 1.5px solid var(--text); padding: 3px 6px; text-align: center; white-space: nowrap; }
+.vtable th { font-weight: 600; }
+.vtable.htable th:first-child, .vtable.htable td:first-child { text-align: center; }
+.vtable input { width: 100%; min-width: 40px; border: 0; background: transparent; color: var(--text); font: 0.88rem var(--mono); text-align: center; padding: 2px 0; }
+.vtable input:focus { outline: 2px solid var(--primary); }
+.vtable td.gain { color: var(--ok); font-weight: 600; }
+.vtable td.loss { color: var(--bad); font-weight: 600; }
+.vtable-wrap { overflow-x: auto; }
+.utable { width: auto; min-width: 70%; }
+.utable td, .utable th { text-align: left; }
+.utable td:first-child { text-align: center; }
+.ctable { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+.ctable th, .ctable td { border-bottom: 1px solid var(--border-subtle); padding: 6px 8px; text-align: left; vertical-align: top; }
+.ctable th { color: var(--primary); font-weight: 600; }
+.ctable td:first-child { font-weight: 600; white-space: nowrap; }
+
+/* Worked example specimen card */
+.example { background: var(--example-bg); border-left: 4px solid var(--example-border); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 14px; }
+.example h3 { color: var(--text); }
+
+.result { font: 700 1.25rem var(--mono); color: var(--accent); }
+.feedback { margin-top: 8px; font-size: 0.9rem; min-height: 1.4em; }
+.feedback.ok { color: var(--ok); }
+.feedback.bad { color: var(--bad); }
+.feedback .calc { color: var(--text); font-size: 0.98rem; margin-top: 4px; }
+.score { font: 600 0.8rem var(--mono); color: var(--muted); }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; font-size: 0.88rem; margin-top: 6px; }
+.kv span:nth-child(even) { font-family: var(--mono); text-align: right; }
+
+footer { max-width: 1320px; margin: 0 auto; padding: 0 20px 28px; color: var(--muted); font-size: 0.78rem; }
+
+@media (max-width: 640px) {
+  main { padding: 12px 12px 24px; }
+  .plate-top { padding: 8px 12px; }
+  .plate-meta h1 { font-size: 1rem; }
+  .card { padding: 12px; }
+  .slider { grid-template-columns: 1fr auto; }
+  .slider input[type=range] { grid-column: 1 / -1; grid-row: 2; }
+}

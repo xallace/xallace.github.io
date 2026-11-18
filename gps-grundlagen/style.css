@@ -1,8 +1,8 @@
-/* GPS Fundamentals - Base theme matching Engineering Handbook pp. 58-62: blueprint dark mode default, light royal-blue theme toggleable */
+/* GPS Fundamentals - Blueprint dark mode default, light royal-blue theme toggleable */
 :root {
   --primary: #004b87;
   --primary-light: #e6f0fa;
-  --accent: #c8102e;          /* Red construction step numbers 1..6 as in handbook */
+  --accent: #c8102e;          /* Accent vermilion construction step numbers */
   --accent-blue: #0066b3;
   --accent-green: #15803d;
   --accent-2: #d97706;
@@ -19,9 +19,9 @@
   --ink: #111827;
   --arc-stroke: #334155;
   --grid: #cbd5e1;
-  --dia-plain: #eef0f3;       /* Gray construction background matching left column of p. 61 */
+  --dia-plain: #eef0f3;       /* Neutral construction canvas background */
   --hl: #f59e0b;
-  --given-bg: #fef9c3;        /* Yellow header bar matching right column in handbook */
+  --given-bg: #fef9c3;        /* Highlight specimen header bar */
   --given-border: #eab308;
   --pt-fill: #ffffff;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
@@ -62,7 +62,7 @@ body.theme-blueprint {
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* Header bar styled after Engineering Handbook */
+/* Header banner bar */
 .tbb-header { background: #004b87; color: #fff; box-shadow: var(--shadow); }
 body.theme-blueprint .tbb-header { background: #0a2540; border-bottom: 1px solid #1e3a5f; }
 .tbb-top { max-width: 1320px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -95,7 +95,7 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .card h3 .score { margin-left: auto; }
 .side .card h3 { font-size: 0.9rem; }
 
-/* Yellow handbook header box "Given: ..." */
+/* Highlight box "Given: ..." */
 .given-box { background: var(--given-bg); border-left: 4px solid var(--given-border); padding: 8px 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin-bottom: 10px; }
 .given-box b { color: var(--text); }
 .overline { text-decoration: overline; }
@@ -145,7 +145,7 @@ body.theme-blueprint .btn { color: #0b1526; }
 input.num { font: 0.9rem var(--mono); padding: 5px 8px; width: 88px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); }
 input.num:focus { outline: 2px solid var(--primary); outline-offset: -1px; }
 
-/* Numbered construction steps (1..6 as in handbook) */
+/* Numbered construction steps */
 .rules { list-style: none; margin: 0; padding: 0; }
 .rules li { display: flex; align-items: flex-start; gap: 9px; border-left: 3px solid var(--border); padding: 6px 10px; margin: 6px 0; font-size: 0.84rem; border-radius: 0 6px 6px 0; background: var(--bg-alt); cursor: pointer; transition: background 0.12s; }
 .rules li b { color: var(--text); }

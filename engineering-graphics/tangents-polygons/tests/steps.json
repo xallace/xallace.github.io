@@ -1,0 +1,10 @@
+[
+  { "name": "1-tangente-p-default", "hash": "tangente-p", "clip": "#tab-tangente-p" },
+  { "name": "2-tangente-aussen-default", "hash": "tangente-aussen", "clip": "#tab-tangente-aussen" },
+  { "name": "3-rundung-winkel-default", "hash": "rundung-winkel", "clip": "#tab-rundung-winkel" },
+  { "name": "4-kreisverbindung-default", "hash": "kreisverbindung", "clip": "#tab-kreisverbindung" },
+  { "name": "5-vieleck-umkreis-default", "hash": "vieleck-umkreis", "clip": "#tab-vieleck-umkreis" },
+  { "name": "6-sechseck-zwoelfeck-default", "hash": "sechseck-zwoelfeck", "clip": "#tab-sechseck-zwoelfeck" },
+  { "name": "7-reset-tangente-p", "hash": "tangente-p", "clip": "#tab-tangente-p",
+    "js": "document.getElementById('btn-reset').click(); 'body: ' + document.body.className" }
+]
