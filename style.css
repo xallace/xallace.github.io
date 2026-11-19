@@ -925,22 +925,6 @@ body {
   justify-content: center;
 }
 
-/* Shock Wave Visual */
-.shock-vis {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.shock-vis .chain-bead {
-  border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-}
-.shock-vis .cb1 { width: 34px; height: 34px; }
-.shock-vis .cb2 { width: 26px; height: 26px; }
-.shock-vis .cb3 { width: 18px; height: 18px; }
-.shock-vis .cb4 { width: 12px; height: 12px; }
-
 /* Cycloid / Wankel Visual */
 .cycloid-vis {
   position: relative;
