@@ -1469,7 +1469,8 @@
     function fitCamera(dir) {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
-      const fill = document.body.classList.contains('is-embedded') ? 0.86 : 0.72;
+      const isEmb = document.body.classList.contains('is-embedded');
+      const fill = isEmb ? 0.70 : 0.72;
       const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * fill;
       const tanH = tanV * camera.aspect;
 
@@ -1500,9 +1501,10 @@
               .addScaledVector(up, (Math.min(...ty) + Math.max(...ty)) / 2 * dist);
       }
 
-      // Slight vertical shift upward on desktop so the actuator clears the bottom-left HUD cleanly
-      if (!document.body.classList.contains('is-embedded') && container.clientWidth > 900) {
-        target.addScaledVector(up, -14);
+      // Shift framing cleanly clear of bottom-left HUD in both fullscreen and embedded modes
+      if (container.clientWidth > 860) {
+        target.addScaledVector(up, isEmb ? -10 : -14);
+        if (isEmb) target.addScaledVector(right, -44);
       }
 
       camera.position.copy(target).addScaledVector(dir, minDist(relCorners()));
