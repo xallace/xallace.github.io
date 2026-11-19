@@ -3,415 +3,473 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BeamLab · Simply Supported Beam with UDL (StructX 001 Modernized)</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <title>BeamLab · Simply Supported Beam with UDL (Interactive Structural Plate)</title>
+  <meta name="description" content="Interactive technical book-plate simulator for a simply supported beam under uniformly distributed load (UDL): live FBD, SFD, BMD, elastic deflection curve, method-of-sections cut, cross-section fiber stress, and step-by-step KaTeX math.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23efe6d3%22 stroke=%22%23181715%22 stroke-width=%226%22/><line x1=%2218%22 y1=%2254%22 x2=%2282%22 y2=%2254%22 stroke=%22%23181715%22 stroke-width=%228%22/><path d=%22M20 54 Q50 82 80 54%22 fill=%22none%22 stroke=%22%23d94426%22 stroke-width=%226%22/><path d=%22M24 24h52M30 24v20M50 24v20M70 24v20%22 stroke=%22%23d94426%22 stroke-width=%225%22/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- KaTeX for High-Precision Mathematical Typesetting (Local Vendor with CDN fallback) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';">
-  <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';"></script>
-  <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="app-container">
-    <!-- Header -->
-    <header class="app-header">
-      <div class="brand-group">
-        <a href="../index.html" class="back-link" title="Return to Engineering Portfolio">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          <span>Portfolio</span>
-        </a>
-        <div class="brand-title">
-          <h1>
-            <span>BeamLab · Simply Supported Beam</span>
-            <span class="badge-tag badge-cyan">StructX 001 Modern</span>
-            <span class="badge-tag badge-amber">Euler-Bernoulli</span>
-          </h1>
-          <p class="brand-desc">
-            Simply Supported Beam with Uniformly Distributed Load (UDL) · Real-Time Statics, Diagrams (SFD / BMD), Deflection &amp; Cross-Section Modeler
-          </p>
+  <div id="app">
+    <!-- Top Header (1967 Technical Book-Plate Aesthetic matching Interchange Lab) -->
+    <header id="app-header">
+      <div class="header-left">
+        <a href="../index.html" class="mini-btn back-chip" title="Return to Engineering Portfolio">← Portfolio</a>
+        <div class="brand-badge-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="13" x2="21" y2="13" stroke-width="2.4"/>
+            <path d="M4 13 Q12 20 20 13" stroke="#d94426" stroke-width="2"/>
+            <path d="M4 5h16M6 5v5M12 5v5M18 5v5" stroke="#d94426" stroke-width="1.6"/>
+            <polygon points="4,14 1.5,19 6.5,19" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="20" cy="17.5" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>BEAMLAB <span class="sub-tag">Simply Supported Beam · UDL</span></h1>
+          <p class="source-ref">StructX 001 · Euler-Bernoulli Statics · Eurocode 3 &amp; AISC</p>
         </div>
       </div>
 
-      <div class="header-actions">
-        <!-- Units Toggle -->
-        <div class="unit-switch">
-          <button id="btn-unit-metric" class="unit-btn active" onclick="setUnit('metric')">Metric (SI)</button>
-          <button id="btn-unit-imperial" class="unit-btn" onclick="setUnit('imperial')">Imperial (US)</button>
+      <nav class="main-tabs" role="tablist" aria-label="Application Sections">
+        <button class="tab-btn active" data-tab="plate" role="tab" aria-selected="true">Interactive Plate</button>
+        <button class="tab-btn" data-tab="math" role="tab" aria-selected="false">Step-by-Step Math</button>
+        <button class="tab-btn" data-tab="concepts" role="tab" aria-selected="false">Concepts &amp; Intuition</button>
+      </nav>
+
+      <div class="header-right">
+        <div class="seg-mini" id="unit-toggle-group" title="Switch Metric (SI / Eurocode) vs. Imperial (US / AISC)">
+          <button class="mini-btn active" id="btn-unit-metric" data-unit="metric">SI</button>
+          <button class="mini-btn" id="btn-unit-imperial" data-unit="imperial">US</button>
         </div>
-
-        <!-- Moment Convention Toggle -->
-        <button id="btn-moment-toggle" class="action-btn" onclick="toggleMomentConvention()" title="Toggle Moment Plot Convention (Eurocode Tension Side vs Math Plot)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
-          <span id="moment-convention-label">BMD: Tension Down (EC)</span>
+        <button id="btn-start-tour" class="pill-btn accent" title="7-step visual walkthrough of beam statics">
+          <span>▶</span> Guided Tour
         </button>
-
-        <!-- Copy / Export -->
-        <button class="action-btn" onclick="copyReport()" title="Copy calculation summary to clipboard">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          <span>Copy Report</span>
+        <button id="btn-copy-report" class="pill-btn" title="Copy calculation summary to clipboard">
+          Copy
         </button>
-
-        <button class="action-btn" onclick="window.print()" title="Print or save as PDF">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          <span>PDF / Print</span>
+        <button id="btn-print-report" class="pill-btn" title="Print or save engineering sheet as PDF">
+          Print
         </button>
       </div>
     </header>
 
-    <!-- Main Grid -->
-    <div class="app-grid">
-      <!-- Left Sidebar: Controls -->
-      <aside class="sidebar-column">
-        <div class="panel-card sticky">
-          <div class="card-header">
-            <h2 class="card-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-              <span>Parameter Control</span>
-            </h2>
-            <span class="badge-tag badge-cyan">Live Sync</span>
-          </div>
+    <!-- Main Workspace -->
+    <main id="workspace">
+      <!-- TAB 1: Interactive Plate & Live Inspector -->
+      <div id="interactive-shell">
+        <section id="stage-column">
+          <!-- Top Plate Control & Status Strip -->
+          <div class="plate-hud">
+            <div class="hud-bar" id="scenario-bar" aria-label="Real-World Beam Scenarios"></div>
 
-          <!-- Beam Length L -->
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label" for="inp-L">Span Length (L):</label>
-              <span id="disp-L" class="form-val-display">6.00 m</span>
-            </div>
-            <div class="input-slider-wrap">
-              <input type="range" id="slider-L" class="range-slider" min="0.5" max="25" step="0.1" value="6.0">
-              <input type="number" id="inp-L" class="text-input" min="0.1" max="100" step="0.1" value="6.0">
-              <span class="unit-tag" id="unit-L">m</span>
-            </div>
-            <div class="preset-row">
-              <button class="preset-pill" onclick="setPreset('L', 2.0)">2 m</button>
-              <button class="preset-pill" onclick="setPreset('L', 4.0)">4 m</button>
-              <button class="preset-pill" onclick="setPreset('L', 6.0)">6 m</button>
-              <button class="preset-pill" onclick="setPreset('L', 8.0)">8 m</button>
-              <button class="preset-pill" onclick="setPreset('L', 12.0)">12 m</button>
-            </div>
-          </div>
+            <div class="hud-bar hud-controls-right">
+              <span class="status-pill" id="badge-strength">Strength OK</span>
+              <span class="status-pill" id="badge-service">Defl. OK</span>
+              <span class="status-pill warn hidden" id="badge-slender">Deep Beam (L/h &lt; 10)</span>
 
-          <!-- Distributed Load w -->
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label" for="inp-w">Uniform Load (w):</label>
-              <span id="disp-w" class="form-val-display">15.00 kN/m</span>
-            </div>
-            <div class="input-slider-wrap">
-              <input type="range" id="slider-w" class="range-slider" min="0.5" max="100" step="0.5" value="15.0">
-              <input type="number" id="inp-w" class="text-input" min="0.01" max="1000" step="0.1" value="15.0">
-              <span class="unit-tag" id="unit-w">kN/m</span>
-            </div>
-            <div class="preset-row">
-              <button class="preset-pill" onclick="setPreset('w', 2.5)">2.5</button>
-              <button class="preset-pill" onclick="setPreset('w', 5.0)">5.0</button>
-              <button class="preset-pill" onclick="setPreset('w', 15.0)">15.0</button>
-              <button class="preset-pill" onclick="setPreset('w', 30.0)">30.0</button>
-              <button class="preset-pill" onclick="setPreset('w', 60.0)">60.0</button>
-            </div>
-          </div>
-
-          <!-- Evaluation Position x -->
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label" for="inp-x">Probe Position (x):</label>
-              <span id="disp-x" class="form-val-display">3.00 m (L/2)</span>
-            </div>
-            <div class="input-slider-wrap">
-              <input type="range" id="slider-x" class="range-slider" min="0" max="6.0" step="0.05" value="3.0">
-              <input type="number" id="inp-x" class="text-input" min="0" max="6.0" step="0.05" value="3.0">
-              <span class="unit-tag" id="unit-x">m</span>
-            </div>
-            <div class="preset-row">
-              <button class="preset-pill" onclick="setProbePreset(0)">0 (A)</button>
-              <button class="preset-pill" onclick="setProbePreset(0.25)">L / 4</button>
-              <button class="preset-pill" onclick="setProbePreset(0.50)">L / 2 (Mid)</button>
-              <button class="preset-pill" onclick="setProbePreset(0.75)">3L / 4</button>
-              <button class="preset-pill" onclick="setProbePreset(1.0)">L (B)</button>
-            </div>
-          </div>
-
-          <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 1.25rem 0;">
-
-          <!-- Material Selection -->
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label">Material (Young's Modulus E):</label>
-              <span id="disp-E" class="form-val-display">210 GPa</span>
-            </div>
-            <select id="sel-material" class="select-input" onchange="onMaterialChange()">
-              <option value="steel_s235" selected>Structural Steel (S235 / A36) — 210 GPa</option>
-              <option value="steel_s355">High-Strength Steel (S355 / A572) — 210 GPa</option>
-              <option value="stainless_304">Stainless Steel (1.4301 / 304) — 195 GPa</option>
-              <option value="aluminum_6082">Aluminum (EN AW-6082 T6) — 70 GPa</option>
-              <option value="timber_c24">Structural Timber (C24 Softwood) — 11 GPa</option>
-              <option value="concrete_c25">Reinforced Concrete (C25/30) — 31 GPa</option>
-              <option value="custom">Custom Material...</option>
-            </select>
-            <div id="custom-E-wrap" class="input-slider-wrap" style="display: none; margin-top: 0.5rem;">
-              <input type="number" id="inp-custom-E" class="text-input" style="width: 100%; text-align: left;" value="210" oninput="onCustomEChange()">
-              <span class="unit-tag" id="unit-E">GPa</span>
-            </div>
-          </div>
-
-          <!-- Cross-Section Model -->
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label">Cross-Section (Moment of Inertia I):</label>
-              <span id="disp-I" class="form-val-display">1940 cm⁴</span>
-            </div>
-            <select id="sel-section-type" class="select-input" onchange="onSectionTypeChange()">
-              <option value="standard" selected>Standard Steel Beam (IPE / HEB)</option>
-              <option value="rect">Rectangular Solid (b × h)</option>
-              <option value="i_beam">Custom I-Beam / Flange</option>
-              <option value="hollow_rect">Hollow Box (RHS / SHS)</option>
-              <option value="round_solid">Solid Round Bar (Ø d)</option>
-              <option value="round_tube">Circular Tube / Pipe (Ø D × t)</option>
-              <option value="custom">Direct Input (Custom I)</option>
-            </select>
-
-            <!-- Standard IPE/HEB profiles -->
-            <div id="cs-standard-wrap" style="margin-top: 0.6rem;">
-              <select id="sel-standard-profile" class="select-input" onchange="onStandardProfileChange()">
-                <option value="IPE100">IPE 100 (Iy = 171 cm⁴, Wy = 34.2 cm³)</option>
-                <option value="IPE160">IPE 160 (Iy = 869 cm⁴, Wy = 109 cm³)</option>
-                <option value="IPE200" selected>IPE 200 (Iy = 1,940 cm⁴, Wy = 194 cm³)</option>
-                <option value="IPE240">IPE 240 (Iy = 3,890 cm⁴, Wy = 324 cm³)</option>
-                <option value="HEB100">HEB 100 (Iy = 450 cm⁴, Wy = 89.9 cm³)</option>
-                <option value="HEB160">HEB 160 (Iy = 2,490 cm⁴, Wy = 311 cm³)</option>
-                <option value="HEB200">HEB 200 (Iy = 5,700 cm⁴, Wy = 570 cm³)</option>
-              </select>
-            </div>
-
-            <!-- Parametric Dimension Inputs for Custom Shapes -->
-            <div id="cs-params-wrap" class="cs-grid" style="display: none;"></div>
-
-            <!-- Section Properties Summary Badge -->
-            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 0.5rem; font-family: var(--font-mono);">
-              <span>W_y: <strong id="disp-W" style="color: var(--text-secondary);">194.0 cm³</strong></span>
-              <span>Area: <strong id="disp-A" style="color: var(--text-secondary);">28.5 cm²</strong></span>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <!-- Right Column: Results Dashboard & Interactive Diagrams -->
-      <main class="main-column">
-        <!-- KPI Dashboard -->
-        <div class="kpi-grid">
-          <!-- Reactions -->
-          <div class="kpi-card emerald">
-            <div class="kpi-header">
-              <span>Reaction Forces</span>
-              <span class="kpi-formula-badge">\(R = \frac{wL}{2}\)</span>
-            </div>
-            <div class="kpi-value">
-              <span id="kpi-R">45.00</span>
-              <span class="kpi-unit" id="kpi-unit-R">kN</span>
-            </div>
-            <div class="kpi-sub">
-              <span>Total Load: <strong id="kpi-W-total">90.00 kN</strong></span>
-              <span>Symmetric</span>
-            </div>
-          </div>
-
-          <!-- Maximum Shear -->
-          <div class="kpi-card highlight">
-            <div class="kpi-header">
-              <span>Maximum Shear Force</span>
-              <span class="kpi-formula-badge">\(V_{\max} = R_A\)</span>
-            </div>
-            <div class="kpi-value">
-              <span id="kpi-Vmax">45.00</span>
-              <span class="kpi-unit" id="kpi-unit-V">kN</span>
-            </div>
-            <div class="kpi-sub">
-              <span>At probe x: <strong id="kpi-Vx" style="color: var(--accent-amber);">0.00 kN</strong></span>
-              <span>Zero at L/2</span>
-            </div>
-          </div>
-
-          <!-- Maximum Moment -->
-          <div class="kpi-card highlight">
-            <div class="kpi-header">
-              <span>Maximum Bending Moment</span>
-              <span class="kpi-formula-badge">\(M_{\max} = \frac{wL^2}{8}\)</span>
-            </div>
-            <div class="kpi-value">
-              <span id="kpi-Mmax">67.50</span>
-              <span class="kpi-unit" id="kpi-unit-M">kNm</span>
-            </div>
-            <div class="kpi-sub">
-              <span>At probe x: <strong id="kpi-Mx" style="color: var(--accent-amber);">67.50 kNm</strong></span>
-              <span>Peak at Midspan</span>
-            </div>
-          </div>
-
-          <!-- Maximum Deflection -->
-          <div class="kpi-card purple">
-            <div class="kpi-header">
-              <span>Max Deflection (Euler)</span>
-              <span class="kpi-formula-badge">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
-            </div>
-            <div class="kpi-value">
-              <span id="kpi-dmax">16.51</span>
-              <span class="kpi-unit" id="kpi-unit-delta">mm</span>
-            </div>
-            <div class="kpi-sub">
-              <span>Ratio: <strong id="kpi-ratio">L / 363</strong></span>
-              <span>At probe x: <strong id="kpi-dx" style="color: var(--accent-amber);">16.51 mm</strong></span>
-            </div>
-          </div>
-
-          <!-- Bending Stress -->
-          <div class="kpi-card warning">
-            <div class="kpi-header">
-              <span>Max Bending Stress</span>
-              <span class="kpi-formula-badge">\(\sigma = \frac{M}{W_y}\)</span>
-            </div>
-            <div class="kpi-value">
-              <span id="kpi-sigma">347.9</span>
-              <span class="kpi-unit" id="kpi-unit-sigma">MPa</span>
-            </div>
-            <div class="kpi-sub">
-              <span>Yield Check: <strong id="kpi-yield-check" style="color: var(--accent-rose);">Yield Exceeded</strong></span>
-              <span>Slope: <strong id="kpi-theta">0.63°</strong></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Diagrams Stack -->
-        <div class="diagrams-column">
-          <!-- 1. FBD Diagram -->
-          <div class="diagram-card">
-            <div class="diagram-header">
-              <div class="diagram-title-group">
-                <span class="diagram-title">1. Free Body &amp; Loading Diagram (FBD)</span>
-                <span class="diagram-badge">Structural Model · Support Reactions &amp; UDL</span>
+              <div class="seg-mini" id="bmd-conv-group" title="Bending Moment Diagram sign convention">
+                <button class="mini-btn active" data-conv="down">BMD ↓</button>
+                <button class="mini-btn" data-conv="up">BMD ↑</button>
               </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Hover / Drag cursor to evaluate x</span>
-            </div>
-            <div id="viewport-fbd" class="diagram-viewport"></div>
-          </div>
-
-          <!-- 2. SFD Diagram -->
-          <div class="diagram-card">
-            <div class="diagram-header">
-              <div class="diagram-title-group">
-                <span class="diagram-title">2. Shear Force Diagram (SFD)</span>
-                <span class="diagram-badge">\(V(x) = w \left(\frac{L}{2} - x\right)\)</span>
-              </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(V_{\max} = \pm R\)</span>
-            </div>
-            <div id="viewport-sfd" class="diagram-viewport"></div>
-          </div>
-
-          <!-- 3. BMD Diagram -->
-          <div class="diagram-card">
-            <div class="diagram-header">
-              <div class="diagram-title-group">
-                <span class="diagram-title">3. Bending Moment Diagram (BMD)</span>
-                <span class="diagram-badge">\(M(x) = \frac{w x}{2} (L - x)\)</span>
-              </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(M_{\max} = \frac{wL^2}{8}\)</span>
-            </div>
-            <div id="viewport-bmd" class="diagram-viewport"></div>
-          </div>
-
-          <!-- 4. Deflection Diagram -->
-          <div class="diagram-card">
-            <div class="diagram-header">
-              <div class="diagram-title-group">
-                <span class="diagram-title">4. Deflection Curve (Elastic Curve)</span>
-                <span class="diagram-badge">\(\delta(x) = \frac{w x}{24EI} (L^3 - 2Lx^2 + x^3)\)</span>
-              </div>
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
-            </div>
-            <div id="viewport-deflection" class="diagram-viewport"></div>
-          </div>
-        </div>
-
-        <!-- Theory, Equations & Derivation Section -->
-        <section class="theory-card">
-          <h2 class="theory-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span>Mathematical Formulation &amp; Step-by-Step Derivation</span>
-          </h2>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
-            A simply supported beam under a uniformly distributed load (UDL) is statically determinate. The equations are derived using classical Newtonian static equilibrium and the Euler-Bernoulli beam theory:
-          </p>
-
-          <div class="formula-grid">
-            <div class="formula-box">
-              <div class="formula-name">1. Support Reaction Forces</div>
-              <div class="math-display">$$R_A = R_B = \frac{w \cdot L}{2}$$</div>
-              <div class="math-sub">Derived from vertical equilibrium \(\sum F_z = 0\) and moment equilibrium \(\sum M_A = 0\).</div>
-            </div>
-
-            <div class="formula-box">
-              <div class="formula-name">2. Shear Force Equation</div>
-              <div class="math-display">$$V(x) = w \cdot \left(\frac{L}{2} - x\right)$$</div>
-              <div class="math-sub">Linear gradient with maximum \(V_{\max} = \frac{wL}{2}\) at supports and zero crossing at \(x = L/2\).</div>
-            </div>
-
-            <div class="formula-box">
-              <div class="formula-name">3. Bending Moment Equation</div>
-              <div class="math-display">$$M(x) = \frac{w \cdot x}{2} \cdot (L - x), \quad M_{\max} = \frac{w \cdot L^2}{8}$$</div>
-              <div class="math-sub">Quadratic parabola. Peak at \(x = L/2\): \(M_{\max} = \frac{w \cdot L^2}{8}\).</div>
-            </div>
-
-            <div class="formula-box">
-              <div class="formula-name">4. Elastic Deflection (Euler-Bernoulli)</div>
-              <div class="math-display">$$\delta(x) = \frac{w \cdot x}{24 E I} \left(L^3 - 2 L x^2 + x^3\right)$$</div>
-              <div class="math-sub">Peak deflection at midspan: \(\delta_{\max} = \frac{5 \cdot w \cdot L^4}{384 \cdot E \cdot I}\).</div>
-            </div>
-
-            <div class="formula-box">
-              <div class="formula-name">5. Support Rotation Angle</div>
-              <div class="math-display">$$\theta_A = \theta_B = \frac{w \cdot L^3}{24 \cdot E \cdot I}$$</div>
-              <div class="math-sub">Slope of the elastic curve at bearings in radians.</div>
-            </div>
-
-            <div class="formula-box">
-              <div class="formula-name">6. Maximum Bending Stress</div>
-              <div class="math-display">$$\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max} \cdot (h / 2)}{I_y}$$</div>
-              <div class="math-sub">Extreme fiber tensile &amp; compressive stress in outer fibers.</div>
+              <button id="btn-toggle-callouts" class="mini-toggle active" title="Show/hide numbered call-outs on FBD">Call-Outs</button>
+              <button id="btn-toggle-fibers" class="mini-toggle active" title="Show/hide compression vs. tension fiber tinting">Fibers</button>
+              <button id="btn-toggle-deform" class="mini-toggle active" title="Show/hide exaggerated elastic bending on FBD">Bend</button>
             </div>
           </div>
 
-          <!-- Live Dynamic Value Substitution -->
-          <div class="substitution-box">
-            <div class="substitution-header">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              <span>Live Step-by-Step Calculation (KaTeX Typeset Mathematical Substitution)</span>
+          <!-- Synchronized 4-Diagram Technical Plate Stack -->
+          <div id="plates-scroll">
+            <div class="plates-stack">
+              <!-- Plate 1: FBD -->
+              <article class="plate-card" id="card-fbd">
+                <div class="plate-card-head">
+                  <div class="plate-title-group">
+                    <span class="plate-num">PLATE 1</span>
+                    <span class="plate-title">Free Body &amp; Deformed Beam (FBD)</span>
+                    <span class="plate-hint">Uniform load w spreads down; Pin A &amp; Roller B push back equally</span>
+                  </div>
+                  <span class="plate-drag-hint">↔ Hover or drag any plate to slide probe x</span>
+                </div>
+                <div id="viewport-fbd" class="diagram-viewport"></div>
+              </article>
+
+              <!-- Plate 2: SFD -->
+              <article class="plate-card" id="card-sfd">
+                <div class="plate-card-head">
+                  <div class="plate-title-group">
+                    <span class="plate-num">PLATE 2</span>
+                    <span class="plate-title">Shear Force Diagram (SFD)</span>
+                    <span class="plate-hint">Internal vertical slicing force — highest at supports, zero at midspan</span>
+                  </div>
+                  <span class="plate-eq-badge">\(V(x) = w\left(\frac{L}{2}-x\right)\)</span>
+                </div>
+                <div id="viewport-sfd" class="diagram-viewport"></div>
+              </article>
+
+              <!-- Plate 3: BMD -->
+              <article class="plate-card" id="card-bmd">
+                <div class="plate-card-head">
+                  <div class="plate-title-group">
+                    <span class="plate-num">PLATE 3</span>
+                    <span class="plate-title">Bending Moment Diagram (BMD)</span>
+                    <span class="plate-hint">Internal sagging tendency — always peaks where Shear V(x) = 0</span>
+                  </div>
+                  <span class="plate-eq-badge">\(M(x) = \frac{wx}{2}(L-x)\)</span>
+                </div>
+                <div id="viewport-bmd" class="diagram-viewport"></div>
+              </article>
+
+              <!-- Plate 4: Deflection -->
+              <article class="plate-card" id="card-deflection">
+                <div class="plate-card-head">
+                  <div class="plate-title-group">
+                    <span class="plate-num">PLATE 4</span>
+                    <span class="plate-title">Elastic Deflection Curve &amp; Slope θ</span>
+                    <span class="plate-hint">Actual vertical sag under load (exaggerated), checked against L/300</span>
+                  </div>
+                  <span class="plate-eq-badge">\(\delta_{\max} = \frac{5wL^4}{384EI}\)</span>
+                </div>
+                <div id="viewport-deflection" class="diagram-viewport"></div>
+              </article>
             </div>
-            <div id="subst-step1" class="substitution-step"></div>
-            <div id="subst-step2" class="substitution-step"></div>
-            <div id="subst-step3" class="substitution-step"></div>
-            <div id="subst-step4" class="substitution-step"></div>
-            <div id="subst-step5" class="substitution-step"></div>
+          </div>
+
+          <!-- Synchronized Bottom 2-Plate Insight Strip (Cut-Section + Cross-Section Stress) -->
+          <div id="insight-strip">
+            <div class="canvas-card" id="card-cut">
+              <div id="viewport-cut" class="insight-viewport"></div>
+            </div>
+            <div class="canvas-card" id="card-section">
+              <div id="viewport-section" class="insight-viewport"></div>
+            </div>
+          </div>
+
+          <!-- Guided Tour Floating Card (matching Interchange Lab) -->
+          <div id="tour-card" class="tour-card hidden" role="dialog" aria-label="BeamLab Guided Tour">
+            <div class="tour-header">
+              <span class="tour-badge" id="tour-badge">Stop 1 of 7</span>
+              <div class="tour-dots" id="tour-dots"></div>
+              <button id="btn-tour-close" class="icon-close" title="Exit guided tour">✕</button>
+            </div>
+            <h3 id="tour-title">Tour Title</h3>
+            <p id="tour-summary"></p>
+            <div class="tour-takeaway" id="tour-takeaway"></div>
+            <div class="tour-actions">
+              <button id="btn-tour-prev" class="tour-nav-btn">← Prev</button>
+              <button id="btn-tour-auto" class="tour-nav-btn secondary">▶ Auto</button>
+              <button id="btn-tour-next" class="tour-nav-btn primary">Next →</button>
+            </div>
           </div>
         </section>
-      </main>
-    </div>
 
-    <!-- Footer -->
-    <footer class="app-footer">
-      <p>
-        <strong>BeamLab</strong> · Modernized recreation of StructX Beam Formulas 001 · Built with Vanilla ES6 &amp; SVG Vector Graphics.
-      </p>
-      <p style="margin-top: 0.35rem; color: var(--text-muted); font-size: 0.78rem;">
-        Developed by <a href="https://github.com/xallace" target="_blank">Walter Lehn (@xallace)</a> · Mechanical &amp; Computational Systems
-      </p>
-    </footer>
+        <!-- Right Sidebar: Plain-English Live Inspector, KPIs & Parametric Controls -->
+        <aside id="right-sidebar">
+          <div class="sidebar-pane">
+            <div class="panel-header">
+              <div>
+                <span class="kicker" id="scenario-kicker">BALANCED STEEL DESIGN · SAFE</span>
+                <h2 id="scenario-title">Office Girder (Safe)</h2>
+              </div>
+              <span class="regime-tag" id="sidebar-probe-tag">x = 3.00 m</span>
+            </div>
+
+            <!-- Dynamic Plain-English Reading -->
+            <div class="book-quote" id="live-reading-box">
+              <span class="book-note-tag">WHAT’S HAPPENING AT PROBE x</span>
+              <div id="live-reading-location"></div>
+              <div id="live-reading-check" class="reading-check-line"></div>
+            </div>
+
+            <!-- 6-Tile Compact KPI Grid -->
+            <div class="section-label">Live Structural Readout</div>
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-label">Reactions RA=RB</div>
+                <div class="kpi-val good" id="kpi-R">24.00 kN</div>
+                <div class="kpi-sub-mini" id="kpi-W-total">Total 48.0 kN</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Shear V(x)</div>
+                <div class="kpi-val" id="kpi-Vx">0.00 kN</div>
+                <div class="kpi-sub-mini" id="kpi-Vmax">Peak ±24.0 kN</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Moment M(x)</div>
+                <div class="kpi-val accent" id="kpi-Mx">36.00 kNm</div>
+                <div class="kpi-sub-mini" id="kpi-Mmax">Peak 36.0 kNm</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Max Sag <span class="no-upper">δmax</span></div>
+                <div class="kpi-val" id="kpi-dmax">16.53 mm</div>
+                <div class="kpi-sub-mini" id="kpi-ratio">L / 363</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Peak Stress <span class="no-upper">σ</span></div>
+                <div class="kpi-val" id="kpi-sigma">111.1 MPa</div>
+                <div class="kpi-sub-mini" id="kpi-yield-check">47% fy · OK</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">End Slope <span class="no-upper">θA</span></div>
+                <div class="kpi-val" id="kpi-theta">0.50°</div>
+                <div class="kpi-sub-mini" id="kpi-dx">δ(x) 16.53 mm</div>
+              </div>
+            </div>
+
+            <!-- Control Group 1: Span, UDL & Probe x -->
+            <div class="control-group">
+              <div class="group-title">1 · Span, Load &amp; Probe Position</div>
+
+              <!-- Span L -->
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label class="slider-label" for="inp-L">Span Length (L)</label>
+                  <span id="disp-L" class="slider-val">6.00 m</span>
+                </div>
+                <div class="input-slider-wrap">
+                  <input type="range" id="slider-L" min="0.5" max="20" step="0.1" value="6.0">
+                  <input type="number" id="inp-L" class="num-input" min="0.1" max="100" step="0.1" value="6.0">
+                  <span class="unit-tag" id="unit-L">m</span>
+                </div>
+                <div class="preset-strip" id="presets-L"></div>
+              </div>
+
+              <!-- Distributed Load w -->
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label class="slider-label" for="inp-w">Uniform Load (w)</label>
+                  <span id="disp-w" class="slider-val">8.00 kN/m</span>
+                </div>
+                <div class="input-slider-wrap">
+                  <input type="range" id="slider-w" min="0.5" max="80" step="0.5" value="8.0">
+                  <input type="number" id="inp-w" class="num-input" min="0" max="10000" step="0.5" value="8.0">
+                  <span class="unit-tag" id="unit-w">kN/m</span>
+                </div>
+                <div class="preset-strip" id="presets-w"></div>
+              </div>
+
+              <!-- Probe Position x -->
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label class="slider-label" for="inp-x">Inspection Cut / Probe (x)</label>
+                  <span id="disp-x" class="slider-val">3.00 m (50% L)</span>
+                </div>
+                <div class="input-slider-wrap">
+                  <input type="range" id="slider-x" min="0" max="6.0" step="0.05" value="3.0">
+                  <input type="number" id="inp-x" class="num-input" min="0" max="6.0" step="0.05" value="3.0">
+                  <span class="unit-tag" id="unit-x">m</span>
+                </div>
+                <div class="preset-strip">
+                  <button class="preset-btn" data-xfrac="0">0 (A)</button>
+                  <button class="preset-btn" data-xfrac="0.25">L/4</button>
+                  <button class="preset-btn active" data-xfrac="0.5">L/2 (Mid)</button>
+                  <button class="preset-btn" data-xfrac="0.75">3L/4</button>
+                  <button class="preset-btn" data-xfrac="1">L (B)</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Control Group 2: Material & Cross-Section -->
+            <div class="control-group">
+              <div class="group-title">2 · Material &amp; Cross-Section</div>
+
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label class="slider-label" for="sel-material">Material (Stiffness E &amp; Yield fy)</label>
+                  <span id="disp-E" class="slider-val">210 GPa</span>
+                </div>
+                <select id="sel-material" class="hud-select full-width">
+                  <option value="steel_s235" selected>Structural Steel (S235 / A36) — 210 GPa</option>
+                  <option value="steel_s355">High-Strength Steel (S355 / A572) — 210 GPa</option>
+                  <option value="stainless_304">Stainless Steel (1.4301 / 304) — 195 GPa</option>
+                  <option value="aluminum_6082">Aluminum (EN AW-6082 T6) — 70 GPa</option>
+                  <option value="timber_c24">Structural Timber (C24 Softwood) — 11 GPa</option>
+                  <option value="concrete_c25">Reinforced Concrete (C25/30) — 31 GPa</option>
+                  <option value="custom">Custom Material...</option>
+                </select>
+                <div id="custom-E-wrap" class="input-slider-wrap hidden" style="margin-top:4px;">
+                  <input type="number" id="inp-custom-E" class="num-input" style="flex:1;text-align:left;" value="210" step="1">
+                  <span class="unit-tag" id="unit-E">GPa</span>
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label class="slider-label" for="sel-section-type">Cross-Section Profile</label>
+                  <span id="disp-I" class="slider-val">1,940 cm⁴</span>
+                </div>
+                <select id="sel-section-type" class="hud-select full-width">
+                  <option value="standard" selected>Standard Steel Beam (IPE / HEB)</option>
+                  <option value="rect">Rectangular Solid (b × h)</option>
+                  <option value="i_beam">Custom I-Beam / Flange</option>
+                  <option value="hollow_rect">Hollow Box (RHS / SHS)</option>
+                  <option value="round_solid">Solid Round Bar (Ø d)</option>
+                  <option value="round_tube">Circular Tube / Pipe (Ø D × t)</option>
+                  <option value="custom">Direct Input (Custom I)</option>
+                </select>
+
+                <div id="cs-standard-wrap" style="margin-top:5px;">
+                  <select id="sel-standard-profile" class="hud-select full-width">
+                    <option value="IPE100">IPE 100 (Iy = 171 cm⁴ · Wy = 34.2 cm³)</option>
+                    <option value="IPE160">IPE 160 (Iy = 869 cm⁴ · Wy = 109 cm³)</option>
+                    <option value="IPE200">IPE 200 (Iy = 1,940 cm⁴ · Wy = 194 cm³)</option>
+                    <option value="IPE240" selected>IPE 240 (Iy = 3,890 cm⁴ · Wy = 324 cm³)</option>
+                    <option value="IPE300">IPE 300 (Iy = 8,360 cm⁴ · Wy = 557 cm³)</option>
+                    <option value="HEB100">HEB 100 (Iy = 450 cm⁴ · Wy = 89.9 cm³)</option>
+                    <option value="HEB160">HEB 160 (Iy = 2,490 cm⁴ · Wy = 311 cm³)</option>
+                    <option value="HEB200">HEB 200 (Iy = 5,700 cm⁴ · Wy = 570 cm³)</option>
+                    <option value="HEB240">HEB 240 (Iy = 11,260 cm⁴ · Wy = 938 cm³)</option>
+                  </select>
+                </div>
+
+                <div id="cs-params-wrap" class="cs-grid hidden"></div>
+
+                <div class="sec-props-strip">
+                  <span>Wy: <strong id="disp-W">194.0 cm³</strong></span>
+                  <span>Area: <strong id="disp-A">28.5 cm²</strong></span>
+                  <span>L/h: <strong id="disp-Lh">30.0</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plate Call-Out Key (clickable, jumps probe x) -->
+            <div class="section-label">FBD Plate Key (Click to Inspect)</div>
+            <div class="callout-list" id="fbd-callout-list">
+              <div class="callout-item" data-xfrac="0">
+                <div class="callout-item-head"><span>1 · Pin Support A</span><span class="callout-badge">x = 0</span></div>
+                <div class="callout-item-body">Blocks horizontal &amp; vertical shift while allowing free end rotation θA. Peak positive shear (+wL/2).</div>
+              </div>
+              <div class="callout-item" data-xfrac="0.25">
+                <div class="callout-item-head"><span>2 · Uniform Load (UDL)</span><span class="callout-badge">w = const</span></div>
+                <div class="callout-item-body">Spread evenly along the full span. Integrates to linear shear V(x) and parabolic bending moment M(x).</div>
+              </div>
+              <div class="callout-item" data-xfrac="0.5">
+                <div class="callout-item-head"><span>3 · Midspan Peak</span><span class="callout-badge">x = L/2</span></div>
+                <div class="callout-item-body">Shear crosses zero, so bending moment (wL²/8), fiber stress (σmax), and vertical sag (δmax) all peak here.</div>
+              </div>
+              <div class="callout-item" data-xfrac="1">
+                <div class="callout-item-head"><span>4 · Roller Support B</span><span class="callout-badge">x = L</span></div>
+                <div class="callout-item-body">Carries vertical reaction RB while rolling freely horizontally so thermal expansion cannot jam the beam.</div>
+              </div>
+            </div>
+
+            <div class="panel-cta-row">
+              <button id="btn-open-math" class="cta-btn">Inspect Live Step-by-Step Math →</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- TAB 2: Step-by-Step Worked Math & Reference Plate -->
+      <section id="math-view" class="editorial-view hidden">
+        <div class="editorial-container">
+          <div class="editorial-intro">
+            <span class="kicker">LIVE WORKED CALCULATION · EULER-BERNOULLI THEORY</span>
+            <h2>Step-by-Step Substitution &amp; Formula Reference</h2>
+            <p>
+              Every equation below updates live with your current span, load, material, cross-section, and probe position <code>x</code>. Switch between <strong>SI</strong> and <strong>US</strong> units in the top bar to see consistent unit conversions automatically.
+            </p>
+          </div>
+
+          <div class="concepts-split">
+            <div class="concepts-col">
+              <h3>Live Worked Steps (Current Parameters)</h3>
+              <div class="subst-stack">
+                <div id="subst-step1" class="subst-card"></div>
+                <div id="subst-step2" class="subst-card"></div>
+                <div id="subst-step3" class="subst-card"></div>
+                <div id="subst-step4" class="subst-card"></div>
+                <div id="subst-step5" class="subst-card"></div>
+                <div id="subst-step6" class="subst-card"></div>
+              </div>
+            </div>
+
+            <div class="book-col">
+              <div class="book-page-card">
+                <div class="book-page-head">
+                  <span>STRUCTX BEAM FORMULAS · SHEET 001</span>
+                  <span>SIMPLY SUPPORTED · UDL</span>
+                </div>
+                <h3>CLOSED-FORM REFERENCE SHEET</h3>
+                <p class="book-page-note">Exact analytical solutions for a prismatic beam (constant EI) under uniform load w.</p>
+
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>1 · SUPPORT REACTIONS</span><span>ΣFy = 0, ΣMA = 0</span></div>
+                  <div class="concept-math">$$R_A = R_B = \frac{w \cdot L}{2}$$</div>
+                </div>
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>2 · SHEAR FORCE</span><span>Linear · V(L/2) = 0</span></div>
+                  <div class="concept-math">$$V(x) = w\left(\frac{L}{2} - x\right), \qquad V_{\max} = \pm\frac{wL}{2}$$</div>
+                </div>
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>3 · BENDING MOMENT</span><span>Parabolic · Peak at L/2</span></div>
+                  <div class="concept-math">$$M(x) = \frac{wx}{2}(L - x), \qquad M_{\max} = \frac{wL^2}{8}$$</div>
+                </div>
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>4 · ELASTIC DEFLECTION</span><span>4th-Order Polynomial</span></div>
+                  <div class="concept-math">$$\delta(x) = \frac{wx}{24EI}\left(L^3 - 2Lx^2 + x^3\right), \quad \delta_{\max} = \frac{5wL^4}{384EI}$$</div>
+                </div>
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>5 · SUPPORT ROTATION ANGLE</span><span>Slope at A &amp; B (rad)</span></div>
+                  <div class="concept-math">$$\theta_A = \theta_B = \frac{wL^3}{24EI}$$</div>
+                </div>
+                <div class="ref-formula-item">
+                  <div class="ref-formula-head"><span>6 · EXTREME FIBER BENDING STRESS</span><span>Navier’s Formula</span></div>
+                  <div class="concept-math">$$\sigma_{\max} = \frac{M_{\max}}{W_y} = \frac{M_{\max}\cdot (h/2)}{I_y}$$</div>
+                </div>
+
+                <div class="book-page-foot">PLATE 001 · EULER-BERNOULLI</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Concepts & Intuition (matching Interchange Lab) -->
+      <section id="concepts-view" class="editorial-view hidden">
+        <div class="editorial-container">
+          <div class="editorial-intro">
+            <span class="kicker">STRUCTURAL MECHANICS INTUITION &amp; HANDBOOK NOTES</span>
+            <h2>How a Beam Carries Load — Plain-English Guide</h2>
+            <p>
+              Core principles behind Free Body, Shear, Bending Moment, and Deflection diagrams, paired with interactive presets you can launch directly in the plate.
+            </p>
+          </div>
+          <div class="concepts-split">
+            <div class="concepts-col">
+              <h3>Interactive Mechanics Laws</h3>
+              <div id="concepts-grid" class="concepts-grid"></div>
+            </div>
+            <div class="book-col">
+              <div class="book-page-card">
+                <div class="book-page-head">
+                  <span>BEAMLAB ENGINEERING NOTES</span>
+                  <span>SECTIONS §1 – §5</span>
+                </div>
+                <h3>HOW A BEAM CARRIES LOAD</h3>
+                <p class="book-page-note">Intuitive physical walkthrough with direct jumps to the live diagrams.</p>
+                <div id="handbook-paragraphs"></div>
+                <div class="book-page-foot">BEAMLAB · @XALLACE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <!-- App Script (ES Module) -->
-  <script type="module" src="app.js"></script>
+  <!-- Non-blocking Toast Notification -->
+  <div id="toast-msg" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <!-- Local Vendor Libraries (100% standalone & offline-ready with CDN fallback) -->
+  <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';"></script>
+  <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';"></script>
+
+  <!-- Application Modules (file:// and GitHub Pages compatible) -->
+  <script src="beam-engine.js"></script>
+  <script src="diagram-renderer.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
