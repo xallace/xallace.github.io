@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLA-100 — Precision Linear Axis · Interactive 3D CAD Inspector</title>
-  <meta name="description" content="Interactive WebGL 3D CAD viewer of the modular precision linear axis PLA-100 by Walter Lehn (@xallace). Stroke kinematics, spindle rotation, section view A-A, exploded assembly & DIN EN ISO 1101 GPS.">
+  <title>PLA-100 v2 — Modular Precision Linear Axis · Interactive 3D CAD & Sizing Studio</title>
+  <meta name="description" content="Collision-free FreeCAD 1.1 B-Rep 3D CAD inspector of the PLA-100 v2 modular linear axis: real 58-turn helical SFU1204 ball screw, 7001-B duplex bearings, open motor lantern, DIN 69051 / ISO 281 sizing & DIN ISO 128 drawing.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-  <!-- Three.js & Loaders -->
+  <!-- Three.js r128 & Controls/Loaders -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
@@ -21,8 +21,9 @@
       overflow: hidden;
       margin: 0;
       padding: 0;
-      background: #070a12;
+      background: #080d18;
       font-family: var(--font-sans);
+      color: var(--text-primary);
     }
 
     #viewport-container {
@@ -34,206 +35,292 @@
       width: 100%;
       height: calc(100% - 64px);
       overflow: hidden;
+      background: radial-gradient(circle at 52% 45%, #121c31 0%, #070b14 78%);
     }
 
     body.is-embedded .viewer-header { display: none !important; }
     body.is-embedded #viewport-container { top: 0 !important; height: 100% !important; }
     body.is-embedded .cad-specs-overlay { display: none; }
 
-    #cad-canvas { width: 100%; height: 100%; display: block; }
+    #cad-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    #cad-canvas:active { cursor: grabbing; }
+    #cad-canvas.measure-cursor { cursor: crosshair; }
 
-    /* Top Viewer Bar */
+    /* Top Viewer Header */
     .viewer-header {
       position: fixed;
       top: 0; left: 0; right: 0;
       height: 64px;
-      background: rgba(10, 15, 26, 0.92);
-      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(9, 14, 25, 0.94);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.22);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 1.5rem;
+      padding: 0 1.25rem;
       backdrop-filter: blur(14px);
       z-index: 50;
+      gap: 1rem;
     }
 
-    .viewer-title-group { display: flex; align-items: center; gap: 1rem; }
+    .viewer-title-group { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
     .viewer-back-btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
+      display: inline-flex; align-items: center; gap: 0.35rem;
       color: var(--text-secondary); text-decoration: none;
-      font-size: 0.88rem; font-weight: 600; padding: 0.4rem 0.8rem;
+      font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.78rem;
       border-radius: var(--radius-sm);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-subtle);
       transition: all var(--transition-fast);
+      white-space: nowrap;
     }
     .viewer-back-btn:hover {
       color: var(--text-primary); border-color: var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.1);
+      background: rgba(56, 189, 248, 0.12);
     }
 
+    .viewer-title-text { min-width: 0; }
     .viewer-title-text h1 {
-      font-size: 1.05rem; font-weight: 700; margin: 0;
-      color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;
+      font-size: 1rem; font-weight: 700; margin: 0;
+      color: var(--text-primary); display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;
     }
     .viewer-title-text p {
-      font-size: 0.78rem; color: var(--text-muted); margin: 0; font-family: var(--font-mono);
+      font-size: 0.74rem; color: var(--text-muted); margin: 2px 0 0 0; font-family: var(--font-mono);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .viewer-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .badge-chip {
+      padding: 0.14rem 0.48rem; font-size: 0.68rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-ok { background: rgba(45, 212, 191, 0.14); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.45); }
+    .badge-cyan { background: rgba(56, 189, 248, 0.14); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.42); }
 
-    /* Floating Control HUD */
+    .viewer-actions { display: flex; align-items: center; gap: 0.55rem; flex-shrink: 0; }
+
+    /* Bottom-Left Control HUD */
     .cad-hud {
       position: absolute;
-      bottom: 1.5rem; left: 1.5rem;
-      background: rgba(13, 21, 37, 0.88);
-      border: 1px solid var(--border-subtle);
+      bottom: 1.15rem; left: 1.15rem;
+      background: rgba(11, 18, 33, 0.90);
+      border: 1px solid rgba(56, 189, 248, 0.22);
       border-radius: var(--radius-md);
-      padding: 1.15rem;
+      padding: 0.95rem 1.05rem;
       backdrop-filter: blur(16px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
       z-index: 40;
-      max-width: 420px;
-      width: calc(100vw - 3rem);
+      max-width: 440px;
+      width: calc(100vw - 2.3rem);
     }
 
     .hud-tabs {
-      display: flex; gap: 0.35rem; margin-bottom: 0.9rem;
+      display: flex; gap: 0.24rem; margin-bottom: 0.72rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.42rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
     .hud-tab-btn {
-      background: transparent; border: none;
-      color: var(--text-muted); font-size: 0.75rem; font-weight: 600;
-      font-family: var(--font-mono); padding: 0.3rem 0.55rem;
+      background: transparent; border: 1px solid transparent;
+      color: var(--text-muted); font-size: 0.69rem; font-weight: 600;
+      font-family: var(--font-mono); padding: 0.26rem 0.48rem;
       border-radius: 4px; cursor: pointer; transition: all 0.15s;
+      white-space: nowrap; flex: 1; text-align: center;
     }
-    .hud-tab-btn:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+    .hud-tab-btn:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.06); }
     .hud-tab-btn.active {
-      color: var(--accent-cyan); background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan); background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.35);
     }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
     .hud-title {
-      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.05em; color: var(--accent-cyan);
-      margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--accent-cyan);
+      margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
     }
 
-    .hud-slider-group { margin-bottom: 0.85rem; }
+    .hud-slider-group { margin-bottom: 0.72rem; }
     .hud-slider-header {
-      display: flex; justify-content: space-between; font-size: 0.78rem;
-      color: var(--text-secondary); margin-bottom: 0.35rem; font-family: var(--font-mono);
+      display: flex; justify-content: space-between; font-size: 0.73rem;
+      color: var(--text-secondary); margin-bottom: 0.3rem; font-family: var(--font-mono);
     }
     .hud-slider {
       width: 100%; height: 6px; -webkit-appearance: none;
-      background: rgba(255, 255, 255, 0.12); border-radius: 3px; outline: none;
+      background: rgba(255, 255, 255, 0.14); border-radius: 3px; outline: none;
     }
     .hud-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+      -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
       background: var(--accent-cyan); cursor: pointer;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.65);
     }
 
+    .limit-led-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+      margin-bottom: 0.65rem; font-family: var(--font-mono); font-size: 0.68rem;
+    }
+    .led-pill {
+      display: inline-flex; align-items: center; gap: 0.32rem;
+      padding: 2px 7px; border-radius: 99px;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted); transition: all 0.15s;
+    }
+    .led-dot { width: 7px; height: 7px; border-radius: 50%; background: #334155; }
+    .led-pill.triggered {
+      border-color: rgba(245, 158, 11, 0.65); color: #fbbf24; background: rgba(245, 158, 11, 0.14);
+    }
+    .led-pill.triggered .led-dot { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .led-pill.in-range {
+      border-color: rgba(45, 212, 191, 0.45); color: #2dd4bf; background: rgba(45, 212, 191, 0.10);
+    }
+    .led-pill.in-range .led-dot { background: #2dd4bf; box-shadow: 0 0 7px #2dd4bf; }
+
     .hud-btn-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; margin-bottom: 0.75rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.32rem; margin-bottom: 0.62rem;
     }
     .hud-btn {
       background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm); color: var(--text-secondary);
-      font-size: 0.75rem; font-family: var(--font-mono); padding: 0.4rem 0.2rem;
+      font-size: 0.72rem; font-family: var(--font-mono); padding: 0.35rem 0.2rem;
       cursor: pointer; transition: all var(--transition-fast); text-align: center;
     }
     .hud-btn:hover { color: var(--text-primary); border-color: var(--accent-cyan); background: rgba(56, 189, 248, 0.12); }
     .hud-btn.active { color: #041019; background: var(--accent-cyan); border-color: var(--accent-cyan); font-weight: 700; }
 
     .hud-presets {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.25rem; margin-bottom: 0.75rem;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.25rem; margin-bottom: 0.65rem;
     }
     .hud-preset-btn {
-      background: rgba(30, 41, 59, 0.65); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-secondary); font-size: 0.68rem; font-family: var(--font-mono);
-      padding: 0.3rem 0.1rem; border-radius: var(--radius-sm); cursor: pointer;
+      background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary); font-size: 0.66rem; font-family: var(--font-mono);
+      padding: 0.28rem 0.1rem; border-radius: var(--radius-sm); cursor: pointer;
       transition: all var(--transition-fast); text-align: center;
     }
     .hud-preset-btn:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-cyan); color: var(--accent-cyan); }
 
-    .hud-actions-row { display: flex; gap: 0.4rem; }
+    .hud-actions-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
     .hud-action-btn {
-      flex: 1; padding: 0.45rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600;
+      flex: 1; min-width: 82px; padding: 0.42rem 0.45rem; border-radius: var(--radius-sm);
+      font-size: 0.73rem; font-weight: 600; font-family: var(--font-mono);
       border: 1px solid var(--border-subtle); background: rgba(255, 255, 255, 0.05);
       color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center;
-      justify-content: center; gap: 0.35rem; transition: all var(--transition-fast);
+      justify-content: center; gap: 0.3rem; transition: all var(--transition-fast);
     }
     .hud-action-btn:hover { border-color: var(--accent-teal); background: rgba(45, 212, 191, 0.15); color: var(--accent-teal); }
-    .hud-action-btn.active-cycle { background: rgba(45, 212, 191, 0.25); border-color: var(--accent-teal); color: var(--accent-teal); }
+    .hud-action-btn.active-cycle { background: rgba(45, 212, 191, 0.22); border-color: var(--accent-teal); color: var(--accent-teal); }
 
-    /* Right Info Panel */
+    /* Top-Right Specs & Telemetry Overlay */
     .cad-specs-overlay {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      background: rgba(13, 21, 37, 0.88); border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md); padding: 1.1rem 1.25rem;
-      backdrop-filter: blur(16px); z-index: 40; max-width: 320px;
-      font-size: 0.8rem; color: var(--text-secondary);
+      position: absolute; top: 1.15rem; right: 1.15rem;
+      background: rgba(11, 18, 33, 0.90); border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: var(--radius-md); padding: 0.95rem 1.1rem;
+      backdrop-filter: blur(16px); z-index: 40; width: 318px;
+      font-size: 0.76rem; color: var(--text-secondary);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
     }
     .specs-row {
-      display: flex; justify-content: space-between; padding: 0.28rem 0;
+      display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.24rem 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-family: var(--font-mono);
     }
     .specs-row:last-child { border-bottom: none; }
-    .specs-label { color: var(--text-muted); }
-    .specs-val { color: var(--text-primary); font-weight: 600; }
+    .specs-label { color: var(--text-muted); white-space: nowrap; }
+    .specs-val { color: var(--text-primary); font-weight: 600; text-align: right; }
 
     /* 3D Hotspot Pins */
     .gps-pin {
-      position: absolute; transform: translate(-50%, -50%);
-      background: rgba(15, 23, 42, 0.9); border: 1px solid var(--accent-cyan);
-      color: var(--accent-cyan); padding: 2px 7px; border-radius: 4px;
-      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+      position: absolute; transform: translate(-50%, -100%);
+      background: rgba(9, 15, 28, 0.92); border: 1px solid rgba(56, 189, 248, 0.78);
+      color: #e0f2fe; padding: 2px 7px; border-radius: 4px;
+      font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700;
       cursor: pointer; pointer-events: auto; white-space: nowrap;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); transition: all 0.15s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), 0 0 10px rgba(56, 189, 248, 0.25);
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       z-index: 35;
     }
-    .gps-pin:hover {
-      background: var(--accent-cyan); color: #041019; transform: translate(-50%, -50%) scale(1.1);
-    }
-    .gps-pin::after {
-      content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
-      border-left: 4px solid transparent; border-right: 4px solid transparent;
-      border-top: 4px solid var(--accent-cyan);
-    }
+    .gps-pin:hover { background: var(--accent-cyan); color: #041019; border-color: #fff; }
 
-    /* BOM List in HUD */
+    /* Sizing Calculator Grid */
+    .sizing-inputs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 0.75rem; margin-bottom: 0.65rem;
+    }
+    .sizing-field label {
+      display: flex; justify-content: space-between; font-size: 0.68rem; font-family: var(--font-mono);
+      color: var(--text-muted); margin-bottom: 2px;
+    }
+    .sizing-field label strong { color: var(--accent-cyan); }
+    .sizing-metrics {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-bottom: 0.6rem;
+    }
+    .sizing-card {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px; padding: 0.4rem 0.52rem; font-family: var(--font-mono);
+    }
+    .sizing-card .sc-lbl { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; }
+    .sizing-card .sc-val { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-top: 1px; }
+    .sizing-card .sc-sub { font-size: 0.62rem; color: #2dd4bf; }
+    .sizing-card.warn .sc-sub { color: #fbbf24; }
+    .sizing-card.fail .sc-sub { color: #f87171; }
+
+    /* BOM List & Measure Bar */
     .bom-list {
-      max-height: 180px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.72rem;
+      max-height: 195px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.69rem;
+      padding-right: 4px;
     }
     .bom-item {
-      padding: 0.35rem 0.4rem; border-radius: 4px; cursor: pointer; display: flex;
-      justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 0.3rem 0.4rem; border-radius: 4px; cursor: pointer; display: flex;
+      justify-content: space-between; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
     .bom-item:hover { background: rgba(56, 189, 248, 0.12); color: var(--accent-cyan); }
     .bom-item.active { background: rgba(56, 189, 248, 0.22); color: var(--accent-cyan); font-weight: 700; }
 
+    .measure-readout {
+      margin-top: 0.55rem; padding: 0.45rem 0.6rem; border-radius: 6px;
+      background: rgba(56, 189, 248, 0.10); border: 1px solid rgba(56, 189, 248, 0.32);
+      font-family: var(--font-mono); font-size: 0.7rem; color: #e0f2fe;
+    }
+
+    /* 2D DIN ISO 128 Drawing Sheet Modal */
+    .drawing-modal {
+      display: none; position: fixed; inset: 0; z-index: 90;
+      background: rgba(4, 8, 16, 0.84); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 1.25rem;
+    }
+    .drawing-modal.open { display: flex; }
+    .drawing-sheet {
+      background: #0b1322; border: 1.5px solid rgba(56, 189, 248, 0.45);
+      border-radius: 10px; max-width: 1020px; width: 100%; max-height: 90vh; overflow: auto;
+      padding: 1rem 1.2rem; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+    }
+    .drawing-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding-bottom: 0.65rem; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .drawing-svg { width: 100%; height: auto; display: block; border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; background: #070e1c; }
+    .dwg-callout { cursor: pointer; }
+    .dwg-callout:hover rect { stroke: #fbbf24; fill: rgba(245, 158, 11, 0.18); }
+
     /* Loading Spinner */
     #loading-spinner {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.85rem;
       z-index: 30; pointer-events: none; transition: opacity 0.3s ease;
     }
     .spinner-ring {
-      width: 48px; height: 48px; border: 3px solid rgba(56, 189, 248, 0.2);
-      border-top-color: var(--accent-cyan); border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      width: 44px; height: 44px; border: 3px solid rgba(56, 189, 248, 0.2);
+      border-top-color: var(--accent-cyan); border-radius: 50%; animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner-text { font-size: 0.85rem; color: var(--text-secondary); font-family: var(--font-mono); }
+    .spinner-text { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .cad-specs-overlay { display: none; }
-      .cad-hud { left: 1rem; right: 1rem; bottom: 1rem; width: auto; }
+      .viewer-title-text p { display: none; }
+    }
+    @media (max-width: 768px) {
+      .cad-hud { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; width: auto; max-width: none; padding: 0.8rem; }
+      .viewer-header { padding: 0 0.75rem; }
     }
   </style>
 </head>
@@ -243,23 +330,26 @@
   <header class="viewer-header">
     <div class="viewer-title-group">
       <a href="index.html" class="viewer-back-btn" title="Back to Portfolio">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         <span>Portfolio</span>
       </a>
       <div class="viewer-title-text">
         <h1>
-          <span>PLA-100 · Modular Precision Linear Axis</span>
-          <span class="embed-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">🚧 Work in Progress</span>
-          <span class="embed-badge" style="background: rgba(56,189,248,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 0.15rem 0.5rem; font-size: 0.72rem; border-radius: 4px;">14 Solids · STEP AP214</span>
+          <span>PLA-100 v2 · Modular Precision Linear Axis</span>
+          <span class="badge-chip badge-ok">B-Rep Verified · 0.00 mm³ Clashes</span>
+          <span class="badge-chip badge-cyan">21 Named Solids · STEP AP214</span>
         </h1>
-        <p>Usable Stroke 100 mm · Ball Screw Ø12×4 · 2× MGN12H · NEMA 23 · <em>Note: Linear drive actively in design &amp; detailing (WIP)</em></p>
+        <p>Usable Stroke 100 mm · Real Helical SFU1204 Ø12×4 · 2× MGN12H · 7001-B Duplex · Open Lantern · NEMA 23 · DIN EN ISO 1101</p>
       </div>
     </div>
 
     <div class="viewer-actions">
-      <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.82rem; gap: 0.4rem; text-decoration: none;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span>Download STEP (AP214)</span>
+      <button onclick="openDrawingModal()" class="viewer-back-btn" style="cursor:pointer; color:#38bdf8; border-color:rgba(56,189,248,0.4);">
+        <span>2D Drawing (ISO 128)</span>
+      </button>
+      <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download class="btn btn-primary" style="padding: 0.42rem 0.9rem; font-size: 0.78rem; gap: 0.35rem; text-decoration: none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>STEP AP214 (3.2 MB)</span>
       </a>
     </div>
   </header>
@@ -268,69 +358,63 @@
   <div id="viewport-container">
     <div id="loading-spinner">
       <div class="spinner-ring"></div>
-      <div class="spinner-text">Loading assembly (13 solids &amp; kinematics)...</div>
+      <div class="spinner-text">Loading 21 B-Rep solids &amp; helical kinematics...</div>
     </div>
     <canvas id="cad-canvas"></canvas>
 
     <!-- 3D Hotspot Pins Container -->
     <div id="hotspots-container"></div>
 
-    <!-- Specs HUD (Top Right) -->
+    <!-- Specs & B-Rep Audit HUD (Top Right) -->
     <div class="cad-specs-overlay" id="specs-box">
-      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 0.35rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          <span id="specs-heading">Design Specifications</span>
-        </div>
-        <span style="font-size: 0.68rem; color: #f59e0b; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 3px; font-weight: 600;">WIP</span>
+      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.45rem; display: flex; align-items: center; justify-content: space-between;">
+        <span id="specs-heading">PLA-100 v2 Specifications</span>
+        <span class="badge-chip badge-ok" style="font-size:0.62rem;">ISO GPS</span>
       </div>
-      <div id="specs-content">
-        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detailing (WIP)</span></div>
-        <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70...170 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Max. Free Travel:</span> <span class="specs-val">144.0 mm (X: 48...192 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12 (55 mm track)</span></div>
-        <div class="specs-row"><span class="specs-label">Lead Screw:</span> <span class="specs-val">Ball Screw Ø12 × 4 mm (IT5)</span></div>
-        <div class="specs-row"><span class="specs-label">Fixed Bearing:</span> <span class="specs-val">2× 7001-B (Back-to-back O)</span></div>
-        <div class="specs-row"><span class="specs-label">Floating Bearing:</span> <span class="specs-val">1× 6001 (+0.5 mm axial)</span></div>
-        <div class="specs-row"><span class="specs-label">Materials:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
-        <div class="specs-row"><span class="specs-label">System Mass:</span> <span class="specs-val">approx. 2.15 kg</span></div>
-      </div>
+      <div id="specs-content"></div>
     </div>
 
-    <!-- Interactive HUD (Bottom Left) -->
+    <!-- Interactive Engineering HUD (Bottom Left) -->
     <div class="cad-hud">
       <div class="hud-tabs">
         <button class="hud-tab-btn active" onclick="switchTab('kinematik')">Kinematics</button>
-        <button class="hud-tab-btn" onclick="switchTab('explosion')">Exploded</button>
-        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Section &amp; GPS</button>
-        <button class="hud-tab-btn" onclick="switchTab('stueckliste')">BOM</button>
+        <button class="hud-tab-btn" onclick="switchTab('assembly')">Assembly</button>
+        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Section</button>
+        <button class="hud-tab-btn" onclick="switchTab('sizing')">Sizing</button>
+        <button class="hud-tab-btn" onclick="switchTab('stueckliste')">BOM &amp; Ruler</button>
       </div>
 
       <!-- Tab 1: Kinematics -->
       <div id="tab-kinematik" class="tab-content active">
         <div class="hud-title">
-          <span>Stroke Control &amp; Spindle Coupling</span>
+          <span>Stroke &amp; Helical Drive</span>
           <span id="pos-display" style="font-family: var(--font-mono); color: var(--text-primary);">X = 120.0 mm</span>
+        </div>
+
+        <div class="limit-led-bar">
+          <span id="led-min" class="led-pill"><span class="led-dot"></span>-LIM (X=70)</span>
+          <span id="led-zone" class="led-pill in-range"><span class="led-dot"></span>USABLE STROKE</span>
+          <span id="led-max" class="led-pill"><span class="led-dot"></span>+LIM (X=170)</span>
         </div>
 
         <div class="hud-slider-group">
           <div class="hud-slider-header">
-            <span>48.0 mm (Front Stop)</span>
-            <span>192.0 mm (Rear Stop)</span>
+            <span>56.0 mm (Front Stop)</span>
+            <span>184.0 mm (Rear Stop)</span>
           </div>
-          <input type="range" id="stroke-slider" class="hud-slider" min="48" max="192" step="0.5" value="120">
-          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; font-family: var(--font-mono);">
-            <span id="hub-display">Relative Stroke: 72.0 mm / 144.0 mm</span>
-            <span id="rot-display" style="color: var(--accent-cyan);">Spindle: 18.00 rev</span>
+          <input type="range" id="stroke-slider" class="hud-slider" min="56" max="184" step="0.5" value="120">
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.3rem; font-family: var(--font-mono);">
+            <span id="hub-display">Travel: 64.0 / 128.0 mm</span>
+            <span id="rot-display" style="color: var(--accent-cyan);">Spindle: 16.00 rev</span>
           </div>
         </div>
 
         <div class="hud-presets">
-          <button class="hud-preset-btn" onclick="goToPosition(48.0)">48 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Front Stop</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Use Min</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(120.0)">120 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Center</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(170.0)">170 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Use Max</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(192.0)">192 mm<small style="display:block;font-size:0.62rem;opacity:0.75;">Rear Stop</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(56.0)">56 mm<small style="display:block;font-size:0.6rem;opacity:0.75;">Bumper -</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.6rem;opacity:0.75;">Limit -</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(120.0)">120 mm<small style="display:block;font-size:0.6rem;opacity:0.75;">Center</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(170.0)">170 mm<small style="display:block;font-size:0.6rem;opacity:0.75;">Limit +</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(184.0)">184 mm<small style="display:block;font-size:0.6rem;opacity:0.75;">Bumper +</small></button>
         </div>
 
         <div class="hud-btn-grid">
@@ -342,24 +426,24 @@
 
         <div class="hud-actions-row">
           <button id="btn-cycle" class="hud-action-btn" onclick="toggleAutoCycle()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <span id="cycle-label">Auto Cycle</span>
+            <span id="cycle-label">▶ Auto Cycle</span>
+          </button>
+          <button id="btn-edges" class="hud-action-btn active-cycle" onclick="toggleEdges()">
+            <span>CAD Edges</span>
           </button>
           <button id="btn-wireframe" class="hud-action-btn" onclick="toggleWireframe()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
             <span>Wireframe</span>
           </button>
           <button class="hud-action-btn" onclick="resetAll()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"></path><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
             <span>Reset</span>
           </button>
         </div>
       </div>
 
-      <!-- Tab 2: Explosion -->
-      <div id="tab-explosion" class="tab-content">
+      <!-- Tab 2: Exploded & Step-by-Step Assembly -->
+      <div id="tab-assembly" class="tab-content">
         <div class="hud-title">
-          <span>Exploded View &amp; Assembly</span>
+          <span>Exploded View &amp; Build Sequence</span>
           <span id="explode-display" style="font-family: var(--font-mono); color: var(--text-primary);">0 %</span>
         </div>
 
@@ -371,62 +455,265 @@
           <input type="range" id="explode-slider" class="hud-slider" min="0" max="100" step="1" value="0">
         </div>
 
-        <div class="hud-btn-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 0.5rem;">
+        <div class="hud-btn-grid" style="margin-bottom:0.7rem;">
           <button class="hud-btn" onclick="setExplode(0)">0%</button>
           <button class="hud-btn" onclick="setExplode(35)">35%</button>
           <button class="hud-btn" onclick="setExplode(70)">70%</button>
           <button class="hud-btn" onclick="setExplode(100)">100%</button>
         </div>
-        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
-          Separates motor (-X), bearing housings (±X), carriage (+Z), and rails (±Y) along their assembly axes.
+
+        <div class="hud-slider-group" style="margin-bottom:0.35rem;">
+          <div class="hud-slider-header">
+            <span>Assembly Step: <strong id="step-num" style="color:var(--accent-cyan);">8 / 8</strong></span>
+            <span id="step-label" style="color:#2dd4bf;">Complete Assembly</span>
+          </div>
+          <input type="range" id="step-slider" class="hud-slider" min="1" max="8" step="1" value="8">
+        </div>
+        <p style="font-size: 0.69rem; color: var(--text-muted); margin: 0; line-height: 1.38;">
+          Scrub steps 1–8 to follow real shop-floor assembly order: Base → Rails → Bearings → Helical Screw → Lantern &amp; Coupling → NEMA-23 → Carriage &amp; Table → Stops &amp; Sensors.
         </p>
       </div>
 
-      <!-- Tab 3: Section & GPS -->
+      <!-- Tab 3: Section & ISO GPS -->
       <div id="tab-schnitt" class="tab-content">
         <div class="hud-title">
-          <span>Section View &amp; DIN ISO 1101 GPS</span>
+          <span>Section Cuts &amp; DIN EN ISO 1101</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem;">
-          <button id="btn-section" class="hud-action-btn" onclick="toggleSectionView()" style="width: 100%;">
-            <span>✂️ Longitudinal Section A-A (Spindle Axis Y=0)</span>
+        <div style="display: flex; flex-direction: column; gap: 0.42rem; margin-bottom: 0.6rem;">
+          <button id="btn-section-a" class="hud-action-btn" onclick="toggleSectionA()" style="width: 100%;">
+            <span>✂️ Section A-A: Longitudinal (Spindle Axis Y=0)</span>
           </button>
-          <button id="btn-gps" class="hud-action-btn active-cycle" onclick="toggleGPSHotspots()" style="width: 100%;">
-            <span>📐 Toggle 3D GPS Annotation Pins</span>
+          <button id="btn-section-b" class="hud-action-btn" onclick="toggleSectionB()" style="width: 100%;">
+            <span>✂️ Section B-B: Transverse (Carriage Cross-Section)</span>
           </button>
+          <div style="display:flex; gap:0.4rem;">
+            <button id="btn-gps" class="hud-action-btn active-cycle" onclick="toggleGPSHotspots()">
+              <span>📐 GPS Leader Pins</span>
+            </button>
+            <button class="hud-action-btn" onclick="openDrawingModal()">
+              <span>📄 2D ISO 128 Sheet</span>
+            </button>
+          </div>
         </div>
-        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
-          Section A-A exposes the 7001-B angular contact bearings in the fixed housing, the flanged ball nut, and the 6001 floating bearing axial clearance.
+        <p style="font-size: 0.69rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
+          Section A-A reveals the duplex 7001-B angular contact balls, KM0 locknut, red PUR jaw spider, 58-turn SFU1204 helix (+3 mm floor clearance), and 6001 axial float (+0.5 mm).
         </p>
       </div>
 
-      <!-- Tab 4: BOM -->
-      <div id="tab-stueckliste" class="tab-content">
+      <!-- Tab 4: Live DIN 69051 & ISO 281 Sizing Calculator -->
+      <div id="tab-sizing" class="tab-content">
         <div class="hud-title">
-          <span>Bill of Materials (13 Solids)</span>
-          <button onclick="clearPartSelection()" style="background:none; border:none; color:var(--text-muted); font-size:0.7rem; cursor:pointer; font-family:var(--font-mono);">Show all</button>
+          <span>Drive Sizing · DIN 69051 &amp; ISO 281</span>
+          <span id="sizing-verdict" class="badge-chip badge-ok" style="font-size:0.62rem;">PASS</span>
         </div>
-        <div class="bom-list" id="bom-list-container"></div>
+
+        <div class="sizing-inputs">
+          <div class="sizing-field">
+            <label><span>Payload Mass</span><strong id="val-mass">5.0 kg</strong></label>
+            <input type="range" id="in-mass" class="hud-slider" min="0.5" max="30" step="0.5" value="5.0">
+          </div>
+          <div class="sizing-field">
+            <label><span>Traverse Speed</span><strong id="val-vel">80 mm/s</strong></label>
+            <input type="range" id="in-vel" class="hud-slider" min="10" max="240" step="5" value="80">
+          </div>
+          <div class="sizing-field">
+            <label><span>Acceleration</span><strong id="val-acc">2.5 m/s²</strong></label>
+            <input type="range" id="in-acc" class="hud-slider" min="0.2" max="10" step="0.2" value="2.5">
+          </div>
+          <div class="sizing-field">
+            <label><span>Axis Orientation</span><strong id="val-orient">Horizontal</strong></label>
+            <button id="btn-orient" class="hud-btn" style="width:100%; padding:0.25rem;" onclick="toggleOrientation()">Switch to Vertical</button>
+          </div>
+        </div>
+
+        <div class="sizing-metrics">
+          <div class="sizing-card" id="card-torque">
+            <div class="sc-lbl">Drive Torque T_req</div>
+            <div class="sc-val" id="out-torque">0.08 Nm</div>
+            <div class="sc-sub" id="out-torque-sub">vs 0.85 Nm @ 1200 RPM</div>
+          </div>
+          <div class="sizing-card" id="card-ncrit">
+            <div class="sc-lbl">Critical Speed n_crit</div>
+            <div class="sc-val" id="out-ncrit">1200 / 19388 RPM</div>
+            <div class="sc-sub" id="out-ncrit-sub">6.2% of limit</div>
+          </div>
+          <div class="sizing-card" id="card-buckle">
+            <div class="sc-lbl">Euler Buckling S_k</div>
+            <div class="sc-val" id="out-buckle">S_k = 720×</div>
+            <div class="sc-sub" id="out-buckle-sub">F_a = 20 N / F_k = 14.6 kN</div>
+          </div>
+          <div class="sizing-card" id="card-life">
+            <div class="sc-lbl">ISO 281 Life L_10h</div>
+            <div class="sc-val" id="out-life">&gt; 50 000 h</div>
+            <div class="sc-sub" id="out-life-sub">SFU1204 C_a = 3.2 kN</div>
+          </div>
+        </div>
+
+        <div class="hud-actions-row">
+          <button class="hud-action-btn" onclick="applySizingSpeedTo3D()">
+            <span>▶ Drive 3D Axis at Selected Speed</span>
+          </button>
+        </div>
       </div>
 
+      <!-- Tab 5: BOM & Point-to-Point 3D Ruler -->
+      <div id="tab-stueckliste" class="tab-content">
+        <div class="hud-title">
+          <span>BOM (21 Named Solids · 4.43 kg)</span>
+          <div style="display:flex; gap:0.4rem;">
+            <button id="btn-measure" onclick="toggleMeasureMode()" class="hud-btn" style="padding:2px 7px; font-size:0.65rem;">📏 3D Ruler</button>
+            <button onclick="clearPartSelection()" class="hud-btn" style="padding:2px 7px; font-size:0.65rem;">Show All</button>
+          </div>
+        </div>
+        <div class="bom-list" id="bom-list-container"></div>
+        <div id="measure-box" class="measure-readout" style="display:none;">
+          Click two points on the 3D model to measure exact distance (mm).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2D Synchronized DIN ISO 128 / ISO 1101 Drawing Modal -->
+  <div id="drawing-modal" class="drawing-modal" onclick="if(event.target===this) closeDrawingModal()">
+    <div class="drawing-sheet">
+      <div class="drawing-header">
+        <div>
+          <div style="font-family:var(--font-mono); font-size:0.72rem; color:#38bdf8; font-weight:700;">PLA-100-00-00 · REV 2.0 · DIN ISO 128 / DIN EN ISO 1101:2017</div>
+          <div style="font-size:1.05rem; font-weight:700;">Longitudinal Section A-A &amp; Cross-Section B-B — Click any callout to focus in 3D</div>
+        </div>
+        <button onclick="closeDrawingModal()" class="viewer-back-btn" style="cursor:pointer;">✕ Close</button>
+      </div>
+      <svg viewBox="0 0 980 460" class="drawing-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hatchAl" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#38bdf8" stroke-width="0.9" opacity="0.35"/>
+          </pattern>
+          <pattern id="hatchSt" width="6" height="6" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#fbbf24" stroke-width="0.9" opacity="0.38"/>
+          </pattern>
+        </defs>
+        <!-- Drawing Border & Grid -->
+        <rect x="12" y="12" width="956" height="436" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.5"/>
+        <text x="24" y="34" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700">SECTION A-A (LONGITUDINAL Y = 0) — SCALE 1:1 (mm)</text>
+
+        <!-- Centerline Z=30 -->
+        <line x1="40" y1="215" x2="645" y2="215" stroke="#fb923c" stroke-width="1" stroke-dasharray="14 4 3 4"/>
+
+        <!-- Motor (-120..-64) -->
+        <rect x="65" y="158" width="90" height="114" fill="rgba(30,41,59,0.75)" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="110" y="219" fill="#cbd5e1" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">NEMA 23</text>
+
+        <!-- Motor Lantern (-64..-24) -->
+        <rect x="155" y="155" width="64" height="120" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.4"/>
+        <rect x="167" y="177" width="42" height="76" fill="#070e1c" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
+        <!-- Jaw Coupling + Red Spider -->
+        <rect x="163" y="191" width="20" height="48" fill="#94a3b8" stroke="#e2e8f0" stroke-width="1"/>
+        <rect x="183" y="191" width="9" height="48" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+        <rect x="192" y="191" width="20" height="48" fill="#94a3b8" stroke="#e2e8f0" stroke-width="1"/>
+
+        <!-- Fixed Bearing Housing (-24..0) + 2x 7001-B -->
+        <rect x="219" y="155" width="38" height="120" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <rect x="225" y="187" width="26" height="56" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
+
+        <!-- Base Floor (0..240, Z=0..12) -->
+        <rect x="257" y="251" width="320" height="24" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- Datum A Line -->
+        <line x1="45" y1="275" x2="625" y2="275" stroke="#2dd4bf" stroke-width="1.4" stroke-dasharray="6 4"/>
+        <text x="110" y="291" fill="#2dd4bf" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">+1.8 mm above Datum A</text>
+
+        <!-- Helical Ball Screw -->
+        <rect x="195" y="205" width="408" height="20" fill="rgba(226,232,240,0.18)" stroke="#e2e8f0" stroke-width="1.4"/>
+        <path d="M262 205 L270 225 M274 205 L282 225 M286 205 L294 225 M298 205 L306 225 M310 205 L318 225 M322 205 L330 225 M334 205 L342 225 M346 205 L354 225 M470 205 L478 225 M482 205 L490 225 M494 205 L502 225 M506 205 L514 225 M518 205 L526 225 M530 205 L538 225 M542 205 L550 225 M554 205 L562 225" stroke="#94a3b8" stroke-width="1"/>
+
+        <!-- Carriage Table + Nut Saddle + SFU1204 Nut -->
+        <rect x="352" y="156" width="132" height="22" fill="rgba(2,132,199,0.45)" stroke="#38bdf8" stroke-width="1.5"/>
+        <rect x="396" y="178" width="32" height="66" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.2"/>
+        <rect x="428" y="185" width="16" height="60" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
+        <text x="418" y="149" fill="#38bdf8" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Usable Stroke 100.0 mm (X=70..170)</text>
+        <text x="436" y="264" fill="#2dd4bf" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle">+3.0 mm floor clr</text>
+
+        <!-- Floating Bearing Housing (240..258) + 6001 -->
+        <rect x="577" y="155" width="30" height="120" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <rect x="583" y="187" width="15" height="56" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
+
+        <!-- Cross-Section B-B (Right Panel) -->
+        <line x1="665" y1="24" x2="665" y2="370" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="682" y="34" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700">SECTION B-B (TRANSVERSE)</text>
+        <!-- Base U-Channel + Outboard Flanges -->
+        <path d="M705 275 L705 253 L730 253 L730 198 L774 198 L774 248 L866 248 L866 198 L910 198 L910 253 L935 253 L935 275 Z" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- Datum B lip -->
+        <rect x="866" y="191" width="9" height="7" fill="#2dd4bf" opacity="0.65"/>
+        <!-- 2x MGN12 Rails + Blocks -->
+        <rect x="742" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
+        <rect x="875" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
+        <!-- Table (96 mm wide) -->
+        <rect x="720" y="155" width="200" height="24" fill="rgba(2,132,199,0.45)" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- Spindle & Nut in center -->
+        <circle cx="820" cy="215" r="24" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4 3"/>
+        <circle cx="820" cy="215" r="11" fill="rgba(226,232,240,0.25)" stroke="#e2e8f0" stroke-width="1.4"/>
+        <!-- M8 Sensor & Bolted Flag -->
+        <rect x="920" y="160" width="14" height="18" fill="none" stroke="#f59e0b" stroke-width="1.4"/>
+        <rect x="923" y="182" width="8" height="38" fill="rgba(245,158,11,0.35)" stroke="#fbbf24" stroke-width="1.2"/>
+        <text x="820" y="295" fill="#cbd5e1" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Rail Track 62.0 mm · Table 96.0 mm</text>
+        <text x="820" y="311" fill="#2dd4bf" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle">6× M6 Outboard Flanges (Y = ±48 mm)</text>
+
+        <!-- Interactive Clickable ISO GPS Feature Control Frames -->
+        <g class="dwg-callout" onclick="focusFromDrawing('gps-fixed')">
+          <rect x="172" y="72" width="174" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="259" y="88" fill="#e0f2fe" font-family="JetBrains Mono,monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ⟂ | 0.01 | A | Ø28 H7</text>
+          <line x1="242" y1="96" x2="238" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+        <g class="dwg-callout" onclick="focusFromDrawing('gps-float')">
+          <rect x="476" y="72" width="174" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="563" y="88" fill="#e0f2fe" font-family="JetBrains Mono,monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ◎ | Ø0.02 | C | +0.5</text>
+          <line x1="588" y1="96" x2="590" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+        <g class="dwg-callout" onclick="focusFromDrawing('gps-a')">
+          <rect x="266" y="318" width="154" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#2dd4bf" stroke-width="1.2"/>
+          <text x="343" y="334" fill="#ccfbf1" font-family="JetBrains Mono,monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ⏥ | 0.01 | DATUM A</text>
+          <line x1="343" y1="318" x2="343" y2="275" stroke="#2dd4bf" stroke-width="1"/>
+        </g>
+        <g class="dwg-callout" onclick="focusFromDrawing('gps-b')">
+          <rect x="744" y="72" width="166" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#2dd4bf" stroke-width="1.2"/>
+          <text x="827" y="88" fill="#ccfbf1" font-family="JetBrains Mono,monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ∥ | 0.008 | B | RAIL</text>
+          <line x1="868" y1="96" x2="870" y2="190" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- ISO 7200 Title Block -->
+        <rect x="24" y="378" width="932" height="58" fill="rgba(15,23,42,0.95)" stroke="#38bdf8" stroke-width="1.2"/>
+        <line x1="340" y1="378" x2="340" y2="436" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+        <line x1="650" y1="378" x2="650" y2="436" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+        <text x="38" y="400" fill="#e2e8f0" font-family="JetBrains Mono,monospace" font-size="11" font-weight="700">PLA-100 v2 · PRECISION LINEAR AXIS</text>
+        <text x="38" y="421" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9.8">Author: Walter Lehn (@xallace) · FreeCAD 1.1</text>
+        <text x="356" y="400" fill="#38bdf8" font-family="JetBrains Mono,monospace" font-size="9.8">Fits: Ø28 H7/h6 · Ø12 k5/g6 · Ø4 H7/m6</text>
+        <text x="356" y="421" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9.8">General Tol.: ISO 22081 / ISO 2768-mK</text>
+        <text x="666" y="400" fill="#2dd4bf" font-family="JetBrains Mono,monospace" font-size="9.8" font-weight="700">B-Rep Clash Check: 0.0000 mm³ (Verified)</text>
+        <text x="666" y="421" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9.8">Total Mass: 4.426 kg · 21 Named Solids</text>
+      </svg>
     </div>
   </div>
 
   <script>
     // =========================================================================
-    // 3D Three.js CAD Viewport & Kinematics Engine
+    // PLA-100 v2 Three.js Studio CAD Inspector, Raycaster, Ruler & Sizing Engine
     // =========================================================================
     let scene, camera, renderer, controls;
-    let autoCycle = false, cycleDirection = 1, cycleSpeed = 35.0, lastTime = 0, isWireframe = false;
-    let isSectionActive = false, showGPS = true, explodeFactor = 0.0;
-    let selectedPartId = null;
+    let autoCycle = false, cycleDirection = 1, cycleSpeed = 55.0, lastTime = 0;
+    let isWireframe = false, showEdges = true;
+    let isSectionA = false, isSectionB = false, showGPS = true;
+    let explodeFactor = 0.0, assemblyStep = 8;
+    let selectedPartId = null, measureMode = false, measurePoints = [];
+    let isVerticalAxis = false;
 
-    const MIN_STROKE = 48.0;
-    const MAX_STROKE = 192.0;
+    const MIN_STROKE = 56.0;
+    const USE_MIN = 70.0;
+    const USE_MAX = 170.0;
+    const MAX_STROKE = 184.0;
+    const SPINDLE_Z = 30.0;
     let currentStroke = 120.0;
 
-    const MODEL_BOX = new THREE.Box3(new THREE.Vector3(-65, -41, -8.5), new THREE.Vector3(254, 58, 51.5));
-    const VIEW_FILL = 0.92;
+    // Exact PLA-100 v2 bounding envelope (mm)
+    const MODEL_BOX = new THREE.Box3(new THREE.Vector3(-120, -56, 0), new THREE.Vector3(258, 56, 64));
 
     const container = document.getElementById('viewport-container');
     const canvas = document.getElementById('cad-canvas');
@@ -435,54 +722,111 @@
     const spinner = document.getElementById('loading-spinner');
     const hotspotsContainer = document.getElementById('hotspots-container');
 
-    // Cutting Plane along Y=0 (cuts front half to reveal spindle & bearings)
+    // Clipping Planes: A-A (Y=0) and B-B (X=currentStroke)
     const clipPlaneA = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const clipPlaneB = new THREE.Plane(new THREE.Vector3(-1, 0, 0), currentStroke);
 
-    // Assembly Part Definitions
+    // 21 B-Rep Verified Named Parts (matching models/pla100_manifest.json)
     const PARTS = {
-      base: { file: 'models/pla100_base.stl', name: 'Base Profile', pos: 1, mat: 'base', delta: [0, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'CNC-milled guide profile (L=240 mm). Datum A face-milled Ra 0.8.' },
-      rail_left: { file: 'models/pla100_rail_left.stl', name: 'Left Linear Rail', pos: 2, mat: 'steel', delta: [0, -16, 0], standard: 'MGN12 - L230', matName: '100Cr6 hardened', desc: 'Precision miniature rail with ground raceways.' },
-      rail_right: { file: 'models/pla100_rail_right.stl', name: 'Right Linear Rail', pos: 3, mat: 'steel', delta: [0, 16, 0], standard: 'MGN12 - L230', matName: '100Cr6 hardened', desc: 'Parallelism ∥ 0.008 mm aligned to reference edge Datum B.' },
-      fixed_bearing: { file: 'models/pla100_fixed_bearing.stl', name: 'Fixed Bearing Housing', pos: 8, mat: 'bearing', delta: [-22, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Bore for 2× 7001-B back-to-back O-arrangement (seat ∅ 28 H7, ⟂ 0.01 A).' },
-      floating_bearing: { file: 'models/pla100_floating_bearing.stl', name: 'Floating Bearing Housing', pos: 9, mat: 'bearing', delta: [38, 0, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Bore for deep groove ball bearing 6001 (∅ 28 H7, +0.5 mm axial float).' },
-      motor: { file: 'models/pla100_motor.stl', name: 'NEMA 23 Stepper Motor', pos: 10, mat: 'motor', delta: [-75, 0, 0], standard: 'NEMA 23 (□ 57 mm)', matName: 'Die-cast Al / Laminations', desc: 'Holding torque 1.26 Nm, 1.8° step angle, shaft ∅ 6.35 mm.' },
-      coupling: { file: 'models/pla100_coupling.stl', name: 'Jaw Coupling', pos: 11, mat: 'coupling', delta: [-42, 0, 0], rotAxis: true, standard: 'D25 L30 zero-backlash', matName: 'Al / PUR 98 Sh-A', desc: 'Zero-backlash shaft coupling damping torsional vibration.' },
-      sensor_bracket: { file: 'models/pla100_sensor_bracket.stl', name: 'Limit Switch Bracket', pos: 12, mat: 'bearing', delta: [0, 26, 0], standard: 'Custom', matName: 'EN AW-6082 T6', desc: 'Mount for M8 inductive proximity sensor.' },
-      spindle: { file: 'models/pla100_spindle.stl', name: 'Ball Screw Spindle', pos: 5, mat: 'steel', delta: [0, 0, 0], rotAxis: true, standard: 'Ball Screw Ø12 × 4 (IT5)', matName: 'CF53 / 100Cr6', desc: 'Lead Ph = 4.0 mm. Rated for traverse speeds up to 200 mm/s.' },
-      // Carriage Group (moves with X)
-      table: { file: 'models/pla100_table.stl', name: 'Carriage Table', pos: 7, mat: 'table', isCarriage: true, delta: [0, 0, 45], standard: 'Custom', matName: 'EN AW-7075 T6 anodized', desc: 'Mounting surface 90×76 mm with M5 grid (25×25 mm).' },
-      nut: { file: 'models/pla100_nut.stl', name: 'Flanged Ball Nut', pos: 6, mat: 'nut', isCarriage: true, delta: [0, 0, 0], standard: 'DIN 69051 equiv.', matName: '16MnCr5 case-hardened', desc: 'Preloaded zero-backlash flanged nut with internal ball recirculation.' },
-      blocks: { file: 'models/pla100_blocks.stl', name: '4× Linear Carriages', pos: 4, mat: 'blocks', isCarriage: true, delta: [0, 0, 0], standard: 'MGN12H (long)', matName: '100Cr6 / POM cage', desc: 'Preload class Z1 (0.02 C). Dynamic load rating C = 3.8 kN.' },
-      flag: { file: 'models/pla100_flag.stl', name: 'Trigger Flag', pos: 13, mat: 'nut', isCarriage: true, delta: [0, 20, 45], standard: 'DIN EN 10130', matName: 'Galvanized DC01 steel', desc: 'Target plate for non-contact inductive end-stop sensing.' }
+      base:               { pos: 1,  step: 1, file: 'models/pla100_base.stl',               name: 'Base Profile (PLA-100-10-01)',     mat: 'base',     mass: 1358.3, delta: [0, 0, 0],     standard: 'Custom CNC U-Profile', matName: 'EN AW-6082 T6', desc: 'CNC-milled U-channel (L=240 mm) with Datum A floor (⏥ 0.01), Datum B ground rail lip (∥ 0.008), 6× outboard M6 mounting ears & end-face M5/Ø4 dowel patterns.' },
+      rail_left:          { pos: 2,  step: 2, file: 'models/pla100_rail_left.stl',          name: 'Linear Rail Left',                 mat: 'steel',    mass: 158.8,  delta: [0, -24, 10],  standard: 'HIWIN MGN12 - L240',   matName: '100Cr6 hardened', desc: 'Full-length 240 mm precision rail (Y=-31 mm) with Gothic-arch ball raceways & 9× counterbored M3 mounting holes (25 mm pitch).' },
+      rail_right:         { pos: 3,  step: 2, file: 'models/pla100_rail_right.stl',         name: 'Linear Rail Right',                mat: 'steel',    mass: 158.8,  delta: [0, 24, 10],   standard: 'HIWIN MGN12 - L240',   matName: '100Cr6 hardened', desc: 'Master reference rail (Y=+31 mm) seated flush against Datum B lip (∥ 0.008 A).' },
+      blocks:             { pos: 4,  step: 7, file: 'models/pla100_blocks.stl',             name: '4× Linear Carriages (MGN12H)',     mat: 'blocks',   mass: 255.7,  delta: [0, 0, 26],    isCarriage: true, standard: 'HIWIN MGN12H (Z1)', matName: '100Cr6 / POM', desc: '4× long-block carriages (45.4×27 mm, 20×20 M3 bolt square) maintaining 9.3 mm rail margin at both elastomer hard stops.' },
+      spindle:            { pos: 5,  step: 4, file: 'models/pla100_spindle.stl',            name: 'Ball Screw Spindle (Helical)',     mat: 'steel',    mass: 222.9,  delta: [0, 0, 0],     rotAxis: true, standard: 'SFU1204 Ø12×4 (IT5)', matName: 'CF53 / 100Cr6', desc: '58-turn helical Gothic-arch ball screw (Ph=4.0 mm) with machined BK10/BF10 journals (Ø12 k5, M10×1 locknut thread, Ø8 D-flat, DIN 471 circlip groove).' },
+      nut:                { pos: 6,  step: 4, file: 'models/pla100_nut.stl',                name: 'Flanged Ball Nut (SFU1204)',       mat: 'nut',      mass: 122.0,  delta: [22, 0, 0],    isCarriage: true, standard: 'DIN 69051 Form B', matName: '16MnCr5 case-hardened', desc: 'Double-flat flanged nut (30 mm across flats, +3.0 mm floor clearance) bolted axially with 4× M4 screws to the nut saddle.' },
+      nut_saddle:         { pos: 7,  step: 7, file: 'models/pla100_nut_saddle.stl',         name: 'Nut Mounting Saddle',              mat: 'bearing',  mass: 44.3,   delta: [-14, 0, 22],  isCarriage: true, standard: 'PLA-100-20-02', matName: 'EN AW-6082 T6', desc: 'Machined structural saddle transferring axial ball-nut thrust cleanly to the carriage table (4× M4 axial + 4× M4 vertical bolts).' },
+      table:              { pos: 8,  step: 7, file: 'models/pla100_table.stl',              name: 'Carriage Table (100×96 mm)',       mat: 'table',    mass: 306.0,  delta: [0, 0, 56],    isCarriage: true, standard: 'PLA-100-20-01', matName: 'EN AW-7075 T6 anodized', desc: '100×96×12 mm precision payload stage: true 25×25 mm M5 tapped grid, 2× Ø5 H7 fixture dowels, 16× M3 block counterbores with 3.9 mm outer wall.' },
+      fixed_bearing:      { pos: 9,  step: 3, file: 'models/pla100_fixed_bearing.stl',      name: 'Fixed Bearing Housing (BK10)',     mat: 'bearing',  mass: 274.0,  delta: [-24, 0, 0],   standard: 'PLA-100-10-02', matName: 'EN AW-6082 T6', desc: 'Precision Ø28 H7 bore (⟂ 0.01 A) housing duplex 7001-B bearings, pinned to base via 2× Ø4 H7 dowels + 4× M5 bolts.' },
+      bearings_fixed:     { pos: 10, step: 3, file: 'models/pla100_bearings_fixed.stl',     name: '2× 7001-B Duplex + Cap & KM0',     mat: 'brass',    mass: 90.6,   delta: [-40, 0, 0],   standard: '2× 7001-B O-Pair + KM0', matName: '100Cr6 hardened', desc: 'Back-to-back O-arrangement angular contact bearings (12 balls/row), 4-bolt retainer flange cap, and slotted M10×1 KM0 locknut.' },
+      floating_bearing:   { pos: 11, step: 3, file: 'models/pla100_floating_bearing.stl',   name: 'Floating Bearing Housing (BF10)',  mat: 'bearing',  mass: 212.3,  delta: [34, 0, 0],    standard: 'PLA-100-10-03', matName: 'EN AW-6082 T6', desc: 'Ø28 H7 bore with +0.5 mm axial float clearance on both sides of the 6001 bearing for thermal expansion.' },
+      bearing_float:      { pos: 12, step: 3, file: 'models/pla100_bearing_float.stl',      name: 'Floating Bearing 6001 + Circlip',  mat: 'brass',    mass: 23.8,   delta: [54, 0, 0],    standard: 'DIN 625 6001 + DIN 471', matName: '100Cr6 hardened', desc: 'Deep groove radial bearing (10 steel balls) retained on the Ø12 g6 journal by a DIN 471 spring-steel circlip.' },
+      lantern:            { pos: 13, step: 5, file: 'models/pla100_lantern.stl',            name: 'Motor Lantern Housing',            mat: 'lantern',  mass: 165.4,  delta: [-58, 0, 0],   standard: 'PLA-100-10-04', matName: 'EN AW-6082 T6', desc: 'Open-sided 40 mm coupling lantern exposing the rotating jaw coupling for hex-key access, with Ø38.1 H7 NEMA-23 spigot pilot.' },
+      coupling:           { pos: 14, step: 5, file: 'models/pla100_coupling.stl',           name: 'Jaw Coupling Hubs (D25 L30)',      mat: 'coupling', mass: 31.3,   delta: [-74, 0, 0],   rotAxis: true, standard: 'D25 L30 Clamp', matName: 'EN AW-6082 T6', desc: 'Zero-backlash split-clamp aluminum hubs coupling Ø6.35 mm motor shaft to Ø8.0 mm spindle journal in open space.' },
+      coupling_spider:    { pos: 15, step: 5, file: 'models/pla100_coupling_spider.stl',    name: 'Elastomer Spider (PUR 98 Sh-A)',   mat: 'spider',   mass: 0.8,    delta: [-82, 0, 0],   rotAxis: true, standard: 'D25 6-Lobe PUR', matName: 'PUR 98 Sh-A', desc: 'High-durometer red polyurethane star damping torsional motor resonance and micro-misalignment.' },
+      motor:              { pos: 16, step: 6, file: 'models/pla100_motor.stl',              name: 'NEMA 23 Stepper Motor',            mat: 'motor',    mass: 822.7,  delta: [-102, 0, 0],  standard: 'NEMA 23 (56.4×56)', matName: 'Die-cast Al / Cu / Fe', desc: '1.26 Nm bipolar stepper (1.8° step, Ø6.35 shaft) mounted cleanly +1.8 mm above Datum Plane A.' },
+      bumpers:            { pos: 17, step: 8, file: 'models/pla100_bumpers.stl',            name: '4× Elastomer End-Stops',           mat: 'rubber',   mass: 2.3,    delta: [0, 0, 22],    standard: 'Ø10×6 Shore 70A', matName: 'NBR 70 Sh-A', desc: 'Four mechanical bump stops arresting carriage travel cleanly at X=56 and X=184 mm before blocks reach rail ends.' },
+      sensors:            { pos: 18, step: 8, file: 'models/pla100_sensors.stl',            name: 'Limit Brackets & 2× M8 Sensors',   mat: 'brass',    mass: 36.6,   delta: [0, 34, 0],    standard: '2× M8×1 Inductive', matName: 'Brass Ni-plated / PBT', desc: 'Side-mounted brackets below block plane (+9 mm Z clearance) holding two M8 inductive sensors at X=70 and X=170 mm.' },
+      flag:               { pos: 19, step: 8, file: 'models/pla100_flag.stl',               name: 'Bolted Trigger Flag (DC01)',       mat: 'steel',    mass: 4.7,    delta: [0, 32, 56],   isCarriage: true, standard: 'DIN EN 10130 (2 mm)', matName: 'DC01 galvanized', desc: 'Bent 2 mm L-bracket bolted flush to carriage table +Y face with 2× M3 screws, passing 2.0 mm over M8 sensor faces.' },
+      fasteners_stator:   { pos: 20, step: 2, file: 'models/pla100_fasteners_stator.stl',   name: 'Stator Fasteners & Dowels (42×)',  mat: 'fastener', mass: 97.5,   delta: [0, 0, 22],    standard: 'DIN 912 + ISO 2338', matName: 'Steel 8.8 / A2-70', desc: '18× M3 rail bolts, 8× M5 housing bolts, 4× Ø4 H7 dowels, 4× M4 cap screws, 4× M5 lantern screws, 4× M5 motor bolts, 4× M4 sensor bolts.' },
+      fasteners_carriage: { pos: 21, step: 7, file: 'models/pla100_fasteners_carriage.stl', name: 'Carriage Fasteners (26×)',         mat: 'fastener', mass: 37.1,   delta: [0, 0, 74],    isCarriage: true, standard: 'DIN 912 M3/M4', matName: 'Steel 8.8 / A2-70', desc: '16× M3 block bolts, 4× M4 nut-saddle bolts, 4× M4 axial ball-nut flange bolts & 2× M3 trigger-flag screws.' }
     };
 
-    // 3D-GPS Annotation Hotspots
+    const STEP_NAMES = [
+      '',
+      '1. Base Profile (Datum A & B)',
+      '2. MGN12 Rails & Fasteners',
+      '3. Fixed 7001-B & Float 6001 Bearings',
+      '4. Helical SFU1204 Ball Screw & Nut',
+      '5. Jaw Coupling & Motor Lantern',
+      '6. NEMA 23 Stepper Motor',
+      '7. MGN12H Blocks, Saddle & Table',
+      '8. End-Stops, M8 Sensors & Flag (Complete)'
+    ];
+
+    // Non-overlapping 3D ISO GPS Leader-Line Annotations (clear of HUD & Specs panels!)
     const HOTSPOTS = [
-      { id: 'gps-a', pos: new THREE.Vector3(120, 0, 0), tag: 'Datum A', title: 'DIN EN ISO 1101 · Datum Plane A', desc: 'Base mounting face: flatness ⏥ 0.01. Primary mounting datum.' },
-      { id: 'gps-b', pos: new THREE.Vector3(120, 21.5, 27), tag: 'Datum B', title: 'DIN EN ISO 1101 · Guide Datum B', desc: 'Ground reference shoulder: parallelism ∥ 0.008 A to linear rail.' },
-      { id: 'gps-fixed', pos: new THREE.Vector3(-10, 0, 20), tag: 'Fixed 7001-B', title: 'Fixed Bearing (O-Arrangement)', desc: '2× angular contact bearings 7001-B preloaded. Seat ∅ 28 H7, ⟂ 0.01 A.' },
-      { id: 'gps-spindle', pos: new THREE.Vector3(0, 0, 20), tag: 'Ball Screw Ø12×4', title: 'Ball Screw Drive IT5', desc: 'Lead Ph = 4.0 mm. Journal ∅ 12 k5/h6 for axial preload.' },
-      { id: 'gps-float', pos: new THREE.Vector3(247, 0, 20), tag: 'Floating 6001', title: 'Floating Bearing', desc: 'Deep groove bearing 6001 in ∅ 28 H7 with +0.5 mm axial float for thermal expansion.' }
+      { id: 'gps-a',       anchor: new THREE.Vector3(120, -54, 0),   tip: new THREE.Vector3(120, -82, -6),  tag: 'Datum A · ⏥ 0.01',     title: 'DIN EN ISO 1101 · Primary Datum A', desc: 'Face-milled base mounting plane (Z=0, Ra 0.8). NEMA-23 motor clears Datum A by +1.8 mm; 6× M6 ears allow direct top bolting.' },
+      { id: 'gps-b',       anchor: new THREE.Vector3(38, 25, 36),    tip: new THREE.Vector3(38, 42, 68),    tag: 'Datum B · ∥ 0.008',    title: 'DIN EN ISO 1101 · Guide Shoulder B', desc: 'Precision ground rail reference lip (Y=25 mm) aligning right MGN12 rail within ∥ 0.008 A.' },
+      { id: 'gps-fixed',   anchor: new THREE.Vector3(-12, 0, 60),    tip: new THREE.Vector3(-24, -14, 84),  tag: 'Fixed 7001-B · Ø28 H7',title: 'BK10 Duplex O-Arrangement', desc: '2× 7001-B angular contact bearings preloaded by KM0 M10×1 locknut in Ø28 H7 bore (⟂ 0.01 A). Open lantern exposes jaw coupling.' },
+      { id: 'gps-spindle', anchor: new THREE.Vector3(205, 0, 36),    tip: new THREE.Vector3(205, -36, 70),  tag: 'SFU1204 · Ø12×4 IT5',  title: '58-Turn Helical Ball Screw', desc: 'True helical Gothic-arch ball groove (Ph=4.0 mm) with SFU1204 double-flat nut clearing the base floor by +3.0 mm.' },
+      { id: 'gps-float',   anchor: new THREE.Vector3(258, -14, 30),  tip: new THREE.Vector3(282, -52, 6),   tag: 'Float 6001 · +0.5 mm', title: 'BF10 Thermal Expansion Support', desc: '6001 deep groove bearing retained by DIN 471 circlip inside Ø28 H7 bore with +0.5 mm axial float clearance.' },
+      { id: 'gps-limit',   anchor: new THREE.Vector3(170, 50, 42),   tip: new THREE.Vector3(170, 74, 62),   tag: 'M8 Limit (X=70/170)',  title: 'Inductive Travel Limit Sensors', desc: 'Dual M8×1 inductive sensors at usable stroke bounds (X=70, X=170 mm) triggered across a 2.0 mm gap by the bolted DC01 flag.' }
     ];
 
     const materials = {};
     const meshes = {};
-    let carriageGroup;
+    let carriageGroup, leaderGroup, measureGroup;
+    let ledMeshMin, ledMeshMax;
+    const raycaster = new THREE.Raycaster();
+    const pointerDownPos = new THREE.Vector2();
+
+    function buildStudioEnvMap() {
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      pmrem.compileEquirectangularShader();
+      const envScene = new THREE.Scene();
+      envScene.background = new THREE.Color(0x162033);
+
+      const panels = [
+        { pos: [0, 0, 12], rot: [Math.PI, 0, 0], size: [18, 12], color: 0xffffff, intensity: 2.2 },
+        { pos: [10, -10, 6], rot: [0.5, 0.8, 0], size: [12, 8], color: 0xdbeafe, intensity: 1.8 },
+        { pos: [-10, -10, 5], rot: [0.5, -0.8, 0], size: [12, 8], color: 0xbae6fd, intensity: 1.6 },
+        { pos: [0, 12, 4], rot: [-1.2, 0, 0], size: [14, 8], color: 0x99f6e4, intensity: 1.2 },
+        { pos: [0, 0, -10], rot: [0, 0, 0], size: [20, 20], color: 0x1e293b, intensity: 0.7 }
+      ];
+      panels.forEach(p => {
+        const m = new THREE.Mesh(
+          new THREE.PlaneGeometry(p.size[0], p.size[1]),
+          new THREE.MeshBasicMaterial({ color: p.color, side: THREE.DoubleSide })
+        );
+        m.material.color.multiplyScalar(p.intensity);
+        m.position.set(...p.pos);
+        m.lookAt(0, 0, 0);
+        envScene.add(m);
+      });
+      const envRT = pmrem.fromScene(envScene, 0.04);
+      pmrem.dispose();
+      return envRT.texture;
+    }
 
     function initMaterials() {
-      materials.base = new THREE.MeshStandardMaterial({ color: 0xd6dde6, metalness: 0.72, roughness: 0.35 });
-      materials.steel = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.95, roughness: 0.16 });
-      materials.bearing = new THREE.MeshStandardMaterial({ color: 0xc2cbd6, metalness: 0.75, roughness: 0.30 });
-      materials.motor = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.55, roughness: 0.42 });
-      materials.coupling = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.25 });
-      materials.table = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.65, roughness: 0.28 });
-      materials.nut = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.88, roughness: 0.22 });
-      materials.blocks = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.28 });
+      materials.base     = new THREE.MeshStandardMaterial({ color: 0xd5dde6, metalness: 0.68, roughness: 0.32 });
+      materials.steel    = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.88, roughness: 0.20 });
+      materials.bearing  = new THREE.MeshStandardMaterial({ color: 0xc4ced9, metalness: 0.72, roughness: 0.28 });
+      materials.lantern  = new THREE.MeshStandardMaterial({ color: 0xb6c2cf, metalness: 0.70, roughness: 0.30 });
+      materials.brass    = new THREE.MeshStandardMaterial({ color: 0xd9a84e, metalness: 0.82, roughness: 0.26 });
+      materials.motor    = new THREE.MeshStandardMaterial({ color: 0x263244, metalness: 0.48, roughness: 0.44 });
+      materials.coupling = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.82, roughness: 0.24 });
+      materials.spider   = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.08, roughness: 0.42 });
+      materials.table    = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.58, roughness: 0.28 });
+      materials.nut      = new THREE.MeshStandardMaterial({ color: 0x526074, metalness: 0.80, roughness: 0.26 });
+      materials.blocks   = new THREE.MeshStandardMaterial({ color: 0x3b495e, metalness: 0.72, roughness: 0.30 });
+      materials.rubber   = new THREE.MeshStandardMaterial({ color: 0x181f2c, metalness: 0.05, roughness: 0.82 });
+      materials.fastener = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.85, roughness: 0.28 });
 
       Object.values(materials).forEach(m => {
         m.side = THREE.DoubleSide;
         m.clippingPlanes = [];
-        m.clipShadows = false;
+        m.envMapIntensity = 1.05;
       });
     }
 
@@ -493,58 +837,80 @@
       }
 
       scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x070a12);
-
-      camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 1, 3000);
+      camera = new THREE.PerspectiveCamera(28, container.clientWidth / container.clientHeight, 1, 3500);
       camera.up.set(0, 0, 1);
 
-      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: 'high-performance' });
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
       renderer.localClippingEnabled = true;
+
+      scene.environment = buildStudioEnvMap();
 
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
-      controls.maxDistance = 1200;
-      controls.minDistance = 60;
+      controls.maxDistance = 1400;
+      controls.minDistance = 55;
       setCameraView('iso');
 
-      // Studio Lighting
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x1e293b, 0.75);
-      scene.add(hemiLight);
+      // Balanced 4-point CAD Studio Lighting (illuminates FRONT, TOP, SIDE & ISO evenly!)
+      scene.add(new THREE.HemisphereLight(0xf0f7ff, 0x1e293b, 0.85));
 
-      const mainLight = new THREE.DirectionalLight(0xffffff, 0.95);
-      mainLight.position.set(200, 350, 400);
-      mainLight.castShadow = true;
-      mainLight.shadow.mapSize.width = 2048;
-      mainLight.shadow.mapSize.height = 2048;
-      mainLight.shadow.bias = -0.0001;
-      scene.add(mainLight);
+      const keyFront = new THREE.DirectionalLight(0xffffff, 1.05);
+      keyFront.position.set(180, -320, 340);
+      keyFront.castShadow = true;
+      keyFront.shadow.mapSize.width = 2048;
+      keyFront.shadow.mapSize.height = 2048;
+      keyFront.shadow.bias = -0.0002;
+      scene.add(keyFront);
 
-      const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.45);
-      fillLight.position.set(-300, -200, 250);
-      scene.add(fillLight);
+      const keyBack = new THREE.DirectionalLight(0xe0f2fe, 0.72);
+      keyBack.position.set(-160, 320, 280);
+      scene.add(keyBack);
 
-      const rimLight = new THREE.DirectionalLight(0x2dd4bf, 0.35);
-      rimLight.position.set(0, 400, -200);
-      scene.add(rimLight);
+      const fillRight = new THREE.DirectionalLight(0x38bdf8, 0.42);
+      fillRight.position.set(360, -140, 160);
+      scene.add(fillRight);
 
-      // Grid
-      const gridHelper = new THREE.GridHelper(600, 60, 0x1e293b, 0x0f172a);
+      const rimBottom = new THREE.DirectionalLight(0x2dd4bf, 0.30);
+      rimBottom.position.set(80, 180, -240);
+      scene.add(rimBottom);
+
+      // Reference Datum A Grid Plane (Z = -0.2 mm)
+      const gridHelper = new THREE.GridHelper(700, 70, 0x24344e, 0x111a2d);
       gridHelper.rotation.x = Math.PI / 2;
-      gridHelper.position.set(120, 0, MODEL_BOX.min.z - 0.5);
+      gridHelper.position.set(70, 0, -0.2);
       scene.add(gridHelper);
 
       initMaterials();
       carriageGroup = new THREE.Group();
       scene.add(carriageGroup);
+      leaderGroup = new THREE.Group();
+      scene.add(leaderGroup);
+      measureGroup = new THREE.Group();
+      scene.add(measureGroup);
+
+      // Live glowing LED indicator rings on top of both M8 sensors (X=70 & X=170, Y=50, Z=41.9)
+      const ledGeo = new THREE.CylinderGeometry(3.8, 3.8, 1.1, 24);
+      ledGeo.rotateX(Math.PI / 2);
+      ledMeshMin = new THREE.Mesh(ledGeo, new THREE.MeshStandardMaterial({ color: 0x0f766e, emissive: 0x0f766e, emissiveIntensity: 0.4, roughness: 0.25 }));
+      ledMeshMin.position.set(USE_MIN, 50, 41.9);
+      scene.add(ledMeshMin);
+
+      ledMeshMax = new THREE.Mesh(ledGeo.clone(), new THREE.MeshStandardMaterial({ color: 0x0f766e, emissive: 0x0f766e, emissiveIntensity: 0.4, roughness: 0.25 }));
+      ledMeshMax.position.set(USE_MAX, 50, 41.9);
+      scene.add(ledMeshMax);
 
       loadAllSolids();
       buildBOMList();
       buildGPSPins();
+      resetSpecsBox();
+      recalcSizing();
 
       window.addEventListener('resize', onWindowResize);
       slider.addEventListener('input', (e) => {
@@ -552,10 +918,16 @@
         updateCycleButtonState();
         setStrokePosition(parseFloat(e.target.value));
       });
+      document.getElementById('explode-slider').addEventListener('input', (e) => setExplode(parseFloat(e.target.value)));
+      document.getElementById('step-slider').addEventListener('input', (e) => setAssemblyStep(parseInt(e.target.value, 10)));
 
-      document.getElementById('explode-slider').addEventListener('input', (e) => {
-        setExplode(parseFloat(e.target.value));
+      ['in-mass', 'in-vel', 'in-acc'].forEach(id => {
+        document.getElementById(id).addEventListener('input', recalcSizing);
       });
+
+      // 3D Raycast click-to-select & 3D Ruler
+      canvas.addEventListener('pointerdown', (e) => pointerDownPos.set(e.clientX, e.clientY));
+      canvas.addEventListener('pointerup', onCanvasClick);
 
       lastTime = performance.now();
       animate();
@@ -570,26 +942,31 @@
         const info = PARTS[key];
         loader.load(info.file, function(geometry) {
           geometry.computeVertexNormals();
-
-          // Spindle & coupling rotate around center axis (Y=0, Z=20)
           if (info.rotAxis) {
-            geometry.translate(0, 0, -20);
+            geometry.translate(0, 0, -SPINDLE_Z);
           }
 
-          const mesh = new THREE.Mesh(geometry, materials[info.mat].clone());
+          const mat = materials[info.mat].clone();
+          const mesh = new THREE.Mesh(geometry, mat);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
           mesh.userData = { id: key, info: info };
 
-          if (info.rotAxis) {
-            mesh.position.set(0, 0, 20);
+          // Crisp CAD Shaded-with-Edges overlay (skip high-density helical grooves to keep spindle gleaming)
+          if (key !== 'spindle' && key !== 'bearings_fixed' && key !== 'bearing_float') {
+            const edgesGeo = new THREE.EdgesGeometry(geometry, 32);
+            const edgesMat = new THREE.LineBasicMaterial({ color: 0x090f1c, transparent: true, opacity: 0.34 });
+            const lines = new THREE.LineSegments(edgesGeo, edgesMat);
+            lines.userData.isEdgeOverlay = true;
+            mesh.add(lines);
+            mesh.userData.edgeLines = lines;
           }
 
-          if (info.isCarriage) {
-            carriageGroup.add(mesh);
-          } else {
-            scene.add(mesh);
+          if (info.rotAxis) {
+            mesh.position.set(0, 0, SPINDLE_Z);
           }
+          if (info.isCarriage) carriageGroup.add(mesh);
+          else scene.add(mesh);
 
           meshes[key] = mesh;
           loaded++;
@@ -605,25 +982,47 @@
 
     function setStrokePosition(pos) {
       currentStroke = Math.max(MIN_STROKE, Math.min(MAX_STROKE, pos));
-      if (carriageGroup) {
-        carriageGroup.position.x = currentStroke;
-      }
+      if (carriageGroup) carriageGroup.position.x = currentStroke;
+      clipPlaneB.constant = currentStroke;
+
       slider.value = currentStroke;
       posDisplay.textContent = `X = ${currentStroke.toFixed(1)} mm`;
 
       const relHub = currentStroke - MIN_STROKE;
-      const hubDisplay = document.getElementById('hub-display');
-      if (hubDisplay) hubDisplay.textContent = `Relative Stroke: ${relHub.toFixed(1)} mm / 144.0 mm`;
+      document.getElementById('hub-display').textContent = `Travel: ${relHub.toFixed(1)} / ${(MAX_STROKE - MIN_STROKE).toFixed(1)} mm`;
 
-      // Spindle & Coupling Synchronous Rotation (Lead Ph = 4.0 mm)
+      // Synchronized rotation of Helical Ball Screw + Jaw Coupling + Red PUR Spider (Ph = 4.0 mm)
       const turns = relHub / 4.0;
       const angle = turns * Math.PI * 2;
-
       if (meshes.spindle) meshes.spindle.rotation.x = angle;
       if (meshes.coupling) meshes.coupling.rotation.x = angle;
+      if (meshes.coupling_spider) meshes.coupling_spider.rotation.x = angle;
+      document.getElementById('rot-display').textContent = `Spindle: ${turns.toFixed(2)} rev`;
 
-      const rotDisplay = document.getElementById('rot-display');
-      if (rotDisplay) rotDisplay.textContent = `Spindle: ${turns.toFixed(2)} rev`;
+      // Live inductive limit sensor detection (trigger flag half-width = 10 mm)
+      const hitMin = Math.abs(currentStroke - USE_MIN) <= 10.0;
+      const hitMax = Math.abs(currentStroke - USE_MAX) <= 10.0;
+      const inUse = currentStroke >= USE_MIN && currentStroke <= USE_MAX;
+
+      updateSensorLED(ledMeshMin, document.getElementById('led-min'), hitMin);
+      updateSensorLED(ledMeshMax, document.getElementById('led-max'), hitMax);
+      const zoneEl = document.getElementById('led-zone');
+      if (inUse) {
+        zoneEl.className = 'led-pill in-range';
+        zoneEl.innerHTML = '<span class="led-dot"></span>USABLE STROKE';
+      } else {
+        zoneEl.className = 'led-pill triggered';
+        zoneEl.innerHTML = '<span class="led-dot"></span>OVERTRAVEL';
+      }
+    }
+
+    function updateSensorLED(mesh, pillEl, active) {
+      if (pillEl) pillEl.classList.toggle('triggered', active);
+      if (mesh) {
+        mesh.material.color.setHex(active ? 0xf59e0b : 0x0f766e);
+        mesh.material.emissive.setHex(active ? 0xf59e0b : 0x0f766e);
+        mesh.material.emissiveIntensity = active ? 2.2 : 0.35;
+      }
     }
 
     function setExplode(percent) {
@@ -634,45 +1033,91 @@
       Object.keys(PARTS).forEach(k => {
         const mesh = meshes[k];
         if (!mesh) return;
-        const delta = PARTS[k].delta;
-
+        const d = PARTS[k].delta;
         if (PARTS[k].rotAxis) {
-          mesh.position.set(delta[0] * explodeFactor, delta[1] * explodeFactor, 20 + delta[2] * explodeFactor);
+          mesh.position.set(d[0] * explodeFactor, d[1] * explodeFactor, SPINDLE_Z + d[2] * explodeFactor);
         } else {
-          mesh.position.set(delta[0] * explodeFactor, delta[1] * explodeFactor, delta[2] * explodeFactor);
+          mesh.position.set(d[0] * explodeFactor, d[1] * explodeFactor, d[2] * explodeFactor);
+        }
+      });
+
+      // Keep LED rings synced with sensors during explosion
+      const sd = PARTS.sensors.delta;
+      if (ledMeshMin) ledMeshMin.position.set(USE_MIN + sd[0] * explodeFactor, 50 + sd[1] * explodeFactor, 41.9 + sd[2] * explodeFactor);
+      if (ledMeshMax) ledMeshMax.position.set(USE_MAX + sd[0] * explodeFactor, 50 + sd[1] * explodeFactor, 41.9 + sd[2] * explodeFactor);
+
+      updateGPSVisibility();
+    }
+
+    function setAssemblyStep(step) {
+      assemblyStep = Math.max(1, Math.min(8, step));
+      document.getElementById('step-slider').value = assemblyStep;
+      document.getElementById('step-num').textContent = `${assemblyStep} / 8`;
+      document.getElementById('step-label').textContent = STEP_NAMES[assemblyStep];
+
+      Object.keys(PARTS).forEach(k => {
+        if (meshes[k]) meshes[k].visible = PARTS[k].step <= assemblyStep;
+      });
+      if (ledMeshMin) ledMeshMin.visible = assemblyStep >= 8;
+      if (ledMeshMax) ledMeshMax.visible = assemblyStep >= 8;
+      updateGPSVisibility();
+    }
+
+    function applyClippingPlanes() {
+      const planes = [];
+      if (isSectionA) planes.push(clipPlaneA);
+      if (isSectionB) planes.push(clipPlaneB);
+
+      Object.values(meshes).forEach(m => {
+        m.material.clippingPlanes = planes;
+        m.material.needsUpdate = true;
+        if (m.userData.edgeLines) {
+          m.userData.edgeLines.material.clippingPlanes = planes;
+          m.userData.edgeLines.material.needsUpdate = true;
         }
       });
     }
 
-    function toggleSectionView() {
-      isSectionActive = !isSectionActive;
-      const btn = document.getElementById('btn-section');
-      const activePlanes = isSectionActive ? [clipPlaneA] : [];
+    function toggleSectionA() {
+      isSectionA = !isSectionA;
+      applyClippingPlanes();
+      const btn = document.getElementById('btn-section-a');
+      btn.classList.toggle('active-cycle', isSectionA);
+      btn.innerHTML = isSectionA
+        ? '<span>✂️ Section A-A: ACTIVE (Y=0 Longitudinal)</span>'
+        : '<span>✂️ Section A-A: Longitudinal (Spindle Axis Y=0)</span>';
+    }
 
-      Object.values(meshes).forEach(m => {
-        m.material.clippingPlanes = activePlanes;
-        m.material.needsUpdate = true;
-      });
+    function toggleSectionB() {
+      isSectionB = !isSectionB;
+      applyClippingPlanes();
+      const btn = document.getElementById('btn-section-b');
+      btn.classList.toggle('active-cycle', isSectionB);
+      btn.innerHTML = isSectionB
+        ? '<span>✂️ Section B-B: ACTIVE (X=Carriage Cut)</span>'
+        : '<span>✂️ Section B-B: Transverse (Carriage Cross-Section)</span>';
+    }
 
-      if (isSectionActive) {
-        btn.classList.add('active-cycle');
-        btn.innerHTML = '<span>✂️ Section View A-A: ACTIVE (Y=0)</span>';
-      } else {
-        btn.classList.remove('active-cycle');
-        btn.innerHTML = '<span>✂️ Longitudinal Section A-A (Spindle Axis Y=0)</span>';
-      }
+    function updateGPSVisibility() {
+      const visible = showGPS && explodeFactor < 0.05 && assemblyStep >= 8;
+      hotspotsContainer.style.display = visible ? 'block' : 'none';
+      if (leaderGroup) leaderGroup.visible = visible;
     }
 
     function toggleGPSHotspots() {
       showGPS = !showGPS;
-      const btn = document.getElementById('btn-gps');
-      hotspotsContainer.style.display = showGPS ? 'block' : 'none';
-      if (showGPS) btn.classList.add('active-cycle');
-      else btn.classList.remove('active-cycle');
+      document.getElementById('btn-gps').classList.toggle('active-cycle', showGPS);
+      updateGPSVisibility();
     }
 
     function buildGPSPins() {
       hotspotsContainer.innerHTML = '';
+      while (leaderGroup.children.length) leaderGroup.remove(leaderGroup.children[0]);
+
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.72 });
+      const dotGeo = new THREE.SphereGeometry(1.6, 12, 12);
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0x2dd4bf });
+
       HOTSPOTS.forEach(h => {
         const el = document.createElement('div');
         el.className = 'gps-pin';
@@ -681,44 +1126,152 @@
         el.onclick = () => showHotspotDetails(h);
         hotspotsContainer.appendChild(el);
         h.el = el;
+
+        // 3D leader stem from exact feature anchor to pin tip
+        const lineGeo = new THREE.BufferGeometry().setFromPoints([h.anchor, h.tip]);
+        leaderGroup.add(new THREE.Line(lineGeo, lineMat));
+        const dot = new THREE.Mesh(dotGeo, dotMat);
+        dot.position.copy(h.anchor);
+        leaderGroup.add(dot);
       });
+      updateGPSVisibility();
     }
 
     function showHotspotDetails(h) {
       document.getElementById('specs-heading').textContent = h.tag;
-      const c = document.getElementById('specs-content');
-      c.innerHTML = `
-        <div style="font-weight:700; color:var(--accent-cyan); margin-bottom:0.4rem;">${h.title}</div>
-        <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0 0 0.5rem 0;">${h.desc}</p>
-        <button onclick="resetSpecsBox()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Default Specs</button>
+      document.getElementById('specs-content').innerHTML = `
+        <div style="font-weight:700; color:var(--accent-cyan); margin-bottom:0.35rem;">${h.title}</div>
+        <p style="font-size:0.73rem; color:var(--text-secondary); line-height:1.45; margin:0 0 0.55rem 0;">${h.desc}</p>
+        <button onclick="resetSpecsBox()" class="hud-btn" style="padding:3px 10px;">Back to Specs</button>
       `;
     }
 
     function resetSpecsBox() {
-      document.getElementById('specs-heading').textContent = 'Design Specifications';
+      document.getElementById('specs-heading').textContent = 'PLA-100 v2 Specifications';
       document.getElementById('specs-content').innerHTML = `
-        <div class="specs-row"><span class="specs-label">Status:</span> <span class="specs-val" style="color: #f59e0b;">In Detailing (WIP)</span></div>
-        <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70...170 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Max. Free Travel:</span> <span class="specs-val">144.0 mm (X: 48...192 mm)</span></div>
-        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12 (55 mm track)</span></div>
-        <div class="specs-row"><span class="specs-label">Lead Screw:</span> <span class="specs-val">Ball Screw Ø12 × 4 mm (IT5)</span></div>
-        <div class="specs-row"><span class="specs-label">Fixed Bearing:</span> <span class="specs-val">2× 7001-B (Back-to-back O)</span></div>
-        <div class="specs-row"><span class="specs-label">Floating Bearing:</span> <span class="specs-val">1× 6001 (+0.5 mm axial)</span></div>
-        <div class="specs-row"><span class="specs-label">Materials:</span> <span class="specs-val">EN AW-6082 T6 / 7075 T6</span></div>
-        <div class="specs-row"><span class="specs-label">System Mass:</span> <span class="specs-val">approx. 2.15 kg</span></div>
+        <div class="specs-row"><span class="specs-label">B-Rep Clash Check:</span> <span class="specs-val" style="color:#2dd4bf;">0.0000 mm³ (Passed)</span></div>
+        <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70…170)</span></div>
+        <div class="specs-row"><span class="specs-label">Hard-Stop Travel:</span> <span class="specs-val">128.0 mm (X: 56…184)</span></div>
+        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12H (62 mm track)</span></div>
+        <div class="specs-row"><span class="specs-label">Ball Screw:</span> <span class="specs-val">SFU1204 Ø12×4 (58 turns)</span></div>
+        <div class="specs-row"><span class="specs-label">Fixed / Float:</span> <span class="specs-val">2× 7001-B (O) / 1× 6001</span></div>
+        <div class="specs-row"><span class="specs-label">Clearances:</span> <span class="specs-val" style="color:#2dd4bf;">Motor +1.8 / Nut +3.0 mm</span></div>
+        <div class="specs-row"><span class="specs-label">Payload Stage:</span> <span class="specs-val">100×96 mm (25×25 M5)</span></div>
+        <div class="specs-row"><span class="specs-label">Computed Mass:</span> <span class="specs-val">4.426 kg (21 Solids)</span></div>
       `;
     }
 
+    // Live Engineering Sizing Calculator (DIN 69051 & ISO 281)
+    function recalcSizing() {
+      const m = parseFloat(document.getElementById('in-mass').value);
+      const v = parseFloat(document.getElementById('in-vel').value);     // mm/s
+      const a = parseFloat(document.getElementById('in-acc').value);     // m/s^2
+      document.getElementById('val-mass').textContent = `${m.toFixed(1)} kg`;
+      document.getElementById('val-vel').textContent = `${v.toFixed(0)} mm/s`;
+      document.getElementById('val-acc').textContent = `${a.toFixed(1)} m/s²`;
+      document.getElementById('val-orient').textContent = isVerticalAxis ? 'Vertical' : 'Horizontal';
+
+      const mCarriage = 0.77; // kg (table + 4 blocks + nut + saddle + fasteners)
+      const mTot = m + mCarriage;
+      const g = 9.81;
+      const mu = 0.006;       // MGN12H rolling friction coefficient
+      const Ph = 4.0;         // mm lead
+      const eta = 0.90;       // SFU1204 ball screw mechanical efficiency
+      const d1 = 9.7;         // mm screw root diameter
+      const L = 246.0;        // mm unsupported bearing-to-bearing span
+
+      // Axial Peak Force (N)
+      const F_grav = isVerticalAxis ? mTot * g : mTot * g * mu;
+      const F_acc = mTot * a;
+      const F_a = F_grav + F_acc;
+
+      // Rotational speed & angular acceleration
+      const n_rpm = (v / Ph) * 60.0;
+      const alpha = (a * 1000.0 / Ph) * 2.0 * Math.PI; // rad/s^2
+      // Equivalent inertia (spindle + coupling + motor rotor ~ 3.2e-5 kg*m^2 + reflected linear mass)
+      const J_rot = 3.2e-5;
+      const J_lin = mTot * Math.pow((Ph / 1000.0) / (2 * Math.PI), 2);
+      const T_load = (F_a * (Ph / 1000.0)) / (2 * Math.PI * eta);
+      const T_preload = 0.025; // Nm duplex bearing & Z1 nut preload drag
+      const T_inertia = (J_rot + J_lin) * alpha;
+      const T_req = T_load + T_preload + T_inertia;
+
+      // Realistic NEMA-23 (1.26 Nm holding) pull-out torque derating curve vs RPM
+      const T_avail = Math.max(0.18, 1.15 * Math.exp(-n_rpm / 2200.0));
+
+      // DIN 69051 Critical Speed (Fixed-Floating: fn = 15.1, 80% safety cap)
+      const n_crit = 0.8 * 15.1e7 * d1 / (L * L);
+      const n_pct = (n_rpm / n_crit) * 100.0;
+
+      // DIN 69051 Euler Buckling (Fixed-Floating: fk = 20.0, 50% safety cap)
+      const F_k = 0.5 * 20.0e4 * Math.pow(d1, 4) / (L * L);
+      const S_k = F_k / Math.max(F_a, 1.0);
+
+      // ISO 281 Fatigue Life L_10h (SFU1204 dynamic load rating C_a = 3200 N)
+      const C_a = 3200.0;
+      const F_eq = Math.max(15.0, F_a * 0.72);
+      const L10h = Math.pow(C_a / F_eq, 3) * 1e6 / Math.max(60.0 * n_rpm, 1.0);
+
+      document.getElementById('out-torque').textContent = `${T_req.toFixed(3)} Nm`;
+      document.getElementById('out-torque-sub').textContent = `Avail ${T_avail.toFixed(2)} Nm @ ${Math.round(n_rpm)} RPM`;
+      document.getElementById('out-ncrit').textContent = `${Math.round(n_rpm)} / ${Math.round(n_crit)}`;
+      document.getElementById('out-ncrit-sub').textContent = `${n_pct.toFixed(1)}% of n_crit`;
+      document.getElementById('out-buckle').textContent = `S_k = ${S_k > 999 ? '>999' : S_k.toFixed(0)}×`;
+      document.getElementById('out-buckle-sub').textContent = `F_a ${F_a.toFixed(0)} N / F_k ${(F_k/1000).toFixed(1)} kN`;
+      document.getElementById('out-life').textContent = L10h > 50000 ? '> 50 000 h' : `${Math.round(L10h).toLocaleString()} h`;
+      document.getElementById('out-life-sub').textContent = `SFU1204 C_a = 3.2 kN`;
+
+      const cT = document.getElementById('card-torque');
+      const cN = document.getElementById('card-ncrit');
+      const cB = document.getElementById('card-buckle');
+      const cL = document.getElementById('card-life');
+      cT.className = 'sizing-card' + (T_req > T_avail ? ' fail' : T_req > T_avail * 0.75 ? ' warn' : '');
+      cN.className = 'sizing-card' + (n_pct > 100 ? ' fail' : n_pct > 75 ? ' warn' : '');
+      cB.className = 'sizing-card' + (S_k < 2 ? ' fail' : S_k < 5 ? ' warn' : '');
+      cL.className = 'sizing-card' + (L10h < 2000 ? ' fail' : L10h < 10000 ? ' warn' : '');
+
+      const verdict = document.getElementById('sizing-verdict');
+      if (T_req > T_avail || n_pct > 100 || S_k < 2) {
+        verdict.textContent = 'OVERLOAD';
+        verdict.style.background = 'rgba(239,68,68,0.2)';
+        verdict.style.color = '#f87171';
+        verdict.style.borderColor = '#ef4444';
+      } else if (T_req > T_avail * 0.75 || L10h < 10000) {
+        verdict.textContent = 'MARGINAL';
+        verdict.style.background = 'rgba(245,158,11,0.2)';
+        verdict.style.color = '#fbbf24';
+        verdict.style.borderColor = '#f59e0b';
+      } else {
+        verdict.textContent = 'PASS';
+        verdict.style.background = 'rgba(45,212,191,0.14)';
+        verdict.style.color = '#2dd4bf';
+        verdict.style.borderColor = 'rgba(45,212,191,0.45)';
+      }
+    }
+
+    function toggleOrientation() {
+      isVerticalAxis = !isVerticalAxis;
+      document.getElementById('btn-orient').textContent = isVerticalAxis ? 'Switch to Horizontal' : 'Switch to Vertical';
+      recalcSizing();
+    }
+
+    function applySizingSpeedTo3D() {
+      cycleSpeed = parseFloat(document.getElementById('in-vel').value);
+      autoCycle = true;
+      updateCycleButtonState();
+      switchTab('kinematik');
+    }
+
+    // BOM & Direct 3D Raycast Selection + 3D Ruler
     function buildBOMList() {
       const c = document.getElementById('bom-list-container');
       c.innerHTML = '';
-      const sortedKeys = Object.keys(PARTS).sort((a,b) => PARTS[a].pos - PARTS[b].pos);
-      sortedKeys.forEach(k => {
+      Object.keys(PARTS).sort((a, b) => PARTS[a].pos - PARTS[b].pos).forEach(k => {
         const item = PARTS[k];
         const el = document.createElement('div');
         el.className = 'bom-item';
         el.id = `bom-${k}`;
-        el.innerHTML = `<span><strong>${item.pos}.</strong> ${item.name}</span> <span style="color:var(--text-muted); font-size:0.65rem;">${item.matName}</span>`;
+        el.innerHTML = `<span><strong>${item.pos}.</strong> ${item.name}</span><span style="color:var(--text-muted); font-size:0.64rem; white-space:nowrap;">${item.mass.toFixed(0)} g</span>`;
         el.onclick = () => selectPart(k);
         c.appendChild(el);
       });
@@ -728,29 +1281,34 @@
       selectedPartId = key;
       document.querySelectorAll('.bom-item').forEach(el => el.classList.remove('active'));
       const activeEl = document.getElementById(`bom-${key}`);
-      if (activeEl) activeEl.classList.add('active');
+      if (activeEl) {
+        activeEl.classList.add('active');
+        activeEl.scrollIntoView({ block: 'nearest' });
+      }
 
       Object.keys(meshes).forEach(k => {
         const m = meshes[k];
         if (k === key) {
           m.material.opacity = 1.0;
           m.material.transparent = false;
-          m.material.emissive = new THREE.Color(0x0284c7);
-          m.material.emissiveIntensity = 0.35;
+          m.material.emissive.setHex(0x0284c7);
+          m.material.emissiveIntensity = 0.28;
         } else {
-          m.material.opacity = 0.22;
+          m.material.opacity = 0.16;
           m.material.transparent = true;
-          m.material.emissive = new THREE.Color(0x000000);
+          m.material.emissive.setHex(0x000000);
+          m.material.emissiveIntensity = 0;
         }
       });
 
       const info = PARTS[key];
       document.getElementById('specs-heading').textContent = `Pos. ${info.pos}: ${info.name}`;
       document.getElementById('specs-content').innerHTML = `
-        <div class="specs-row"><span class="specs-label">Std./Type:</span> <span class="specs-val">${info.standard}</span></div>
+        <div class="specs-row"><span class="specs-label">Standard:</span> <span class="specs-val">${info.standard}</span></div>
         <div class="specs-row"><span class="specs-label">Material:</span> <span class="specs-val" style="color:var(--accent-cyan);">${info.matName}</span></div>
-        <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0.5rem 0 0.5rem 0;">${info.desc}</p>
-        <button onclick="clearPartSelection()" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.68rem; padding:2px 8px; border-radius:3px; cursor:pointer; font-family:var(--font-mono);">Clear selection</button>
+        <div class="specs-row"><span class="specs-label">B-Rep Mass:</span> <span class="specs-val">${info.mass.toFixed(1)} g</span></div>
+        <p style="font-size:0.72rem; color:var(--text-secondary); line-height:1.45; margin:0.45rem 0;">${info.desc}</p>
+        <button onclick="clearPartSelection()" class="hud-btn" style="padding:3px 10px;">Show Full Assembly</button>
       `;
     }
 
@@ -760,18 +1318,96 @@
       Object.values(meshes).forEach(m => {
         m.material.opacity = 1.0;
         m.material.transparent = false;
-        m.material.emissive = new THREE.Color(0x000000);
+        m.material.emissive.setHex(0x000000);
+        m.material.emissiveIntensity = 0;
       });
       resetSpecsBox();
+    }
+
+    function toggleMeasureMode() {
+      measureMode = !measureMode;
+      measurePoints = [];
+      clearMeasureGraphics();
+      canvas.classList.toggle('measure-cursor', measureMode);
+      const btn = document.getElementById('btn-measure');
+      btn.classList.toggle('active', measureMode);
+      const box = document.getElementById('measure-box');
+      box.style.display = measureMode ? 'block' : 'none';
+      box.textContent = 'Click point 1 on any 3D CAD surface...';
+    }
+
+    function clearMeasureGraphics() {
+      while (measureGroup.children.length) measureGroup.remove(measureGroup.children[0]);
+    }
+
+    function onCanvasClick(e) {
+      if (Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y) > 5) return;
+      const rect = canvas.getBoundingClientRect();
+      const ndc = new THREE.Vector2(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1
+      );
+      raycaster.setFromCamera(ndc, camera);
+      const pickables = Object.values(meshes).filter(m => m.visible);
+      const hits = raycaster.intersectObjects(pickables, false);
+
+      if (measureMode) {
+        if (hits.length === 0) return;
+        const pt = hits[0].point.clone();
+        if (measurePoints.length >= 2) {
+          measurePoints = [];
+          clearMeasureGraphics();
+        }
+        measurePoints.push(pt);
+        const dot = new THREE.Mesh(new THREE.SphereGeometry(2.0, 14, 14), new THREE.MeshBasicMaterial({ color: 0xfbbf24 }));
+        dot.position.copy(pt);
+        measureGroup.add(dot);
+
+        const box = document.getElementById('measure-box');
+        if (measurePoints.length === 1) {
+          box.textContent = `P1 (${pt.x.toFixed(1)}, ${pt.y.toFixed(1)}, ${pt.z.toFixed(1)}) mm — click point 2...`;
+        } else {
+          const [p1, p2] = measurePoints;
+          const d = p1.distanceTo(p2);
+          const line = new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints([p1, p2]),
+            new THREE.LineBasicMaterial({ color: 0x38bdf8 })
+          );
+          measureGroup.add(line);
+          box.innerHTML = `<strong>d = ${d.toFixed(2)} mm</strong> · ΔX=${Math.abs(p2.x - p1.x).toFixed(1)} · ΔY=${Math.abs(p2.y - p1.y).toFixed(1)} · ΔZ=${Math.abs(p2.z - p1.z).toFixed(1)} mm`;
+        }
+        return;
+      }
+
+      if (hits.length > 0 && hits[0].object.userData.id) {
+        selectPart(hits[0].object.userData.id);
+      } else if (selectedPartId) {
+        clearPartSelection();
+      }
+    }
+
+    // 2D Drawing Modal & Synchronized 3D Focus
+    function openDrawingModal() { document.getElementById('drawing-modal').classList.add('open'); }
+    function closeDrawingModal() { document.getElementById('drawing-modal').classList.remove('open'); }
+    function focusFromDrawing(hotspotId) {
+      closeDrawingModal();
+      const h = HOTSPOTS.find(x => x.id === hotspotId);
+      if (h) showHotspotDetails(h);
+      if (hotspotId === 'gps-fixed' || hotspotId === 'gps-float') {
+        if (!isSectionA) toggleSectionA();
+        setCameraView('front');
+      } else if (hotspotId === 'gps-b') {
+        setCameraView('top');
+      } else {
+        setCameraView('iso');
+      }
     }
 
     function switchTab(tabId) {
       document.querySelectorAll('.hud-tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
       const activeBtn = Array.from(document.querySelectorAll('.hud-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
       if (activeBtn) activeBtn.classList.add('active');
-
       const target = document.getElementById(`tab-${tabId}`);
       if (target) target.classList.add('active');
     }
@@ -790,37 +1426,35 @@
     function updateCycleButtonState() {
       const btn = document.getElementById('btn-cycle');
       const label = document.getElementById('cycle-label');
-      if (autoCycle) {
-        btn.classList.add('active-cycle');
-        label.textContent = 'Pause';
-      } else {
-        btn.classList.remove('active-cycle');
-        label.textContent = 'Auto Cycle';
-      }
+      btn.classList.toggle('active-cycle', autoCycle);
+      label.textContent = autoCycle ? '⏸ Pause' : '▶ Auto Cycle';
+    }
+
+    function toggleEdges() {
+      showEdges = !showEdges;
+      Object.values(meshes).forEach(m => {
+        if (m.userData.edgeLines) m.userData.edgeLines.visible = showEdges;
+      });
+      document.getElementById('btn-edges').classList.toggle('active-cycle', showEdges);
     }
 
     function toggleWireframe() {
       isWireframe = !isWireframe;
       Object.values(meshes).forEach(m => { m.material.wireframe = isWireframe; });
-      const btn = document.getElementById('btn-wireframe');
-      if (isWireframe) btn.classList.add('active-cycle');
-      else btn.classList.remove('active-cycle');
+      document.getElementById('btn-wireframe').classList.toggle('active-cycle', isWireframe);
     }
 
     function setCameraView(view) {
       document.querySelectorAll('#tab-kinematik .hud-btn').forEach(b => b.classList.remove('active'));
       let dir;
       if (view === 'iso') {
-        const elev = THREE.MathUtils.degToRad(30);
-        const slope = Math.atan2(container.clientHeight, container.clientWidth);
-        const azim = THREE.MathUtils.clamp(Math.atan(Math.sin(elev) / Math.tan(slope)), THREE.MathUtils.degToRad(20), THREE.MathUtils.degToRad(70));
-        dir = new THREE.Vector3(Math.cos(elev) * Math.cos(azim), -Math.cos(elev) * Math.sin(azim), Math.sin(elev));
+        dir = new THREE.Vector3(0.56, -0.70, 0.44);
       } else if (view === 'top') {
         dir = new THREE.Vector3(0, -0.001, 1);
       } else if (view === 'front') {
-        dir = new THREE.Vector3(0, -1, 0);
+        dir = new THREE.Vector3(0, -1, 0.08);
       } else if (view === 'side') {
-        dir = new THREE.Vector3(1, 0, 0);
+        dir = new THREE.Vector3(1, -0.08, 0.12);
       }
 
       const target = fitCamera(dir.normalize());
@@ -828,7 +1462,6 @@
         controls.target.copy(target);
         controls.update();
       }
-
       const activeBtn = Array.from(document.querySelectorAll('#tab-kinematik .hud-btn')).find(b => b.textContent.toLowerCase() === view.toLowerCase());
       if (activeBtn) activeBtn.classList.add('active');
     }
@@ -836,7 +1469,8 @@
     function fitCamera(dir) {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
-      const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * VIEW_FILL;
+      const fill = document.body.classList.contains('is-embedded') ? 0.86 : 0.72;
+      const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * fill;
       const tanH = tanV * camera.aspect;
 
       const target = MODEL_BOX.getCenter(new THREE.Vector3());
@@ -866,6 +1500,11 @@
               .addScaledVector(up, (Math.min(...ty) + Math.max(...ty)) / 2 * dist);
       }
 
+      // Slight vertical shift upward on desktop so the actuator clears the bottom-left HUD cleanly
+      if (!document.body.classList.contains('is-embedded') && container.clientWidth > 900) {
+        target.addScaledVector(up, -14);
+      }
+
       camera.position.copy(target).addScaledVector(dir, minDist(relCorners()));
       camera.lookAt(target);
       return target;
@@ -875,10 +1514,13 @@
       setCameraView('iso');
       setStrokePosition(120.0);
       setExplode(0);
+      setAssemblyStep(8);
       clearPartSelection();
+      if (measureMode) toggleMeasureMode();
       autoCycle = false;
       updateCycleButtonState();
-      if (isSectionActive) toggleSectionView();
+      if (isSectionA) toggleSectionA();
+      if (isSectionB) toggleSectionB();
     }
 
     function onWindowResize() {
@@ -888,34 +1530,32 @@
     }
 
     function updateHotspotPositions() {
-      if (!showGPS) return;
+      if (!showGPS || explodeFactor >= 0.05 || assemblyStep < 8) return;
       HOTSPOTS.forEach(h => {
         if (!h.el) return;
-        const v = h.pos.clone().project(camera);
+        const v = h.tip.clone().project(camera);
         if (v.z > 1.0) {
           h.el.style.display = 'none';
           return;
         }
         h.el.style.display = 'block';
-        const x = (v.x * 0.5 + 0.5) * container.clientWidth;
-        const y = (-(v.y * 0.5) + 0.5) * container.clientHeight;
-        h.el.style.left = `${x}px`;
-        h.el.style.top = `${y}px`;
+        h.el.style.left = `${(v.x * 0.5 + 0.5) * container.clientWidth}px`;
+        h.el.style.top = `${(-(v.y * 0.5) + 0.5) * container.clientHeight}px`;
       });
     }
 
     function animate(now) {
       requestAnimationFrame(animate);
-      const delta = (now - lastTime) / 1000.0;
+      const delta = Math.min(0.05, (now - lastTime) / 1000.0);
       lastTime = now;
 
       if (autoCycle) {
         let nextPos = currentStroke + cycleDirection * cycleSpeed * delta;
-        if (nextPos >= MAX_STROKE) {
-          nextPos = MAX_STROKE;
+        if (nextPos >= USE_MAX) {
+          nextPos = USE_MAX;
           cycleDirection = -1;
-        } else if (nextPos <= MIN_STROKE) {
-          nextPos = MIN_STROKE;
+        } else if (nextPos <= USE_MIN) {
+          nextPos = USE_MIN;
           cycleDirection = 1;
         }
         setStrokePosition(nextPos);
