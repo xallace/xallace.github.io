@@ -122,10 +122,10 @@
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
               </svg>
               <span class="folder-path">technical-design/</span>
-              <span class="folder-count">6 Modules</span>
+              <span class="folder-count">7 Modules</span>
             </div>
             <div class="tech-folder-meta">
-              <span>ISO 2692 · ISO 5459 · ISO 14405-1 · ISO 286 · ISO 1101 · ISO 8015 · DIN ISO 128</span>
+              <span>ISO 22081 · ISO 2692 · ISO 5459 · ISO 14405-1 · ISO 286 · ISO 1101 · ISO 8015 · DIN ISO 128</span>
               <span class="folder-chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -133,6 +133,7 @@
           <div class="tech-folder-body">
             <div class="folder-tree-bar">
               <span><strong>technical-design/</strong></span>
+              <span>├── <a href="https://xallace.github.io/iso22081-profile-lab/" target="_blank" rel="noopener noreferrer">iso22081-profile-lab/</a></span>
               <span>├── <a href="https://xallace.github.io/iso2692-mmr-lab/" target="_blank" rel="noopener noreferrer">iso2692-mmr-lab/</a></span>
               <span>├── <a href="https://xallace.github.io/iso5459-datum-lab/" target="_blank" rel="noopener noreferrer">iso5459-datum-lab/</a></span>
               <span>├── <a href="https://xallace.github.io/iso14405-banana-shaft/" target="_blank" rel="noopener noreferrer">iso14405-banana-shaft/</a></span>
@@ -142,11 +143,75 @@
             </div>
 
             <div class="tech-folder-grid">
+              <!-- Module: ISO 22081 General Profile & ISO 2768-2 Migration Lab -->
+              <article class="project-card" style="--card-accent:#d94426; --card-sec:#34d399;">
+                <div class="project-media has-art">
+                  <div class="card-serial-strip">
+                    <span class="serial-code">TD-01 · DIN EN ISO 22081</span>
+                    <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">New · 1967 Book Plate</span>
+                  </div>
+                  <div class="art-scene art-profile" aria-hidden="true">
+                    <svg viewBox="0 0 360 190" class="art-svg-bg">
+                      <defs>
+                        <radialGradient id="profGlow" cx="50%" cy="48%" r="55%">
+                          <stop offset="0%" stop-color="#d94426" stop-opacity="0.22"/>
+                          <stop offset="55%" stop-color="#34d399" stop-opacity="0.10"/>
+                          <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="360" height="190" fill="url(#profGlow)"/>
+                      <!-- Stepped Housing Outer/Inner Profile ⌓ Skin -->
+                      <path d="M96,128 L264,128 L264,74 Q264,46 214,46 L160,46 L160,72 L96,72 Z" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5 4"/>
+                      <path d="M108,118 L252,118 L252,74 Q252,56 214,56 L172,56 L172,82 L108,82 Z" fill="rgba(8,12,22,0.55)" stroke="#fff3c4" stroke-width="1.8"/>
+                      <!-- Shifted actual contour breaching right shoulder -->
+                      <path d="M114,121 L258,116 L259,70 Q258,42 214,42 L176,53 L176,80 L112,80 Z" fill="none" stroke="#fb923c" stroke-width="2"/>
+                      <!-- Surface Profile Symbol Badge -->
+                      <circle cx="294" cy="50" r="15" fill="rgba(8,12,22,0.88)" stroke="#fb923c" stroke-width="1.6"/>
+                      <path d="M285 55 A9 9 0 0 1 303 55 Z" fill="none" stroke="#fff3c4" stroke-width="1.7" stroke-linejoin="round"/>
+                      <rect x="86" y="146" width="188" height="22" rx="4" fill="rgba(8,12,22,0.88)" stroke="rgba(217,68,38,0.55)"/>
+                      <text x="180" y="161" fill="#fff3c4" font-family="JetBrains Mono,monospace" font-size="9.6" font-weight="700" text-anchor="middle">| ⌓ | 0.40 UZ | A | B | C |</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="project-content">
+                  <div class="card-head-row">
+                    <div>
+                      <h3 class="card-title">General Profile Lab · ISO 22081 vs. ISO 2768-2</h3>
+                      <div class="card-kicker">Surface Profile ⌓ · UZ Offset · 2768-2 Audit &amp; Title-Block Builder</div>
+                    </div>
+                    <span class="card-crest-gem" aria-hidden="true"></span>
+                  </div>
+                  <div class="card-tags">
+                    <span class="tag">1967 Plate</span>
+                    <span class="tag">ISO 22081</span>
+                    <span class="tag">Profile ⌓ &amp; UZ</span>
+                    <span class="tag">2768-2 Migration</span>
+                  </div>
+                  <p class="card-text">
+                    Interactive 1967 book-plate lab for DIN EN ISO 22081: 14× exaggerated General Surface Profile (<code>⌓</code>) contour with unilateral/unequal <code>UZ</code> offset &amp; Datum-Lock vs. Floating comparison, live 5-feature audit showing why withdrawn <code>ISO 2768-2</code> creates freeform &amp; step blindspots, and an ISO 22081 Title-Block compliance validator.
+                  </p>
+                  <div class="card-metrics-strip">
+                    <div class="metric-cell"><span>ISO 22081</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                    <div class="metric-cell"><span>⌓ &amp; UZ</span><div class="m-track"><div class="m-fill" style="width:98%"></div></div></div>
+                    <div class="metric-cell"><span>14 TESTS</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                  </div>
+                  <div class="card-actions">
+                    <a href="https://xallace.github.io/iso22081-profile-lab/" target="_blank" rel="noopener noreferrer" class="card-btn primary">
+                      <span>Open Lab</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    </a>
+                    <a href="https://github.com/xallace/iso22081-profile-lab" target="_blank" rel="noopener noreferrer" class="card-btn secondary">
+                      <span>Source Code</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
               <!-- Module: ISO 2692 MMR / LMR Bonus Tolerance Lab -->
               <article class="project-card" style="--card-accent:#34d399; --card-sec:#38bdf8;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-01 · DIN EN ISO 2692</span>
+                    <span class="serial-code">TD-02 · DIN EN ISO 2692</span>
                     <span class="preview-badge" style="background: rgba(52, 211, 153, 0.20); color: #34d399; border-color: rgba(52, 211, 153, 0.55);">New · 1967 Book Plate</span>
                   </div>
                   <div class="art-scene art-mmr" aria-hidden="true">
@@ -213,7 +278,7 @@
               <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#d94426;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-02 · DIN EN ISO 5459</span>
+                    <span class="serial-code">TD-03 · DIN EN ISO 5459</span>
                     <span class="preview-badge" style="background: rgba(56, 189, 248, 0.22); color: #38bdf8; border-color: rgba(56, 189, 248, 0.55);">New · 1967 Book Plate</span>
                   </div>
                   <div class="art-scene art-datum" aria-hidden="true">
@@ -282,7 +347,7 @@
               <article class="project-card" style="--card-accent:#d94426; --card-sec:#38bdf8;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-03 · ISO 14405-1 &amp; 286</span>
+                    <span class="serial-code">TD-04 · ISO 14405-1 &amp; 286</span>
                     <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">New · 1967 Book Plate</span>
                   </div>
                   <div class="art-scene art-banana" aria-hidden="true">
@@ -349,7 +414,7 @@
               <article class="project-card" style="--card-accent:#f97316; --card-sec:#38bdf8;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-04 · ISO 1101:2017</span>
+                    <span class="serial-code">TD-05 · ISO 1101:2017</span>
                     <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">New · 3D Book Plate</span>
                   </div>
                   <div class="art-scene art-iso1101" aria-hidden="true">
@@ -418,7 +483,7 @@
               <article class="project-card" style="--card-accent:#38bdf8; --card-sec:#2dd4bf;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-05 · ISO GPS</span>
+                    <span class="serial-code">TD-06 · ISO GPS</span>
                     <span class="preview-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); border-color: var(--accent-cyan);">Study Guide · 14 Symbols</span>
                   </div>
                   <div class="art-scene art-gps" aria-hidden="true">
@@ -486,7 +551,7 @@
               <article class="project-card" style="--card-accent:#f97316; --card-sec:#d4af37;">
                 <div class="project-media has-art">
                   <div class="card-serial-strip">
-                    <span class="serial-code">TD-06 · PLATES I–VI</span>
+                    <span class="serial-code">TD-07 · PLATES I–VI</span>
                     <span class="preview-badge" style="background: rgba(217, 68, 38, 0.22); color: #fb923c; border-color: rgba(217, 68, 38, 0.55);">6 Plates · 1967 Drafting</span>
                   </div>
                   <div class="art-scene" aria-hidden="true">
