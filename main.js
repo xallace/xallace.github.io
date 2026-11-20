@@ -251,6 +251,7 @@
   //    serial code and title, placed right before the card. CSS puts the buttons in a column
   //    on the left and the active card on the right; below 700 px the DOM order gives an
   //    accordion. The deck CSS is scoped to html.js, so without JS the cards stay a grid.
+  //    In the deck the card's own .serial-code is hidden by CSS: the tab shows it instead.
   const chevron = (d) =>
     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
   const deckMq = window.matchMedia('(max-width: 699px)');
