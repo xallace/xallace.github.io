@@ -11,6 +11,7 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 
 ### 📁 Technical Design & Standards (`#technical-design`)
 
+* **[iso2692-mmr-lab](https://xallace.github.io/iso2692-mmr-lab/)** — *MMR / LMR Bonus Tolerance Lab*: Interactive 1967 book-plate lab for DIN EN ISO 2692 covering `Ⓜ` bonus tolerance & `MMVS` functional gauges, Zero-at-MMC (`Ø0 Ⓜ`), Reciprocity (`Ⓜ Ⓡ`), exact `+57.08%` cylindrical `Ø` vs. `±` area comparison, and `Ⓛ` minimum wall protection.
 * **[iso5459-datum-lab](https://xallace.github.io/iso5459-datum-lab/)** — *3-2-1 Datum Reference Frame Lab*: Interactive 1967 book-plate inspection lab for DIN EN ISO 5459 covering 3D 6-DOF rigid locking, exact SE(2) `|A|B|C|` vs. `|A|C|B|` precedence flips, Common Datum `|A-B|`, cast Datum Targets (`A1`–`A3`), and ISO 5459 §7.2.2 frame validation.
 * **[iso14405-banana-shaft](https://xallace.github.io/iso14405-banana-shaft/)** — *Banana Shaft Lab*: Interactive 1967 book-plate metrology lab for DIN EN ISO 14405-1 size operators (`LP`, `GG`, `GX`, `GN`, `GC`, `Ⓔ`), the `Ø20 H7/f7` bent-shaft assembly paradox, 3-lobe constant-width orbiform cross-sections, and official DIN EN ISO 286-2 fits.
 * **[iso1101-straightness](https://xallace.github.io/iso1101-straightness/)** — *Straightness Lab*: Interactive 1967 book-plate 3D & 2D inspection lab for DIN EN ISO 1101:2017 intersection (`⟨[ // | A ]`, `⟨[ ⊥ | A ]`) and orientation (`⟨[ ⊥ | A ]⟩`, `⟨[ // | B ]⟩`) plane indicators with exact Chebyshev MZS solvers.
