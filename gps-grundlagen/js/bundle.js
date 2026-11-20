@@ -525,16 +525,7 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const num = (v, d = 2) => v.toFixed(d);
 
-// ---------- Theme and tabs ----------
-function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch { return null; } }
-function setTheme(dark) {
-  document.body.classList.toggle('theme-blueprint', dark);
-  $('#theme-label').textContent = dark ? 'Light Mode' : 'Blueprint';
-  store('gps-theme', dark ? 'dark' : 'light');
-}
-setTheme(store('gps-theme') !== 'light');
-$('#btn-theme').addEventListener('click', () => setTheme(!document.body.classList.contains('theme-blueprint')));
-
+// ---------- Tabs (1967 Technical Book-Plate Aesthetic) ----------
 function showTab(id, sub) {
   if (!$(`#tab-${id}`)) id = 'uebersicht';
   $$('.tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === id));
