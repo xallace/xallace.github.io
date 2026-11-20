@@ -11,6 +11,7 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 
 ### 📁 Technical Design & Standards (`#technical-design`)
 
+* **[iso14405-banana-shaft](https://xallace.github.io/iso14405-banana-shaft/)** — *Banana Shaft Lab*: Interactive 1967 book-plate metrology lab for DIN EN ISO 14405-1 size operators (`LP`, `GG`, `GX`, `GN`, `GC`, `Ⓔ`), the `Ø20 H7/f7` bent-shaft assembly paradox, 3-lobe constant-width orbiform cross-sections, and official DIN EN ISO 286-2 fits.
 * **[iso1101-straightness](https://xallace.github.io/iso1101-straightness/)** — *Straightness Lab*: Interactive 1967 book-plate 3D & 2D inspection lab for DIN EN ISO 1101:2017 intersection (`⟨[ // | A ]`, `⟨[ ⊥ | A ]`) and orientation (`⟨[ ⊥ | A ]⟩`, `⟨[ // | B ]⟩`) plane indicators with exact Chebyshev MZS solvers.
 * **[gps-grundlagen](https://xallace.github.io/gps-grundlagen/)** — *GPS Fundamentals*: the 14 geometric tolerance types of DIN EN ISO 1101 with drawing callout, tolerance zone and deviation, a feature-control-frame checker, the 13 principles of DIN EN ISO 8015 with an envelope-requirement (Ⓔ) calculator, and exercises.
 * **[engineering-graphics](https://xallace.github.io/engineering-graphics/)** — *Engineering Graphics & Math Studio*: 1967 Drafting Plate interactive suite uniting six plates:
