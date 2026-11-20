@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -142,7 +143,7 @@
               <span>└── <a href="engineering-graphics/">engineering-graphics/</a></span>
             </div>
 
-            <div class="tech-folder-grid">
+            <div class="tech-folder-grid tab-deck" role="region" aria-label="Technical Design modules">
               <!-- Module: ISO 22081 General Profile & ISO 2768-2 Migration Lab -->
               <article class="project-card" style="--card-accent:#d94426; --card-sec:#34d399;">
                 <div class="project-media has-art">
@@ -634,7 +635,7 @@
           <p class="section-desc">Real-time kinematics, rotational dynamics, and mathematical visualizations with zero plug-ins.</p>
         </div>
 
-        <div class="projects-grid">
+        <div class="projects-grid tab-deck" role="region" aria-label="Engineering simulations">
           <!-- Featured Project: PLA-100 v2 Linear Axis -->
           <article class="project-card featured" style="--card-accent:#38bdf8; --card-sec:#2dd4bf;">
             <div class="project-media has-art">
@@ -1014,11 +1015,15 @@
             </div>
           </article>
 
-          <!-- More Projects: Learning Apps, Tools, Experiments -->
-          <div class="grid-subhead">
-            <div class="section-tag">More Projects</div>
-            <p class="section-desc">Learning apps, tools, and experiments beyond mechanical design.</p>
-          </div>
+        </div>
+
+        <!-- More Projects: Learning Apps, Tools, Experiments -->
+        <div class="grid-subhead">
+          <div class="section-tag">More Projects</div>
+          <p class="section-desc">Learning apps, tools, and experiments beyond mechanical design.</p>
+        </div>
+
+        <div class="projects-grid tab-deck" role="region" aria-label="More projects">
 
           <!-- Project: Hörbuch-Generator (Audiobook Studio) -->
           <article class="project-card" style="--card-accent:#34d399; --card-sec:#38bdf8;">

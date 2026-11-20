@@ -247,4 +247,89 @@
     requestAnimationFrame(animateCards);
   }
 
+  // 4. Card groups as a vertical tab deck (.tab-deck): one button per card, built from its
+  //    serial code and title, placed right before the card. CSS puts the buttons in a column
+  //    on the left and the active card on the right; below 700 px the DOM order gives an
+  //    accordion. The deck CSS is scoped to html.js, so without JS the cards stay a grid.
+  const chevron = (d) =>
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  const deckMq = window.matchMedia('(max-width: 699px)');
+  const decks = [];
+
+  document.querySelectorAll('.tab-deck').forEach((deck, d) => {
+    const items = Array.from(deck.children).filter((el) => el.classList.contains('project-card'));
+    if (items.length === 0) return;
+    deck.style.setProperty('--n', String(items.length));
+
+    const tabs = items.map((card, i) => {
+      const id = `deck${d + 1}-${i + 1}`;
+      if (!card.id) card.id = `${id}-card`;
+      const title = card.querySelector('.card-title');
+      const code = card.querySelector('.serial-code');
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'deck-tab';
+      tab.id = `${id}-tab`;
+      tab.setAttribute('aria-controls', card.id);
+      tab.setAttribute('aria-expanded', 'false');
+      const accent = card.style.getPropertyValue('--card-accent');
+      if (accent) tab.style.setProperty('--card-accent', accent.trim());
+      tab.innerHTML =
+        `<span class="deck-tab-no" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>` +
+        '<span class="deck-tab-text"><span class="deck-tab-code"></span><span class="deck-tab-title"></span></span>' +
+        `<span class="deck-tab-chev" aria-hidden="true">${chevron('M9 18l6-6-6-6')}</span>`;
+      tab.querySelector('.deck-tab-code').textContent = code ? code.textContent.trim() : '';
+      tab.querySelector('.deck-tab-title').textContent = title ? title.textContent.trim() : `Project ${i + 1}`;
+      deck.insertBefore(tab, card);
+      card.setAttribute('role', 'region');
+      card.setAttribute('aria-labelledby', tab.id);
+      return tab;
+    });
+
+    function setOpen(open) {
+      items.forEach((card, k) => {
+        const on = k === open;
+        card.classList.toggle('is-active', on);
+        tabs[k].classList.toggle('is-active', on);
+        tabs[k].setAttribute('aria-expanded', String(on));
+      });
+    }
+
+    function select(i) {
+      if (!deckMq.matches) { setOpen(i); return; }
+      // Accordion: a second tap closes; keep the tapped title where the finger is,
+      // otherwise a card closing above it would pull the page up.
+      const before = tabs[i].getBoundingClientRect().top;
+      setOpen(items[i].classList.contains('is-active') ? -1 : i);
+      const shift = tabs[i].getBoundingClientRect().top - before;
+      if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
+    }
+
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => select(i)));
+
+    deck.addEventListener('keydown', (e) => {
+      const k = tabs.indexOf(document.activeElement);
+      if (k < 0) return;
+      const n = tabs.length;
+      const j = { ArrowDown: (k + 1) % n, ArrowUp: (k - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
+      if (j === undefined) return;
+      e.preventDefault();
+      tabs[j].focus();
+      if (!deckMq.matches) setOpen(j);
+    });
+
+    // Side by side one card is always open; the phone accordion starts as a plain title list.
+    const ensureOpen = () => {
+      if (!deckMq.matches && !items.some((c) => c.classList.contains('is-active'))) setOpen(0);
+    };
+    decks.push(ensureOpen);
+    ensureOpen();
+  });
+
+  if (decks.length > 0) {
+    const onChange = () => decks.forEach((fn) => fn());
+    if (deckMq.addEventListener) deckMq.addEventListener('change', onChange);
+    else if (deckMq.addListener) deckMq.addListener(onChange);
+  }
+
 })();

@@ -521,6 +521,202 @@ body {
   gap: 1.45rem;
 }
 
+.projects-grid + .grid-subhead {
+  margin: 3rem 0 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .tech-folder-body { padding: 1rem 0 1.25rem; }
+  .tech-folder-body > .folder-tree-bar {
+    margin-inline: 0.75rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .tech-folder-body > .folder-tree-bar::-webkit-scrollbar { display: none; }
+}
+
+/* ==========================================================================
+   Vertical Tab Deck (.tab-deck)
+   Project titles as a list on the left, the selected card on the right.
+   Below 700 px the same markup is an accordion: the card opens under its title.
+   main.js builds the tab buttons from each card's serial code and title
+   (breakpoint mirrored there as deckMq). Scoped to html.js (inline script in
+   <head>): without JavaScript the cards stay the plain grid of their container.
+   ========================================================================== */
+.js .tab-deck {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  /* one auto row per title, the last row takes whatever the card needs beyond the list */
+  grid-template-rows: repeat(var(--n, 7), auto) 1fr;
+  gap: 0.45rem 1.6rem;
+  align-items: start;
+}
+
+.js .tab-deck > .deck-tab { grid-column: 1; }
+
+.js .tab-deck > .project-card {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: stretch;
+}
+
+/* All cards share one grid cell, the hidden ones stay invisible there: the panel keeps
+   the height of the tallest card, so switching tabs never moves the page below. */
+.js .tab-deck > .project-card:not(.is-active) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.js .tab-deck > .project-card.is-active { animation: deckIn 0.28s ease both; }
+
+.js .tab-deck .card-serial-strip {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+@keyframes deckIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.deck-tab {
+  --card-accent: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 58px;
+  padding: 0.55rem 0.75rem 0.55rem 0.85rem;
+  text-align: left;
+  font: inherit;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.deck-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.deck-tab.is-active {
+  color: var(--text-primary);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--card-accent) 16%, transparent), rgba(255, 255, 255, 0.03));
+  border-color: color-mix(in srgb, var(--card-accent) 45%, transparent);
+  border-left-color: var(--card-accent);
+}
+
+.deck-tab:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
+.deck-tab-no {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 1.4rem;
+}
+
+.deck-tab-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.deck-tab-code {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deck-tab-title {
+  font-family: 'Outfit', var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.deck-tab-chev {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  opacity: 0.5;
+  transition: transform var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.deck-tab.is-active .deck-tab-no,
+.deck-tab.is-active .deck-tab-chev {
+  color: var(--card-accent);
+  opacity: 1;
+}
+
+/* Wide screens: the selected card lies on its side, picture left, text right */
+@media (min-width: 1100px) {
+  .js .tab-deck > .project-card { flex-direction: row; }
+  .js .tab-deck > .project-card > .project-media {
+    flex: 0 0 42%;
+    height: auto;
+    min-height: 280px;
+  }
+  .js .tab-deck > .project-card > .project-media.has-art::after {
+    inset: 0 0 0 auto;
+    width: 64px;
+    height: auto;
+    background: linear-gradient(90deg, transparent 0%, rgba(8, 12, 23, 0.96) 100%);
+  }
+  .js .tab-deck > .project-card > .project-content { padding: 1.4rem 1.6rem 1.5rem 1.1rem; }
+}
+
+@media (max-width: 1099px) {
+  .js .tab-deck { grid-template-columns: minmax(200px, 250px) minmax(0, 1fr); column-gap: 1.2rem; }
+}
+
+/* Phones: accordion, every title in one column, the open card right under its title */
+@media (max-width: 699px) {
+  .js .tab-deck {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 0.5rem;
+  }
+  .js .tab-deck > .deck-tab,
+  .js .tab-deck > .project-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .js .tab-deck > .project-card { margin-bottom: 0.6rem; }
+  .js .tab-deck > .project-card:not(.is-active) { display: none; }
+  .deck-tab { min-height: 60px; }
+  .deck-tab.is-active .deck-tab-chev { transform: rotate(90deg); }
+}
+
+@media (max-width: 640px) {
+  .js .tech-folder-body > .tab-deck { margin-inline: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .tab-deck > .project-card.is-active { animation: none; }
+}
+
 /* ==========================================================================
    Lively 3D Collector Cards (Seven Principles Studio Inspired)
    ========================================================================== */
@@ -1677,6 +1873,35 @@ body {
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
+/* Below ~1080px the nine menu items no longer fit beside the logo:
+   the menu becomes a sideways-scrolling strip under it */
+@media (max-width: 1100px) {
+  .nav-container {
+    flex-wrap: wrap;
+    row-gap: 0.45rem;
+    padding: 0.65rem 1rem 0.55rem;
+  }
+  .nav-menu {
+    width: 100%;
+    gap: 1.1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0.15rem 1.5rem 0.25rem 0;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+  }
+  .nav-menu::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-btn {
+    padding: 0.3rem 0.8rem;
+    white-space: nowrap;
+  }
+  section[id] {
+    scroll-margin-top: 64px;
+  }
+}
+
 @media (max-width: 900px) {
   .wide-feature-card {
     grid-template-columns: 1fr;
@@ -1690,9 +1915,6 @@ body {
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
-  }
-  .nav-menu {
-    display: none; /* Mobile menu can be collapsed or simplified */
   }
   .section {
     padding: 3.5rem 0;
