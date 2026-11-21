@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="vermilion">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/fonts/xallace-type.css">
+  <link rel="stylesheet" href="/design/xallace-ui.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xallace Design System · freeze v1.0</title>
+  <meta name="description" content="Living style guide for the apps on xallace.github.io: tokens, five accents, type roles and base components (design freeze v1.0, 21.11.2026)." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23111722%22/><rect x=%2224%22 y=%2224%22 width=%2252%22 height=%2252%22 rx=%228%22 fill=%22none%22 stroke=%22%23ff7d61%22 stroke-width=%228%22/></svg>" />
+  <link rel="stylesheet" href="guide.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="header-left">
+        <a href="https://xallace.github.io/" class="pill-btn back-chip" title="Back to the portfolio">← Portfolio</a>
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M10 10v10"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>xallace Design System <span class="sub-tag">FREEZE v1.0</span></h1>
+          <p class="source-ref">21.11.2026 · rules: DESIGN.md · check: design/check.mjs</p>
+        </div>
+      </div>
+      <nav class="main-tabs" role="tablist" aria-label="Sections">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-view="tokens">1 · Tokens</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-view="type">2 · Type</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-view="components">3 · Components</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-view="rules">4 · Rules</button>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <div class="accent-bar panel-card">
+        <div class="section-label">App accent · one per app · &lt;html data-accent="…"&gt;</div>
+        <div class="preset-grid" id="accent-pick">
+          <button class="preset-btn active" data-accent="vermilion">vermilion</button>
+          <button class="preset-btn" data-accent="slate">slate</button>
+          <button class="preset-btn" data-accent="emerald">emerald</button>
+          <button class="preset-btn" data-accent="cyan">cyan</button>
+          <button class="preset-btn" data-accent="ochre">ochre</button>
+        </div>
+      </div>
+
+      <!-- 1 · TOKENS -->
+      <section class="view active" id="view-tokens">
+        <div class="swatch-groups" id="swatches"></div>
+        <p class="plate-prose">Values are read live from <code>xallace-ui.css</code>. Status colours stay the same whatever the accent is, and a status is always shown with a word (PASS, FAIL, …), never by colour alone.</p>
+      </section>
+
+      <!-- 2 · TYPE -->
+      <section class="view" id="view-type">
+        <div class="panel-card type-sheet">
+          <div class="type-row"><div class="type-meta"><span class="chip">--xt-title</span><span class="type-spec">GFS Didot · Regular only · titles, h1, big values</span></div>
+            <div class="type-sample s-title">Cycloidal Drive Lab 1234</div></div>
+          <div class="type-row"><div class="type-meta"><span class="chip">--xt-text</span><span class="type-spec">Libre Caslon Text · body text, explanations</span></div>
+            <div class="type-sample s-text">The pitch circle carries all hole centres; the chord between two neighbours is s = D · sin(π / n).</div></div>
+          <div class="type-row"><div class="type-meta"><span class="chip">--xt-sub</span><span class="type-spec">Iosevka Charon · subtitles, tabs, buttons, labels</span></div>
+            <div class="type-sample s-sub">1 · Profile &amp; UZ  ·  Guided Tour  ·  ⌓ ⏥ ⌖ ⟂ ∥ Ⓜ</div></div>
+          <div class="type-row"><div class="type-meta"><span class="chip">--xt-mono</span><span class="type-spec">Iosevka Charon Mono · numbers, code, tables, canvas labels</span></div>
+            <div class="type-sample s-mono">s = 50.000 mm   x = −36.742   node tests/verify.mjs</div></div>
+          <div class="type-row"><div class="type-meta"><span class="chip">--xt-small</span><span class="type-spec">VT323 · only text ≤ 0.70rem (11.2 px) · never in canvas or SVG</span></div>
+            <div class="type-sample s-small">FIG. 2 · CROSS SECTION A–A · NOT TO SCALE</div></div>
+        </div>
+      </section>
+
+      <!-- 3 · COMPONENTS -->
+      <section class="view" id="view-components">
+        <div class="split-layout">
+          <div class="stage-col">
+            <div class="verdict-strip">
+              <div class="verdict-cell pass"><span class="v-kicker">ACTIVE SPEC</span><div class="v-value">PASS</div><span class="v-sub">.verdict-cell.pass</span></div>
+              <div class="verdict-cell fail"><span class="v-kicker">ENVELOPE</span><div class="v-value">FAIL</div><span class="v-sub">.verdict-cell.fail</span></div>
+              <div class="verdict-cell info"><span class="v-kicker">CHORD s</span><div class="v-value">50.00 mm</div><span class="v-sub">.verdict-cell.info</span></div>
+            </div>
+            <div class="plate-card">
+              <div class="plate-card-head">
+                <span class="plate-fig-label">FIG. 1 · .plate-card + canvas</span>
+                <div class="plate-head-controls">
+                  <button class="mini-btn active">Mini</button><button class="mini-btn">Button</button>
+                  <label class="inline-check"><input type="checkbox" checked> Inline check</label>
+                </div>
+              </div>
+              <canvas class="plate-canvas" id="demo-fig"></canvas>
+            </div>
+            <div class="issue-stack">
+              <div class="issue-item error"><strong>error</strong> · .issue-item.error</div>
+              <div class="issue-item warn"><strong>warn</strong> · .issue-item.warn</div>
+              <div class="issue-item ok"><strong>ok</strong> · .issue-item.ok</div>
+              <div class="issue-item note"><strong>note</strong> · .issue-item.note</div>
+            </div>
+          </div>
+          <aside class="control-col">
+            <div class="panel-card">
+              <div class="control-section">
+                <div class="section-label">Buttons</div>
+                <div class="preset-grid">
+                  <button class="pill-btn">.pill-btn</button>
+                  <button class="pill-btn accent">.pill-btn.accent</button>
+                  <button class="pill-btn solid">.pill-btn.solid</button>
+                </div>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Presets</div>
+                <div class="preset-grid"><button class="preset-btn active">Active</button><button class="preset-btn">Preset</button><button class="preset-btn">Preset</button></div>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Sliders</div>
+                <div class="slider-item"><div class="slider-head"><span>Pitch circle D</span><strong>100 mm</strong></div><input type="range" min="0" max="200" value="100" aria-label="demo slider"></div>
+                <p class="slider-note">.slider-note · small hint under a control</p>
+                <label class="field">.field input<input type="number" value="12.5" step="0.5"></label>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Readout</div>
+                <table class="spec-table">
+                  <tr><th>Ligament s − d</th><td class="tag-ok">39.00 mm</td></tr>
+                  <tr><th>Edge margin</th><td class="tag-fail">−2.50 mm</td></tr>
+                  <tr><th>Utilisation</th><td class="tag-warn">0.93</td></tr>
+                  <tr><th>Reference</th><td class="tag-info">ISO 1101</td></tr>
+                </table>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Chips</div>
+                <div class="preset-grid">
+                  <span class="chip ok">PASS</span><span class="chip fail">FAIL</span><span class="chip warn">CHECK</span>
+                  <span class="chip info">INFO</span><span class="chip">NEUTRAL</span><span class="chip not-verified">not verified</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 4 · RULES -->
+      <section class="view" id="view-rules">
+        <article class="panel-card rules-sheet">
+          <h2 class="plate-heading large">The rules in short</h2>
+          <p class="plate-prose">Full text in <a href="https://github.com/xallace/xallace.github.io/blob/main/design/DESIGN.md">DESIGN.md</a>. A new app starts from the <a href="template/">template</a> and has to pass the check before it is pushed.</p>
+          <ul class="plate-list">
+            <li>Dark only. No light mode, no theme toggle; <code>color-scheme: dark</code>.</li>
+            <li>Head: <code>/fonts/xallace-type.css</code>, then <code>/design/xallace-ui.css</code>, then the app's <code>style.css</code>; <code>/fonts/xallace-type.js</code> deferred before <code>&lt;/body&gt;</code>.</li>
+            <li>One accent per app from vermilion, slate, emerald, cyan and ochre. No other colours in the UI.</li>
+            <li>Five type roles; VT323 only up to 0.70rem and never in canvas or SVG.</li>
+            <li>Drawing left, controls right; stacked below 1060 px; no horizontal scroll at 390 px.</li>
+            <li>Canvas and on-screen SVG take their colours from the tokens. SVG/DXF/PDF exports keep light print colours.</li>
+            <li>three.js: no <code>outputEncoding</code>/<code>sRGBEncoding</code>, dimmed lights.</li>
+            <li>UI in English. A standard claim not checked against the source gets <span class="chip not-verified">not verified</span>.</li>
+            <li>Model in its own file with <code>node tests/verify.mjs</code>.</li>
+            <li>Changes to the design only with Walter's OK, with a new version and changelog entry.</li>
+          </ul>
+          <div class="sources-footer-box" style="margin-top:16px">
+            Check an app: <code>node design/check.mjs ../my-app --browser</code> (run in the xallace.github.io clone).
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Design freeze v1.0 · 21.11.2026</span>
+      <span><a href="https://xallace.github.io">xallace.github.io</a></span>
+    </footer>
+  </div>
+  <script src="guide.js"></script>
+  <script src="/fonts/xallace-type.js" defer></script>
+</body>
+</html>

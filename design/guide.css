@@ -1,0 +1,26 @@
+/* Style-guide page only. */
+.accent-bar { margin-bottom: 14px; }
+.swatch-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.swatch-group { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card-solid); padding: 12px 14px; }
+.swatch { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border-soft); }
+.swatch:last-child { border-bottom: none; }
+.swatch-chip { width: 34px; height: 24px; border-radius: 5px; border: 1px solid var(--border); }
+.swatch-name { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-main); overflow-wrap: anywhere; }
+.swatch-val { display: block; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); overflow-wrap: anywhere; }
+.type-sheet { display: flex; flex-direction: column; gap: 18px; }
+.type-row { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 16px; align-items: baseline; padding-bottom: 16px; border-bottom: 1px solid var(--border-soft); }
+.type-row:last-child { border-bottom: none; padding-bottom: 0; }
+.type-meta { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.type-spec { font-family: var(--font-sub); font-size: 0.74rem; color: var(--text-muted); }
+.type-sample { overflow-wrap: anywhere; }
+.s-title { font-family: var(--xt-title); font-size: 2rem; }
+.s-text { font-family: var(--xt-text); font-size: 1rem; line-height: 1.55; }
+.s-sub { font-family: var(--xt-sub); font-size: 0.95rem; }
+.s-mono { font-family: var(--xt-mono); font-size: 0.9rem; }
+.s-small { font-family: var(--xt-small); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--text-muted); }
+.issue-stack { margin-top: 12px; }
+.rules-sheet { max-width: 900px; margin: 0 auto; }
+@media (max-width: 640px) {
+  .type-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .s-title { font-size: 1.6rem; }
+}

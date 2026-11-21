@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- Starter app for xallace.github.io · design freeze v1.0 · rules: /design/DESIGN.md
+     Pick ONE accent: vermilion · slate · emerald · cyan · ochre -->
+<html lang="en" data-accent="slate">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/fonts/xallace-type.css">
+  <link rel="stylesheet" href="/design/xallace-ui.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bolt Circle Lab · xallace template</title>
+  <meta name="description" content="Starter app for the xallace.github.io portfolio: bolt circle geometry with live drawing, hole table and clearance checks." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23111722%22/><circle cx=%2250%22 cy=%2250%22 r=%2230%22 fill=%22none%22 stroke=%22%237aa3c8%22 stroke-width=%228%22/></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="header-left">
+        <a href="https://xallace.github.io/#technical-design" class="pill-btn back-chip" title="Back to the portfolio">← Portfolio</a>
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="4" r="1.6"/><circle cx="19" cy="16" r="1.6"/><circle cx="5" cy="16" r="1.6"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>Bolt Circle Lab <span class="sub-tag">TEMPLATE</span></h1>
+          <p class="source-ref">Pitch circle · hole coordinates · ligament and edge checks</p>
+        </div>
+      </div>
+      <nav class="main-tabs" role="tablist" aria-label="Views">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-view="lab">1 · Lab</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-view="about">2 · About</button>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <section class="view active" id="view-lab">
+        <div class="split-layout">
+          <div class="stage-col">
+            <div class="verdict-strip">
+              <div class="verdict-cell" id="v-holes"><span class="v-kicker">HOLES CLEAR</span><div class="v-value"></div><span class="v-sub"></span></div>
+              <div class="verdict-cell" id="v-edge"><span class="v-kicker">EDGE CLEAR</span><div class="v-value"></div><span class="v-sub"></span></div>
+              <div class="verdict-cell info" id="v-chord"><span class="v-kicker">CHORD s</span><div class="v-value"></div><span class="v-sub">s = D · sin(π / n)</span></div>
+            </div>
+            <div class="plate-card">
+              <div class="plate-card-head">
+                <span class="plate-fig-label">FIG. 1 · FLANGE, TOP VIEW</span>
+                <div class="plate-head-controls">
+                  <label class="inline-check"><input type="checkbox" id="opt-numbers" checked> Hole numbers</label>
+                  <span class="plate-fig-note">mm, not to scale</span>
+                </div>
+              </div>
+              <canvas class="plate-canvas" id="fig"></canvas>
+            </div>
+          </div>
+
+          <aside class="control-col">
+            <div class="panel-card">
+              <div class="control-section">
+                <div class="section-label">Presets</div>
+                <div class="preset-grid" id="presets">
+                  <button class="preset-btn active" data-preset="0">6 × M10</button>
+                  <button class="preset-btn" data-preset="1">8 × M16</button>
+                  <button class="preset-btn" data-preset="2">Too tight</button>
+                </div>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Geometry</div>
+                <div class="slider-item"><div class="slider-head"><span>Pitch circle D</span><strong id="o-D"></strong></div><input type="range" id="in-D" min="40" max="300" step="1"></div>
+                <div class="slider-item"><div class="slider-head"><span>Holes n</span><strong id="o-n"></strong></div><input type="range" id="in-n" min="3" max="24" step="1"></div>
+                <div class="slider-item"><div class="slider-head"><span>Hole diameter d</span><strong id="o-d"></strong></div><input type="range" id="in-d" min="3" max="40" step="0.5"></div>
+                <div class="slider-item"><div class="slider-head"><span>Outer diameter Da</span><strong id="o-Da"></strong></div><input type="range" id="in-Da" min="60" max="360" step="1"></div>
+                <div class="slider-item"><div class="slider-head"><span>Start angle</span><strong id="o-a"></strong></div><input type="range" id="in-a" min="0" max="90" step="1"></div>
+                <p class="slider-note">Angles counter-clockwise from +x.</p>
+              </div>
+              <div class="control-section">
+                <div class="section-label">Hole centres</div>
+                <div class="table-scroll"><table class="spec-table" id="tbl"></table></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-about">
+        <article class="panel-card about-sheet">
+          <h2 class="plate-heading large">What this template shows</h2>
+          <p class="plate-prose">A new portfolio app starts as a copy of this folder. It already follows the design freeze: dark theme, the five type roles, one accent, drawing left and controls right, a model in <code>model.js</code> with tests in <code>tests/verify.mjs</code>.</p>
+          <ul class="plate-list">
+            <li>Change the accent on <code>&lt;html data-accent="…"&gt;</code>.</li>
+            <li>Canvas colours come from the CSS tokens, see <code>app.js</code>.</li>
+            <li>Run <code>node design/check.mjs &lt;app folder&gt; --browser</code> before every push.</li>
+          </ul>
+          <div class="sources-footer-box" style="margin-top:14px">
+            Sources: name the standard or book with page. A claim you have not checked against the source text gets a
+            <span class="chip not-verified">not verified</span> mark.
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Model checks: <code>node tests/verify.mjs</code></span>
+      <span>Bolt Circle Lab · <a href="https://xallace.github.io" target="_blank" rel="noopener noreferrer">xallace.github.io</a></span>
+    </footer>
+  </div>
+
+  <script src="model.js"></script>
+  <script src="app.js"></script>
+  <script src="/fonts/xallace-type.js" defer></script>
+</body>
+</html>
