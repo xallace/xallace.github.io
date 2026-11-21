@@ -8,7 +8,6 @@ Levels: **error** = breaks a hard rule, **warn** = should be fixed, **note** = i
 
 | App | Errors | Warnings | Notes | Rules hit (errors + warnings) |
 |---|---:|---:|---:|---|
-| tabellenbuch-metall-formeln | 3 | 5 | 4 | dark-only×4, tests, lang, back-link, palette |
 | engineering-graphics | 0 | 9 | 14 | palette×8, tests |
 | cycloid-simulation | 0 | 6 | 5 | wording×4, back-link, palette |
 | iso1101-straightness | 0 | 5 | 4 | wording×3, back-link, palette |
@@ -26,6 +25,10 @@ Levels: **error** = breaks a hard rule, **warn** = should be fixed, **note** = i
 | hub | 0 | 2 | 9 | dark-only, palette |
 | kfz-dynamik | 0 | 2 | 9 | dark-only, palette |
 | sol-system-orrery | 0 | 2 | 3 | back-link, palette |
+
+## Retired
+
+- **tabellenbuch-metall-formeln**: 21.11.2026, Walter's choice: replaced by a redirect to Engineering Graphics · Plate I (`/engineering-graphics/formulas-equations/`), old files only in git history.
 
 ## Details
 
@@ -181,20 +184,6 @@ Levels: **error** = breaks a hard rule, **warn** = should be fixed, **note** = i
 - **warn** `dark-only` .: no color-scheme: dark (form controls and scrollbars render light)
 - **warn** `tests` .: no tests/ folder (model checks: node tests/verify.mjs)
 - **note** `favicon` index.html: no <link rel="icon">: the browser asks for /favicon.ico (404)
-- **note** `ui-css` index.html: not on /design/xallace-ui.css yet (legacy styles, own copy of the tokens)
-
-### tabellenbuch-metall-formeln
-- **error** `dark-only` app.js: light mode / theme toggle code (theme-toggle)
-- **error** `dark-only` index.html: light mode / theme toggle code (theme-toggle)
-- **error** `dark-only` index.html: light page background
-- **warn** `back-link` index.html: no link back to the portfolio
-- **warn** `dark-only` .: no color-scheme: dark (form controls and scrollbars render light)
-- **warn** `lang` index.html: <html lang="en"> missing (UI language is English)
-- **warn** `palette` style.css: 45 colour value(s) outside the frozen palette: #0284c7×3, rgb(2,132,199)×3, #94a3b8×2, #38bdf8×2, #004b87×1, #003a6b×1
-- **warn** `tests` .: no tests/ folder (model checks: node tests/verify.mjs)
-- **note** `favicon` index.html: no <link rel="icon">: the browser asks for /favicon.ico (404)
-- **note** `palette` app.js: 12 hard-coded colour(s) outside the palette (prefer tokens): #15803d×5, #dc2626×4, #1e293b×1, rgb(34,197,94)×1, rgb(239,68,68)×1
-- **note** `palette` diagram-renderer.js: 107 hard-coded colour(s) outside the palette (prefer tokens): #1e293b×22, #0284c7×11, #dc2626×9, #475569×8, #cbd5e1×5, #e11d48×5
 - **note** `ui-css` index.html: not on /design/xallace-ui.css yet (legacy styles, own copy of the tokens)
 
 ### web-cad-studio
