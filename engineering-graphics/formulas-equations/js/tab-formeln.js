@@ -156,12 +156,18 @@
     // Workpiece: left side already milled, right side full height (feed to the right); shoulder follows cutter arc.
     // Cutter turns counter-clockwise: each tooth enters at the milled surface (chip thickness 0) and leaves at the top → up milling.
     el(svg, 'path', { d: `M16 ${yc} L${cx} ${yc} A ${r} ${r} 0 0 0 ${xe.toFixed(1)} ${yu.toFixed(1)} L${W - 16} ${yu.toFixed(1)} L${W - 16} ${H - 14} L16 ${H - 14} Z`, class: 'work' });
-    el(svg, 'circle', { cx, cy, r, class: 'cutter' });
+    // Cutter body inside the tooth roots; thin cutting circle (⌀ d) through the tooth tips
+    const z = r < 50 ? 4 : 6, pitch = 360 / z, h = Math.max(5, Math.min(16, 0.22 * r)), rb = r - h;
+    el(svg, 'circle', { cx, cy, r: rb, class: 'cutter' });
+    el(svg, 'circle', { cx, cy, r, class: 'cl' });
     rot = el(svg, 'g', {});
-    const z = r < 50 ? 4 : 6, pitch = 360 / z, dEdge = Math.min(14, r * 0.3);
+    // Saw teeth: radial rake face in front (direction of rotation), cutting edge at the tip on the cutting circle,
+    // back falls away behind the tip (clearance), so only the edge touches the material
+    const back = -DIR.fraesen * 0.7 * pitch;
     for (let k = 0; k < z; k++) {
-      const a = k * pitch;   // radial rake face leads in the direction of rotation, flank trails behind it
-      el(rot, 'polygon', { points: pts([P(cx, cy, r, a), P(cx, cy, r - dEdge, a), P(cx, cy, r - 1, a - DIR.fraesen * pitch * 0.38)]), class: 'tool' });
+      const a = k * pitch, tooth = [P(cx, cy, rb - 2, a), P(cx, cy, r, a)];
+      for (let i = 1; i <= 6; i++) tooth.push(P(cx, cy, r - h * (i / 6) ** 1.5 - (i === 6 ? 2 : 0), a + back * i / 6));
+      el(rot, 'polygon', { points: pts(tooth), class: 'tool' });
     }
     el(svg, 'circle', { cx, cy, r: Math.max(6, r * 0.22), class: 'work' });
     centerLines(cx, cy, r);
