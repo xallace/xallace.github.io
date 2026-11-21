@@ -55,7 +55,7 @@
 
     // Given circle
     SVG.circle(svg, st.center, RPx, {
-      cls: 'given-line', w: 2.2, fill: 'rgba(0, 75, 135, 0.02)'
+      cls: 'given-line', w: 2.2, fill: 'rgba(99, 163, 230, 0.02)'
     });
 
     // True center (unless hidden in workshop blind mode)

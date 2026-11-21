@@ -7,26 +7,26 @@
      4. Elastic Deflection Curve with Support Tangents θ & L/300 Check
      5. Method-of-Sections Free-Body Cut at Probe x
      6. Live Cross-Section Geometry & Linear Bending Stress Profile σ(y)
-   Palette: Parchment (#f3ebda), Ink (#181715), Vermilion (#d94426),
-            Ochre (#b45309), Forest Green (#047857)
+   Palette: Parchment (#0e141e), Ink (#e9edf5), Vermilion (#ff7d61),
+            Ochre (#ed864b), Forest Green (#58b691)
    ========================================================================== */
 (function (global) {
   'use strict';
 
-  const INK = '#181715';
-  const INK_MUTED = '#4b463e';
-  const INK_DIM = '#736b5f';
-  const PAPER = '#f3ebda';
-  const CARD_BG = '#faf5e8';
-  const VERMILION = '#d94426';
-  const OCHRE = '#b45309';
-  const GREEN = '#047857';
-  const CRIMSON = '#b91c1c';
+  const INK = '#e9edf5';
+  const INK_MUTED = '#a8b3c5';
+  const INK_DIM = '#7f8b9f';
+  const PAPER = '#0e141e';
+  const CARD_BG = '#0a101a';
+  const VERMILION = '#ff7d61';
+  const OCHRE = '#ed864b';
+  const GREEN = '#58b691';
+  const CRIMSON = '#ff695d';
 
   function surveyGridPattern(id) {
     return `
       <pattern id="${id}" width="24" height="24" patternUnits="userSpaceOnUse">
-        <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(24,23,21,0.065)" stroke-width="1"/>
+        <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(233, 237, 245,0.065)" stroke-width="1"/>
       </pattern>
     `;
   }
@@ -154,7 +154,7 @@
       const loadBotY = beamY - beamH / 2 - 4;
 
       let arrowsSvg = `
-        <rect x="${padX}" y="${loadTopY}" width="${plotW}" height="${loadBotY - loadTopY}" fill="rgba(217,68,38,0.08)" />
+        <rect x="${padX}" y="${loadTopY}" width="${plotW}" height="${loadBotY - loadTopY}" fill="rgba(255, 125, 97,0.08)" />
         <line x1="${padX}" y1="${loadTopY}" x2="${padX + plotW}" y2="${loadTopY}" stroke="${VERMILION}" stroke-width="2.2" />
       `;
       for (let i = 0; i <= numArrows; i++) {
@@ -205,11 +205,11 @@
 
       let beamSvg = '';
       if (sagAmp > 0 && compPoly) {
-        const compFill = this.showFiberColors ? 'rgba(217,68,38,0.28)' : 'rgba(24,23,21,0.12)';
-        const tensFill = this.showFiberColors ? 'rgba(4,120,87,0.24)' : 'rgba(24,23,21,0.06)';
+        const compFill = this.showFiberColors ? 'rgba(255, 125, 97,0.28)' : 'rgba(233, 237, 245,0.12)';
+        const tensFill = this.showFiberColors ? 'rgba(88, 182, 145,0.24)' : 'rgba(233, 237, 245,0.06)';
         beamSvg = `
           <!-- Ghost unloaded outline -->
-          <rect x="${padX}" y="${beamY - beamH / 2}" width="${plotW}" height="${beamH}" fill="none" stroke="rgba(24,23,21,0.22)" stroke-width="1" stroke-dasharray="4,3" />
+          <rect x="${padX}" y="${beamY - beamH / 2}" width="${plotW}" height="${beamH}" fill="none" stroke="rgba(233, 237, 245,0.22)" stroke-width="1" stroke-dasharray="4,3" />
           <!-- Compression (top) & Tension (bottom) fiber bands -->
           <polygon points="${compPoly}" fill="${compFill}" />
           <polygon points="${tensPoly}" fill="${tensFill}" />
@@ -220,8 +220,8 @@
           <line x1="${padX + plotW}" y1="${beamY - beamH / 2}" x2="${padX + plotW}" y2="${beamY + beamH / 2}" stroke="${INK}" stroke-width="2" />
         `;
       } else {
-        const compFill = this.showFiberColors ? 'rgba(217,68,38,0.22)' : 'rgba(24,23,21,0.10)';
-        const tensFill = this.showFiberColors ? 'rgba(4,120,87,0.20)' : 'rgba(24,23,21,0.05)';
+        const compFill = this.showFiberColors ? 'rgba(255, 125, 97,0.22)' : 'rgba(233, 237, 245,0.10)';
+        const tensFill = this.showFiberColors ? 'rgba(88, 182, 145,0.20)' : 'rgba(233, 237, 245,0.05)';
         beamSvg = `
           <rect x="${padX}" y="${beamY - beamH / 2}" width="${plotW}" height="${beamH / 2}" fill="${compFill}" />
           <rect x="${padX}" y="${beamY}" width="${plotW}" height="${beamH / 2}" fill="${tensFill}" />
@@ -271,7 +271,7 @@
           <defs>
             ${surveyGridPattern('grid-fbd')}
             <pattern id="hatch-ink" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(24,23,21,0.38)" stroke-width="1.15" />
+              <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(233, 237, 245,0.38)" stroke-width="1.15" />
             </pattern>
             <marker id="arrow-green-up" viewBox="0 0 10 10" refX="5" refY="2" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
               <path d="M 0 9 L 5 0 L 10 9 z" fill="${GREEN}" />
@@ -283,7 +283,7 @@
 
           <!-- Distributed Load Block -->
           ${arrowsSvg}
-          <rect x="${padX + plotW / 2 - 142}" y="13" width="284" height="22" rx="4" fill="${CARD_BG}" stroke="rgba(217,68,38,0.45)" stroke-width="1" />
+          <rect x="${padX + plotW / 2 - 142}" y="13" width="284" height="22" rx="4" fill="${CARD_BG}" stroke="rgba(255, 125, 97,0.45)" stroke-width="1" />
           <text x="${padX + plotW / 2}" y="28" fill="${VERMILION}" font-size="11.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
             w = ${w.toFixed(2)} ${wUnit} · Total W = ${W_total.toFixed(1)} ${fUnit}
           </text>
@@ -318,14 +318,14 @@
           <!-- Support Reactions RA & RB (explicit symmetric upward arrowheads) -->
           <line x1="${padX}" y1="${beamY + 73}" x2="${padX}" y2="${beamY + 51}" stroke="${GREEN}" stroke-width="2.4" />
           <polygon points="${padX},${beamY + 43} ${padX - 5},${beamY + 53} ${padX + 5},${beamY + 53}" fill="${GREEN}" />
-          <rect x="${padX - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(4,120,87,0.45)" stroke-width="1" />
+          <rect x="${padX - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(88, 182, 145,0.45)" stroke-width="1" />
           <text x="${padX}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
             RA = ${R_A.toFixed(2)} ${fUnit}
           </text>
 
           <line x1="${padX + plotW}" y1="${beamY + 73}" x2="${padX + plotW}" y2="${beamY + 51}" stroke="${GREEN}" stroke-width="2.4" />
           <polygon points="${padX + plotW},${beamY + 43} ${padX + plotW - 5},${beamY + 53} ${padX + plotW + 5},${beamY + 53}" fill="${GREEN}" />
-          <rect x="${padX + plotW - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(4,120,87,0.45)" stroke-width="1" />
+          <rect x="${padX + plotW - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(88, 182, 145,0.45)" stroke-width="1" />
           <text x="${padX + plotW}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
             RB = ${R_B.toFixed(2)} ${fUnit}
           </text>
@@ -335,7 +335,7 @@
             <line x1="${padX + 16}" y1="0" x2="${padX + plotW - 16}" y2="0" stroke="${INK_MUTED}" stroke-width="1.15" />
             <line x1="${padX + 16}" y1="-4" x2="${padX + 16}" y2="4" stroke="${INK_MUTED}" stroke-width="1.3" />
             <line x1="${padX + plotW - 16}" y1="-4" x2="${padX + plotW - 16}" y2="4" stroke="${INK_MUTED}" stroke-width="1.3" />
-            <rect x="${padX + plotW / 2 - 48}" y="-9.5" width="96" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(24,23,21,0.22)" stroke-width="1" />
+            <rect x="${padX + plotW / 2 - 48}" y="-9.5" width="96" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(233, 237, 245,0.22)" stroke-width="1" />
             <text x="${padX + plotW / 2}" y="3.5" fill="${INK}" font-size="11" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
               L = ${L.toFixed(2)} ${lUnit}
             </text>
@@ -394,12 +394,12 @@
 
           <!-- Zero axis -->
           <line x1="${padX}" y1="${midY}" x2="${padX + plotW}" y2="${midY}" stroke="${INK}" stroke-width="1.35" />
-          <line x1="${padX}" y1="${midY - amp - 8}" x2="${padX}" y2="${midY + amp + 8}" stroke="rgba(24,23,21,0.22)" stroke-width="1" />
-          <line x1="${padX + plotW}" y1="${midY - amp - 8}" x2="${padX + plotW}" y2="${midY + amp + 8}" stroke="rgba(24,23,21,0.22)" stroke-width="1" />
+          <line x1="${padX}" y1="${midY - amp - 8}" x2="${padX}" y2="${midY + amp + 8}" stroke="rgba(233, 237, 245,0.22)" stroke-width="1" />
+          <line x1="${padX + plotW}" y1="${midY - amp - 8}" x2="${padX + plotW}" y2="${midY + amp + 8}" stroke="rgba(233, 237, 245,0.22)" stroke-width="1" />
 
           <!-- Positive & Negative Shear Triangles -->
-          <polygon points="${polyPos}" fill="rgba(4,120,87,0.16)" stroke="${GREEN}" stroke-width="1.6" />
-          <polygon points="${polyNeg}" fill="rgba(217,68,38,0.16)" stroke="${VERMILION}" stroke-width="1.6" />
+          <polygon points="${polyPos}" fill="rgba(88, 182, 145,0.16)" stroke="${GREEN}" stroke-width="1.6" />
+          <polygon points="${polyNeg}" fill="rgba(255, 125, 97,0.16)" stroke="${VERMILION}" stroke-width="1.6" />
 
           <!-- Shear Gradient Line -->
           <line x1="${padX}" y1="${yLeft}" x2="${padX + plotW}" y2="${yRight}" stroke="${INK}" stroke-width="2.2" />
@@ -414,7 +414,7 @@
 
           <!-- Zero Crossing Marker -->
           <circle cx="${xZero}" cy="${midY}" r="3.5" fill="${CARD_BG}" stroke="${INK}" stroke-width="1.6" />
-          <line x1="${xZero}" y1="${midY - 5}" x2="${xZero}" y2="${midY - 26}" stroke="rgba(24,23,21,0.32)" stroke-width="1" stroke-dasharray="2,2" />
+          <line x1="${xZero}" y1="${midY - 5}" x2="${xZero}" y2="${midY - 26}" stroke="rgba(233, 237, 245,0.32)" stroke-width="1" stroke-dasharray="2,2" />
           <text x="${xZero}" y="${midY - 30}" fill="${INK_MUTED}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">V = 0 at L/2 (M peaks here)</text>
 
           <!-- Probe -->
@@ -492,11 +492,11 @@
           </text>
 
           <!-- Parabolic area & curve -->
-          <polygon points="${polyPts}" fill="rgba(217,68,38,0.14)" />
+          <polygon points="${polyPts}" fill="rgba(255, 125, 97,0.14)" />
           <path d="${pathD}" fill="none" stroke="${VERMILION}" stroke-width="2.4" />
 
           <!-- Vertical Peak Reference -->
-          <line x1="${midX}" y1="${baselineY}" x2="${midX}" y2="${peakY}" stroke="rgba(217,68,38,0.45)" stroke-width="1.1" stroke-dasharray="3,2" />
+          <line x1="${midX}" y1="${baselineY}" x2="${midX}" y2="${peakY}" stroke="rgba(255, 125, 97,0.45)" stroke-width="1.1" stroke-dasharray="3,2" />
           <circle cx="${midX}" cy="${peakY}" r="4.2" fill="${VERMILION}" stroke="${CARD_BG}" stroke-width="1.5" />
           <text x="${midX}" y="${this.momentTensionBottom ? peakY + 16 : peakY - 9}" fill="${VERMILION}" font-size="11" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
             Mmax = ${M_max.toFixed(2)} ${mUnit} (wL²/8)
@@ -570,7 +570,7 @@
       const rawBadgeY = nearPeak ? probeY - 24 : probeY;
       const badgeY = Math.max(24, Math.min(svgH - 22, rawBadgeY));
       const curveColor = serviceOk ? INK : CRIMSON;
-      const fillColor = serviceOk ? 'rgba(180,83,9,0.12)' : 'rgba(185,28,28,0.14)';
+      const fillColor = serviceOk ? 'rgba(237, 134, 75,0.12)' : 'rgba(255, 105, 93,0.14)';
 
       const limitSvg = showLimitLine ? `
         <line x1="${padX}" y1="${limitY.toFixed(1)}" x2="${padX + plotW}" y2="${limitY.toFixed(1)}" stroke="${serviceOk ? GREEN : CRIMSON}" stroke-width="1.2" stroke-dasharray="5,4" />
@@ -649,7 +649,7 @@
       const nArr = Math.max(3, Math.round(segW / 24));
       let udlSvg = '';
       if (x > 1e-4 && w > 0) {
-        udlSvg += `<rect x="${leftX}" y="44" width="${segW}" height="${beamY - beamH / 2 - 48}" fill="rgba(217,68,38,0.09)" />`;
+        udlSvg += `<rect x="${leftX}" y="44" width="${segW}" height="${beamY - beamH / 2 - 48}" fill="rgba(255, 125, 97,0.09)" />`;
         udlSvg += `<line x1="${leftX}" y1="44" x2="${cutX}" y2="44" stroke="${VERMILION}" stroke-width="1.8" />`;
         for (let i = 0; i <= nArr; i++) {
           const ax = leftX + (i / nArr) * segW;
@@ -741,8 +741,8 @@
           ${udlSvg}
 
           <!-- Left Beam Segment [0..x] -->
-          <rect x="${leftX}" y="${bTop}" width="${segW}" height="${beamH / 2}" fill="rgba(217,68,38,0.16)" />
-          <rect x="${leftX}" y="${beamY}" width="${segW}" height="${beamH / 2}" fill="rgba(4,120,87,0.14)" />
+          <rect x="${leftX}" y="${bTop}" width="${segW}" height="${beamH / 2}" fill="rgba(255, 125, 97,0.16)" />
+          <rect x="${leftX}" y="${beamY}" width="${segW}" height="${beamH / 2}" fill="rgba(88, 182, 145,0.14)" />
           <line x1="${leftX}" y1="${bTop}" x2="${cutX}" y2="${bTop}" stroke="${INK}" stroke-width="2" />
           <line x1="${leftX}" y1="${bBot}" x2="${cutX}" y2="${bBot}" stroke="${INK}" stroke-width="2" />
           <line x1="${leftX}" y1="${bTop}" x2="${leftX}" y2="${bBot}" stroke="${INK}" stroke-width="2" />
@@ -760,7 +760,7 @@
           <line x1="${leftX}" y1="${bBot + 24}" x2="${cutX}" y2="${bBot + 24}" stroke="${INK_MUTED}" stroke-width="1.1" />
           <line x1="${leftX}" y1="${bBot + 20}" x2="${leftX}" y2="${bBot + 28}" stroke="${INK_MUTED}" stroke-width="1.2" />
           <line x1="${cutX}" y1="${bBot + 20}" x2="${cutX}" y2="${bBot + 28}" stroke="${INK_MUTED}" stroke-width="1.2" />
-          <rect x="${(leftX + segW / 2 - 26).toFixed(1)}" y="${bBot + 16}" width="52" height="15" rx="3" fill="${CARD_BG}" stroke="rgba(24,23,21,0.2)" />
+          <rect x="${(leftX + segW / 2 - 26).toFixed(1)}" y="${bBot + 16}" width="52" height="15" rx="3" fill="${CARD_BG}" stroke="rgba(233, 237, 245,0.2)" />
           <text x="${(leftX + segW / 2).toFixed(1)}" y="${bBot + 26.5}" fill="${INK}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
             ${x.toFixed(2)} ${lUnit}
           </text>
@@ -866,9 +866,9 @@
         <text x="${(stressAxisX + fyBarW).toFixed(1)}" y="${topY - 10}" fill="${CRIMSON}" font-size="8.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">+fy</text>
 
         <!-- Compression Triangle (Top, pointing left) -->
-        <polygon points="${stressAxisX},${secCy} ${stressAxisX},${topY} ${(stressAxisX - curBarW).toFixed(1)},${topY}" fill="rgba(217,68,38,0.26)" stroke="${VERMILION}" stroke-width="1.8" />
+        <polygon points="${stressAxisX},${secCy} ${stressAxisX},${topY} ${(stressAxisX - curBarW).toFixed(1)},${topY}" fill="rgba(255, 125, 97,0.26)" stroke="${VERMILION}" stroke-width="1.8" />
         <!-- Tension Triangle (Bottom, pointing right) -->
-        <polygon points="${stressAxisX},${secCy} ${stressAxisX},${botY} ${(stressAxisX + curBarW).toFixed(1)},${botY}" fill="rgba(4,120,87,0.22)" stroke="${GREEN}" stroke-width="1.8" />
+        <polygon points="${stressAxisX},${secCy} ${stressAxisX},${botY} ${(stressAxisX + curBarW).toFixed(1)},${botY}" fill="rgba(88, 182, 145,0.22)" stroke="${GREEN}" stroke-width="1.8" />
 
         <!-- Stress Values at Extreme Fibers -->
         <text x="${(stressAxisX + 6).toFixed(1)}" y="${topY + 9}" fill="${VERMILION}" font-size="9.5" font-weight="700" font-family="var(--font-mono)">
@@ -884,8 +884,8 @@
           <defs>
             ${surveyGridPattern('grid-sec')}
             <pattern id="sec-hatch" width="7" height="7" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-              <rect width="7" height="7" fill="#e9dfc9" />
-              <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(24,23,21,0.18)" stroke-width="1.1" />
+              <rect width="7" height="7" fill="#151b25" />
+              <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(233, 237, 245,0.18)" stroke-width="1.1" />
             </pattern>
           </defs>
 

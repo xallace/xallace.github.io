@@ -2,64 +2,36 @@
    (Incircle and Circumcircle of a Triangle, Circle Center, Ellipse, Spiral) –
    Module styles (tokens provided by ../plate-theme.css) */
 :root {
-  --primary: #004b87;
-  --primary-light: #e6f0fa;
-  --accent: #d94426;          /* Vermilion construction step numbers 1..6 */
-  --accent-blue: #0066b3;
-  --accent-green: #15803d;
-  --accent-amber: #d97706;
-  --accent-purple: #7c3aed;
-  --ok: #15803d;
-  --bad: #dc2626;
-  --bg-app: #f4f6f9;
-  --bg-card: #ffffff;
-  --bg-alt: #f8fafc;
-  --border: #cbd5e1;
-  --border-subtle: #e2e8f0;
-  --text: #0f172a;
-  --muted: #475569;
-  --light: #94a3b8;
-  --ink: #111827;
-  --arc-stroke: #334155;
-  --grid: #cbd5e1;
-  --dia-plain: #fffcf4;       /* Warm parchment drafting plate surface */
-  --hl: #f59e0b;
-  --given-bg: #f3ead5;        /* Specimen header box */
-  --given-border: #eab308;
-  --pt-fill: #ffffff;
+  --primary: #63a3e6;
+  --primary-light: #0f151f;
+  --accent: #ff7d61;          /* Vermilion construction step numbers 1..6 */
+  --accent-blue: #53a5f7;
+  --accent-green: #5bba73;
+  --accent-amber: #f89338;
+  --accent-purple: #a98dff;
+  --ok: #5bba73;
+  --bad: #ff776b;
+  --bg-app: #121722;
+  --bg-card: #151b26;
+  --bg-alt: #131923;
+  --border: #1e242f;
+  --border-subtle: #0d121c;
+  --text: #e8ecf4;
+  --muted: #98a3b7;
+  --light: #495263;
+  --ink: #e7ecf3;
+  --arc-stroke: #b1bacb;
+  --grid: #1e242f;
+  --dia-plain: #141a24;       /* Warm parchment drafting plate surface */
+  --hl: #fba31b;
+  --given-bg: #0e131d;        /* Specimen header box */
+  --given-border: #e9b206;
+  --pt-fill: #151b26;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
   --radius: 10px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-dia: 'Bahnschrift', 'DIN Alternate', 'D-DIN', 'Arial Narrow', 'Segoe UI', sans-serif;
   --mono: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
-}
-
-.unused-dark-theme-override {
-  --primary: #38bdf8;
-  --primary-light: #0c2d48;
-  --accent: #f87171;
-  --accent-blue: #38bdf8;
-  --accent-green: #4ade80;
-  --accent-amber: #fbbf24;
-  --accent-purple: #c084fc;
-  --ok: #4ade80;
-  --bad: #f87171;
-  --bg-app: #0b1526;
-  --bg-card: #132238;
-  --bg-alt: #0e1b2e;
-  --border: #1e3a5f;
-  --border-subtle: #162d4a;
-  --text: #f1f5f9;
-  --muted: #94a3b8;
-  --light: #64748b;
-  --ink: #e2e8f0;
-  --arc-stroke: #94a3b8;
-  --grid: #1e3a5f;
-  --dia-plain: #0e1b2e;
-  --hl: #fbbf24;
-  --given-bg: #262110;
-  --given-border: #ca8a04;
-  --pt-fill: #0b1526;
 }
 
 * { box-sizing: border-box; }
@@ -74,14 +46,14 @@ body { margin: 0; font: 15px/1.5 var(--font); background: var(--bg-app); color: 
 .plate-meta h1 { margin: 0; font-size: 1.06rem; font-weight: 800; }
 .plate-meta .sub { font-size: 0.76rem; color: var(--muted); }
 .plate-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.btn-header { appearance: none; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.1); color: #fff; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-.btn-header:hover { background: rgba(255, 255, 255, 0.2); }
-.back-link { color: #dbeafe; font-size: 0.8rem; text-decoration: none; padding: 4px 6px; border-radius: 4px; }
-.back-link:hover { text-decoration: underline; background: rgba(255, 255, 255, 0.08); }
+.btn-header { appearance: none; border: 1px solid rgba(21, 27, 38, 0.35); background: rgba(21, 27, 38, 0.1); color: #151b26; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.btn-header:hover { background: rgba(21, 27, 38, 0.2); }
+.back-link { color: #0d121c; font-size: 0.8rem; text-decoration: none; padding: 4px 6px; border-radius: 4px; }
+.back-link:hover { text-decoration: underline; background: rgba(21, 27, 38, 0.08); }
 .tabs { max-width: 1320px; margin: 0 auto; padding: 0 12px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
-.tabs button { appearance: none; border: 0; background: transparent; color: rgba(255, 255, 255, 0.78); font: 600 0.86rem var(--font); padding: 10px 13px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
-.tabs button:hover { color: #fff; }
-.tabs button.active { color: #fff; border-bottom-color: #fbbf24; }
+.tabs button { appearance: none; border: 0; background: transparent; color: rgba(21, 27, 38, 0.78); font: 600 0.86rem var(--font); padding: 10px 13px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+.tabs button:hover { color: #151b26; }
+.tabs button.active { color: #151b26; border-bottom-color: #f1b507; }
 
 main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .tab { display: none; }
@@ -107,13 +79,13 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); padding: 5px 9px; font: 600 0.8rem var(--font); cursor: pointer; border-right: 1px solid var(--border); }
 .seg button:last-child { border-right: 0; }
 .seg button:hover { background: var(--bg-alt); }
-.seg button.on { background: var(--primary); color: #fff; }
+.seg button.on { background: var(--primary); color: #151b26; }
 
 .btn { appearance: none; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); padding: 6px 12px; font: 600 0.82rem var(--font); border-radius: 6px; cursor: pointer; }
 .btn:hover { background: var(--bg-alt); border-color: var(--primary); }
 .btn.ghost { background: transparent; border-color: var(--border); color: var(--primary); }
 .btn.ghost:hover { background: var(--primary-light); }
-.btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn.primary { background: var(--primary); color: #151b26; border-color: var(--primary); }
 .btn.primary:hover { opacity: 0.9; }
 
 .slider { display: grid; grid-template-columns: 180px 1fr 70px; gap: 8px; align-items: center; font-size: 0.84rem; margin-bottom: 6px; }
@@ -134,7 +106,7 @@ ul.rules li { display: flex; gap: 8px; padding: 6px 4px; border-bottom: 1px soli
 ul.rules li:last-child { border-bottom: 0; }
 ul.rules li.hover-able { cursor: pointer; }
 ul.rules li.hover-able:hover, ul.rules li.active { background: var(--primary-light); }
-.step-badge { flex: 0 0 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 800; font-size: 0.72rem; }
+.step-badge { flex: 0 0 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: var(--accent); color: #151b26; font-weight: 800; font-size: 0.72rem; }
 ul.rules li.step-pending { opacity: 0.55; }
 ul.rules li.step-done .step-badge { background: var(--accent); }
 
@@ -154,8 +126,8 @@ ul.rules li.step-done .step-badge { background: var(--accent); }
 .quiz-row input { flex: 1; padding: 6px 8px; font: 0.85rem var(--mono); border: 1px solid var(--border); border-radius: 5px; background: var(--bg-card); color: var(--text); }
 .quiz-row span.unit { font-size: 0.82rem; color: var(--muted); }
 .feedback { margin-top: 8px; padding: 6px 10px; border-radius: 5px; font-size: 0.82rem; }
-.feedback.ok { background: #dcfce7; color: #166534; }
-.feedback.bad { background: #fee2e2; color: #991b1b; }
+.feedback.ok { background: #101621; color: #68b27c; }
+.feedback.bad { background: #0d131d; color: #f27166; }
 
 /* SVG classes for technical drawing elements */
 .bg-plain { fill: var(--dia-plain); }
@@ -170,8 +142,8 @@ ul.rules li.step-done .step-badge { background: var(--accent); }
 .spiral-line { stroke: var(--ink); fill: none; stroke-width: 2.2; stroke-linecap: round; }
 .ray-line { stroke: var(--light); fill: none; stroke-dasharray: 3 3; }
 .pt-circ { fill: var(--pt-fill); stroke: var(--ink); stroke-width: 1.5; cursor: default; }
-.pt-drag { fill: #38bdf8; stroke: #0284c7; stroke-width: 2; cursor: move; }
-.pt-drag:hover { fill: #facc15; stroke: #ca8a04; }
+.pt-drag { fill: #4bc6ff; stroke: #4ab1f7; stroke-width: 2; cursor: move; }
+.pt-drag:hover { fill: #e9bd00; stroke: #e4a334; }
 .pt-label { font-family: var(--font-dia); font-size: 13px; font-weight: 700; fill: var(--ink); user-select: none; }
 .dim-text { font-family: var(--font-dia); font-size: 11px; fill: var(--muted); user-select: none; }
 .step-num { font-family: var(--font-dia); font-weight: 800; font-size: 15px; fill: var(--accent); user-select: none; }

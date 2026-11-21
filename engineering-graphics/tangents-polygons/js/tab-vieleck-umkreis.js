@@ -124,7 +124,7 @@
         points: polyPts,
         class: isHl ? 'hl-line' : 'res-line',
         'stroke-width': isHl ? 3.4 : 2.6,
-        fill: 'rgba(56, 189, 248, 0.08)'
+        fill: 'rgba(75, 198, 255, 0.08)'
       });
 
       // Mark vertices

@@ -1,24 +1,25 @@
 /* ==========================================================================
    style.css — BeamLab (1967 Technical Book-Plate Aesthetic)
    Shared style language with Interchange Lab (road-intersections):
-   Parchment Paper (#efe6d3), Technical Ink (#181715), Vermilion (#d94426)
+   Dark portfolio palette: Page (#090d16), Ink (#e9edf5), Vermilion (#ff7d61)
    ========================================================================== */
 :root {
-  --bg-app: #efe6d3;
-  --bg-panel: #f6efe0;
-  --bg-card: rgba(250, 245, 232, 0.94);
-  --bg-card-solid: #faf5e8;
-  --bg-glass: rgba(246, 239, 224, 0.92);
-  --bg-plate: #f3ebda;
-  --border: rgba(24, 23, 21, 0.19);
-  --border-strong: rgba(217, 68, 38, 0.55);
-  --text-main: #181715;
-  --text-muted: #4b463e;
-  --text-dim: #736b5f;
-  --accent: #d94426;
-  --accent-warm: #b45309;
-  --accent-ok: #047857;
-  --accent-warn: #b91c1c;
+  color-scheme: dark;
+  --bg-app: #090d16;
+  --bg-panel: #0f151f;
+  --bg-card: rgba(17, 23, 34, 0.94);
+  --bg-card-solid: #111722;
+  --bg-glass: rgba(15, 21, 31, 0.92);
+  --bg-plate: #0e141e;
+  --border: rgba(233, 237, 245, 0.19);
+  --border-strong: rgba(255, 125, 97, 0.55);
+  --text-main: #e9edf5;
+  --text-muted: #a8b3c5;
+  --text-dim: #7f8b9f;
+  --accent: #ff7d61;
+  --accent-warm: #ed864b;
+  --accent-ok: #58b691;
+  --accent-warn: #ff695d;
   --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Outfit', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, monospace;
@@ -61,11 +62,11 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(24, 23, 21, 0.25);
+  background: rgba(233, 237, 245, 0.25);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(217, 68, 38, 0.55);
+  background: rgba(255, 125, 97, 0.55);
 }
 
 /* Header */
@@ -102,7 +103,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(217, 68, 38, 0.1);
+  background: rgba(255, 125, 97, 0.1);
   border: 1px solid var(--border-strong);
   color: var(--text-main);
   flex-shrink: 0;
@@ -139,7 +140,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(24, 23, 21, 0.06);
+  background: rgba(233, 237, 245, 0.06);
   padding: 4px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -162,12 +163,12 @@ html, body {
 
 .tab-btn:hover {
   color: var(--text-main);
-  background: rgba(24, 23, 21, 0.06);
+  background: rgba(233, 237, 245, 0.06);
 }
 
 .tab-btn.active {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
 }
 
 .header-right {
@@ -199,9 +200,9 @@ html, body {
 }
 
 .pill-btn.accent {
-  background: rgba(217, 68, 38, 0.12);
-  border-color: rgba(217, 68, 38, 0.45);
-  color: #b8321b;
+  background: rgba(255, 125, 97, 0.12);
+  border-color: rgba(255, 125, 97, 0.45);
+  color: #fb7158;
 }
 
 /* Main Workspace */
@@ -277,7 +278,7 @@ html, body {
 
 .fig-chip.active, .mini-btn.active, .mini-toggle.active {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   border-color: transparent;
 }
 
@@ -309,7 +310,7 @@ html, body {
 
 .seg-mini .mini-btn.active {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
 }
 
 .status-pill {
@@ -324,15 +325,15 @@ html, body {
 }
 
 .status-pill.good {
-  background: rgba(4, 120, 87, 0.11);
-  border-color: rgba(4, 120, 87, 0.45);
+  background: rgba(88, 182, 145, 0.11);
+  border-color: rgba(88, 182, 145, 0.45);
   color: var(--accent-ok);
 }
 
 .status-pill.warn {
-  background: rgba(217, 68, 38, 0.16);
-  border-color: rgba(217, 68, 38, 0.6);
-  color: #991b1b;
+  background: rgba(255, 125, 97, 0.16);
+  border-color: rgba(255, 125, 97, 0.6);
+  color: #f27166;
 }
 
 /* Scrollable 4-Plate Diagram Stack */
@@ -362,7 +363,7 @@ html, body {
 
 .plate-card.tour-focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(217, 68, 38, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 125, 97, 0.2);
 }
 
 .plate-card-head {
@@ -387,8 +388,8 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--accent);
-  background: rgba(217, 68, 38, 0.1);
-  border: 1px solid rgba(217, 68, 38, 0.32);
+  background: rgba(255, 125, 97, 0.1);
+  border: 1px solid rgba(255, 125, 97, 0.32);
   padding: 1px 6px;
   border-radius: 4px;
 }
@@ -416,8 +417,8 @@ html, body {
   font-family: var(--font-mono);
   font-size: 0.74rem;
   color: var(--text-muted);
-  background: rgba(24, 23, 21, 0.05);
-  border: 1px solid rgba(24, 23, 21, 0.12);
+  background: rgba(233, 237, 245, 0.05);
+  border: 1px solid rgba(233, 237, 245, 0.12);
   padding: 2px 7px;
   border-radius: 5px;
 }
@@ -429,7 +430,7 @@ html, body {
 .diagram-viewport {
   width: 100%;
   background: var(--bg-plate);
-  border: 1px solid rgba(24, 23, 21, 0.16);
+  border: 1px solid rgba(233, 237, 245, 0.16);
   border-radius: 7px;
   overflow: hidden;
   cursor: crosshair;
@@ -469,7 +470,7 @@ html, body {
 
 .canvas-card.tour-focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(217, 68, 38, 0.22);
+  box-shadow: 0 0 0 2px rgba(255, 125, 97, 0.22);
 }
 
 .insight-viewport {
@@ -563,7 +564,7 @@ html, body {
   margin-top: 7px;
   padding: 6px 9px;
   border-left: 3px solid var(--accent);
-  background: rgba(217, 68, 38, 0.08);
+  background: rgba(255, 125, 97, 0.08);
   font-size: 0.76rem;
   line-height: 1.42;
   border-radius: 0 6px 6px 0;
@@ -590,7 +591,7 @@ html, body {
 
 .tour-nav-btn.primary {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   border-color: transparent;
 }
 
@@ -640,7 +641,7 @@ html, body {
   font-weight: 700;
   padding: 4px 8px;
   border-radius: 6px;
-  background: rgba(217, 68, 38, 0.1);
+  background: rgba(255, 125, 97, 0.1);
   border: 1px solid var(--border-strong);
   color: var(--accent);
   white-space: nowrap;
@@ -649,7 +650,7 @@ html, body {
 .book-quote {
   padding: 10px 12px;
   border-left: 3px solid var(--accent-warm);
-  background: rgba(217, 68, 38, 0.06);
+  background: rgba(255, 125, 97, 0.06);
   border-radius: 0 8px 8px 0;
   font-size: 0.79rem;
   line-height: 1.5;
@@ -671,7 +672,7 @@ html, body {
 .reading-check-line {
   margin-top: 6px;
   padding-top: 5px;
-  border-top: 1px dashed rgba(24, 23, 21, 0.15);
+  border-top: 1px dashed rgba(233, 237, 245, 0.15);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
@@ -852,7 +853,7 @@ input[type="range"] {
 
 .preset-btn.active {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   border-color: transparent;
 }
 
@@ -862,7 +863,7 @@ input[type="range"] {
   gap: 6px;
   margin-top: 6px;
   padding: 8px;
-  background: rgba(24, 23, 21, 0.04);
+  background: rgba(233, 237, 245, 0.04);
   border: 1px dashed var(--border);
   border-radius: 7px;
 }
@@ -897,7 +898,7 @@ input[type="range"] {
   gap: 6px;
   margin-top: 4px;
   padding-top: 5px;
-  border-top: 1px solid rgba(24, 23, 21, 0.1);
+  border-top: 1px solid rgba(233, 237, 245, 0.1);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--text-dim);
@@ -925,7 +926,7 @@ input[type="range"] {
 
 .callout-item:hover, .callout-item.selected {
   border-color: var(--accent);
-  background: rgba(217, 68, 38, 0.08);
+  background: rgba(255, 125, 97, 0.08);
 }
 
 .callout-item-head {
@@ -956,7 +957,7 @@ input[type="range"] {
   border-radius: 9px;
   border: none;
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   font-family: var(--font-display);
   font-size: 0.86rem;
   font-weight: 700;
@@ -1044,7 +1045,7 @@ input[type="range"] {
   height: 20px;
   border-radius: 50%;
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 700;
@@ -1109,7 +1110,7 @@ input[type="range"] {
 .concept-math {
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(217, 68, 38, 0.05);
+  background: rgba(255, 125, 97, 0.05);
   border: 1px solid var(--border);
   overflow-x: auto;
   font-size: 0.82rem;
@@ -1138,14 +1139,14 @@ input[type="range"] {
 
 .try-btn:hover {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
 }
 
 /* Faithful 1967 Book Page Card */
 .book-page-card {
-  background: #f5efe1;
-  color: #181715;
-  border: 1px solid rgba(24, 23, 21, 0.25);
+  background: #0f151f;
+  color: #e9edf5;
+  border: 1px solid rgba(233, 237, 245, 0.25);
   border-radius: 10px;
   padding: 20px 22px;
   box-shadow: 0 10px 24px rgba(24, 23, 21, 0.14);
@@ -1156,8 +1157,8 @@ input[type="range"] {
   justify-content: space-between;
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: #575045;
-  border-bottom: 1px solid rgba(24, 23, 21, 0.16);
+  color: #9ca7ba;
+  border-bottom: 1px solid rgba(233, 237, 245, 0.16);
   padding-bottom: 6px;
   margin-bottom: 12px;
 }
@@ -1188,7 +1189,7 @@ input[type="range"] {
   font-family: var(--font-mono);
   font-size: 0.67rem;
   font-weight: 700;
-  color: #b8321b;
+  color: #fb7158;
   margin-bottom: 4px;
 }
 
@@ -1200,7 +1201,7 @@ input[type="range"] {
 }
 
 .book-para:hover {
-  background: rgba(217, 68, 38, 0.07);
+  background: rgba(255, 125, 97, 0.07);
 }
 
 .book-para-head {
@@ -1215,13 +1216,13 @@ input[type="range"] {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 700;
-  color: #b8321b;
+  color: #fb7158;
 }
 
 .book-jump-btn {
-  border: 1px solid rgba(217, 68, 38, 0.45);
+  border: 1px solid rgba(255, 125, 97, 0.45);
   background: transparent;
-  color: #b8321b;
+  color: #fb7158;
   font-size: 0.68rem;
   font-weight: 700;
   padding: 2px 7px;
@@ -1231,8 +1232,8 @@ input[type="range"] {
 }
 
 .book-jump-btn:hover {
-  background: #d94426;
-  color: #fff;
+  background: #ff7d61;
+  color: #151b26;
 }
 
 .book-para p {
@@ -1248,8 +1249,8 @@ input[type="range"] {
   font-weight: 700;
   margin-top: 12px;
   padding-top: 8px;
-  border-top: 1px solid rgba(24, 23, 21, 0.14);
-  color: #4a443b;
+  border-top: 1px solid rgba(233, 237, 245, 0.14);
+  color: #abb5c7;
 }
 
 /* Non-blocking Toast */
@@ -1260,8 +1261,9 @@ input[type="range"] {
   z-index: 60;
   padding: 9px 14px;
   border-radius: 8px;
-  background: var(--text-main);
-  color: #faf5e8;
+  background: #1a2230;
+  color: var(--text-main);
+  border: 1px solid rgba(233, 237, 245, 0.18);
   font-family: var(--font-mono);
   font-size: 0.76rem;
   font-weight: 600;
@@ -1321,7 +1323,7 @@ input[type="range"] {
   html, body, #app, #workspace, #interactive-shell, #plates-scroll {
     height: auto !important;
     overflow: visible !important;
-    background: #ffffff !important;
+    background: #151b26 !important;
   }
   #app-header .main-tabs,
   #app-header .header-right,

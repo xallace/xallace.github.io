@@ -51,7 +51,7 @@
     // Draw parallelogram
     el(svg, 'polygon', {
       points: `${res.P1.x.toFixed(1)},${res.P1.y.toFixed(1)} ${res.P2.x.toFixed(1)},${res.P2.y.toFixed(1)} ${res.P3.x.toFixed(1)},${res.P3.y.toFixed(1)} ${res.P4.x.toFixed(1)},${res.P4.y.toFixed(1)}`,
-      class: 'given-line', 'stroke-width': 1.8, fill: 'rgba(0, 75, 135, 0.02)'
+      class: 'given-line', 'stroke-width': 1.8, fill: 'rgba(99, 163, 230, 0.02)'
     });
 
     // Axes AB and CD

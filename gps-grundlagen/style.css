@@ -2,40 +2,41 @@
    style.css — GPS Fundamentals (Pure 1967 Technical Book-Plate Aesthetic)
    Shared style language with Banana Shaft Lab, 3-2-1 Datum Lab, Straightness Lab,
    BeamLab & Engineering Graphics:
-   Parchment Paper (#efe6d3), Technical Ink (#181715), Vermilion (#d94426)
+   Dark portfolio palette: Page (#090d16), Ink (#e9edf5), Vermilion (#ff7d61)
    ========================================================================== */
 
 :root {
-  --bg-app: #efe6d3;
-  --bg-panel: #f6efe0;
-  --bg-card: #faf5e8;
-  --bg-alt: #f3ebda;
-  --dia-plain: #f5eedf;
+  color-scheme: dark;
+  --bg-app: #090d16;
+  --bg-panel: #0f151f;
+  --bg-card: #111722;
+  --bg-alt: #0e141e;
+  --dia-plain: #0f151f;
 
-  --border: rgba(24, 23, 21, 0.19);
-  --border-subtle: rgba(24, 23, 21, 0.12);
-  --border-strong: rgba(217, 68, 38, 0.55);
+  --border: rgba(233, 237, 245, 0.19);
+  --border-subtle: rgba(233, 237, 245, 0.12);
+  --border-strong: rgba(255, 125, 97, 0.55);
 
-  --text: #181715;
-  --muted: #4b463e;
-  --light: #736b5f;
-  --ink: #181715;
-  --arc-stroke: #4b463e;
-  --grid: #ded4be;
+  --text: #e9edf5;
+  --muted: #a8b3c5;
+  --light: #7f8b9f;
+  --ink: #e9edf5;
+  --arc-stroke: #a8b3c5;
+  --grid: #1d232e;
 
-  --primary: #0369a1;          /* Technical cobalt for tolerance zones */
-  --primary-light: rgba(217, 68, 38, 0.08);
-  --accent: #d94426;           /* Vermilion ink highlight & active controls */
-  --accent-blue: #0369a1;
-  --accent-green: #047857;
-  --accent-2: #b45309;
-  --ok: #047857;
-  --bad: #d94426;
-  --hl: #d94426;
+  --primary: #56a8e4;          /* Technical cobalt for tolerance zones */
+  --primary-light: rgba(255, 125, 97, 0.08);
+  --accent: #ff7d61;           /* Vermilion ink highlight & active controls */
+  --accent-blue: #56a8e4;
+  --accent-green: #58b691;
+  --accent-2: #ed864b;
+  --ok: #58b691;
+  --bad: #ff7d61;
+  --hl: #ff7d61;
 
-  --given-bg: rgba(180, 83, 9, 0.09);
-  --given-border: #b45309;
-  --pt-fill: #faf5e8;
+  --given-bg: rgba(237, 134, 75, 0.09);
+  --given-border: #ed864b;
+  --pt-fill: #111722;
   --shadow: 0 2px 8px rgba(24, 23, 21, 0.06);
   --radius: 10px;
 
@@ -66,8 +67,8 @@ body {
 /* Custom Ink Scrollbar */
 ::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(24, 23, 21, 0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(217, 68, 38, 0.55); }
+::-webkit-scrollbar-thumb { background: rgba(233, 237, 245, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 125, 97, 0.55); }
 
 /* ---------------- HEADER (1967 BOOK PLATE) ---------------- */
 
@@ -98,7 +99,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(217, 68, 38, 0.10);
+  background: rgba(255, 125, 97, 0.10);
   border: 1px solid var(--border-strong);
   color: var(--text);
   flex-shrink: 0;
@@ -133,7 +134,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(24, 23, 21, 0.06);
+  background: rgba(233, 237, 245, 0.06);
   padding: 4px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -157,12 +158,12 @@ body {
 
 .tabs button:hover {
   color: var(--text);
-  background: rgba(24, 23, 21, 0.06);
+  background: rgba(233, 237, 245, 0.06);
 }
 
 .tabs button.active {
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
 }
 
 .header-right {
@@ -268,7 +269,7 @@ main {
 /* Highlight box "Given: ..." */
 .given-box {
   background: var(--given-bg);
-  border: 1px solid rgba(180, 83, 9, 0.28);
+  border: 1px solid rgba(237, 134, 75, 0.28);
   border-left: 3.5px solid var(--given-border);
   padding: 8px 12px;
   border-radius: 0 7px 7px 0;
@@ -327,7 +328,7 @@ main {
 
 .seg {
   display: inline-flex;
-  background: rgba(24, 23, 21, 0.06);
+  background: rgba(233, 237, 245, 0.06);
   padding: 3px;
   border: 1px solid var(--border);
   border-radius: 9px;
@@ -345,8 +346,8 @@ main {
   cursor: pointer;
   transition: all 0.14s ease;
 }
-.seg button:hover { color: var(--text); background: rgba(24, 23, 21, 0.06); }
-.seg button.on { background: var(--accent); color: #faf5e8; }
+.seg button:hover { color: var(--text); background: rgba(233, 237, 245, 0.06); }
+.seg button.on { background: var(--accent); color: #111722; }
 
 label.chk { display: inline-block; font-size: 0.84rem; font-weight: 600; color: var(--text); cursor: pointer; }
 label.chk input { vertical-align: middle; margin: 0 5px 2px 0; accent-color: var(--accent); }
@@ -367,7 +368,7 @@ label.chk input { vertical-align: middle; margin: 0 5px 2px 0; accent-color: var
   appearance: none;
   border: 1px solid var(--accent);
   background: var(--accent);
-  color: #faf5e8;
+  color: #111722;
   font: 600 0.78rem var(--font);
   padding: 6px 12px;
   border-radius: 7px;
@@ -440,7 +441,7 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
 }
 .symcard:hover {
   border-color: var(--border-strong);
-  background: rgba(217, 68, 38, 0.08);
+  background: rgba(255, 125, 97, 0.08);
   transform: translateY(-1px);
 }
 
@@ -461,12 +462,12 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.dbadge.d-ja { border-color: rgba(3, 105, 161, 0.45); color: var(--accent-blue); background: rgba(3, 105, 161, 0.08); }
-.dbadge.d-optional { border-color: rgba(180, 83, 9, 0.45); color: var(--accent-2); background: rgba(180, 83, 9, 0.08); }
+.dbadge.d-ja { border-color: rgba(86, 168, 228, 0.45); color: var(--accent-blue); background: rgba(86, 168, 228, 0.08); }
+.dbadge.d-optional { border-color: rgba(237, 134, 75, 0.45); color: var(--accent-2); background: rgba(237, 134, 75, 0.08); }
 
 .rulebox {
-  background: rgba(217, 68, 38, 0.08);
-  border: 1px solid rgba(217, 68, 38, 0.26);
+  background: rgba(255, 125, 97, 0.08);
+  border: 1px solid rgba(255, 125, 97, 0.26);
   border-left: 3.5px solid var(--accent);
   padding: 9px 14px;
   border-radius: 0 7px 7px 0;
@@ -504,7 +505,7 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
 .toltable td.symcell { width: 10%; border-left: 0; text-align: center; font-size: 0.82rem; background: var(--bg-panel); }
 .toltable td.symcell .symsvg { margin: 4px auto 6px; }
 .toltable td.symcell b { display: block; margin-bottom: 6px; font-family: var(--font-display); }
-.toltable tr.focus td { background: rgba(217, 68, 38, 0.09); }
+.toltable tr.focus td { background: rgba(255, 125, 97, 0.09); }
 .toltable tr.info td { border-top: 1px dashed var(--border); background: var(--bg-panel); padding: 9px 14px; }
 .toltable dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; font-size: 0.82rem; }
 .toltable dt { color: var(--muted); font-weight: 700; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; padding-top: 2px; }
@@ -555,9 +556,9 @@ input.num.short { width: 56px; text-transform: uppercase; text-align: center; fo
   border-left: 3.5px solid var(--border);
   background: var(--bg-panel);
 }
-.checks li.ok { border-left-color: var(--ok); background: rgba(4, 120, 87, 0.08); }
-.checks li.bad { border-left-color: var(--bad); background: rgba(217, 68, 38, 0.09); }
-.checks li.warn { border-left-color: var(--accent-2); background: rgba(180, 83, 9, 0.09); }
+.checks li.ok { border-left-color: var(--ok); background: rgba(88, 182, 145, 0.08); }
+.checks li.bad { border-left-color: var(--bad); background: rgba(255, 125, 97, 0.09); }
+.checks li.warn { border-left-color: var(--accent-2); background: rgba(237, 134, 75, 0.09); }
 
 /* Principles List */
 .plist { display: grid; gap: 6px; }
@@ -577,8 +578,8 @@ input.num.short { width: 56px; text-transform: uppercase; text-align: center; fo
 .qsvg { min-height: 10px; }
 .qsvg .symsvg { margin: 6px 0 12px; }
 .qframe { display: block; width: 100%; max-width: 420px; height: auto; margin: 8px 0 12px; }
-.choice.right { background: var(--ok); border-color: var(--ok); color: #faf5e8; }
-.choice.wrong { border-color: var(--bad); color: var(--bad); background: rgba(217, 68, 38, 0.09); }
+.choice.right { background: var(--ok); border-color: var(--ok); color: #111722; }
+.choice.wrong { border-color: var(--bad); color: var(--bad); background: rgba(255, 125, 97, 0.09); }
 
 /* ---------------- FOOTER ---------------- */
 

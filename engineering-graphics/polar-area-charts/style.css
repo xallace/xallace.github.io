@@ -1,41 +1,41 @@
 /* Plate III · Polar Coordinate Systems, Roundness & Area Charts — Module styles (tokens via ../plate-theme.css) */
 :root {
-  --primary: #355c7d;
-  --primary-light: rgba(53, 92, 125, 0.11);
-  --accent: #d94426;
-  --accent-blue: #355c7d;
-  --accent-green: #047857;
-  --accent-2: #b45309;
-  --ok: #047857;
-  --bad: #b91c1c;
-  --bg-app: #efe6d3;
-  --bg-card: #faf5e8;
-  --bg-alt: #f2ead7;
-  --border: rgba(24, 23, 21, 0.19);
-  --border-subtle: rgba(24, 23, 21, 0.12);
-  --text: #181715;
-  --muted: #4b463e;
-  --light: #736b5f;
-  --ink: #181715;
-  --grid: rgba(24, 23, 21, 0.16);
-  --dia-top: #fffdf7;
-  --dia-bottom: #f6efe0;
-  --hl: #b45309;
-  --example-bg: rgba(4, 120, 87, 0.06);
-  --example-border: #047857;
+  --primary: #7aa3c8;
+  --primary-light: rgba(122, 163, 200, 0.11);
+  --accent: #ff7d61;
+  --accent-blue: #7aa3c8;
+  --accent-green: #58b691;
+  --accent-2: #ed864b;
+  --ok: #58b691;
+  --bad: #ff695d;
+  --bg-app: #090d16;
+  --bg-card: #111722;
+  --bg-alt: #0e131d;
+  --border: rgba(233, 237, 245, 0.19);
+  --border-subtle: rgba(233, 237, 245, 0.12);
+  --text: #e9edf5;
+  --muted: #a8b3c5;
+  --light: #7f8b9f;
+  --ink: #e9edf5;
+  --grid: rgba(233, 237, 245, 0.16);
+  --dia-top: #141a25;
+  --dia-bottom: #0f151f;
+  --hl: #ed864b;
+  --example-bg: rgba(88, 182, 145, 0.06);
+  --example-border: #58b691;
   --shadow: 0 8px 22px -6px rgba(24, 23, 21, 0.10);
   --radius: 11px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-dia: 'Inter', 'Bahnschrift', 'DIN Alternate', sans-serif;
-  --dia-plain: #fffcf4;
-  --pt-fill: #fffcf4;
+  --dia-plain: #141a24;
+  --pt-fill: #141a24;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
-  --bar-fill: #c96446;
-  --sec-yellow: #ead8a6;
-  --sec-blue: #4f799e;
-  --sec-orange: #d94426;
-  --sec-green: #2d7a64;
-  --sec-purple: #7c6896;
+  --bar-fill: #f38a6b;
+  --sec-yellow: #cfae55;
+  --sec-blue: #7fabd2;
+  --sec-orange: #ff7d61;
+  --sec-green: #69b49b;
+  --sec-purple: #af9acb;
 }
 
 * { box-sizing: border-box; }
@@ -139,13 +139,13 @@ main { max-width: 1320px; margin: 0 auto; padding: 18px 20px 30px; }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
 .seg button { appearance: none; border: 0; background: var(--bg-card); color: var(--muted); font: 600 0.8rem var(--font); padding: 5px 10px; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--border); }
-.seg button.on { background: var(--primary); color: #faf5e8; }
+.seg button.on { background: var(--primary); color: #111722; }
 label.chk { display: inline-block; font-size: 0.85rem; color: var(--text); cursor: pointer; }
 label.chk input { vertical-align: middle; margin: 0 5px 2px 0; }
 .slider { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; font-size: 0.85rem; margin: 6px 0; }
 .slider input[type=range] { width: 100%; accent-color: var(--accent); }
 .slider output { font: 600 0.85rem var(--mono); min-width: 72px; text-align: right; }
-.btn { appearance: none; border: 1px solid var(--accent); background: var(--accent); color: #faf5e8; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.btn { appearance: none; border: 1px solid var(--accent); background: var(--accent); color: #111722; font: 600 0.82rem var(--font); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
 .btn.ghost { background: transparent; color: var(--ink); border-color: var(--border); }
 .btn:disabled { opacity: 0.5; cursor: default; }
 input.num, input.txt { font: 0.9rem var(--mono); padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-alt); color: var(--text); }
@@ -187,8 +187,8 @@ input.num:focus, input.txt:focus { outline: 2px solid var(--primary); outline-of
 
 .result { font: 700 1.08rem var(--mono); color: var(--accent); }
 .badge { display: inline-block; font: 700 0.76rem var(--font); padding: 2px 8px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
-.badge.ok { background: rgba(21, 128, 61, 0.15); color: var(--ok); border: 1px solid var(--ok); }
-.badge.bad { background: rgba(220, 38, 38, 0.15); color: var(--bad); border: 1px solid var(--bad); }
+.badge.ok { background: rgba(91, 186, 115, 0.15); color: var(--ok); border: 1px solid var(--ok); }
+.badge.bad { background: rgba(255, 119, 107, 0.15); color: var(--bad); border: 1px solid var(--bad); }
 .bad-txt { color: var(--bad); font-weight: 600; }
 .feedback { margin-top: 8px; font-size: 0.9rem; min-height: 1.4em; }
 .feedback.ok { color: var(--ok); }

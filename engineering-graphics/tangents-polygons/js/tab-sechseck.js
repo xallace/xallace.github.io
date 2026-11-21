@@ -120,7 +120,7 @@
           points: hexPts,
           class: isHl ? 'hl-line' : 'res-line',
           'stroke-width': isHl ? 3.4 : 2.6,
-          fill: 'rgba(56, 189, 248, 0.08)'
+          fill: 'rgba(75, 198, 255, 0.08)'
         });
         SVG.stepNum(svg, (B.x + pB1.x) / 2 + 16, (B.y + pB1.y) / 2 + 14, 3, { hl: isHl });
 
@@ -158,7 +158,7 @@
           points: dodPts,
           class: isHl ? 'hl-line' : 'res-line',
           'stroke-width': isHl ? 3.4 : 2.6,
-          fill: 'rgba(56, 189, 248, 0.08)'
+          fill: 'rgba(75, 198, 255, 0.08)'
         });
         for (const p of dodecaVertices) SVG.point(svg, p, { r: 3.5, res: true });
         if (st.showIncircle) {

@@ -75,7 +75,7 @@
       el(svg, 'polygon', {
         points: `${res.A.x},${res.A.y} ${res.B.x},${res.B.y} ${res.C.x},${res.C.y} ${res.D.x},${res.D.y}`,
         class: isHl ? 'hl-line' : 'given-line', 'stroke-width': isHl ? 2.4 : 1.6,
-        fill: 'rgba(0, 75, 135, 0.08)'
+        fill: 'rgba(99, 163, 230, 0.08)'
       });
 
       // Vertex labels A, B, C, D
@@ -105,7 +105,7 @@
 
         el(svg, 'polygon', {
           points: `${zA.x},${zA.y} ${zB.x},${zB.y} ${zCpt.x},${zCpt.y} ${zD.x},${zD.y}`,
-          fill: 'rgba(56, 189, 248, 0.12)', stroke: 'var(--primary)', 'stroke-width': 1.6
+          fill: 'rgba(75, 198, 255, 0.12)', stroke: 'var(--primary)', 'stroke-width': 1.6
         });
         SVG.point(svg, zA, { label: 'A', dx: 6, dy: -6, fs: 12 });
         SVG.point(svg, zB, { label: 'B', dx: 6, dy: 12, fs: 12 });

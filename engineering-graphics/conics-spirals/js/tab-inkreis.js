@@ -52,7 +52,7 @@
     // Given triangle ABC
     el(svg, 'polygon', {
       points: `${st.A.x},${st.A.y} ${st.B.x},${st.B.y} ${st.C.x},${st.C.y}`,
-      class: 'given-line', 'stroke-width': 2.4, fill: 'rgba(0, 75, 135, 0.03)'
+      class: 'given-line', 'stroke-width': 2.4, fill: 'rgba(99, 163, 230, 0.03)'
     });
 
     // Vertex labels
