@@ -19,8 +19,8 @@
   --accent-emerald: #34d399;
   --accent-blue: #3b82f6;
 
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: var(--xt-text);
+  --font-mono: var(--xt-mono);
 
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -219,6 +219,7 @@ body {
   max-width: 780px;
   line-height: 1.7;
   margin-bottom: 2.2rem;
+  font-family: var(--xt-text);
 }
 
 .code-tag {
@@ -606,7 +607,7 @@ body {
 }
 
 .deck-tab-code {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.62rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -617,14 +618,14 @@ body {
 }
 
 .deck-tab-title {
-  font-family: 'Outfit', var(--font-sans);
+  font-family: var(--xt-sub);
   font-size: 0.92rem;
   font-weight: 600;
   line-height: 1.3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
 }
 
@@ -883,7 +884,7 @@ body {
 }
 
 .serial-code {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -907,7 +908,7 @@ body {
   background: rgba(52, 211, 153, 0.15);
   border: 1px solid rgba(52, 211, 153, 0.42);
   color: var(--accent-emerald);
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.67rem;
   padding: 2px 8px;
   border-radius: 9999px;
@@ -934,7 +935,7 @@ body {
 }
 
 .card-kicker {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--xt-sub);
   font-style: italic;
   font-weight: 600;
   font-size: 0.96rem;
@@ -969,7 +970,7 @@ body {
 }
 
 .tag {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.69rem;
   background: rgba(255, 255, 255, 0.045);
   color: var(--accent-cyan);
@@ -979,7 +980,7 @@ body {
 }
 
 .card-title {
-  font-family: 'Outfit', var(--font-sans);
+  font-family: var(--xt-title);
   font-size: 1.22rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -1015,7 +1016,7 @@ body {
 }
 
 .metric-cell > span {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.54rem;
   letter-spacing: 0.07em;
   color: var(--text-muted);
@@ -1191,7 +1192,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   font-weight: 700;
   color: #fff;
@@ -1244,7 +1245,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   color: #7dd3fc;
@@ -1268,7 +1269,7 @@ body {
   background: radial-gradient(circle at 50% 50%, #0d2847 0%, #05101f 100%);
 }
 .tbb-vis .vis-tbb-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   font-weight: 800;
   color: #38bdf8;
@@ -1296,7 +1297,7 @@ body {
   animation: tbbRotate 16s linear infinite;
 }
 .tbb-vis .vis-tbb-formula {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   font-weight: 700;
   color: #facc15;
@@ -1340,7 +1341,7 @@ body {
 .eng-plate-vis .vis-ep-plate {
   background: #181715;
   color: #faf5e8;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   font-weight: 800;
   padding: 2px 7px;
@@ -1351,7 +1352,7 @@ body {
   background: rgba(217, 68, 38, 0.12);
   color: #a9321b;
   border: 1px solid rgba(217, 68, 38, 0.38);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   font-weight: 700;
   padding: 1px 6px;
@@ -1367,7 +1368,7 @@ body {
   box-shadow: 0 3px 10px rgba(24, 23, 21, 0.08);
 }
 .eng-plate-vis .vis-ep-caption {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 600;
   color: #4b463e;
@@ -1390,7 +1391,7 @@ body {
   gap: 8px;
 }
 .beam-vis .vis-beam-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   background: rgba(56, 189, 248, 0.15);
   border: 1px solid rgba(56, 189, 248, 0.35);
@@ -1405,7 +1406,7 @@ body {
   filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.6));
 }
 .beam-vis .vis-beam-formula {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   font-weight: 700;
   color: #38bdf8;
@@ -1438,7 +1439,7 @@ body {
   background-size: 14px 14px;
 }
 .cityqr-vis .vis-cityqr-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   background: rgba(168, 85, 247, 0.18);
   border: 1px solid rgba(168, 85, 247, 0.4);
@@ -1459,7 +1460,7 @@ body {
   100% { transform: translateY(-3px) scale(1.06); filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.9)); }
 }
 .cityqr-vis .vis-cityqr-tagline {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   font-weight: 700;
   color: #38bdf8;
@@ -1493,7 +1494,7 @@ body {
   background-size: 18px 18px;
 }
 .kfz-vis .vis-kfz-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.4);
@@ -1509,7 +1510,7 @@ body {
   filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.6));
 }
 .kfz-vis .vis-kfz-formula {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--xt-mono);
   font-size: 0.72rem;
   font-weight: 700;
   color: #38bdf8;

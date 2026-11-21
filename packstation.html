@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/fonts/xallace-type.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Packstation &amp; Palletizing Robots · Digital Twin (Three.js + Rapier.js)</title>
   <meta name="description" content="Physics-based digital twin of an automated parcel sorting cell with PLA-100 diverter, barcode scanner, dual articulated robots, Three.js, and Rapier.js WASM.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1120'/%3E%3Cpath d='M16 5l10 5.5v11L16 27 6 21.5v-11z' fill='none' stroke='%2338bdf8' stroke-width='2.2'/%3E%3Cpath d='M6 10.5L16 16l10-5.5M16 16v11' fill='none' stroke='%232dd4bf' stroke-width='2'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -82,6 +80,7 @@
       font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;
       background: rgba(45, 212, 191, 0.15); color: var(--accent-teal);
       border: 1px solid var(--accent-teal); white-space: nowrap;
+  font-family: var(--xt-small);
     }
 
     .sim-hud {
@@ -220,9 +219,9 @@
       }
       .hud-title { gap: 0.5rem; }
       .hud-title span:first-child { font-size: 0.76rem; }
-      .hud-title span:last-child { white-space: nowrap; font-size: 0.66rem; }
+      .hud-title span:last-child { white-space: nowrap; font-size: 0.66rem; font-family: var(--xt-small); }
       .hud-controls-row { gap: 0.3rem; }
-      .hud-btn { font-size: 0.69rem; padding: 0.42rem 0.18rem; }
+      .hud-btn { font-size: 0.69rem; padding: 0.42rem 0.18rem; font-family: var(--xt-small); }
     }
 
     @media (max-width: 540px) {
@@ -271,7 +270,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
           <span>Control Desk / PLC Telemetry</span>
         </div>
-        <span id="telemetry-live-badge" style="font-size: 0.65rem; color: var(--accent-teal); background: rgba(45, 212, 191, 0.15); border: 1px solid var(--accent-teal); padding: 1px 5px; border-radius: 3px; font-weight: 700;">LIVE</span>
+        <span id="telemetry-live-badge" style="font-size: 0.65rem; color: var(--accent-teal); background: rgba(45, 212, 191, 0.15); border: 1px solid var(--accent-teal); padding: 1px 5px; border-radius: 3px; font-weight: 700; font-family: var(--xt-small);">LIVE</span>
       </div>
 
       <div class="stats-row"><span class="stats-label">Parcels (Fed / Pal.):</span> <span class="stats-val" id="stat-total">0 / 0</span></div>
@@ -283,7 +282,7 @@
       <div class="scanner-feed">
         <div class="feed-header">
           <span>OPTICAL SCANNER</span>
-          <span id="scan-indicator" style="font-size: 0.65rem; color: var(--text-muted);">STANDBY</span>
+          <span id="scan-indicator" style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--xt-small);">STANDBY</span>
         </div>
         <div class="feed-body" id="scan-body">
           Waiting for incoming parcel...
@@ -295,7 +294,7 @@
     <div class="sim-hud">
       <div class="hud-title">
         <span>Cell Control &amp; Simulation</span>
-        <span style="font-size: 0.7rem; color: var(--accent-cyan); font-family: var(--font-mono);">Rapier3D WASM</span>
+        <span style="font-size: 0.7rem; color: var(--accent-cyan); font-family: var(--xt-small);">Rapier3D WASM</span>
       </div>
 
       <div class="hud-controls-row">
@@ -571,7 +570,7 @@
       ctx.strokeRect(6, 6, 500, 100);
 
       ctx.fillStyle = accentHex;
-      ctx.font = 'bold 40px "JetBrains Mono", monospace';
+      ctx.font = 'bold 40px "Iosevka Charon Mono", monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(text, 256, 56);
@@ -1198,7 +1197,7 @@
         ctx.fillRect(i, 40, (i % 12 === 0 ? 4 : 2), 35);
       }
 
-      ctx.font = 'bold 13px sans-serif';
+      ctx.font = 'bold 13px Iosevka Charon, sans-serif';
       ctx.fillText(label, 38, 90);
       return new THREE.CanvasTexture(c);
     }
@@ -1801,5 +1800,6 @@
       init();
     }
   </script>
+<script src="/fonts/xallace-type.js" defer></script>
 </body>
 </html>

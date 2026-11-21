@@ -280,7 +280,10 @@
         '<span class="deck-tab-text"><span class="deck-tab-code"></span><span class="deck-tab-title"></span></span>' +
         `<span class="deck-tab-chev" aria-hidden="true">${chevron('M9 18l6-6-6-6')}</span>`;
       tab.querySelector('.deck-tab-code').textContent = code ? code.textContent.trim() : '';
-      tab.querySelector('.deck-tab-title').textContent = title ? title.textContent.trim() : `Project ${i + 1}`;
+      // A long card title can carry a shorter tab label in data-tab-title; the tooltip keeps the full one.
+      const fullTitle = title ? title.textContent.trim() : `Project ${i + 1}`;
+      tab.querySelector('.deck-tab-title').textContent = (title && title.dataset.tabTitle) || fullTitle;
+      tab.title = fullTitle;
       deck.insertBefore(tab, card);
       card.setAttribute('role', 'region');
       card.setAttribute('aria-labelledby', tab.id);

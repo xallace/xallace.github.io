@@ -40,10 +40,10 @@
   --shadow: 0 2px 8px rgba(24, 23, 21, 0.06);
   --radius: 10px;
 
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Outfit', 'Inter', sans-serif;
-  --font-dia: 'Bahnschrift', 'DIN Alternate', 'Inter', 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font: var(--xt-text);
+  --font-display: var(--xt-title);
+  --font-dia: var(--xt-sub);
+  --mono: var(--xt-mono);
 }
 
 * { box-sizing: border-box; }
@@ -209,7 +209,7 @@ main {
 .tab.active { display: block; }
 
 .plate-kicker {
-  font-family: var(--mono);
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -451,7 +451,7 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
 .sym .fillsym { fill: currentColor; stroke-width: 0.6; }
 
 .dbadge {
-  font: 600 0.61rem var(--mono);
+  font: 600 0.61rem var(--xt-small);
   padding: 2px 5px;
   border-radius: 5px;
   border: 1px solid var(--border);
@@ -485,7 +485,7 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
 .toltable { border-collapse: collapse; width: 100%; min-width: 900px; }
 .toltable th {
   text-align: left;
-  font-family: var(--mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -529,8 +529,8 @@ input.num:focus, select:focus { outline: 2px solid var(--accent); outline-offset
 .fig .tedbox { fill: none; stroke: var(--ink); stroke-width: 0.95; }
 .fig .gauge { fill: var(--bg-alt); stroke: var(--ink); stroke-width: 1.15; }
 .fig text, .dia text, .framebig text, .qframe text { fill: var(--ink); font-size: 10px; }
-.fig .frametxt, .framebig .frametxt, .qframe .frametxt { font-size: 10.5px; font-weight: 700; }
-.fig .dimtxt { font-size: 10px; }
+.fig .frametxt, .framebig .frametxt, .qframe .frametxt { font-size: 10.5px; font-weight: 700; font-family: var(--xt-small); }
+.fig .dimtxt { font-size: 10px; font-family: var(--xt-small); }
 .fig .zonetxt, .dia .zonetxt { fill: var(--primary); font-size: 10px; font-weight: 700; }
 .fig .devtxt { fill: var(--accent-green); font-size: 10px; font-weight: 700; }
 .fig .small, .dia .small { fill: var(--muted); font-size: 8.6px; }

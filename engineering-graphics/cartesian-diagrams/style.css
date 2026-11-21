@@ -23,11 +23,11 @@
   --example-border: #58b691;
   --shadow: 0 8px 22px -6px rgba(24, 23, 21, 0.10);
   --radius: 11px;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-dia: 'Inter', 'Bahnschrift', 'DIN Alternate', sans-serif;
+  --font: var(--xt-text);
+  --font-dia: var(--xt-sub);
   --dia-plain: #141a24;
   --pt-fill: #141a24;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --mono: var(--xt-mono);
 }
 
 * { box-sizing: border-box; }

@@ -31,9 +31,9 @@
   --loss: rgba(255, 105, 93, 0.12);
   --shadow: 0 8px 22px -6px rgba(24, 23, 21, 0.10);
   --radius: 11px;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-dia: 'Inter', 'Bahnschrift', 'DIN Alternate', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font: var(--xt-text);
+  --font-dia: var(--xt-sub);
+  --mono: var(--xt-mono);
 }
 
 * { box-sizing: border-box; }

@@ -23,8 +23,8 @@
   --chart-grid: rgba(148, 163, 184, 0.11);
   --chart-axis: rgba(148, 163, 184, 0.45);
   --chart-cross: rgba(226, 232, 240, 0.45);
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  --font-sans: var(--xt-text);
+  --font-mono: var(--xt-mono);
   --radius: 10px;
 }
 
@@ -53,7 +53,7 @@ body {
 .brand h1 { margin: 0; font-size: 22px; font-weight: 750; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .brand h1 .logo { color: var(--accent); }
 .brand p { margin: 2px 0 0; color: var(--text-secondary); font-size: 13px; }
-.badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border-accent); color: var(--accent); font-family: var(--font-mono); }
+.badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border-accent); color: var(--accent); font-family: var(--xt-small); }
 .badge.amber { border-color: rgba(245, 158, 11, 0.4); color: var(--c2); }
 
 /* Tabs */
@@ -65,7 +65,7 @@ body {
 }
 .tabs button:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.03); }
 .tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
-.tabs button .part { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-right: 6px; }
+.tabs button .part { font-family: var(--xt-small); font-size: 11px; color: var(--text-muted); margin-right: 6px; }
 .tabs button.active .part { color: var(--accent); }
 
 .tab { display: none; }
@@ -86,11 +86,11 @@ body {
 @media (max-width: 980px) { .params { position: static; max-height: none; } }
 .params h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
 .pgroup { border: 0; border-top: 1px solid var(--border-subtle); margin: 10px 0 0; padding: 8px 0 0; }
-.pgroup legend { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); padding: 0 6px 0 0; }
+.pgroup legend { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); padding: 0 6px 0 0; font-family: var(--xt-small); }
 .prow { display: grid; grid-template-columns: 1fr; gap: 2px; margin: 6px 0; }
 .prow-select { grid-template-columns: 1fr 1.2fr; align-items: center; }
 .plabel { font-size: 12.5px; color: var(--text-primary); }
-.plabel .unit { color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; }
+.plabel .unit { color: var(--text-muted); font-family: var(--xt-small); font-size: 11px; }
 .pctl { display: grid; grid-template-columns: 1fr 86px; gap: 8px; align-items: center; }
 .pnum, .pselect {
   width: 100%; background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-subtle);
@@ -179,7 +179,7 @@ table.checks { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 table.checks th, table.checks td { padding: 5px 8px; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; }
 table.checks th { color: var(--text-secondary); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; }
 table.checks td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; }
-table.checks td.st { font: 700 11px var(--font-mono); }
+table.checks td.st { font: 700 11px var(--xt-small); }
 table.checks tr.ok td.st { color: var(--ok); }
 table.checks tr.fail td.st { color: var(--bad); }
 table.checks tr.info td.st { color: var(--warn); }

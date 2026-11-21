@@ -20,9 +20,9 @@
   --accent-warm: #ed864b;
   --accent-ok: #58b691;
   --accent-warn: #ff695d;
-  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Outfit', 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', Consolas, monospace;
+  --font-ui: var(--xt-text);
+  --font-display: var(--xt-title);
+  --font-mono: var(--xt-mono);
 }
 
 * {
@@ -316,7 +316,7 @@ html, body {
 .status-pill {
   padding: 4px 9px;
   border-radius: 999px;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   background: var(--bg-card);
@@ -383,7 +383,7 @@ html, body {
 }
 
 .plate-num {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -407,7 +407,7 @@ html, body {
 }
 
 .plate-drag-hint {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   color: var(--accent-warm);
   font-weight: 600;
@@ -511,7 +511,7 @@ html, body {
 }
 
 .tour-badge {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--accent);
@@ -627,7 +627,7 @@ html, body {
 
 .kicker {
   display: block;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -636,7 +636,7 @@ html, body {
 }
 
 .regime-tag {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   padding: 4px 8px;
@@ -655,13 +655,13 @@ html, body {
   font-size: 0.79rem;
   line-height: 1.5;
   color: var(--text-main);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--xt-text);
 }
 
 .book-note-tag {
   display: block;
   margin-bottom: 4px;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -683,7 +683,7 @@ html, body {
 .reading-check-line.caution { color: var(--accent-warm); }
 
 .section-label {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.69rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -712,6 +712,7 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   font-weight: 600;
+  font-family: var(--xt-small);
 }
 
 .no-upper {
@@ -731,7 +732,7 @@ html, body {
 .kpi-val.accent { color: var(--accent); }
 
 .kpi-sub-mini {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.63rem;
   color: var(--text-muted);
   margin-top: 2px;
@@ -755,7 +756,7 @@ html, body {
 }
 
 .group-title {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.69rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -821,7 +822,7 @@ input[type="range"] {
 }
 
 .unit-tag {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   color: var(--text-dim);
   min-width: 32px;
@@ -837,7 +838,7 @@ input[type="range"] {
   border: 1px solid var(--border);
   background: var(--bg-card-solid);
   color: var(--text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.66rem;
   font-weight: 600;
   padding: 3px 7px;
@@ -877,7 +878,7 @@ input[type="range"] {
 .cs-label {
   font-size: 0.68rem;
   color: var(--text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
 }
 
 .cs-input {
@@ -899,7 +900,7 @@ input[type="range"] {
   margin-top: 4px;
   padding-top: 5px;
   border-top: 1px solid rgba(233, 237, 245, 0.1);
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   color: var(--text-dim);
 }
@@ -939,7 +940,7 @@ input[type="range"] {
 }
 
 .callout-badge {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.65rem;
   color: var(--accent);
 }
@@ -1046,7 +1047,7 @@ input[type="range"] {
   border-radius: 50%;
   background: var(--accent);
   color: #111722;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.7rem;
   font-weight: 700;
   flex-shrink: 0;
@@ -1155,7 +1156,7 @@ input[type="range"] {
 .book-page-head {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   color: #9ca7ba;
   border-bottom: 1px solid rgba(233, 237, 245, 0.16);
@@ -1186,7 +1187,7 @@ input[type="range"] {
 .ref-formula-head {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.67rem;
   font-weight: 700;
   color: #fb7158;
@@ -1213,7 +1214,7 @@ input[type="range"] {
 }
 
 .book-para-tag {
-  font-family: var(--font-mono);
+  font-family: var(--xt-small);
   font-size: 0.68rem;
   font-weight: 700;
   color: #fb7158;
@@ -1229,6 +1230,7 @@ input[type="range"] {
   border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
+  font-family: var(--xt-small);
 }
 
 .book-jump-btn:hover {
@@ -1239,7 +1241,7 @@ input[type="range"] {
 .book-para p {
   font-size: 0.84rem;
   line-height: 1.56;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--xt-text);
 }
 
 .book-page-foot {

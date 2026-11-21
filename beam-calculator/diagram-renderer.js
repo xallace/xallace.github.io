@@ -232,7 +232,7 @@
 
       // Fiber stress annotation callouts when fiber colors are active
       const fiberLegendSvg = this.showFiberColors ? `
-        <g font-family="var(--font-mono)" font-size="9" font-weight="700">
+        <g font-family="Iosevka Charon Mono, monospace" font-size="9" font-weight="700">
           <rect x="${padX + 10}" y="${beamY - beamH / 2 - 14}" width="136" height="12" rx="2" fill="${PAPER}" opacity="0.88" />
           <text x="${padX + 14}" y="${beamY - beamH / 2 - 5}" fill="${VERMILION}">TOP: COMPRESSION (−σ)</text>
           <rect x="${padX + plotW - 142}" y="${beamY + beamH / 2 + 4}" width="122" height="12" rx="2" fill="${PAPER}" opacity="0.88" />
@@ -242,7 +242,7 @@
 
       // Optional 1967 book-plate numbered call-out pins
       const calloutsSvg = this.showCallouts ? `
-        <g font-family="var(--font-mono)" font-size="9.5" font-weight="700">
+        <g font-family="Iosevka Charon Mono, monospace" font-size="9.5" font-weight="700">
           <!-- Pin A callout -->
           <line x1="${padX - 18}" y1="${beamY + 18}" x2="${padX - 42}" y2="${beamY + 6}" stroke="${INK}" stroke-width="1" />
           <circle cx="${padX - 50}" cy="${beamY + 3}" r="9" fill="${CARD_BG}" stroke="${VERMILION}" stroke-width="1.4" />
@@ -284,7 +284,7 @@
           <!-- Distributed Load Block -->
           ${arrowsSvg}
           <rect x="${padX + plotW / 2 - 142}" y="13" width="284" height="22" rx="4" fill="${CARD_BG}" stroke="rgba(255, 125, 97,0.45)" stroke-width="1" />
-          <text x="${padX + plotW / 2}" y="28" fill="${VERMILION}" font-size="11.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${padX + plotW / 2}" y="28" fill="${VERMILION}" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             w = ${w.toFixed(2)} ${wUnit} · Total W = ${W_total.toFixed(1)} ${fUnit}
           </text>
 
@@ -298,8 +298,8 @@
             <circle cx="0" cy="1" r="3.5" fill="${CARD_BG}" stroke="${INK}" stroke-width="1.7" />
             <line x1="-20" y1="23" x2="20" y2="23" stroke="${INK}" stroke-width="1.8" />
             <rect x="-20" y="24" width="40" height="7" fill="url(#hatch-ink)" />
-            <text x="-23" y="18" fill="${INK}" font-size="12" font-weight="800" text-anchor="end" font-family="var(--font-display)">A</text>
-            <text x="-23" y="29" fill="${INK_DIM}" font-size="8.8" font-weight="600" text-anchor="end" font-family="var(--font-mono)">PIN</text>
+            <text x="-23" y="18" fill="${INK}" font-size="12" font-weight="800" text-anchor="end" font-family="GFS Didot, Georgia, serif">A</text>
+            <text x="-23" y="29" fill="${INK_DIM}" font-size="8.8" font-weight="600" text-anchor="end" font-family="Iosevka Charon Mono, monospace">PIN</text>
           </g>
 
           <!-- Right Roller Support B -->
@@ -311,22 +311,22 @@
             <circle cx="8.5" cy="22" r="3.2" fill="${CARD_BG}" stroke="${INK}" stroke-width="1.5" />
             <line x1="-20" y1="26" x2="20" y2="26" stroke="${INK}" stroke-width="1.8" />
             <rect x="-20" y="27" width="40" height="7" fill="url(#hatch-ink)" />
-            <text x="23" y="18" fill="${INK}" font-size="12" font-weight="800" text-anchor="start" font-family="var(--font-display)">B</text>
-            <text x="23" y="29" fill="${INK_DIM}" font-size="8.8" font-weight="600" text-anchor="start" font-family="var(--font-mono)">ROLLER</text>
+            <text x="23" y="18" fill="${INK}" font-size="12" font-weight="800" text-anchor="start" font-family="GFS Didot, Georgia, serif">B</text>
+            <text x="23" y="29" fill="${INK_DIM}" font-size="8.8" font-weight="600" text-anchor="start" font-family="Iosevka Charon Mono, monospace">ROLLER</text>
           </g>
 
           <!-- Support Reactions RA & RB (explicit symmetric upward arrowheads) -->
           <line x1="${padX}" y1="${beamY + 73}" x2="${padX}" y2="${beamY + 51}" stroke="${GREEN}" stroke-width="2.4" />
           <polygon points="${padX},${beamY + 43} ${padX - 5},${beamY + 53} ${padX + 5},${beamY + 53}" fill="${GREEN}" />
           <rect x="${padX - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(88, 182, 145,0.45)" stroke-width="1" />
-          <text x="${padX}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${padX}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             RA = ${R_A.toFixed(2)} ${fUnit}
           </text>
 
           <line x1="${padX + plotW}" y1="${beamY + 73}" x2="${padX + plotW}" y2="${beamY + 51}" stroke="${GREEN}" stroke-width="2.4" />
           <polygon points="${padX + plotW},${beamY + 43} ${padX + plotW - 5},${beamY + 53} ${padX + plotW + 5},${beamY + 53}" fill="${GREEN}" />
           <rect x="${padX + plotW - 58}" y="${beamY + 76}" width="116" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(88, 182, 145,0.45)" stroke-width="1" />
-          <text x="${padX + plotW}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${padX + plotW}" y="${beamY + 89}" fill="${GREEN}" font-size="10.8" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             RB = ${R_B.toFixed(2)} ${fUnit}
           </text>
 
@@ -336,7 +336,7 @@
             <line x1="${padX + 16}" y1="-4" x2="${padX + 16}" y2="4" stroke="${INK_MUTED}" stroke-width="1.3" />
             <line x1="${padX + plotW - 16}" y1="-4" x2="${padX + plotW - 16}" y2="4" stroke="${INK_MUTED}" stroke-width="1.3" />
             <rect x="${padX + plotW / 2 - 48}" y="-9.5" width="96" height="19" rx="4" fill="${CARD_BG}" stroke="rgba(233, 237, 245,0.22)" stroke-width="1" />
-            <text x="${padX + plotW / 2}" y="3.5" fill="${INK}" font-size="11" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+            <text x="${padX + plotW / 2}" y="3.5" fill="${INK}" font-size="11" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
               L = ${L.toFixed(2)} ${lUnit}
             </text>
           </g>
@@ -347,7 +347,7 @@
           <line x1="${probeX.toFixed(1)}" y1="36" x2="${probeX.toFixed(1)}" y2="${svgH - 22}" stroke="${OCHRE}" stroke-width="1.6" stroke-dasharray="4,3" />
           <circle cx="${probeX.toFixed(1)}" cy="${probeYOnBeam.toFixed(1)}" r="5.5" fill="${OCHRE}" stroke="${CARD_BG}" stroke-width="2" />
           <rect x="${(pillX - 48).toFixed(1)}" y="${svgH - 22}" width="96" height="18" rx="4" fill="${CARD_BG}" stroke="${OCHRE}" stroke-width="1.3" />
-          <text x="${pillX.toFixed(1)}" y="${svgH - 9.5}" fill="${OCHRE}" font-size="10.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${pillX.toFixed(1)}" y="${svgH - 9.5}" fill="${OCHRE}" font-size="10.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             x = ${x.toFixed(2)} ${lUnit}
           </text>
         </svg>
@@ -405,17 +405,17 @@
           <line x1="${padX}" y1="${yLeft}" x2="${padX + plotW}" y2="${yRight}" stroke="${INK}" stroke-width="2.2" />
 
           <!-- Signs inside triangles -->
-          <text x="${padX + plotW * 0.14}" y="${midY - 12}" fill="${GREEN}" font-size="13" font-weight="800" text-anchor="middle" font-family="var(--font-mono)">+</text>
-          <text x="${padX + plotW * 0.86}" y="${midY + 21}" fill="${VERMILION}" font-size="14" font-weight="800" text-anchor="middle" font-family="var(--font-mono)">−</text>
+          <text x="${padX + plotW * 0.14}" y="${midY - 12}" fill="${GREEN}" font-size="13" font-weight="800" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">+</text>
+          <text x="${padX + plotW * 0.86}" y="${midY + 21}" fill="${VERMILION}" font-size="14" font-weight="800" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">−</text>
 
           <!-- Boundary Values -->
-          <text x="${padX - 8}" y="${yLeft + 4}" fill="${GREEN}" font-size="11" font-weight="700" text-anchor="end" font-family="var(--font-mono)">+${V_max.toFixed(1)}</text>
-          <text x="${padX + plotW + 8}" y="${yRight + 4}" fill="${VERMILION}" font-size="11" font-weight="700" text-anchor="start" font-family="var(--font-mono)">−${V_max.toFixed(1)}</text>
+          <text x="${padX - 8}" y="${yLeft + 4}" fill="${GREEN}" font-size="11" font-weight="700" text-anchor="end" font-family="Iosevka Charon Mono, monospace">+${V_max.toFixed(1)}</text>
+          <text x="${padX + plotW + 8}" y="${yRight + 4}" fill="${VERMILION}" font-size="11" font-weight="700" text-anchor="start" font-family="Iosevka Charon Mono, monospace">−${V_max.toFixed(1)}</text>
 
           <!-- Zero Crossing Marker -->
           <circle cx="${xZero}" cy="${midY}" r="3.5" fill="${CARD_BG}" stroke="${INK}" stroke-width="1.6" />
           <line x1="${xZero}" y1="${midY - 5}" x2="${xZero}" y2="${midY - 26}" stroke="rgba(233, 237, 245,0.32)" stroke-width="1" stroke-dasharray="2,2" />
-          <text x="${xZero}" y="${midY - 30}" fill="${INK_MUTED}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">V = 0 at L/2 (M peaks here)</text>
+          <text x="${xZero}" y="${midY - 30}" fill="${INK_MUTED}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">V = 0 at L/2 (M peaks here)</text>
 
           <!-- Probe -->
           <line x1="${probeX.toFixed(1)}" y1="8" x2="${probeX.toFixed(1)}" y2="${svgH - 8}" stroke="${OCHRE}" stroke-width="1.5" stroke-dasharray="3,3" />
@@ -423,7 +423,7 @@
 
           <g transform="translate(${badgeX.toFixed(1)}, ${badgeY.toFixed(1)})">
             <rect x="0" y="-12" width="${badgeW}" height="23" rx="4" fill="${CARD_BG}" stroke="${OCHRE}" stroke-width="1.2" />
-            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="var(--font-mono)">
+            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">
               V(x) = ${signStr}${V_x.toFixed(2)} ${fUnit}
             </text>
           </g>
@@ -487,7 +487,7 @@
           <line x1="${padX}" y1="${baselineY}" x2="${padX + plotW}" y2="${baselineY}" stroke="${INK}" stroke-width="1.35" />
 
           <!-- Convention corner note -->
-          <text x="${padX + plotW}" y="${this.momentTensionBottom ? 17 : svgH - 8}" fill="${INK_DIM}" font-size="9" font-weight="700" text-anchor="end" font-family="var(--font-mono)">
+          <text x="${padX + plotW}" y="${this.momentTensionBottom ? 17 : svgH - 8}" fill="${INK_DIM}" font-size="9" font-weight="700" text-anchor="end" font-family="Iosevka Charon Mono, monospace">
             ${convLabel}
           </text>
 
@@ -498,13 +498,13 @@
           <!-- Vertical Peak Reference -->
           <line x1="${midX}" y1="${baselineY}" x2="${midX}" y2="${peakY}" stroke="rgba(255, 125, 97,0.45)" stroke-width="1.1" stroke-dasharray="3,2" />
           <circle cx="${midX}" cy="${peakY}" r="4.2" fill="${VERMILION}" stroke="${CARD_BG}" stroke-width="1.5" />
-          <text x="${midX}" y="${this.momentTensionBottom ? peakY + 16 : peakY - 9}" fill="${VERMILION}" font-size="11" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${midX}" y="${this.momentTensionBottom ? peakY + 16 : peakY - 9}" fill="${VERMILION}" font-size="11" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             Mmax = ${M_max.toFixed(2)} ${mUnit} (wL²/8)
           </text>
 
           <!-- Zero end labels -->
-          <text x="${padX - 8}" y="${baselineY + 4}" fill="${INK_DIM}" font-size="10" font-weight="600" text-anchor="end" font-family="var(--font-mono)">0</text>
-          <text x="${padX + plotW + 8}" y="${baselineY + 4}" fill="${INK_DIM}" font-size="10" font-weight="600" text-anchor="start" font-family="var(--font-mono)">0</text>
+          <text x="${padX - 8}" y="${baselineY + 4}" fill="${INK_DIM}" font-size="10" font-weight="600" text-anchor="end" font-family="Iosevka Charon Mono, monospace">0</text>
+          <text x="${padX + plotW + 8}" y="${baselineY + 4}" fill="${INK_DIM}" font-size="10" font-weight="600" text-anchor="start" font-family="Iosevka Charon Mono, monospace">0</text>
 
           <!-- Probe -->
           <line x1="${probeX.toFixed(1)}" y1="8" x2="${probeX.toFixed(1)}" y2="${svgH - 8}" stroke="${OCHRE}" stroke-width="1.5" stroke-dasharray="3,3" />
@@ -512,7 +512,7 @@
 
           <g transform="translate(${badgeX.toFixed(1)}, ${badgeY.toFixed(1)})">
             <rect x="0" y="-12" width="${badgeW}" height="23" rx="4" fill="${CARD_BG}" stroke="${OCHRE}" stroke-width="1.2" />
-            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="var(--font-mono)">
+            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">
               M(x) = ${M_x.toFixed(2)} ${mUnit}
             </text>
           </g>
@@ -574,7 +574,7 @@
 
       const limitSvg = showLimitLine ? `
         <line x1="${padX}" y1="${limitY.toFixed(1)}" x2="${padX + plotW}" y2="${limitY.toFixed(1)}" stroke="${serviceOk ? GREEN : CRIMSON}" stroke-width="1.2" stroke-dasharray="5,4" />
-        <text x="${padX + plotW - 4}" y="${(limitY - 4).toFixed(1)}" fill="${serviceOk ? GREEN : CRIMSON}" font-size="9.2" font-weight="700" text-anchor="end" font-family="var(--font-mono)">
+        <text x="${padX + plotW - 4}" y="${(limitY - 4).toFixed(1)}" fill="${serviceOk ? GREEN : CRIMSON}" font-size="9.2" font-weight="700" text-anchor="end" font-family="Iosevka Charon Mono, monospace">
           L/300 limit (${deflLimit300.toFixed(2)} ${dUnit})
         </text>
       ` : '';
@@ -598,13 +598,13 @@
           <!-- Support Rotation Tangent θ_A -->
           ${delta_max > 1e-5 ? `
             <line x1="${padX}" y1="${baselineY}" x2="${tanEndX.toFixed(1)}" y2="${tanEndY.toFixed(1)}" stroke="${OCHRE}" stroke-width="1.25" stroke-dasharray="3,2" />
-            <text x="${padX + 24}" y="${(baselineY + 13).toFixed(1)}" fill="${OCHRE}" font-size="9.5" font-weight="700" font-family="var(--font-mono)">θA = ${theta_A_deg.toFixed(2)}°</text>
+            <text x="${padX + 24}" y="${(baselineY + 13).toFixed(1)}" fill="${OCHRE}" font-size="9.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">θA = ${theta_A_deg.toFixed(2)}°</text>
           ` : ''}
 
           <!-- Peak Deflection Callout -->
           <line x1="${midX}" y1="${baselineY}" x2="${midX}" y2="${peakY}" stroke="${curveColor}" stroke-width="1.2" stroke-dasharray="2,2" />
           <circle cx="${midX}" cy="${peakY}" r="4.2" fill="${curveColor}" stroke="${CARD_BG}" stroke-width="1.5" />
-          <text x="${midX}" y="${peakY + 16}" fill="${curveColor}" font-size="11" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${midX}" y="${peakY + 16}" fill="${curveColor}" font-size="11" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             δmax = ${delta_max.toFixed(2)} ${dUnit} (L / ${ratio_max > 9999 ? '∞' : ratio_max}) ${serviceOk ? '· PASS' : '· > L/300'}
           </text>
 
@@ -614,7 +614,7 @@
 
           <g transform="translate(${badgeX.toFixed(1)}, ${badgeY.toFixed(1)})">
             <rect x="0" y="-12" width="${badgeW}" height="23" rx="4" fill="${CARD_BG}" stroke="${OCHRE}" stroke-width="1.2" />
-            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="var(--font-mono)">
+            <text x="7" y="3.5" fill="${INK}" font-size="10.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">
               δ(x) = ${delta_x.toFixed(2)} ${dUnit}
             </text>
           </g>
@@ -659,7 +659,7 @@
           `;
         }
         udlSvg += `
-          <text x="${(leftX + segW / 2).toFixed(1)}" y="37" fill="${VERMILION}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${(leftX + segW / 2).toFixed(1)}" y="37" fill="${VERMILION}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             w·x = ${partialW.toFixed(1)} ${fUnit}
           </text>
         `;
@@ -677,33 +677,33 @@
       const vArrowSvg = Math.abs(V_x) < 0.05
         ? `
           <circle cx="${vArrowX}" cy="${beamY}" r="3.4" fill="${INK_DIM}" />
-          <text x="${vArrowX}" y="${beamY + 42}" fill="${INK_DIM}" font-size="9.5" font-weight="700" font-family="var(--font-mono)">V(x) ≈ 0 (midspan)</text>
+          <text x="${vArrowX}" y="${beamY + 42}" fill="${INK_DIM}" font-size="9.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">V(x) ≈ 0 (midspan)</text>
         `
         : vPos
           ? `
             <line x1="${vArrowX}" y1="${beamY - 24}" x2="${vArrowX}" y2="${beamY + 20}" stroke="${vColor}" stroke-width="2.3" />
             <polygon points="${vArrowX},${beamY + 28} ${vArrowX - 4.5},${beamY + 18} ${vArrowX + 4.5},${beamY + 18}" fill="${vColor}" />
-            <text x="${vArrowX + 10}" y="${beamY + 34}" fill="${vColor}" font-size="10" font-weight="700" font-family="var(--font-mono)">V(x) = +${V_x.toFixed(1)} ${fUnit}</text>
-            <text x="${vArrowX + 10}" y="${beamY + 46}" fill="${INK_DIM}" font-size="8.4" font-family="var(--font-mono)">pulls down to balance RA</text>
+            <text x="${vArrowX + 10}" y="${beamY + 34}" fill="${vColor}" font-size="10" font-weight="700" font-family="Iosevka Charon Mono, monospace">V(x) = +${V_x.toFixed(1)} ${fUnit}</text>
+            <text x="${vArrowX + 10}" y="${beamY + 46}" fill="${INK_DIM}" font-size="8.4" font-family="Iosevka Charon Mono, monospace">pulls down to balance RA</text>
           `
           : `
             <line x1="${vArrowX}" y1="${beamY + 24}" x2="${vArrowX}" y2="${beamY - 20}" stroke="${vColor}" stroke-width="2.3" />
             <polygon points="${vArrowX},${beamY - 28} ${vArrowX - 4.5},${beamY - 18} ${vArrowX + 4.5},${beamY - 18}" fill="${vColor}" />
-            <text x="${vArrowX + 10}" y="${beamY - 26}" fill="${vColor}" font-size="10" font-weight="700" font-family="var(--font-mono)">V(x) = ${V_x.toFixed(1)} ${fUnit}</text>
-            <text x="${vArrowX + 10}" y="${beamY - 14}" fill="${INK_DIM}" font-size="8.4" font-family="var(--font-mono)">pushes up (w·x > RA)</text>
+            <text x="${vArrowX + 10}" y="${beamY - 26}" fill="${vColor}" font-size="10" font-weight="700" font-family="Iosevka Charon Mono, monospace">V(x) = ${V_x.toFixed(1)} ${fUnit}</text>
+            <text x="${vArrowX + 10}" y="${beamY - 14}" fill="${INK_DIM}" font-size="8.4" font-family="Iosevka Charon Mono, monospace">pushes up (w·x > RA)</text>
           `;
 
       // Internal Moment M(x) curved CCW arrow + C/T fiber couple
       const mSvg = M_x > 0.01 ? `
         <path d="M ${cutX + 36} ${beamY + 20} A 24 24 0 0 0 ${cutX + 36} ${beamY - 20}" fill="none" stroke="${VERMILION}" stroke-width="2.2" marker-end="url(#cut-arrow-m)" />
-        <text x="${cutX + 58}" y="${beamY + 4}" fill="${VERMILION}" font-size="10.2" font-weight="700" font-family="var(--font-mono)">M(x) = ${M_x.toFixed(1)} ${mUnit}</text>
+        <text x="${cutX + 58}" y="${beamY + 4}" fill="${VERMILION}" font-size="10.2" font-weight="700" font-family="Iosevka Charon Mono, monospace">M(x) = ${M_x.toFixed(1)} ${mUnit}</text>
         <!-- Internal C (top compression left) and T (bottom tension right) -->
         <line x1="${cutX - 4}" y1="${beamY - 7}" x2="${cutX - 24}" y2="${beamY - 7}" stroke="${VERMILION}" stroke-width="1.8" marker-end="url(#cut-arrow-c)" />
-        <text x="${cutX - 28}" y="${beamY - 4}" fill="${VERMILION}" font-size="9" font-weight="800" text-anchor="end" font-family="var(--font-mono)">C</text>
+        <text x="${cutX - 28}" y="${beamY - 4}" fill="${VERMILION}" font-size="9" font-weight="800" text-anchor="end" font-family="Iosevka Charon Mono, monospace">C</text>
         <line x1="${cutX - 24}" y1="${beamY + 7}" x2="${cutX - 4}" y2="${beamY + 7}" stroke="${GREEN}" stroke-width="1.8" marker-end="url(#cut-arrow-t)" />
-        <text x="${cutX - 28}" y="${beamY + 10}" fill="${GREEN}" font-size="9" font-weight="800" text-anchor="end" font-family="var(--font-mono)">T</text>
+        <text x="${cutX - 28}" y="${beamY + 10}" fill="${GREEN}" font-size="9" font-weight="800" text-anchor="end" font-family="Iosevka Charon Mono, monospace">T</text>
       ` : `
-        <text x="${cutX + 14}" y="${beamY - 24}" fill="${INK_DIM}" font-size="9.5" font-weight="700" font-family="var(--font-mono)">M(x) = 0 (at support)</text>
+        <text x="${cutX + 14}" y="${beamY - 24}" fill="${INK_DIM}" font-size="9.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">M(x) = 0 (at support)</text>
       `;
 
       const svg = `
@@ -734,7 +734,7 @@
           <rect width="${svgW}" height="${svgH}" fill="url(#grid-cut)" />
 
           <!-- Plate Title -->
-          <text x="12" y="17" fill="${INK}" font-size="10.2" font-weight="700" font-family="var(--font-mono)">
+          <text x="12" y="17" fill="${INK}" font-size="10.2" font-weight="700" font-family="Iosevka Charon Mono, monospace">
             METHOD-OF-SECTIONS CUT AT x = ${x.toFixed(2)} ${lUnit} (${(x_rel * 100).toFixed(0)}% L)
           </text>
 
@@ -752,7 +752,7 @@
           <!-- Reaction RA at left end (explicit upward arrowhead) -->
           <line x1="${leftX}" y1="${bBot + 42}" x2="${leftX}" y2="${bBot + 11}" stroke="${GREEN}" stroke-width="2.2" />
           <polygon points="${leftX},${bBot + 3} ${leftX - 4.5},${bBot + 12} ${leftX + 4.5},${bBot + 12}" fill="${GREEN}" />
-          <text x="${leftX}" y="${bBot + 55}" fill="${GREEN}" font-size="10" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${leftX}" y="${bBot + 55}" fill="${GREEN}" font-size="10" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             RA = ${R_A.toFixed(1)} ${fUnit}
           </text>
 
@@ -761,7 +761,7 @@
           <line x1="${leftX}" y1="${bBot + 20}" x2="${leftX}" y2="${bBot + 28}" stroke="${INK_MUTED}" stroke-width="1.2" />
           <line x1="${cutX}" y1="${bBot + 20}" x2="${cutX}" y2="${bBot + 28}" stroke="${INK_MUTED}" stroke-width="1.2" />
           <rect x="${(leftX + segW / 2 - 26).toFixed(1)}" y="${bBot + 16}" width="52" height="15" rx="3" fill="${CARD_BG}" stroke="rgba(233, 237, 245,0.2)" />
-          <text x="${(leftX + segW / 2).toFixed(1)}" y="${bBot + 26.5}" fill="${INK}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${(leftX + segW / 2).toFixed(1)}" y="${bBot + 26.5}" fill="${INK}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             ${x.toFixed(2)} ${lUnit}
           </text>
 
@@ -770,7 +770,7 @@
           ${mSvg}
 
           <!-- Bottom equilibrium equation strip -->
-          <text x="12" y="${svgH - 8}" fill="${INK_DIM}" font-size="9" font-weight="600" font-family="var(--font-mono)">
+          <text x="12" y="${svgH - 8}" fill="${INK_DIM}" font-size="9" font-weight="600" font-family="Iosevka Charon Mono, monospace">
             ΣFy = 0 ⇒ RA − w·x − V(x) = 0   |   ΣMcut = 0 ⇒ M(x) = RA·x − ½w·x²
           </text>
         </svg>
@@ -862,8 +862,8 @@
         <!-- ±fy Yield Limit Fence -->
         <line x1="${(stressAxisX - fyBarW).toFixed(1)}" y1="${topY - 6}" x2="${(stressAxisX - fyBarW).toFixed(1)}" y2="${botY + 6}" stroke="${CRIMSON}" stroke-width="1.1" stroke-dasharray="3,3" opacity="0.7" />
         <line x1="${(stressAxisX + fyBarW).toFixed(1)}" y1="${topY - 6}" x2="${(stressAxisX + fyBarW).toFixed(1)}" y2="${botY + 6}" stroke="${CRIMSON}" stroke-width="1.1" stroke-dasharray="3,3" opacity="0.7" />
-        <text x="${(stressAxisX - fyBarW).toFixed(1)}" y="${topY - 10}" fill="${CRIMSON}" font-size="8.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">−fy</text>
-        <text x="${(stressAxisX + fyBarW).toFixed(1)}" y="${topY - 10}" fill="${CRIMSON}" font-size="8.5" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">+fy</text>
+        <text x="${(stressAxisX - fyBarW).toFixed(1)}" y="${topY - 10}" fill="${CRIMSON}" font-size="8.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">−fy</text>
+        <text x="${(stressAxisX + fyBarW).toFixed(1)}" y="${topY - 10}" fill="${CRIMSON}" font-size="8.5" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">+fy</text>
 
         <!-- Compression Triangle (Top, pointing left) -->
         <polygon points="${stressAxisX},${secCy} ${stressAxisX},${topY} ${(stressAxisX - curBarW).toFixed(1)},${topY}" fill="rgba(255, 125, 97,0.26)" stroke="${VERMILION}" stroke-width="1.8" />
@@ -871,10 +871,10 @@
         <polygon points="${stressAxisX},${secCy} ${stressAxisX},${botY} ${(stressAxisX + curBarW).toFixed(1)},${botY}" fill="rgba(88, 182, 145,0.22)" stroke="${GREEN}" stroke-width="1.8" />
 
         <!-- Stress Values at Extreme Fibers -->
-        <text x="${(stressAxisX + 6).toFixed(1)}" y="${topY + 9}" fill="${VERMILION}" font-size="9.5" font-weight="700" font-family="var(--font-mono)">
+        <text x="${(stressAxisX + 6).toFixed(1)}" y="${topY + 9}" fill="${VERMILION}" font-size="9.5" font-weight="700" font-family="Iosevka Charon Mono, monospace">
           −${sigma_x.toFixed(1)} ${sUnit} (Comp.)
         </text>
-        <text x="${(stressAxisX - 6).toFixed(1)}" y="${botY - 3}" fill="${GREEN}" font-size="9.5" font-weight="700" text-anchor="end" font-family="var(--font-mono)">
+        <text x="${(stressAxisX - 6).toFixed(1)}" y="${botY - 3}" fill="${GREEN}" font-size="9.5" font-weight="700" text-anchor="end" font-family="Iosevka Charon Mono, monospace">
           +${sigma_x.toFixed(1)} ${sUnit} (Tens.)
         </text>
       `;
@@ -893,7 +893,7 @@
           <rect width="${svgW}" height="${svgH}" fill="url(#grid-sec)" />
 
           <!-- Plate Title -->
-          <text x="12" y="17" fill="${INK}" font-size="10.2" font-weight="700" font-family="var(--font-mono)">
+          <text x="12" y="17" fill="${INK}" font-size="10.2" font-weight="700" font-family="Iosevka Charon Mono, monospace">
             CROSS-SECTION &amp; FIBER STRESS σ(y) AT PROBE x
           </text>
 
@@ -902,18 +902,18 @@
 
           <!-- Shared Neutral Axis (N.A.) across both drawings -->
           <line x1="${(secCx - drawW / 2 - 8).toFixed(1)}" y1="${secCy}" x2="${svgW - 14}" y2="${secCy}" stroke="${OCHRE}" stroke-width="1.1" stroke-dasharray="5,3" />
-          <text x="184" y="${secCy - 4}" fill="${OCHRE}" font-size="8.8" font-weight="700" font-family="var(--font-mono)">N.A. (σ = 0)</text>
+          <text x="184" y="${secCy - 4}" fill="${OCHRE}" font-size="8.8" font-weight="700" font-family="Iosevka Charon Mono, monospace">N.A. (σ = 0)</text>
 
           <!-- Depth h dimension -->
           <line x1="${(secCx - drawW / 2 - 14).toFixed(1)}" y1="${topY}" x2="${(secCx - drawW / 2 - 14).toFixed(1)}" y2="${botY}" stroke="${INK_MUTED}" stroke-width="1.1" />
           <line x1="${(secCx - drawW / 2 - 18).toFixed(1)}" y1="${topY}" x2="${(secCx - drawW / 2 - 10).toFixed(1)}" y2="${topY}" stroke="${INK_MUTED}" stroke-width="1.1" />
           <line x1="${(secCx - drawW / 2 - 18).toFixed(1)}" y1="${botY}" x2="${(secCx - drawW / 2 - 10).toFixed(1)}" y2="${botY}" stroke="${INK_MUTED}" stroke-width="1.1" />
-          <text x="${(secCx - drawW / 2 - 18).toFixed(1)}" y="${secCy + 3}" fill="${INK_MUTED}" font-size="9.2" font-weight="700" text-anchor="end" font-family="var(--font-mono)">
+          <text x="${(secCx - drawW / 2 - 18).toFixed(1)}" y="${secCy + 3}" fill="${INK_MUTED}" font-size="9.2" font-weight="700" text-anchor="end" font-family="Iosevka Charon Mono, monospace">
             h=${rawH.toFixed(0)}
           </text>
 
           <!-- Width b label -->
-          <text x="${secCx}" y="${botY + 15}" fill="${INK_MUTED}" font-size="9.2" font-weight="700" text-anchor="middle" font-family="var(--font-mono)">
+          <text x="${secCx}" y="${botY + 15}" fill="${INK_MUTED}" font-size="9.2" font-weight="700" text-anchor="middle" font-family="Iosevka Charon Mono, monospace">
             ${g.name ? g.name + ' · ' : ''}${rawW.toFixed(0)}×${rawH.toFixed(0)} ${lUnit}
           </text>
 
@@ -921,7 +921,7 @@
           ${stressSvg}
 
           <!-- Bottom Status Strip -->
-          <text x="12" y="${svgH - 8}" fill="${exceedsAtX ? CRIMSON : INK_DIM}" font-size="9" font-weight="700" font-family="var(--font-mono)">
+          <text x="12" y="${svgH - 8}" fill="${exceedsAtX ? CRIMSON : INK_DIM}" font-size="9" font-weight="700" font-family="Iosevka Charon Mono, monospace">
             σ(x) = M(x)/Wy = ${sigma_x.toFixed(1)} ${sUnit}  |  Yield fy = ${yieldVal} ${sUnit} (${((sigma_x / yieldVal) * 100).toFixed(0)}% at x)
           </text>
         </svg>
