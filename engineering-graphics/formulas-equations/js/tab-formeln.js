@@ -99,12 +99,14 @@
     el(svg, 'line', { x1: cx, y1: cy - r - 16, x2: cx, y2: cy + r + 16, class: 'cl' });
   }
 
-  // Rotation direction: clockwise (angles increase in screen coordinates)
-  function nArrow(cx, cy, R, a0, a1, lblDeg) {
-    const [x0, y0] = P(cx, cy, R, a0), [x1, y1] = P(cx, cy, R, a1 - 5);
-    el(svg, 'path', { d: `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`, class: 'n-arc' });
+  // Rotation direction: dir = 1 clockwise (angles increase in screen coordinates), -1 counter-clockwise.
+  // Turning: workpiece clockwise. Milling: cutter counter-clockwise, feed to the right → up milling (conventional).
+  const DIR = { drehen: 1, fraesen: -1 };
+  function nArrow(cx, cy, R, a0, a1, lblDeg, dir = 1) {
+    const [x0, y0] = P(cx, cy, R, a0), [x1, y1] = P(cx, cy, R, a1 - 5 * dir);
+    el(svg, 'path', { d: `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${R} ${R} 0 0 ${dir > 0 ? 1 : 0} ${x1.toFixed(1)} ${y1.toFixed(1)}`, class: 'n-arc' });
     const [hx, hy] = P(cx, cy, R, a1);
-    SVG.arrowHead(svg, hx, hy, a1 + 90, 12, 4.5, 'n-head');
+    SVG.arrowHead(svg, hx, hy, a1 + 90 * dir, 12, 4.5, 'n-head');
     const [lx, ly] = P(cx, cy, R + 16, lblDeg);
     SVG.text(svg, lx, ly + 5, `*n* = ${nTxt(st.n, st.nUnit)}${st.nUnit === '1/s' ? '/s' : '/min'}`, { 'font-size': 15, 'text-anchor': lx < cx - 5 ? 'end' : lx > cx + 5 ? 'start' : 'middle', class: 'lbl-n halo' });
   }
@@ -151,21 +153,22 @@
     r = Math.min(r, 120);
     const cx = 230, cy = Math.max(60 + r, 160), ae = 0.25 * r;
     const yc = cy + r, yu = cy + r - ae, xe = cx + Math.sqrt(r * r - (r - ae) * (r - ae));
-    // Workpiece: left side already milled, right side full height; shoulder follows cutter arc
+    // Workpiece: left side already milled, right side full height (feed to the right); shoulder follows cutter arc.
+    // Cutter turns counter-clockwise: each tooth enters at the milled surface (chip thickness 0) and leaves at the top → up milling.
     el(svg, 'path', { d: `M16 ${yc} L${cx} ${yc} A ${r} ${r} 0 0 0 ${xe.toFixed(1)} ${yu.toFixed(1)} L${W - 16} ${yu.toFixed(1)} L${W - 16} ${H - 14} L16 ${H - 14} Z`, class: 'work' });
     el(svg, 'circle', { cx, cy, r, class: 'cutter' });
     rot = el(svg, 'g', {});
     const z = r < 50 ? 4 : 6, pitch = 360 / z, dEdge = Math.min(14, r * 0.3);
     for (let k = 0; k < z; k++) {
-      const a = k * pitch;
-      el(rot, 'polygon', { points: pts([P(cx, cy, r, a), P(cx, cy, r - dEdge, a), P(cx, cy, r - 1, a - pitch * 0.38)]), class: 'tool' });
+      const a = k * pitch;   // radial rake face leads in the direction of rotation, flank trails behind it
+      el(rot, 'polygon', { points: pts([P(cx, cy, r, a), P(cx, cy, r - dEdge, a), P(cx, cy, r - 1, a - DIR.fraesen * pitch * 0.38)]), class: 'tool' });
     }
     el(svg, 'circle', { cx, cy, r: Math.max(6, r * 0.22), class: 'work' });
     centerLines(cx, cy, r);
-    // vc at circumference: top tangent pointing right
-    SVG.arrow(svg, cx, cy - r - 7, cx + 80, cy - r - 7, { lineCls: 'vc', headCls: 'vc-head', l: 13, b: 5 });
+    // vc at circumference: top tangent pointing left, ending at the top point
+    SVG.arrow(svg, cx + 80, cy - r - 7, cx, cy - r - 7, { lineCls: 'vc', headCls: 'vc-head', l: 13, b: 5 });
     SVG.text(svg, cx + 86, cy - r - 2, '*v*_{c}', { 'font-size': 18, class: 'lbl-vc halo' });
-    nArrow(cx, cy, r + 16, 175, 240, 205);
+    nArrow(cx, cy, r + 16, 240, 175, 205, DIR.fraesen);
     diameter(cx, cy, r);
     return [cx, cy];
   }
@@ -179,12 +182,13 @@
   }
 
   let center = [0, 0];
+  const setRot = () => rot.setAttribute('transform', `rotate(${(DIR[st.op] * st.angle).toFixed(2)} ${center[0]} ${center[1]})`);
   function render() {
     const r = Math.max(22, Math.min(150, 25 + 0.36 * st.d));
     SVG.clear(svg);
     SVG.background(svg, W, H);
     center = st.op === 'drehen' ? drawLathe(r) : drawMill(r);
-    rot.setAttribute('transform', `rotate(${st.angle.toFixed(2)} ${center[0]} ${center[1]})`);
+    setRot();
     drawInfo();
 
     $('f-formula').innerHTML = formulaHtml();
@@ -208,7 +212,7 @@
     const dt = last ? Math.min(0.1, (t - last) / 1000) : 0;
     last = t;
     st.angle = (st.angle + 360 * (st.n / 60) / SLOW * dt) % 360;
-    rot.setAttribute('transform', `rotate(${st.angle.toFixed(2)} ${center[0]} ${center[1]})`);
+    setRot();
     raf = requestAnimationFrame(loop);
   }
   function startAnim() {
