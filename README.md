@@ -34,7 +34,6 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 * **[web-cad-studio](https://xallace.github.io/web-cad-studio/)** — Parametric 3D CAD modeling studio (DIN ISO 841 Z-Up) for DIN 867 involute gears, EN 1092-1 weld-neck flanges, housings, DIN 332 shafts & DIN 933 bolts with section planes, 3D dimensions, exact signed-volume mass calculation & Binary/ASCII STL/OBJ import/export.
 * **[cycloid-simulation](https://xallace.github.io/cycloid-simulation/)** — 1967 Book Plate 3D & 2D kinematics studio covering the Wankel 1:3 rotary engine, robotics cycloidal reducers (10:1 / 15:1) & roulette curves with 1-click AutoCAD DXF/SVG export.
 * **[city-qr](https://xallace.github.io/city-qr/)** — Procedural 3D metropolis that morphs seamlessly into a scannable Level-H QR code.
-* **[hoerbuch-generator](https://github.com/xallace/hoerbuch-generator)** — 6-stage CLI & Web Studio (`web.py`) pipeline generating CEFR-graded (`A1`–`B2`) language-learning audiobooks (`.mp3`), Anki decks (`.apkg`), and study guides from YouTube videos, URLs, or text.
 * **[pdf-toc-injector](https://github.com/xallace/pdf-toc-injector)** — Heuristic outline extraction & sub-second PDF bookmark injection engine (PyMuPDF).
 
 ---

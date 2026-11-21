@@ -1204,61 +1204,6 @@ body {
 }
 
 
-/* Audiobook Studio (Hörbuch-Generator) Visual */
-.hoerbuch-vis {
-  position: relative;
-  flex-direction: column;
-  gap: 10px;
-  background: radial-gradient(circle at 50% 35%, rgba(16, 185, 129, 0.18) 0%, rgba(14, 165, 233, 0.12) 45%, #060a12 100%);
-}
-.hoerbuch-vis .vis-hb-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-  height: 44px;
-  margin-top: 14px;
-}
-.hoerbuch-vis .vis-hb-bars span {
-  width: 6px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #34d399 0%, #38bdf8 100%);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
-  transition: transform 0.3s ease;
-}
-.hoerbuch-vis .vis-hb-bars span:nth-child(1) { height: 18px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(2) { height: 32px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(3) { height: 44px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(4) { height: 24px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(5) { height: 38px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(6) { height: 28px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(7) { height: 42px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(8) { height: 20px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(9) { height: 34px; }
-.hoerbuch-vis .vis-hb-bars span:nth-child(10) { height: 16px; }
-.project-card:hover .hoerbuch-vis .vis-hb-bars span:nth-child(odd) {
-  transform: scaleY(1.18);
-}
-.project-card:hover .hoerbuch-vis .vis-hb-bars span:nth-child(even) {
-  transform: scaleY(0.84);
-}
-.hoerbuch-vis .vis-hb-flow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--xt-small);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #7dd3fc;
-  letter-spacing: 0.04em;
-}
-.hoerbuch-vis .vis-hb-pill {
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: rgba(52, 211, 153, 0.14);
-  border: 1px solid rgba(52, 211, 153, 0.4);
-  color: #34d399;
-}
-
 /* Technical Design Card Visual */
 .tbb-vis {
   position: relative;
