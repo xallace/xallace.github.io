@@ -26,7 +26,7 @@ Portfolio of Walter Lehn, Technical Product Designer (IHK): interactive physics 
 
 ### ⚙️ Interactive Simulations & Software
 
-* **[pla-100](https://xallace.github.io/pla-100.html)** — *PLA-100 v2*: Collision-free FreeCAD 1.1 parametric precision linear axis (`21` named STEP AP214 solids, `0.00 mm³` B-Rep clashes, 58-turn helical `SFU1204` ball screw, `7001-B`/`6001` bearings, open motor lantern, live DIN 69051 / ISO 281 sizing & 2D ISO 128 drawing).
+* **[pla-100](https://xallace.github.io/pla-100.html)** — *PLA-100 v3*: Revised B-Rep modular precision linear axis (`21` BOM items / `174` solids, `4.61 kg`, `0.00 mm³` structural stroke-sweep clashes, piloted `Ø52` Left Fixed Bearing Plate + `88 mm` Left Sandwich Motor Carrier with `4× M5×80` tie-bolts, widened `66 mm` MGN12H rail track & `Y=27 mm` Datum B shoulder, 58-turn RH helical `SFU1204` ball screw, `7001-B`/`6001` bearings, live DIN 69051 / ISO 281 sizing & 2D ISO 128 drawing).
 * **[packstation](https://xallace.github.io/packstation.html)** — *Packstation & Palletizing Robots*: browser-based digital twin with Three.js & Rapier.js WASM physics, barcode scanner, PLA-100 diverter, ZPA conveyor logic, and dual articulated palletizing robots.
 * **[kfz-dynamik](https://xallace.github.io/kfz-dynamik/)** — *KfzDyn*: Interactive vehicle dynamics models from Mitschke/Wallentowitz (*Dynamik der Kraftfahrzeuge*, 5th ed.) with 3D wheel forces, longitudinal performance, braking, quarter-car vibrations & single-track handling.
 * **[solar-utc-clock](https://xallace.github.io/solar-utc-clock/)** — *Helios & Chronos*: Dual astronomical solar & universal UTC decimal day percentage clocks with NOAA solar calculations, 60 FPS live mode & interactive time scrubber.

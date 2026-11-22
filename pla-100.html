@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/fonts/xallace-type.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLA-100 v2 — Modular Precision Linear Axis · Interactive 3D CAD & Sizing Studio</title>
-  <meta name="description" content="Collision-free FreeCAD 1.1 B-Rep 3D CAD inspector of the PLA-100 v2 modular linear axis: real 58-turn helical SFU1204 ball screw, 7001-B duplex bearings, open motor lantern, DIN 69051 / ISO 281 sizing & DIN ISO 128 drawing.">
+  <meta name="color-scheme" content="dark">
+  <title>PLA-100 v3 — Modular Precision Linear Axis · Interactive 3D CAD &amp; Sizing Studio</title>
+  <meta name="description" content="Interactive 3D B-Rep CAD inspector of the PLA-100 v3 modular linear axis: piloted Ø52 sandwich motor carrier, widened 66 mm MGN12H rail track, 58-turn RH helical SFU1204 ball screw, 7001-B duplex bearings, DIN 69051 / ISO 281 sizing &amp; DIN ISO 128 drawing.">
   <link rel="stylesheet" href="style.css">
 
   <!-- Three.js r128 & Controls/Loaders -->
@@ -14,6 +15,8 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
 
   <style>
+    :root { color-scheme: dark; }
+
     body, html {
       height: 100%;
       overflow: hidden;
@@ -78,7 +81,7 @@
 
     .viewer-title-text { min-width: 0; overflow: hidden; }
     .viewer-title-text h1 {
-      font-size: 1rem; font-weight: 700; margin: 0;
+      font-size: 1rem; font-weight: 400; margin: 0;
       color: var(--text-primary); display: flex; align-items: center; gap: 0.45rem; flex-wrap: nowrap;
       white-space: nowrap; min-width: 0;
     }
@@ -229,7 +232,7 @@
       position: absolute; top: 1.15rem; right: 1.15rem;
       background: rgba(11, 18, 33, 0.90); border: 1px solid rgba(56, 189, 248, 0.22);
       border-radius: var(--radius-md); padding: 0.95rem 1.1rem;
-      backdrop-filter: blur(16px); z-index: 40; width: 318px;
+      backdrop-filter: blur(16px); z-index: 40; width: 326px;
       font-size: 0.76rem; color: var(--text-secondary);
       box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
     }
@@ -320,7 +323,6 @@
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
       display: flex; flex-direction: column; align-items: center; gap: 0.85rem;
       z-index: 45; pointer-events: none; transition: opacity 0.3s ease;
-      /* sits above the HUD (z 40), so it needs its own backdrop to stay readable */
       background: rgba(9, 14, 25, 0.94); border: 1px solid rgba(56, 189, 248, 0.28);
       border-radius: var(--radius-md); padding: 1.1rem 1.4rem; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
       max-width: calc(100% - 2rem); text-align: center;
@@ -366,17 +368,17 @@
   <!-- Top App Navigation -->
   <header class="viewer-header">
     <div class="viewer-title-group">
-      <a href="index.html" class="viewer-back-btn" title="Back to Portfolio">
+      <a href="index.html#pla100-showcase" class="viewer-back-btn" title="Back to Portfolio">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         <span>Portfolio</span>
       </a>
       <div class="viewer-title-text">
         <h1>
-          <span>PLA-100 v2 · Modular Precision Linear Axis</span>
-          <span class="badge-chip badge-ok">B-Rep Verified · 0.00 mm³ Clashes</span>
-          <span class="badge-chip badge-cyan">21 Named Solids · STEP AP214</span>
+          <span>PLA-100 v3 · Modular Precision Linear Axis</span>
+          <span class="badge-chip badge-ok">Ø52 Piloted Sandwich · 0.00 mm³ Sweep</span>
+          <span class="badge-chip badge-cyan">21 BOM · 174 Solids · STEP AP214</span>
         </h1>
-        <p title="Usable Stroke 100 mm · Real Helical SFU1204 Ø12×4 · 2× MGN12H · 7001-B Duplex · Open Lantern · NEMA 23 · DIN EN ISO 1101"><span class="sub-long">Usable Stroke 100 mm · Real Helical SFU1204 Ø12×4 · 2× MGN12H · 7001-B Duplex · Open Lantern · NEMA 23 · DIN EN ISO 1101</span><span class="sub-short">Stroke 100 mm · SFU1204 Ø12×4 · 2× MGN12H · 7001-B Duplex · NEMA 23 · ISO 1101</span></p>
+        <p title="Usable Stroke 100 mm · RH Helical SFU1204 Ø12×4 · 2× MGN12H (66 mm Track) · 7001-B Duplex · 88 mm Sandwich Carrier · NEMA 23 · DIN EN ISO 1101"><span class="sub-long">Usable Stroke 100 mm · RH Helical SFU1204 Ø12×4 · 2× MGN12H (66 mm Track) · 7001-B Duplex · 88 mm Sandwich Carrier · NEMA 23 · ISO 1101</span><span class="sub-short">Stroke 100 mm · SFU1204 Ø12×4 · 66 mm MGN12H · 88 mm Sandwich · NEMA 23 · ISO 1101</span></p>
       </div>
     </div>
 
@@ -384,9 +386,9 @@
       <button onclick="openDrawingModal()" class="viewer-back-btn" style="cursor:pointer; color:#38bdf8; border-color:rgba(56,189,248,0.4);">
         <span>2D Drawing<span class="act-long"> (ISO 128)</span></span>
       </button>
-      <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download class="btn btn-primary" style="padding: 0.42rem 0.9rem; font-size: 0.78rem; gap: 0.35rem; text-decoration: none;">
+      <a href="models/PLA-100-00-00_Gesamtbaugruppe.step" download="PLA-100_v3_Modular_Linear_Axis.step" class="btn btn-primary" style="padding: 0.42rem 0.9rem; font-size: 0.78rem; gap: 0.35rem; text-decoration: none;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span>STEP<span class="act-long"> AP214 (3.2 MB)</span></span>
+        <span>STEP<span class="act-long"> AP214 (4.0 MB)</span></span>
       </a>
     </div>
   </header>
@@ -395,15 +397,15 @@
   <div id="viewport-container">
     <div id="loading-spinner">
       <div class="spinner-ring"></div>
-      <div class="spinner-text">Loading 21 B-Rep solids &amp; helical kinematics...</div>
+      <div class="spinner-text">Loading PLA-100 v3 assembly (21 BOM · 174 solids)...</div>
     </div>
     <div id="webgl-fallback" role="alert" hidden>
       <figure class="fb-card">
-        <img src="models/pla100_preview.jpg" width="1160" height="590" loading="lazy" alt="PLA-100 v2 linear axis, static render: NEMA 23 motor and open lantern on the left, ball screw between two MGN12 rails, blue carriage table, floating bearing housing on the right">
+        <img src="models/pla100_preview.jpg" width="1160" height="590" loading="lazy" alt="PLA-100 v3 linear axis, static render: NEMA 23 motor and 88 mm sandwich motor carrier on the left, piloted fixed bearing plate, ball screw between two MGN12 rails on 66 mm track, blue carriage table, floating bearing housing on the right">
         <figcaption>
           <strong>3D viewer unavailable</strong>
-          <span id="webgl-fallback-reason">This browser could not start WebGL, so a static render is shown instead. The full assembly is available as a STEP file.</span>
-          <a class="btn btn-primary" href="models/PLA-100-00-00_Gesamtbaugruppe.step" download>STEP AP214 (3.2 MB)</a>
+          <span id="webgl-fallback-reason">This browser could not start WebGL, so a static render is shown instead. The full v3 assembly is available as a STEP file.</span>
+          <a class="btn btn-primary" href="models/PLA-100-00-00_Gesamtbaugruppe.step" download="PLA-100_v3_Modular_Linear_Axis.step">STEP AP214 (4.0 MB)</a>
         </figcaption>
       </figure>
     </div>
@@ -415,8 +417,8 @@
     <!-- Specs & B-Rep Audit HUD (Top Right) -->
     <div class="cad-specs-overlay" id="specs-box">
       <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.45rem; display: flex; align-items: center; justify-content: space-between;">
-        <span id="specs-heading">PLA-100 v2 Specifications</span>
-        <span class="badge-chip badge-ok" style="font-size:0.62rem; font-family: var(--xt-small);">ISO GPS</span>
+        <span id="specs-heading">PLA-100 v3 Specifications</span>
+        <span class="badge-chip badge-ok" style="font-size:0.62rem; font-family: var(--xt-small);">REV 3.0</span>
       </div>
       <div id="specs-content"></div>
     </div>
@@ -426,7 +428,7 @@
       <div class="hud-tabs">
         <button class="hud-tab-btn active" onclick="switchTab('kinematik')">Kinematics</button>
         <button class="hud-tab-btn" onclick="switchTab('assembly')">Assembly</button>
-        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Section</button>
+        <button class="hud-tab-btn" onclick="switchTab('schnitt')">Sections</button>
         <button class="hud-tab-btn" onclick="switchTab('sizing')">Sizing</button>
         <button class="hud-tab-btn" onclick="switchTab('stueckliste')">BOM &amp; Ruler</button>
       </div>
@@ -434,12 +436,12 @@
       <!-- Tab 1: Kinematics -->
       <div id="tab-kinematik" class="tab-content active">
         <div class="hud-title">
-          <span>Stroke &amp; Helical Drive</span>
+          <span>Stroke &amp; RH Helical Drive</span>
           <span id="pos-display" style="font-family: var(--xt-mono); color: var(--text-primary);">X = 120.0 mm</span>
         </div>
 
         <div class="limit-led-bar">
-          <span id="led-min" class="led-pill"><span class="led-dot"></span>-LIM (X=70)</span>
+          <span id="led-min" class="led-pill"><span class="led-dot"></span>−LIM (X=70)</span>
           <span id="led-zone" class="led-pill in-range"><span class="led-dot"></span>USABLE STROKE</span>
           <span id="led-max" class="led-pill"><span class="led-dot"></span>+LIM (X=170)</span>
         </div>
@@ -452,13 +454,13 @@
           <input type="range" id="stroke-slider" class="hud-slider" min="56" max="184" step="0.5" value="120">
           <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.3rem; font-family: var(--xt-small);">
             <span id="hub-display">Travel: 64.0 / 128.0 mm</span>
-            <span id="rot-display" style="color: var(--accent-cyan);">Spindle: 16.00 rev</span>
+            <span id="rot-display" style="color: var(--accent-cyan);">Spindle (RH): 16.00 rev</span>
           </div>
         </div>
 
         <div class="hud-presets">
-          <button class="hud-preset-btn" onclick="goToPosition(56.0)">56 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Bumper -</small></button>
-          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Limit -</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(56.0)">56 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Bumper −</small></button>
+          <button class="hud-preset-btn" onclick="goToPosition(70.0)">70 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Limit −</small></button>
           <button class="hud-preset-btn" onclick="goToPosition(120.0)">120 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Center</small></button>
           <button class="hud-preset-btn" onclick="goToPosition(170.0)">170 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Limit +</small></button>
           <button class="hud-preset-btn" onclick="goToPosition(184.0)">184 mm<small style="display:block;font-size:0.6rem;opacity:0.75; font-family: var(--xt-small);">Bumper +</small></button>
@@ -517,7 +519,7 @@
           <input type="range" id="step-slider" class="hud-slider" min="1" max="8" step="1" value="8">
         </div>
         <p style="font-size: 0.69rem; color: var(--text-muted); margin: 0; line-height: 1.38; font-family: var(--xt-small);">
-          Scrub steps 1–8 to follow real shop-floor assembly order: Base → Rails → Bearings → Helical Screw → Lantern &amp; Coupling → NEMA-23 → Carriage &amp; Table → Stops &amp; Sensors.
+          Shop-floor build order with coaxial fastener grouping: Base → 66 mm Rails → Fixed Plate &amp; Bearings → RH Helical Screw → Ø52 Sandwich Carrier &amp; Coupling → NEMA-23 → Carriage &amp; Table → Stops, M8 Sensors &amp; Flag.
         </p>
       </div>
 
@@ -526,12 +528,15 @@
         <div class="hud-title">
           <span>Section Cuts &amp; DIN EN ISO 1101</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 0.42rem; margin-bottom: 0.6rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.38rem; margin-bottom: 0.55rem;">
           <button id="btn-section-a" class="hud-action-btn" onclick="toggleSectionA()" style="width: 100%;">
             <span>✂️ Section A-A: Longitudinal (Spindle Axis Y=0)</span>
           </button>
           <button id="btn-section-b" class="hud-action-btn" onclick="toggleSectionB()" style="width: 100%;">
-            <span>✂️ Section B-B: Transverse (Carriage Cross-Section)</span>
+            <span>✂️ Section B-B: Transverse (Carriage Cut X=Stroke)</span>
+          </button>
+          <button id="btn-section-c" class="hud-action-btn" onclick="toggleSectionC()" style="width: 100%;">
+            <span>✂️ Section C-C: Sandwich Spigot Joint (X=−25.5)</span>
           </button>
           <div style="display:flex; gap:0.4rem;">
             <button id="btn-gps" class="hud-action-btn active-cycle" onclick="toggleGPSHotspots()">
@@ -542,8 +547,8 @@
             </button>
           </div>
         </div>
-        <p style="font-size: 0.69rem; color: var(--text-muted); margin: 0; line-height: 1.4; font-family: var(--xt-small);">
-          Section A-A reveals the duplex 7001-B angular contact balls, KM0 locknut, red PUR jaw spider, 58-turn SFU1204 helix (+3 mm floor clearance), and 6001 axial float (+0.5 mm).
+        <p style="font-size: 0.69rem; color: var(--text-muted); margin: 0; line-height: 1.38; font-family: var(--xt-small);">
+          A-A exposes the Ø52 spigot register, duplex 7001-B balls, KM0 locknut, PUR spider, RH SFU1204 helix &amp; 6001 float; B-B tracks the 66 mm track carriage; C-C slices the Ø52 sandwich carrier interface.
         </p>
       </div>
 
@@ -606,7 +611,7 @@
       <!-- Tab 5: BOM & Point-to-Point 3D Ruler -->
       <div id="tab-stueckliste" class="tab-content">
         <div class="hud-title">
-          <span>BOM (21 Named Solids · 4.43 kg)</span>
+          <span>BOM (21 Items · 174 Solids · 4.61 kg)</span>
           <div style="display:flex; gap:0.4rem;">
             <button id="btn-measure" onclick="toggleMeasureMode()" class="hud-btn" style="padding:2px 7px; font-size:0.65rem; font-family: var(--xt-small);">📏 3D Ruler</button>
             <button onclick="clearPartSelection()" class="hud-btn" style="padding:2px 7px; font-size:0.65rem; font-family: var(--xt-small);">Show All</button>
@@ -625,23 +630,26 @@
     <div class="drawing-sheet">
       <div class="drawing-header">
         <div>
-          <div style="font-family:var(--xt-mono); font-size:0.72rem; color:#38bdf8; font-weight:700;">PLA-100-00-00 · REV 2.0 · DIN ISO 128 / DIN EN ISO 1101:2017</div>
+          <div style="font-family:var(--xt-mono); font-size:0.72rem; color:#38bdf8; font-weight:700;">PLA-100-00-00 · REV 3.0 · DIN ISO 128 / DIN EN ISO 1101:2017</div>
           <div style="font-size:1.05rem; font-weight:700;">Longitudinal Section A-A &amp; Cross-Section B-B — Click any callout to focus in 3D</div>
         </div>
         <button onclick="closeDrawingModal()" class="viewer-back-btn" style="cursor:pointer;">✕ Close</button>
       </div>
-      <svg viewBox="0 0 980 460" class="drawing-svg" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 980 468" class="drawing-svg" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="hatchAl" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
             <line x1="0" y1="0" x2="0" y2="8" stroke="#38bdf8" stroke-width="0.9" opacity="0.35"/>
+          </pattern>
+          <pattern id="hatchCarrier" width="8" height="8" patternTransform="rotate(135)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#2dd4bf" stroke-width="0.9" opacity="0.38"/>
           </pattern>
           <pattern id="hatchSt" width="6" height="6" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
             <line x1="0" y1="0" x2="0" y2="6" stroke="#fbbf24" stroke-width="0.9" opacity="0.38"/>
           </pattern>
         </defs>
         <!-- Drawing Border & Grid -->
-        <rect x="12" y="12" width="956" height="436" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.5"/>
-        <text x="24" y="34" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">SECTION A-A (LONGITUDINAL Y = 0) — SCALE 1:1 (mm)</text>
+        <rect x="12" y="12" width="956" height="444" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.5"/>
+        <text x="24" y="34" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">SECTION A-A (LONGITUDINAL Y = 0) — REV 3.0 · SCALE 1:1 (mm)</text>
 
         <!-- Centerline Z=30 -->
         <line x1="40" y1="215" x2="645" y2="215" stroke="#fb923c" stroke-width="1" stroke-dasharray="14 4 3 4"/>
@@ -650,27 +658,32 @@
         <rect x="65" y="158" width="90" height="114" fill="rgba(30,41,59,0.75)" stroke="#cbd5e1" stroke-width="1.5"/>
         <text x="110" y="219" fill="#cbd5e1" font-family="Iosevka Charon Mono, monospace" font-size="10" text-anchor="middle">NEMA 23</text>
 
-        <!-- Motor Lantern (-64..-24) -->
-        <rect x="155" y="155" width="64" height="120" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.4"/>
-        <rect x="167" y="177" width="42" height="76" fill="#070e1c" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
-        <!-- Jaw Coupling + Red Spider -->
+        <!-- Pos 13: Left Sandwich Motor Carrier (-64..-24, 88 mm wide, open window -54..-31, Ø52.1 pilot recess -27.25..-24) -->
+        <path d="M155 155 L219 155 L219 170 L213 170 L213 260 L219 260 L219 275 L155 275 Z" fill="url(#hatchCarrier)" stroke="#2dd4bf" stroke-width="1.5"/>
+        <!-- Open coupling window inside sandwich carrier -->
+        <rect x="170" y="175" width="38" height="80" fill="#070e1c" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 2"/>
+        <!-- Jaw Coupling + Red PUR Spider -->
         <rect x="163" y="191" width="20" height="48" fill="#94a3b8" stroke="#e2e8f0" stroke-width="1"/>
         <rect x="183" y="191" width="9" height="48" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
         <rect x="192" y="191" width="20" height="48" fill="#94a3b8" stroke="#e2e8f0" stroke-width="1"/>
 
-        <!-- Fixed Bearing Housing (-24..0) + 2x 7001-B -->
-        <rect x="219" y="155" width="38" height="120" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
-        <rect x="225" y="187" width="26" height="56" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
+        <!-- Pos 09: Left Fixed Bearing Plate (-27..0) with Ø52 centering spigot (-27..-24) engaging into Pos 13! -->
+        <path d="M219 155 L257 155 L257 275 L219 275 L219 258 L214 258 L214 172 L219 172 Z" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- 2x 7001-B Duplex Bearings + Cap & KM0 -->
+        <rect x="224" y="187" width="26" height="56" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
+        <!-- Long M5x80 Sandwich Tie-Bolt axis indicator (-68.9..+11) -->
+        <line x1="146" y1="264" x2="275" y2="264" stroke="#38bdf8" stroke-width="1.1" stroke-dasharray="6 2"/>
 
         <!-- Base Floor (0..240, Z=0..12) -->
         <rect x="257" y="251" width="320" height="24" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
         <!-- Datum A Line -->
         <line x1="45" y1="275" x2="625" y2="275" stroke="#2dd4bf" stroke-width="1.4" stroke-dasharray="6 4"/>
-        <text x="110" y="291" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="10" text-anchor="middle">+1.8 mm above Datum A</text>
+        <text x="112" y="291" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="9.5" text-anchor="middle">+1.8 mm &gt; Datum A</text>
+        <text x="205" y="291" fill="#38bdf8" font-family="Iosevka Charon Mono, monospace" font-size="9" text-anchor="middle">4× M5×80 Tie-Bolts</text>
 
-        <!-- Helical Ball Screw -->
+        <!-- Helical Ball Screw (RH SFU1204) -->
         <rect x="195" y="205" width="408" height="20" fill="rgba(226,232,240,0.18)" stroke="#e2e8f0" stroke-width="1.4"/>
-        <path d="M262 205 L270 225 M274 205 L282 225 M286 205 L294 225 M298 205 L306 225 M310 205 L318 225 M322 205 L330 225 M334 205 L342 225 M346 205 L354 225 M470 205 L478 225 M482 205 L490 225 M494 205 L502 225 M506 205 L514 225 M518 205 L526 225 M530 205 L538 225 M542 205 L550 225 M554 205 L562 225" stroke="#94a3b8" stroke-width="1"/>
+        <path d="M262 225 L270 205 M274 225 L282 205 M286 225 L294 205 M298 225 L306 205 M310 225 L318 205 M322 225 L330 205 M334 225 L342 205 M346 225 L354 205 M470 225 L478 205 M482 225 L490 205 M494 225 L502 205 M506 225 L514 205 M518 225 L526 205 M530 225 L538 205 M542 225 L550 205 M554 225 L562 205" stroke="#94a3b8" stroke-width="1"/>
 
         <!-- Carriage Table + Nut Saddle + SFU1204 Nut -->
         <rect x="352" y="156" width="132" height="22" fill="rgba(2,132,199,0.45)" stroke="#38bdf8" stroke-width="1.5"/>
@@ -684,65 +697,65 @@
         <rect x="583" y="187" width="15" height="56" fill="url(#hatchSt)" stroke="#fbbf24" stroke-width="1.3"/>
 
         <!-- Cross-Section B-B (Right Panel) -->
-        <line x1="665" y1="24" x2="665" y2="370" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
-        <text x="682" y="34" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">SECTION B-B (TRANSVERSE)</text>
-        <!-- Base U-Channel + Outboard Flanges -->
-        <path d="M705 275 L705 253 L730 253 L730 198 L774 198 L774 248 L866 248 L866 198 L910 198 L910 253 L935 253 L935 275 Z" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
-        <!-- Datum B lip -->
-        <rect x="866" y="191" width="9" height="7" fill="#2dd4bf" opacity="0.65"/>
-        <!-- 2x MGN12 Rails + Blocks -->
-        <rect x="742" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
-        <rect x="875" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
-        <!-- Table (96 mm wide) -->
-        <rect x="720" y="155" width="200" height="24" fill="rgba(2,132,199,0.45)" stroke="#38bdf8" stroke-width="1.5"/>
+        <line x1="662" y1="24" x2="662" y2="376" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="678" y="34" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">SECTION B-B (66 mm TRACK)</text>
+        <!-- Base U-Channel + Outboard Flanges (Y=-54..+54) -->
+        <path d="M702 275 L702 253 L727 253 L727 198 L773 198 L773 248 L867 248 L867 198 L913 198 L913 253 L938 253 L938 275 Z" fill="url(#hatchAl)" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- Datum B lip (Y=22..27, 5 mm wide!) -->
+        <rect x="867" y="191" width="11" height="7" fill="#2dd4bf" opacity="0.72"/>
+        <!-- 2x MGN12 Rails + MGN12H Blocks shifted outward to Y=±33 (66 mm track!) -->
+        <rect x="734" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
+        <rect x="882" y="181" width="24" height="17" fill="#cbd5e1" opacity="0.5" stroke="#e2e8f0" stroke-width="1.2"/>
+        <!-- Table (96 mm wide, Y=±48) -->
+        <rect x="719" y="155" width="202" height="24" fill="rgba(2,132,199,0.45)" stroke="#38bdf8" stroke-width="1.5"/>
         <!-- Spindle & Nut in center -->
         <circle cx="820" cy="215" r="24" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4 3"/>
         <circle cx="820" cy="215" r="11" fill="rgba(226,232,240,0.25)" stroke="#e2e8f0" stroke-width="1.4"/>
-        <!-- M8 Sensor & Bolted Flag -->
-        <rect x="920" y="160" width="14" height="18" fill="none" stroke="#f59e0b" stroke-width="1.4"/>
-        <rect x="923" y="182" width="8" height="38" fill="rgba(245,158,11,0.35)" stroke="#fbbf24" stroke-width="1.2"/>
-        <text x="820" y="295" fill="#cbd5e1" font-family="Iosevka Charon Mono, monospace" font-size="10" text-anchor="middle">Rail Track 62.0 mm · Table 96.0 mm</text>
-        <text x="820" y="311" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="9.5" text-anchor="middle">6× M6 Outboard Flanges (Y = ±48 mm)</text>
+        <!-- Reinforced Limit Bracket (Y=42..58) + M8 Sensor (Y=52) & Extended Trigger Flag (Y=47.5..56.5) -->
+        <rect x="913" y="216" width="33" height="24" fill="rgba(45,212,191,0.16)" stroke="#2dd4bf" stroke-width="1.2"/>
+        <rect x="927" y="183" width="10" height="44" fill="rgba(245,158,11,0.35)" stroke="#fbbf24" stroke-width="1.2"/>
+        <rect x="921" y="160" width="20" height="18" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="820" y="295" fill="#cbd5e1" font-family="Iosevka Charon Mono, monospace" font-size="9.8" text-anchor="middle">Rail Track 66.0 mm (Y=±33) · Table 96.0 mm</text>
+        <text x="820" y="311" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="9.2" text-anchor="middle">Datum B Y=27 · M8 Sensor Y=52 (2.0 mm gap)</text>
 
         <!-- Interactive Clickable ISO GPS Feature Control Frames -->
         <g class="dwg-callout" onclick="focusFromDrawing('gps-fixed')">
-          <rect x="172" y="72" width="174" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#38bdf8" stroke-width="1.2"/>
-          <text x="259" y="88" fill="#e0f2fe" font-family="Iosevka Charon Mono, monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ⟂ | 0.01 | A | Ø28 H7</text>
-          <line x1="242" y1="96" x2="238" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
+          <rect x="132" y="70" width="222" height="24" rx="3" fill="rgba(15,23,42,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="243" y="86" fill="#e0f2fe" font-family="Iosevka Charon Mono, monospace" font-size="9.8" font-weight="700" text-anchor="middle">| ⟂ | 0.01 | A | Ø52 SPIGOT / Ø28 H7</text>
+          <line x1="216" y1="94" x2="216" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
         </g>
         <g class="dwg-callout" onclick="focusFromDrawing('gps-float')">
-          <rect x="476" y="72" width="174" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#38bdf8" stroke-width="1.2"/>
-          <text x="563" y="88" fill="#e0f2fe" font-family="Iosevka Charon Mono, monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ◎ | Ø0.02 | C | +0.5</text>
-          <line x1="588" y1="96" x2="590" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
+          <rect x="472" y="70" width="174" height="24" rx="3" fill="rgba(15,23,42,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="559" y="86" fill="#e0f2fe" font-family="Iosevka Charon Mono, monospace" font-size="10" font-weight="700" text-anchor="middle">| ◎ | Ø0.02 | C | +0.5</text>
+          <line x1="588" y1="94" x2="590" y2="155" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 2"/>
         </g>
         <g class="dwg-callout" onclick="focusFromDrawing('gps-a')">
-          <rect x="266" y="318" width="154" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#2dd4bf" stroke-width="1.2"/>
-          <text x="343" y="334" fill="#ccfbf1" font-family="Iosevka Charon Mono, monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ⏥ | 0.01 | DATUM A</text>
-          <line x1="343" y1="318" x2="343" y2="275" stroke="#2dd4bf" stroke-width="1"/>
+          <rect x="266" y="322" width="154" height="24" rx="3" fill="rgba(15,23,42,0.92)" stroke="#2dd4bf" stroke-width="1.2"/>
+          <text x="343" y="338" fill="#ccfbf1" font-family="Iosevka Charon Mono, monospace" font-size="10" font-weight="700" text-anchor="middle">| ⏥ | 0.01 | DATUM A</text>
+          <line x1="343" y1="322" x2="343" y2="275" stroke="#2dd4bf" stroke-width="1"/>
         </g>
         <g class="dwg-callout" onclick="focusFromDrawing('gps-b')">
-          <rect x="744" y="72" width="166" height="24" rx="3" fill="rgba(15,23,42,0.9)" stroke="#2dd4bf" stroke-width="1.2"/>
-          <text x="827" y="88" fill="#ccfbf1" font-family="Iosevka Charon Mono, monospace" font-size="10.2" font-weight="700" text-anchor="middle">| ∥ | 0.008 | B | RAIL</text>
-          <line x1="868" y1="96" x2="870" y2="190" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 2"/>
+          <rect x="730" y="70" width="184" height="24" rx="3" fill="rgba(15,23,42,0.92)" stroke="#2dd4bf" stroke-width="1.2"/>
+          <text x="822" y="86" fill="#ccfbf1" font-family="Iosevka Charon Mono, monospace" font-size="9.8" font-weight="700" text-anchor="middle">| ∥ | 0.008 | B (Y=27) | RAIL</text>
+          <line x1="872" y1="94" x2="872" y2="191" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 2"/>
         </g>
 
         <!-- ISO 7200 Title Block -->
-        <rect x="24" y="378" width="932" height="58" fill="rgba(15,23,42,0.95)" stroke="#38bdf8" stroke-width="1.2"/>
-        <line x1="340" y1="378" x2="340" y2="436" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
-        <line x1="650" y1="378" x2="650" y2="436" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
-        <text x="38" y="400" fill="#e2e8f0" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">PLA-100 v2 · PRECISION LINEAR AXIS</text>
-        <text x="38" y="421" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.8">Author: Walter Lehn (@xallace) · FreeCAD 1.1</text>
-        <text x="356" y="400" fill="#38bdf8" font-family="Iosevka Charon Mono, monospace" font-size="9.8">Fits: Ø28 H7/h6 · Ø12 k5/g6 · Ø4 H7/m6</text>
-        <text x="356" y="421" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.8">General Tol.: ISO 22081 / ISO 2768-mK</text>
-        <text x="666" y="400" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="9.8" font-weight="700">B-Rep Clash Check: 0.0000 mm³ (Verified)</text>
-        <text x="666" y="421" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.8">Total Mass: 4.426 kg · 21 Named Solids</text>
+        <rect x="24" y="384" width="932" height="58" fill="rgba(15,23,42,0.95)" stroke="#38bdf8" stroke-width="1.2"/>
+        <line x1="340" y1="384" x2="340" y2="442" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+        <line x1="650" y1="384" x2="650" y2="442" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+        <text x="38" y="406" fill="#e2e8f0" font-family="Iosevka Charon Mono, monospace" font-size="11" font-weight="700">PLA-100 v3 · PRECISION LINEAR AXIS</text>
+        <text x="38" y="427" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.6">Author: Walter Lehn (@xallace) · STEP AP214</text>
+        <text x="356" y="406" fill="#38bdf8" font-family="Iosevka Charon Mono, monospace" font-size="9.6">Fits: Ø52 H7/g6 · Ø28 H7/h6 · Ø12 k5/g6</text>
+        <text x="356" y="427" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.6">General Tol.: ISO 22081 / ISO 2768-mK</text>
+        <text x="666" y="406" fill="#2dd4bf" font-family="Iosevka Charon Mono, monospace" font-size="9.6" font-weight="700">Sweep Clashes: 0.00 mm³ (X=56..184)</text>
+        <text x="666" y="427" fill="#94a3b8" font-family="Iosevka Charon Mono, monospace" font-size="9.6">Total Mass: 4.608 kg · 21 BOM (174 Solids)</text>
       </svg>
     </div>
   </div>
 
   <script>
     // Fallback when WebGL, three.js or the model files are not available.
-    // Kept in its own script so it still runs if the viewer script below fails at load time.
     function showWebGLFallback(reason, text) {
       document.body.classList.add('no-webgl');
       const fb = document.getElementById('webgl-fallback');
@@ -759,7 +772,7 @@
     window.addEventListener('DOMContentLoaded', function () {
       if (new URLSearchParams(location.search).get('embed') === '1') document.body.classList.add('is-embedded');
       if (typeof THREE === 'undefined' || !THREE.STLLoader || !THREE.OrbitControls) {
-        showWebGLFallback('three.js not loaded', 'The 3D libraries could not be loaded, so a static render is shown instead. The full assembly is available as a STEP file.');
+        showWebGLFallback('three.js not loaded', 'The 3D libraries could not be loaded, so a static render is shown instead. The full v3 assembly is available as a STEP file.');
       } else if (!webglAvailable()) {
         showWebGLFallback('no WebGL context');
       }
@@ -767,12 +780,12 @@
   </script>
   <script>
     // =========================================================================
-    // PLA-100 v2 Three.js Studio CAD Inspector, Raycaster, Ruler & Sizing Engine
+    // PLA-100 v3 Three.js Studio CAD Inspector, Raycaster, Ruler & Sizing Engine
     // =========================================================================
     let scene, camera, renderer, controls;
     let autoCycle = false, cycleDirection = 1, cycleSpeed = 55.0, lastTime = 0;
     let isWireframe = false, showEdges = true;
-    let isSectionA = false, isSectionB = false, showGPS = true;
+    let isSectionA = false, isSectionB = false, isSectionC = false, showGPS = true;
     let explodeFactor = 0.0, assemblyStep = 8;
     let selectedPartId = null, measureMode = false, measurePoints = [];
     let isVerticalAxis = false;
@@ -782,10 +795,12 @@
     const USE_MAX = 170.0;
     const MAX_STROKE = 184.0;
     const SPINDLE_Z = 30.0;
+    const SENSOR_Y = 52.0;
+    const SENSOR_LED_Z = 42.1;
     let currentStroke = 120.0;
 
-    // Exact PLA-100 v2 bounding envelope (mm)
-    const MODEL_BOX = new THREE.Box3(new THREE.Vector3(-120, -56, 0), new THREE.Vector3(258, 56, 64));
+    // Exact PLA-100 v3 bounding envelope (mm)
+    const MODEL_BOX = new THREE.Box3(new THREE.Vector3(-120, -54, 0), new THREE.Vector3(258, 58, 64.2));
 
     const container = document.getElementById('viewport-container');
     const canvas = document.getElementById('cad-canvas');
@@ -794,59 +809,86 @@
     const spinner = document.getElementById('loading-spinner');
     const hotspotsContainer = document.getElementById('hotspots-container');
 
-    // Clipping Planes: A-A (Y=0) and B-B (X=currentStroke)
+    // Clipping Planes: A-A (Y=0), B-B (X=currentStroke), C-C (X=-25.5 sandwich spigot facing +X camera)
     const clipPlaneA = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const clipPlaneB = new THREE.Plane(new THREE.Vector3(-1, 0, 0), currentStroke);
+    const clipPlaneC = new THREE.Plane(new THREE.Vector3(-1, 0, 0), -25.5);
 
-    // 21 B-Rep Verified Named Parts (matching models/pla100_manifest.json)
+    // 21 B-Rep Verified BOM Items (matching models/pla100_manifest.json v3.0.0)
+    // Fasteners (Pos 20 & Pos 21) are sub-grouped by mechanical joint so every bolt
+    // appears in its real assembly step and explodes coaxially along its screw axis.
     const PARTS = {
-      base:               { pos: 1,  step: 1, file: 'models/pla100_base.stl',               name: 'Base Profile (PLA-100-10-01)',     mat: 'base',     mass: 1358.3, delta: [0, 0, 0],     standard: 'Custom CNC U-Profile', matName: 'EN AW-6082 T6', desc: 'CNC-milled U-channel (L=240 mm) with Datum A floor (⏥ 0.01), Datum B ground rail lip (∥ 0.008), 6× outboard M6 mounting ears & end-face M5/Ø4 dowel patterns.' },
-      rail_left:          { pos: 2,  step: 2, file: 'models/pla100_rail_left.stl',          name: 'Linear Rail Left',                 mat: 'steel',    mass: 158.8,  delta: [0, -24, 10],  standard: 'HIWIN MGN12 - L240',   matName: '100Cr6 hardened', desc: 'Full-length 240 mm precision rail (Y=-31 mm) with Gothic-arch ball raceways & 9× counterbored M3 mounting holes (25 mm pitch).' },
-      rail_right:         { pos: 3,  step: 2, file: 'models/pla100_rail_right.stl',         name: 'Linear Rail Right',                mat: 'steel',    mass: 158.8,  delta: [0, 24, 10],   standard: 'HIWIN MGN12 - L240',   matName: '100Cr6 hardened', desc: 'Master reference rail (Y=+31 mm) seated flush against Datum B lip (∥ 0.008 A).' },
-      blocks:             { pos: 4,  step: 7, file: 'models/pla100_blocks.stl',             name: '4× Linear Carriages (MGN12H)',     mat: 'blocks',   mass: 255.7,  delta: [0, 0, 26],    isCarriage: true, standard: 'HIWIN MGN12H (Z1)', matName: '100Cr6 / POM', desc: '4× long-block carriages (45.4×27 mm, 20×20 M3 bolt square) maintaining 9.3 mm rail margin at both elastomer hard stops.' },
-      spindle:            { pos: 5,  step: 4, file: 'models/pla100_spindle.stl',            name: 'Ball Screw Spindle (Helical)',     mat: 'steel',    mass: 222.9,  delta: [0, 0, 0],     rotAxis: true, standard: 'SFU1204 Ø12×4 (IT5)', matName: 'CF53 / 100Cr6', desc: '58-turn helical Gothic-arch ball screw (Ph=4.0 mm) with machined BK10/BF10 journals (Ø12 k5, M10×1 locknut thread, Ø8 D-flat, DIN 471 circlip groove).' },
-      nut:                { pos: 6,  step: 4, file: 'models/pla100_nut.stl',                name: 'Flanged Ball Nut (SFU1204)',       mat: 'nut',      mass: 122.0,  delta: [22, 0, 0],    isCarriage: true, standard: 'DIN 69051 Form B', matName: '16MnCr5 case-hardened', desc: 'Double-flat flanged nut (30 mm across flats, +3.0 mm floor clearance) bolted axially with 4× M4 screws to the nut saddle.' },
-      nut_saddle:         { pos: 7,  step: 7, file: 'models/pla100_nut_saddle.stl',         name: 'Nut Mounting Saddle',              mat: 'bearing',  mass: 44.3,   delta: [-14, 0, 22],  isCarriage: true, standard: 'PLA-100-20-02', matName: 'EN AW-6082 T6', desc: 'Machined structural saddle transferring axial ball-nut thrust cleanly to the carriage table (4× M4 axial + 4× M4 vertical bolts).' },
-      table:              { pos: 8,  step: 7, file: 'models/pla100_table.stl',              name: 'Carriage Table (100×96 mm)',       mat: 'table',    mass: 306.0,  delta: [0, 0, 56],    isCarriage: true, standard: 'PLA-100-20-01', matName: 'EN AW-7075 T6 anodized', desc: '100×96×12 mm precision payload stage: true 25×25 mm M5 tapped grid, 2× Ø5 H7 fixture dowels, 16× M3 block counterbores with 3.9 mm outer wall.' },
-      fixed_bearing:      { pos: 9,  step: 3, file: 'models/pla100_fixed_bearing.stl',      name: 'Fixed Bearing Housing (BK10)',     mat: 'bearing',  mass: 274.0,  delta: [-24, 0, 0],   standard: 'PLA-100-10-02', matName: 'EN AW-6082 T6', desc: 'Precision Ø28 H7 bore (⟂ 0.01 A) housing duplex 7001-B bearings, pinned to base via 2× Ø4 H7 dowels + 4× M5 bolts.' },
-      bearings_fixed:     { pos: 10, step: 3, file: 'models/pla100_bearings_fixed.stl',     name: '2× 7001-B Duplex + Cap & KM0',     mat: 'brass',    mass: 90.6,   delta: [-40, 0, 0],   standard: '2× 7001-B O-Pair + KM0', matName: '100Cr6 hardened', desc: 'Back-to-back O-arrangement angular contact bearings (12 balls/row), 4-bolt retainer flange cap, and slotted M10×1 KM0 locknut.' },
-      floating_bearing:   { pos: 11, step: 3, file: 'models/pla100_floating_bearing.stl',   name: 'Floating Bearing Housing (BF10)',  mat: 'bearing',  mass: 212.3,  delta: [34, 0, 0],    standard: 'PLA-100-10-03', matName: 'EN AW-6082 T6', desc: 'Ø28 H7 bore with +0.5 mm axial float clearance on both sides of the 6001 bearing for thermal expansion.' },
-      bearing_float:      { pos: 12, step: 3, file: 'models/pla100_bearing_float.stl',      name: 'Floating Bearing 6001 + Circlip',  mat: 'brass',    mass: 23.8,   delta: [54, 0, 0],    standard: 'DIN 625 6001 + DIN 471', matName: '100Cr6 hardened', desc: 'Deep groove radial bearing (10 steel balls) retained on the Ø12 g6 journal by a DIN 471 spring-steel circlip.' },
-      lantern:            { pos: 13, step: 5, file: 'models/pla100_lantern.stl',            name: 'Motor Lantern Housing',            mat: 'lantern',  mass: 165.4,  delta: [-58, 0, 0],   standard: 'PLA-100-10-04', matName: 'EN AW-6082 T6', desc: 'Open-sided 40 mm coupling lantern exposing the rotating jaw coupling for hex-key access, with Ø38.1 H7 NEMA-23 spigot pilot.' },
-      coupling:           { pos: 14, step: 5, file: 'models/pla100_coupling.stl',           name: 'Jaw Coupling Hubs (D25 L30)',      mat: 'coupling', mass: 31.3,   delta: [-74, 0, 0],   rotAxis: true, standard: 'D25 L30 Clamp', matName: 'EN AW-6082 T6', desc: 'Zero-backlash split-clamp aluminum hubs coupling Ø6.35 mm motor shaft to Ø8.0 mm spindle journal in open space.' },
-      coupling_spider:    { pos: 15, step: 5, file: 'models/pla100_coupling_spider.stl',    name: 'Elastomer Spider (PUR 98 Sh-A)',   mat: 'spider',   mass: 0.8,    delta: [-82, 0, 0],   rotAxis: true, standard: 'D25 6-Lobe PUR', matName: 'PUR 98 Sh-A', desc: 'High-durometer red polyurethane star damping torsional motor resonance and micro-misalignment.' },
-      motor:              { pos: 16, step: 6, file: 'models/pla100_motor.stl',              name: 'NEMA 23 Stepper Motor',            mat: 'motor',    mass: 822.7,  delta: [-102, 0, 0],  standard: 'NEMA 23 (56.4×56)', matName: 'Die-cast Al / Cu / Fe', desc: '1.26 Nm bipolar stepper (1.8° step, Ø6.35 shaft) mounted cleanly +1.8 mm above Datum Plane A.' },
-      bumpers:            { pos: 17, step: 8, file: 'models/pla100_bumpers.stl',            name: '4× Elastomer End-Stops',           mat: 'rubber',   mass: 2.3,    delta: [0, 0, 22],    standard: 'Ø10×6 Shore 70A', matName: 'NBR 70 Sh-A', desc: 'Four mechanical bump stops arresting carriage travel cleanly at X=56 and X=184 mm before blocks reach rail ends.' },
-      sensors:            { pos: 18, step: 8, file: 'models/pla100_sensors.stl',            name: 'Limit Brackets & 2× M8 Sensors',   mat: 'brass',    mass: 36.6,   delta: [0, 34, 0],    standard: '2× M8×1 Inductive', matName: 'Brass Ni-plated / PBT', desc: 'Side-mounted brackets below block plane (+9 mm Z clearance) holding two M8 inductive sensors at X=70 and X=170 mm.' },
-      flag:               { pos: 19, step: 8, file: 'models/pla100_flag.stl',               name: 'Bolted Trigger Flag (DC01)',       mat: 'steel',    mass: 4.7,    delta: [0, 32, 56],   isCarriage: true, standard: 'DIN EN 10130 (2 mm)', matName: 'DC01 galvanized', desc: 'Bent 2 mm L-bracket bolted flush to carriage table +Y face with 2× M3 screws, passing 2.0 mm over M8 sensor faces.' },
-      fasteners_stator:   { pos: 20, step: 2, file: 'models/pla100_fasteners_stator.stl',   name: 'Stator Fasteners & Dowels (42×)',  mat: 'fastener', mass: 97.5,   delta: [0, 0, 22],    standard: 'DIN 912 + ISO 2338', matName: 'Steel 8.8 / A2-70', desc: '18× M3 rail bolts, 8× M5 housing bolts, 4× Ø4 H7 dowels, 4× M4 cap screws, 4× M5 lantern screws, 4× M5 motor bolts, 4× M4 sensor bolts.' },
-      fasteners_carriage: { pos: 21, step: 7, file: 'models/pla100_fasteners_carriage.stl', name: 'Carriage Fasteners (26×)',         mat: 'fastener', mass: 37.1,   delta: [0, 0, 74],    isCarriage: true, standard: 'DIN 912 M3/M4', matName: 'Steel 8.8 / A2-70', desc: '16× M3 block bolts, 4× M4 nut-saddle bolts, 4× M4 axial ball-nut flange bolts & 2× M3 trigger-flag screws.' }
+      base:               { pos: 1,  step: 1, file: 'models/pla100_base.stl',             name: 'Base Profile (PLA-100-10-01)',       mat: 'base',     mass: 1362.0, delta: [0, 0, 0],     standard: 'Custom CNC U-Profile',           matName: 'EN AW-6082 T6',          desc: 'CNC-milled U-channel (L=240 mm) with Datum A floor (⏥ 0.01), widened 66 mm rail seats, Datum B ground shoulder at Y=27.0 mm (∥ 0.008), 6× outboard M6 mounting ears & M5/M6 end-face patterns.' },
+      rail_left:          { pos: 2,  step: 2, file: 'models/pla100_rail_left.stl',        name: 'Linear Rail Left (Y=−33)',           mat: 'steel',    mass: 158.8,  delta: [0, 0, 14],    standard: 'HIWIN MGN12 - L240',             matName: '100Cr6 hardened',        desc: 'Full-length 240 mm precision linear rail shifted outward to Y=−33.0 mm (66 mm track) with Gothic-arch raceways & 9× counterbored M3 mounting holes (25 mm pitch).' },
+      rail_right:         { pos: 3,  step: 2, file: 'models/pla100_rail_right.stl',       name: 'Linear Rail Right (Y=+33)',          mat: 'steel',    mass: 158.8,  delta: [0, 0, 14],    standard: 'HIWIN MGN12 - L240',             matName: '100Cr6 hardened',        desc: 'Master reference rail shifted outward to Y=+33.0 mm, seated flush against the Datum B ground reference shoulder at Y=27.0 mm (∥ 0.008 A).' },
+      blocks:             { pos: 4,  step: 7, file: 'models/pla100_blocks.stl',           name: '4× Linear Carriages (MGN12H)',       mat: 'blocks',   mass: 255.7,  delta: [0, 0, 36],    isCarriage: true, standard: 'HIWIN MGN12H (Z1, 66 mm)', matName: '100Cr6 / POM',           desc: '4× long-block carriages (45.4×27 mm) on the widened 66 mm track (Y=−46.5..+46.5 mm) for higher roll stiffness while keeping 9.3 mm rail margin at both hard stops.' },
+      spindle:            { pos: 5,  step: 4, file: 'models/pla100_spindle.stl',          name: 'Ball Screw Spindle (RH Helical)',    mat: 'steel',    mass: 222.9,  delta: [0, 0, 0],     rotAxis: true, standard: 'SFU1204 Ø12×4 (IT5, RH)',   matName: 'CF53 / 100Cr6',          desc: '58-turn right-hand helical Gothic-arch ball screw (Ph=4.0 mm) with machined BK10/BF10 journals (Ø12 k5, M10×1 locknut thread, Ø8 D-flat, DIN 471 circlip groove).' },
+      nut:                { pos: 6,  step: 4, file: 'models/pla100_nut.stl',              name: 'Flanged Ball Nut (SFU1204)',         mat: 'nut',      mass: 122.0,  delta: [22, 0, 0],    isCarriage: true, standard: 'DIN 69051 Form B Ø12×4',   matName: '16MnCr5 case-hardened',  desc: 'Double-flat flanged nut (30 mm across flats, +3.0 mm floor clearance) bolted axially with 4× M4 screws to the nut mounting saddle.' },
+      nut_saddle:         { pos: 7,  step: 7, file: 'models/pla100_nut_saddle.stl',       name: 'Nut Mounting Saddle',                mat: 'bearing',  mass: 44.3,   delta: [-16, 0, 26],  isCarriage: true, standard: 'PLA-100-20-02',            matName: 'EN AW-6082 T6',          desc: 'Machined structural saddle transferring axial ball-nut thrust cleanly to the carriage table (4× M4 axial + 4× M4 vertical bolts).' },
+      table:              { pos: 8,  step: 7, file: 'models/pla100_table.stl',            name: 'Carriage Table (100×96 mm)',         mat: 'table',    mass: 306.0,  delta: [0, 0, 62],    isCarriage: true, standard: 'PLA-100-20-01 (100×96)',   matName: 'EN AW-7075 T6 anodized', desc: '100×96×12 mm precision payload stage: true 25×25 mm M5 tapped grid (9×), 2× Ø5 H7 fixture dowels, and 16× M3 block counterbores matched to the 66 mm track (Y=±23/±43 mm).' },
+      fixed_bearing:      { pos: 9,  step: 3, file: 'models/pla100_fixed_bearing.stl',    name: 'Left Fixed Bearing Plate (Ø52)',     mat: 'bearing',  mass: 280.0,  delta: [-24, 0, 0],   standard: 'PLA-100-10-02 (Ø28 H7 / Ø52)',   matName: 'EN AW-6082 T6',          desc: 'Revised v3 fixed bearing plate (X=−27..0 mm) with Ø28 H7 duplex bore (⟂ 0.01 A) and an integral 3 mm Ø52.00 centering spigot locating the Left Sandwich Motor Carrier; anchored with 2× M6 bolts + 4× M5×80 sandwich tie-bolts.' },
+      bearings_fixed:     { pos: 10, step: 3, file: 'models/pla100_bearings_fixed.stl',   name: '2× 7001-B Duplex + Cap & KM0',       mat: 'brass',    mass: 90.6,   delta: [-44, 0, 0],   standard: '2× 7001-B (O-Pair) + KM0',       matName: '100Cr6 hardened',        desc: 'Back-to-back O-arrangement angular contact bearings (12 balls/row), 4-bolt retainer flange cap, and slotted M10×1 KM0 locknut.' },
+      floating_bearing:   { pos: 11, step: 3, file: 'models/pla100_floating_bearing.stl', name: 'Floating Bearing Housing (BF10)',    mat: 'bearing',  mass: 212.3,  delta: [34, 0, 0],    standard: 'PLA-100-10-03 (+0.5 mm float)',  matName: 'EN AW-6082 T6',          desc: 'Ø28 H7 bore with +0.5 mm axial float clearance on both sides of the 6001 bearing for thermal expansion, pinned via 2× Ø4 H7 dowels & 4× M5 bolts.' },
+      bearing_float:      { pos: 12, step: 3, file: 'models/pla100_bearing_float.stl',    name: 'Floating Bearing 6001 + Circlip',    mat: 'brass',    mass: 23.8,   delta: [54, 0, 0],    standard: 'DIN 625 6001 + DIN 471',         matName: '100Cr6 hardened',        desc: 'Deep groove radial bearing (10 steel balls) retained on the Ø12 g6 journal by a DIN 471 spring-steel circlip.' },
+      lantern:            { pos: 13, step: 5, file: 'models/pla100_lantern.stl',          name: 'Left Sandwich Motor Carrier (88 mm)',mat: 'lantern',  mass: 279.2,  delta: [-96, 0, 0],   standard: 'PLA-100-10-04 (NEMA 23, 88 mm)', matName: 'EN AW-6082 T6',          desc: 'New v3 heavy-duty 88 mm wide open-sided sandwich carrier (X=−64..−24 mm) with Ø52.10 concentric register pocket mating Pos 09, Ø38.1 H7 NEMA-23 pilot, open coupling access window, and 4× M5×80 tie-bolt bores.' },
+      coupling:           { pos: 14, step: 5, file: 'models/pla100_coupling.stl',         name: 'Jaw Coupling Hubs (D25 L30)',        mat: 'coupling', mass: 31.3,   delta: [-58, 0, 0],   rotAxis: true, standard: 'D25 L30 Clamp',             matName: 'EN AW-6082 T6',          desc: 'Zero-backlash split-clamp aluminum hubs coupling Ø6.35 mm motor shaft to Ø8.0 mm spindle journal inside the open sandwich window.' },
+      coupling_spider:    { pos: 15, step: 5, file: 'models/pla100_coupling_spider.stl',  name: 'Elastomer Spider (PUR 98 Sh-A)',     mat: 'spider',   mass: 0.8,    delta: [-66, 0, 0],   rotAxis: true, standard: 'D25 6-Lobe PUR',            matName: 'PUR 98 Sh-A',            desc: 'High-durometer red polyurethane star seated with radial preload between coupling jaws to damp torsional resonance.' },
+      motor:              { pos: 16, step: 6, file: 'models/pla100_motor.stl',            name: 'NEMA 23 Stepper Motor',              mat: 'motor',    mass: 822.7,  delta: [-144, 0, 0],  standard: 'NEMA 23 (56.4×56)',              matName: 'Die-cast Al / Cu / Fe',  desc: '1.26 Nm bipolar stepper (1.8° step, Ø6.35 shaft) piloted into the Left Sandwich Motor Carrier, clearing Datum Plane A by +1.8 mm.' },
+      bumpers:            { pos: 17, step: 8, file: 'models/pla100_bumpers.stl',          name: '4× Elastomer End-Stops',             mat: 'rubber',   mass: 2.3,    delta: [0, 0, 28],    standard: 'Ø10×6 Shore 70A',                matName: 'NBR 70 Sh-A',            desc: 'Four mechanical bump stops arresting carriage table travel cleanly at X=56 and X=184 mm before blocks reach rail ends.' },
+      sensors:            { pos: 18, step: 8, file: 'models/pla100_sensors.stl',          name: 'Limit Brackets & 2× M8 Sensors',     mat: 'brass',    mass: 53.8,   delta: [0, 36, 0],    standard: '2× M8×1 Inductive (Y=52)',       matName: 'Brass Ni-plated / PBT',  desc: 'Reinforced v3 side brackets (38×16×14 mm) holding dual M8×1 inductive sensors at X=70 / X=170 mm, Y=52.0 mm below the carriage plane.' },
+      flag:               { pos: 19, step: 8, file: 'models/pla100_flag.stl',             name: 'Bolted Trigger Flag (DC01)',         mat: 'steel',    mass: 5.7,    delta: [0, 30, 62],   isCarriage: true, standard: 'DIN EN 10130 (2 mm bent)', matName: 'DC01 galvanized',        desc: 'Extended 2 mm bent DC01 L-bracket bolted to the carriage table +Y face (Y=47.5..56.5 mm), passing 2.0 mm directly over the Y=52.0 mm M8 sensor faces.' },
+      fasteners_stator:   {
+        pos: 20, step: 2, mat: 'fastener', mass: 138.2,
+        name: 'Stator Fasteners & Dowels (42×)',
+        standard: 'DIN 912 M3–M6 + ISO 2338', matName: 'Steel 8.8 / A2-70',
+        desc: '18× M3 rail bolts (Step 2), 2× M6 fixed-plate bolts + 4× M4 cap screws + 4× M5 float bolts + 2× Ø4 dowels (Step 3), 4× M5×80 sandwich tie-bolts (Step 5), 4× M5 motor bolts (Step 6), 4× M4 sensor bracket bolts (Step 8).',
+        subMeshes: [
+          { subId: 'fasteners_rails',    file: 'models/pla100_fasteners_rails.stl',    step: 2, delta: [0, 0, 26] },
+          { subId: 'fasteners_fixed',    file: 'models/pla100_fasteners_fixed.stl',    step: 3, delta: [-54, 0, 0] },
+          { subId: 'fasteners_float',    file: 'models/pla100_fasteners_float.stl',    step: 3, delta: [66, 0, 0] },
+          { subId: 'fasteners_sandwich', file: 'models/pla100_fasteners_sandwich.stl', step: 5, delta: [-122, 0, 0] },
+          { subId: 'fasteners_motor',    file: 'models/pla100_fasteners_motor.stl',    step: 6, delta: [-166, 0, 0] },
+          { subId: 'fasteners_sensors',  file: 'models/pla100_fasteners_sensors.stl',  step: 8, delta: [0, 52, 0] }
+        ]
+      },
+      fasteners_carriage: {
+        pos: 21, step: 7, mat: 'fastener', mass: 37.1, isCarriage: true,
+        name: 'Carriage Fasteners (26×)',
+        standard: 'DIN 912 M3/M4 (26 pcs)', matName: 'Steel 8.8 / A2-70',
+        desc: '16× M3 block bolts + 4× M4 vertical saddle bolts & 4× M4 axial ball-nut flange bolts (Step 7), plus 2× M3 trigger-flag screws (Step 8).',
+        subMeshes: [
+          { subId: 'fasteners_table', file: 'models/pla100_fasteners_table.stl', step: 7, delta: [0, 0, 82],  isCarriage: true },
+          { subId: 'fasteners_nut',   file: 'models/pla100_fasteners_nut.stl',   step: 7, delta: [38, 0, 0],  isCarriage: true },
+          { subId: 'fasteners_flag',  file: 'models/pla100_fasteners_flag.stl',  step: 8, delta: [0, 44, 62], isCarriage: true }
+        ]
+      }
     };
 
     const STEP_NAMES = [
       '',
-      '1. Base Profile (Datum A & B)',
-      '2. MGN12 Rails & Fasteners',
-      '3. Fixed 7001-B & Float 6001 Bearings',
-      '4. Helical SFU1204 Ball Screw & Nut',
-      '5. Jaw Coupling & Motor Lantern',
-      '6. NEMA 23 Stepper Motor',
-      '7. MGN12H Blocks, Saddle & Table',
-      '8. End-Stops, M8 Sensors & Flag (Complete)'
+      'Base Profile (Datum A & B)',
+      '66 mm MGN12 Rails & M3 Bolts',
+      'Fixed Plate (Ø52) & Bearings',
+      'RH Helical SFU1204 & Nut',
+      '88 mm Sandwich & Coupling',
+      'NEMA 23 Motor & M5 Bolts',
+      'MGN12H Blocks, Saddle & Table',
+      'Stops, M8 Sensors & Flag'
     ];
 
-    // Non-overlapping 3D ISO GPS Leader-Line Annotations (clear of HUD & Specs panels!)
+    // Non-overlapping 3D ISO GPS Leader-Line Annotations aligned to v3 coordinates
     const HOTSPOTS = [
       { id: 'gps-a',       anchor: new THREE.Vector3(120, -54, 0),   tip: new THREE.Vector3(120, -82, -6),  tag: 'Datum A · ⏥ 0.01',     title: 'DIN EN ISO 1101 · Primary Datum A', desc: 'Face-milled base mounting plane (Z=0, Ra 0.8). NEMA-23 motor clears Datum A by +1.8 mm; 6× M6 ears allow direct top bolting.' },
-      { id: 'gps-b',       anchor: new THREE.Vector3(38, 25, 36),    tip: new THREE.Vector3(38, 42, 68),    tag: 'Datum B · ∥ 0.008',    title: 'DIN EN ISO 1101 · Guide Shoulder B', desc: 'Precision ground rail reference lip (Y=25 mm) aligning right MGN12 rail within ∥ 0.008 A.' },
-      { id: 'gps-fixed',   anchor: new THREE.Vector3(-12, 0, 60),    tip: new THREE.Vector3(-24, -14, 84),  tag: 'Fixed 7001-B · Ø28 H7',title: 'BK10 Duplex O-Arrangement', desc: '2× 7001-B angular contact bearings preloaded by KM0 M10×1 locknut in Ø28 H7 bore (⟂ 0.01 A). Open lantern exposes jaw coupling.' },
-      { id: 'gps-spindle', anchor: new THREE.Vector3(205, 0, 36),    tip: new THREE.Vector3(205, -36, 70),  tag: 'SFU1204 · Ø12×4 IT5',  title: '58-Turn Helical Ball Screw', desc: 'True helical Gothic-arch ball groove (Ph=4.0 mm) with SFU1204 double-flat nut clearing the base floor by +3.0 mm.' },
+      { id: 'gps-b',       anchor: new THREE.Vector3(38, 27, 36),    tip: new THREE.Vector3(38, 46, 68),    tag: 'Datum B · ∥ 0.008',    title: 'DIN EN ISO 1101 · Guide Shoulder B (Y=27)', desc: 'Precision ground rail reference shoulder at Y=27.0 mm (5 mm wide) aligning the right MGN12 rail on the widened 66 mm track within ∥ 0.008 A.' },
+      { id: 'gps-fixed',   anchor: new THREE.Vector3(-25.5, 0, 60),  tip: new THREE.Vector3(-42, -18, 86),  tag: 'Ø52 Sandwich · 7001-B',title: 'Piloted Fixed Plate + 88 mm Sandwich Carrier', desc: 'Pos 09 Fixed Bearing Plate (Ø28 H7 duplex 7001-B + KM0) pilots via a 3 mm Ø52 spigot into Pos 13 Left Sandwich Motor Carrier, clamped straight into Base by 4× M5×80 tie-bolts + 2× M6 bolts.' },
+      { id: 'gps-spindle', anchor: new THREE.Vector3(186, 0, 36),    tip: new THREE.Vector3(186, -34, 64),  tag: 'SFU1204 RH · Ø12×4',   title: '58-Turn Right-Hand Helical Ball Screw', desc: 'True right-hand helical Gothic-arch ball groove (Ph=4.0 mm) synchronized with carriage translation; SFU1204 double-flat nut clears base floor by +3.0 mm.' },
       { id: 'gps-float',   anchor: new THREE.Vector3(258, -14, 30),  tip: new THREE.Vector3(282, -52, 6),   tag: 'Float 6001 · +0.5 mm', title: 'BF10 Thermal Expansion Support', desc: '6001 deep groove bearing retained by DIN 471 circlip inside Ø28 H7 bore with +0.5 mm axial float clearance.' },
-      { id: 'gps-limit',   anchor: new THREE.Vector3(170, 50, 42),   tip: new THREE.Vector3(170, 74, 62),   tag: 'M8 Limit (X=70/170)',  title: 'Inductive Travel Limit Sensors', desc: 'Dual M8×1 inductive sensors at usable stroke bounds (X=70, X=170 mm) triggered across a 2.0 mm gap by the bolted DC01 flag.' }
+      { id: 'gps-limit',   anchor: new THREE.Vector3(170, 52, 42),   tip: new THREE.Vector3(170, 78, 62),   tag: 'M8 Limit (Y=52)',      title: 'Reinforced Inductive Travel Limits (X=70/170)', desc: 'Dual M8×1 inductive sensors in reinforced side brackets at X=70 & X=170 mm, Y=52.0 mm, triggered across a 2.0 mm gap by the extended DC01 flag.' }
     ];
 
     const materials = {};
-    const meshes = {};
+    const meshes = {};      // bomKey -> THREE.Mesh[] (supports multi-submesh BOM items)
+    const allMeshes = [];   // flat list of all loaded THREE.Mesh instances
     let carriageGroup, leaderGroup, measureGroup;
     let ledMeshMin, ledMeshMax;
     const raycaster = new THREE.Raycaster();
@@ -859,11 +901,11 @@
       envScene.background = new THREE.Color(0x162033);
 
       const panels = [
-        { pos: [0, 0, 12], rot: [Math.PI, 0, 0], size: [18, 12], color: 0xffffff, intensity: 2.2 },
-        { pos: [10, -10, 6], rot: [0.5, 0.8, 0], size: [12, 8], color: 0xdbeafe, intensity: 1.8 },
-        { pos: [-10, -10, 5], rot: [0.5, -0.8, 0], size: [12, 8], color: 0xbae6fd, intensity: 1.6 },
-        { pos: [0, 12, 4], rot: [-1.2, 0, 0], size: [14, 8], color: 0x99f6e4, intensity: 1.2 },
-        { pos: [0, 0, -10], rot: [0, 0, 0], size: [20, 20], color: 0x1e293b, intensity: 0.7 }
+        { pos: [0, 0, 12],   size: [18, 12], color: 0xffffff, intensity: 2.2 },
+        { pos: [10, -10, 6], size: [12, 8],  color: 0xdbeafe, intensity: 1.8 },
+        { pos: [-10, -10, 5],size: [12, 8],  color: 0xbae6fd, intensity: 1.6 },
+        { pos: [0, 12, 4],   size: [14, 8],  color: 0x99f6e4, intensity: 1.2 },
+        { pos: [0, 0, -10],  size: [20, 20], color: 0x1e293b, intensity: 0.7 }
       ];
       panels.forEach(p => {
         const m = new THREE.Mesh(
@@ -884,7 +926,7 @@
       materials.base     = new THREE.MeshStandardMaterial({ color: 0xd5dde6, metalness: 0.68, roughness: 0.32 });
       materials.steel    = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.88, roughness: 0.20 });
       materials.bearing  = new THREE.MeshStandardMaterial({ color: 0xc4ced9, metalness: 0.72, roughness: 0.28 });
-      materials.lantern  = new THREE.MeshStandardMaterial({ color: 0xb6c2cf, metalness: 0.70, roughness: 0.30 });
+      materials.lantern  = new THREE.MeshStandardMaterial({ color: 0xb2c2d4, metalness: 0.70, roughness: 0.28 });
       materials.brass    = new THREE.MeshStandardMaterial({ color: 0xd9a84e, metalness: 0.82, roughness: 0.26 });
       materials.motor    = new THREE.MeshStandardMaterial({ color: 0x263244, metalness: 0.48, roughness: 0.44 });
       materials.coupling = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.82, roughness: 0.24 });
@@ -934,7 +976,7 @@
       controls.minDistance = 55;
       setCameraView('iso');
 
-      // Balanced 4-point CAD Studio Lighting (illuminates FRONT, TOP, SIDE & ISO evenly!)
+      // Balanced 4-point CAD Studio Lighting
       scene.add(new THREE.HemisphereLight(0xf0f7ff, 0x1e293b, 0.85));
 
       const keyFront = new THREE.DirectionalLight(0xffffff, 1.05);
@@ -971,15 +1013,15 @@
       measureGroup = new THREE.Group();
       scene.add(measureGroup);
 
-      // Live glowing LED indicator rings on top of both M8 sensors (X=70 & X=170, Y=50, Z=41.9)
-      const ledGeo = new THREE.CylinderGeometry(3.8, 3.8, 1.1, 24);
+      // Live glowing LED indicator rings on top of both M8 sensors (X=70 & X=170, Y=52.0, Z=42.1)
+      const ledGeo = new THREE.CylinderGeometry(3.8, 3.8, 1.0, 24);
       ledGeo.rotateX(Math.PI / 2);
       ledMeshMin = new THREE.Mesh(ledGeo, new THREE.MeshStandardMaterial({ color: 0x0f766e, emissive: 0x0f766e, emissiveIntensity: 0.4, roughness: 0.25 }));
-      ledMeshMin.position.set(USE_MIN, 50, 41.9);
+      ledMeshMin.position.set(USE_MIN, SENSOR_Y, SENSOR_LED_Z);
       scene.add(ledMeshMin);
 
       ledMeshMax = new THREE.Mesh(ledGeo.clone(), new THREE.MeshStandardMaterial({ color: 0x0f766e, emissive: 0x0f766e, emissiveIntensity: 0.4, roughness: 0.25 }));
-      ledMeshMax.position.set(USE_MAX, 50, 41.9);
+      ledMeshMax.position.set(USE_MAX, SENSOR_Y, SENSOR_LED_Z);
       scene.add(ledMeshMax);
 
       loadAllSolids();
@@ -1011,38 +1053,77 @@
 
     function loadAllSolids() {
       const loader = new THREE.STLLoader();
-      const keys = Object.keys(PARTS);
+      const loadJobs = [];
+
+      Object.keys(PARTS).forEach(key => {
+        const info = PARTS[key];
+        meshes[key] = [];
+        if (info.subMeshes) {
+          info.subMeshes.forEach(sm => {
+            loadJobs.push({
+              bomKey: key,
+              file: sm.file,
+              mat: info.mat,
+              step: sm.step,
+              delta: sm.delta,
+              isCarriage: !!sm.isCarriage,
+              rotAxis: false,
+              info: info
+            });
+          });
+        } else {
+          loadJobs.push({
+            bomKey: key,
+            file: info.file,
+            mat: info.mat,
+            step: info.step,
+            delta: info.delta,
+            isCarriage: !!info.isCarriage,
+            rotAxis: !!info.rotAxis,
+            info: info
+          });
+        }
+      });
+
       let loaded = 0, failed = 0;
 
       function finishLoad() {
-        if (loaded + failed < keys.length) return;
+        if (loaded + failed < loadJobs.length) return;
         if (loaded === 0) {
-          showWebGLFallback(`all ${failed} model files failed`, 'The 3D model files could not be loaded, so a static render is shown instead. The full assembly is available as a STEP file.');
+          showWebGLFallback(`all ${failed} model files failed`, 'The 3D model files could not be loaded, so a static render is shown instead. The full v3 assembly is available as a STEP file.');
           return;
         }
         if (spinner) spinner.style.opacity = '0';
         setTimeout(() => { if (spinner) spinner.style.display = 'none'; }, 300);
         document.body.classList.remove('is-loading');
         setStrokePosition(currentStroke);
-        if (failed) console.warn(`PLA-100: ${failed} of ${keys.length} parts failed to load`);
+        setAssemblyStep(assemblyStep);
+        setExplode(explodeFactor * 100);
+        if (failed) console.warn(`PLA-100: ${failed} of ${loadJobs.length} meshes failed to load`);
       }
 
-      keys.forEach(key => {
-        const info = PARTS[key];
-        loader.load(info.file, function(geometry) {
+      loadJobs.forEach(job => {
+        loader.load(job.file, function(geometry) {
           geometry.computeVertexNormals();
-          if (info.rotAxis) {
+          if (job.rotAxis) {
             geometry.translate(0, 0, -SPINDLE_Z);
           }
 
-          const mat = materials[info.mat].clone();
+          const mat = materials[job.mat].clone();
           const mesh = new THREE.Mesh(geometry, mat);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
-          mesh.userData = { id: key, info: info };
+          mesh.userData = {
+            id: job.bomKey,
+            info: job.info,
+            step: job.step,
+            delta: job.delta,
+            rotAxis: job.rotAxis,
+            isCarriage: job.isCarriage
+          };
 
-          // Crisp CAD Shaded-with-Edges overlay (skip high-density helical grooves to keep spindle gleaming)
-          if (key !== 'spindle' && key !== 'bearings_fixed' && key !== 'bearing_float') {
+          // Crisp CAD Shaded-with-Edges overlay (skip dense helical grooves & bearing balls)
+          if (job.bomKey !== 'spindle' && job.bomKey !== 'bearings_fixed' && job.bomKey !== 'bearing_float') {
             const edgesGeo = new THREE.EdgesGeometry(geometry, 32);
             const edgesMat = new THREE.LineBasicMaterial({ color: 0x090f1c, transparent: true, opacity: 0.34 });
             const lines = new THREE.LineSegments(edgesGeo, edgesMat);
@@ -1051,18 +1132,19 @@
             mesh.userData.edgeLines = lines;
           }
 
-          if (info.rotAxis) {
+          if (job.rotAxis) {
             mesh.position.set(0, 0, SPINDLE_Z);
           }
-          if (info.isCarriage) carriageGroup.add(mesh);
+          if (job.isCarriage) carriageGroup.add(mesh);
           else scene.add(mesh);
 
-          meshes[key] = mesh;
+          meshes[job.bomKey].push(mesh);
+          allMeshes.push(mesh);
           loaded++;
           finishLoad();
         }, undefined, function (err) {
           failed++;
-          console.error('PLA-100: could not load ' + info.file, err && err.message ? err.message : '');
+          console.error('PLA-100: could not load ' + job.file, err && err.message ? err.message : '');
           finishLoad();
         });
       });
@@ -1079,13 +1161,14 @@
       const relHub = currentStroke - MIN_STROKE;
       document.getElementById('hub-display').textContent = `Travel: ${relHub.toFixed(1)} / ${(MAX_STROKE - MIN_STROKE).toFixed(1)} mm`;
 
-      // Synchronized rotation of Helical Ball Screw + Jaw Coupling + Red PUR Spider (Ph = 4.0 mm)
+      // Verified right-hand helix (d(phi)/dx = +2*pi / 4.0 mm):
+      // Moving the non-rotating nut in +X requires spindle rotation.x = -2*pi * (deltaX / Ph)
       const turns = relHub / 4.0;
-      const angle = turns * Math.PI * 2;
-      if (meshes.spindle) meshes.spindle.rotation.x = angle;
-      if (meshes.coupling) meshes.coupling.rotation.x = angle;
-      if (meshes.coupling_spider) meshes.coupling_spider.rotation.x = angle;
-      document.getElementById('rot-display').textContent = `Spindle: ${turns.toFixed(2)} rev`;
+      const angle = -turns * Math.PI * 2;
+      ['spindle', 'coupling', 'coupling_spider'].forEach(k => {
+        (meshes[k] || []).forEach(m => { m.rotation.x = angle; });
+      });
+      document.getElementById('rot-display').textContent = `Spindle (RH): ${turns.toFixed(2)} rev`;
 
       // Live inductive limit sensor detection (trigger flag half-width = 10 mm)
       const hitMin = Math.abs(currentStroke - USE_MIN) <= 10.0;
@@ -1118,11 +1201,9 @@
       document.getElementById('explode-slider').value = percent;
       document.getElementById('explode-display').textContent = `${Math.round(percent)} %`;
 
-      Object.keys(PARTS).forEach(k => {
-        const mesh = meshes[k];
-        if (!mesh) return;
-        const d = PARTS[k].delta;
-        if (PARTS[k].rotAxis) {
+      allMeshes.forEach(mesh => {
+        const d = mesh.userData.delta;
+        if (mesh.userData.rotAxis) {
           mesh.position.set(d[0] * explodeFactor, d[1] * explodeFactor, SPINDLE_Z + d[2] * explodeFactor);
         } else {
           mesh.position.set(d[0] * explodeFactor, d[1] * explodeFactor, d[2] * explodeFactor);
@@ -1131,8 +1212,8 @@
 
       // Keep LED rings synced with sensors during explosion
       const sd = PARTS.sensors.delta;
-      if (ledMeshMin) ledMeshMin.position.set(USE_MIN + sd[0] * explodeFactor, 50 + sd[1] * explodeFactor, 41.9 + sd[2] * explodeFactor);
-      if (ledMeshMax) ledMeshMax.position.set(USE_MAX + sd[0] * explodeFactor, 50 + sd[1] * explodeFactor, 41.9 + sd[2] * explodeFactor);
+      if (ledMeshMin) ledMeshMin.position.set(USE_MIN + sd[0] * explodeFactor, SENSOR_Y + sd[1] * explodeFactor, SENSOR_LED_Z + sd[2] * explodeFactor);
+      if (ledMeshMax) ledMeshMax.position.set(USE_MAX + sd[0] * explodeFactor, SENSOR_Y + sd[1] * explodeFactor, SENSOR_LED_Z + sd[2] * explodeFactor);
 
       updateGPSVisibility();
     }
@@ -1143,8 +1224,8 @@
       document.getElementById('step-num').textContent = `${assemblyStep} / 8`;
       document.getElementById('step-label').textContent = STEP_NAMES[assemblyStep];
 
-      Object.keys(PARTS).forEach(k => {
-        if (meshes[k]) meshes[k].visible = PARTS[k].step <= assemblyStep;
+      allMeshes.forEach(mesh => {
+        mesh.visible = mesh.userData.step <= assemblyStep;
       });
       if (ledMeshMin) ledMeshMin.visible = assemblyStep >= 8;
       if (ledMeshMax) ledMeshMax.visible = assemblyStep >= 8;
@@ -1155,8 +1236,9 @@
       const planes = [];
       if (isSectionA) planes.push(clipPlaneA);
       if (isSectionB) planes.push(clipPlaneB);
+      if (isSectionC) planes.push(clipPlaneC);
 
-      Object.values(meshes).forEach(m => {
+      allMeshes.forEach(m => {
         m.material.clippingPlanes = planes;
         m.material.needsUpdate = true;
         if (m.userData.edgeLines) {
@@ -1182,8 +1264,18 @@
       const btn = document.getElementById('btn-section-b');
       btn.classList.toggle('active-cycle', isSectionB);
       btn.innerHTML = isSectionB
-        ? '<span>✂️ Section B-B: ACTIVE (X=Carriage Cut)</span>'
-        : '<span>✂️ Section B-B: Transverse (Carriage Cross-Section)</span>';
+        ? '<span>✂️ Section B-B: ACTIVE (X=Stroke Cut)</span>'
+        : '<span>✂️ Section B-B: Transverse (Carriage Cut X=Stroke)</span>';
+    }
+
+    function toggleSectionC() {
+      isSectionC = !isSectionC;
+      applyClippingPlanes();
+      const btn = document.getElementById('btn-section-c');
+      btn.classList.toggle('active-cycle', isSectionC);
+      btn.innerHTML = isSectionC
+        ? '<span>✂️ Section C-C: ACTIVE (X=−25.5 Sandwich)</span>'
+        : '<span>✂️ Section C-C: Sandwich Spigot Joint (X=−25.5)</span>';
     }
 
     function updateGPSVisibility() {
@@ -1215,7 +1307,6 @@
         hotspotsContainer.appendChild(el);
         h.el = el;
 
-        // 3D leader stem from exact feature anchor to pin tip
         const lineGeo = new THREE.BufferGeometry().setFromPoints([h.anchor, h.tip]);
         leaderGroup.add(new THREE.Line(lineGeo, lineMat));
         const dot = new THREE.Mesh(dotGeo, dotMat);
@@ -1235,17 +1326,17 @@
     }
 
     function resetSpecsBox() {
-      document.getElementById('specs-heading').textContent = 'PLA-100 v2 Specifications';
+      document.getElementById('specs-heading').textContent = 'PLA-100 v3 Specifications';
       document.getElementById('specs-content').innerHTML = `
-        <div class="specs-row"><span class="specs-label">B-Rep Clash Check:</span> <span class="specs-val" style="color:#2dd4bf;">0.0000 mm³ (Passed)</span></div>
+        <div class="specs-row"><span class="specs-label">Stroke Sweep Check:</span> <span class="specs-val" style="color:#2dd4bf;">0.00 mm³ (X=56..184)</span></div>
         <div class="specs-row"><span class="specs-label">Usable Stroke:</span> <span class="specs-val">100.0 mm (X: 70…170)</span></div>
         <div class="specs-row"><span class="specs-label">Hard-Stop Travel:</span> <span class="specs-val">128.0 mm (X: 56…184)</span></div>
-        <div class="specs-row"><span class="specs-label">Guidance:</span> <span class="specs-val">2× MGN12H (62 mm track)</span></div>
-        <div class="specs-row"><span class="specs-label">Ball Screw:</span> <span class="specs-val">SFU1204 Ø12×4 (58 turns)</span></div>
+        <div class="specs-row"><span class="specs-label">Guidance (v3):</span> <span class="specs-val">2× MGN12H (66 mm track)</span></div>
+        <div class="specs-row"><span class="specs-label">Motor End (v3):</span> <span class="specs-val">88 mm Sandwich · Ø52 Spigot</span></div>
+        <div class="specs-row"><span class="specs-label">Ball Screw:</span> <span class="specs-val">SFU1204 Ø12×4 RH (58 turns)</span></div>
         <div class="specs-row"><span class="specs-label">Fixed / Float:</span> <span class="specs-val">2× 7001-B (O) / 1× 6001</span></div>
         <div class="specs-row"><span class="specs-label">Clearances:</span> <span class="specs-val" style="color:#2dd4bf;">Motor +1.8 / Nut +3.0 mm</span></div>
-        <div class="specs-row"><span class="specs-label">Payload Stage:</span> <span class="specs-val">100×96 mm (25×25 M5)</span></div>
-        <div class="specs-row"><span class="specs-label">Computed Mass:</span> <span class="specs-val">4.426 kg (21 Solids)</span></div>
+        <div class="specs-row"><span class="specs-label">Computed Mass:</span> <span class="specs-val">4.608 kg (21 BOM · 174 Solids)</span></div>
       `;
     }
 
@@ -1259,7 +1350,7 @@
       document.getElementById('val-acc').textContent = `${a.toFixed(1)} m/s²`;
       document.getElementById('val-orient').textContent = isVerticalAxis ? 'Vertical' : 'Horizontal';
 
-      const mCarriage = 0.77; // kg (table + 4 blocks + nut + saddle + fasteners)
+      const mCarriage = 0.771; // kg (table + 4 blocks + nut + saddle + flag + carriage fasteners)
       const mTot = m + mCarriage;
       const g = 9.81;
       const mu = 0.006;       // MGN12H rolling friction coefficient
@@ -1268,34 +1359,27 @@
       const d1 = 9.7;         // mm screw root diameter
       const L = 246.0;        // mm unsupported bearing-to-bearing span
 
-      // Axial Peak Force (N)
       const F_grav = isVerticalAxis ? mTot * g : mTot * g * mu;
       const F_acc = mTot * a;
       const F_a = F_grav + F_acc;
 
-      // Rotational speed & angular acceleration
       const n_rpm = (v / Ph) * 60.0;
-      const alpha = (a * 1000.0 / Ph) * 2.0 * Math.PI; // rad/s^2
-      // Equivalent inertia (spindle + coupling + motor rotor ~ 3.2e-5 kg*m^2 + reflected linear mass)
+      const alpha = (a * 1000.0 / Ph) * 2.0 * Math.PI;
       const J_rot = 3.2e-5;
       const J_lin = mTot * Math.pow((Ph / 1000.0) / (2 * Math.PI), 2);
       const T_load = (F_a * (Ph / 1000.0)) / (2 * Math.PI * eta);
-      const T_preload = 0.025; // Nm duplex bearing & Z1 nut preload drag
+      const T_preload = 0.025;
       const T_inertia = (J_rot + J_lin) * alpha;
       const T_req = T_load + T_preload + T_inertia;
 
-      // Realistic NEMA-23 (1.26 Nm holding) pull-out torque derating curve vs RPM
       const T_avail = Math.max(0.18, 1.15 * Math.exp(-n_rpm / 2200.0));
 
-      // DIN 69051 Critical Speed (Fixed-Floating: fn = 15.1, 80% safety cap)
       const n_crit = 0.8 * 15.1e7 * d1 / (L * L);
       const n_pct = (n_rpm / n_crit) * 100.0;
 
-      // DIN 69051 Euler Buckling (Fixed-Floating: fk = 20.0, 50% safety cap)
       const F_k = 0.5 * 20.0e4 * Math.pow(d1, 4) / (L * L);
       const S_k = F_k / Math.max(F_a, 1.0);
 
-      // ISO 281 Fatigue Life L_10h (SFU1204 dynamic load rating C_a = 3200 N)
       const C_a = 3200.0;
       const F_eq = Math.max(15.0, F_a * 0.72);
       const L10h = Math.pow(C_a / F_eq, 3) * 1e6 / Math.max(60.0 * n_rpm, 1.0);
@@ -1374,9 +1458,8 @@
         activeEl.scrollIntoView({ block: 'nearest' });
       }
 
-      Object.keys(meshes).forEach(k => {
-        const m = meshes[k];
-        if (k === key) {
+      allMeshes.forEach(m => {
+        if (m.userData.id === key) {
           m.material.opacity = 1.0;
           m.material.transparent = false;
           m.material.emissive.setHex(0x0284c7);
@@ -1403,7 +1486,7 @@
     function clearPartSelection() {
       selectedPartId = null;
       document.querySelectorAll('.bom-item').forEach(el => el.classList.remove('active'));
-      Object.values(meshes).forEach(m => {
+      allMeshes.forEach(m => {
         m.material.opacity = 1.0;
         m.material.transparent = false;
         m.material.emissive.setHex(0x000000);
@@ -1436,7 +1519,7 @@
         -((e.clientY - rect.top) / rect.height) * 2 + 1
       );
       raycaster.setFromCamera(ndc, camera);
-      const pickables = Object.values(meshes).filter(m => m.visible);
+      const pickables = allMeshes.filter(m => m.visible);
       const hits = raycaster.intersectObjects(pickables, false);
 
       if (measureMode) {
@@ -1520,7 +1603,7 @@
 
     function toggleEdges() {
       showEdges = !showEdges;
-      Object.values(meshes).forEach(m => {
+      allMeshes.forEach(m => {
         if (m.userData.edgeLines) m.userData.edgeLines.visible = showEdges;
       });
       document.getElementById('btn-edges').classList.toggle('active-cycle', showEdges);
@@ -1528,7 +1611,7 @@
 
     function toggleWireframe() {
       isWireframe = !isWireframe;
-      Object.values(meshes).forEach(m => { m.material.wireframe = isWireframe; });
+      allMeshes.forEach(m => { m.material.wireframe = isWireframe; });
       document.getElementById('btn-wireframe').classList.toggle('active-cycle', isWireframe);
     }
 
@@ -1589,7 +1672,6 @@
               .addScaledVector(up, (Math.min(...ty) + Math.max(...ty)) / 2 * dist);
       }
 
-      // Shift framing cleanly clear of bottom-left HUD in both fullscreen and embedded modes
       if (container.clientWidth > 860) {
         target.addScaledVector(up, isEmb ? -10 : -14);
         if (isEmb) target.addScaledVector(right, -44);
@@ -1611,6 +1693,7 @@
       updateCycleButtonState();
       if (isSectionA) toggleSectionA();
       if (isSectionB) toggleSectionB();
+      if (isSectionC) toggleSectionC();
     }
 
     function onWindowResize() {
@@ -1658,6 +1741,6 @@
 
     window.addEventListener('DOMContentLoaded', init);
   </script>
-<script src="/fonts/xallace-type.js" defer></script>
+  <script src="/fonts/xallace-type.js" defer></script>
 </body>
 </html>

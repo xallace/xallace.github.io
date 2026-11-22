@@ -1,9 +1,12 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "assembly": "PLA-100-00-00",
+  "title": "PLA-100 v3 Modular Linear Axis",
   "parts_count": 21,
-  "total_mass_kg": 4.426,
-  "step_size_kb": 3225,
+  "total_solids": 174,
+  "total_mass_kg": 4.608,
+  "step_size_kb": 4124,
+  "step_carriage_x_mm": 160.3269,
   "stroke": {
     "hard_min_mm": 56.0,
     "use_min_mm": 70.0,
@@ -13,18 +16,27 @@
     "usable_mm": 100.0,
     "max_free_mm": 128.0
   },
-  "spindle_z_mm": 30.0,
-  "pitch_mm": 4.0,
+  "geometry": {
+    "spindle_z_mm": 30.0,
+    "pitch_mm": 4.0,
+    "helix_hand": "right-hand",
+    "rail_track_mm": 66.0,
+    "rail_y_mm": 33.0,
+    "datum_b_y_mm": 27.0,
+    "sensor_y_mm": 52.0,
+    "sensor_z_top_mm": 42.0,
+    "sandwich_carrier_width_mm": 88.0,
+    "fixed_plate_spigot_od_mm": 52.0
+  },
   "clearances_verified": {
     "motor_above_datum_A_mm": 1.8,
     "nut_above_base_floor_mm": 3.0,
     "blocks_inside_rail_front_stop_mm": 9.3,
     "blocks_inside_rail_rear_stop_mm": 9.3,
-    "table_outer_wall_outside_m3_cbore_mm": 3.9,
-    "flag_to_table_gap_mm": 0.05,
-    "flag_to_m8_sensor_sensing_gap_mm": 2.0
+    "table_outer_wall_outside_m3_cbore_mm": 1.9,
+    "flag_to_m8_sensor_sensing_gap_mm": 2.0,
+    "structural_sweep_clashes_mm3": 0.0
   },
-  "max_interference_mm3": 0.0,
   "parts": [
     {
       "key": "base",
@@ -35,9 +47,10 @@
       "standard": "Custom CNC U-Profile",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 5240,
-      "volume_cm3": 503.09,
-      "mass_g": 1358.3,
+      "solids": 1,
+      "triangles": 11464,
+      "volume_cm3": 504.43,
+      "mass_g": 1362.0,
       "bbox": {
         "min": [
           0.0,
@@ -57,21 +70,22 @@
       "name": "Linear Rail Left",
       "file": "models/pla100_rail_left.stl",
       "material": "100Cr6 hardened",
-      "standard": "HIWIN MGN12 - L240",
+      "standard": "HIWIN MGN12 - L240 (Y=-33)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 2184,
+      "solids": 1,
+      "triangles": 3936,
       "volume_cm3": 20.34,
       "mass_g": 158.8,
       "bbox": {
         "min": [
           0.0,
-          -37.0,
+          -39.0,
           34.0
         ],
         "max": [
           240.0,
-          -25.0,
+          -27.0,
           42.0
         ]
       }
@@ -82,21 +96,22 @@
       "name": "Linear Rail Right",
       "file": "models/pla100_rail_right.stl",
       "material": "100Cr6 hardened",
-      "standard": "HIWIN MGN12 - L240",
+      "standard": "HIWIN MGN12 - L240 (Y=+33)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 2184,
+      "solids": 1,
+      "triangles": 3936,
       "volume_cm3": 20.34,
       "mass_g": 158.8,
       "bbox": {
         "min": [
           0.0,
-          25.0,
+          27.0,
           34.0
         ],
         "max": [
           240.0,
-          37.0,
+          39.0,
           42.0
         ]
       }
@@ -107,21 +122,22 @@
       "name": "4x Linear Carriages",
       "file": "models/pla100_blocks.stl",
       "material": "100Cr6 / POM",
-      "standard": "HIWIN MGN12H (Z1)",
+      "standard": "HIWIN MGN12H (Z1, 66 mm track)",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 2160,
+      "solids": 4,
+      "triangles": 3632,
       "volume_cm3": 36.02,
       "mass_g": 255.7,
       "bbox": {
         "min": [
           -46.7,
-          -44.5,
+          -46.5,
           37.0
         ],
         "max": [
           46.7,
-          44.5,
+          46.5,
           47.0
         ]
       }
@@ -132,16 +148,17 @@
       "name": "Ball Screw Spindle",
       "file": "models/pla100_spindle.stl",
       "material": "CF53 / 100Cr6",
-      "standard": "SFU1204 \u00d812x4 (IT5)",
+      "standard": "SFU1204 \u00d812x4 (IT5, RH)",
       "isCarriage": false,
       "rotAxis": true,
-      "triangles": 22358,
+      "solids": 30,
+      "triangles": 36008,
       "volume_cm3": 28.47,
       "mass_g": 222.9,
       "bbox": {
         "min": [
           -41.0,
-          -6.0,
+          -5.99,
           24.0
         ],
         "max": [
@@ -160,18 +177,19 @@
       "standard": "DIN 69051 Form B \u00d812x4",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 880,
+      "solids": 1,
+      "triangles": 1564,
       "volume_cm3": 15.54,
       "mass_g": 122.0,
       "bbox": {
         "min": [
           -18.0,
-          -19.91,
+          -20.0,
           15.0
         ],
         "max": [
           18.0,
-          19.91,
+          20.0,
           46.6
         ]
       }
@@ -185,7 +203,8 @@
       "standard": "PLA-100-20-02",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 1120,
+      "solids": 1,
+      "triangles": 1986,
       "volume_cm3": 16.4,
       "mass_g": 44.3,
       "bbox": {
@@ -210,7 +229,8 @@
       "standard": "PLA-100-20-01 (100x96)",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 6028,
+      "solids": 1,
+      "triangles": 10904,
       "volume_cm3": 108.91,
       "mass_g": 306.0,
       "bbox": {
@@ -229,18 +249,19 @@
     {
       "key": "fixed_bearing",
       "pos": 9,
-      "name": "Fixed Bearing Housing",
+      "name": "Left Fixed Bearing Plate",
       "file": "models/pla100_fixed_bearing.stl",
       "material": "EN AW-6082 T6",
-      "standard": "BK10-style (\u00d828 H7)",
+      "standard": "PLA-100-10-02 (\u00d828 H7 / \u00d852)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 2496,
-      "volume_cm3": 101.49,
-      "mass_g": 274.0,
+      "solids": 1,
+      "triangles": 3712,
+      "volume_cm3": 103.7,
+      "mass_g": 280.0,
       "bbox": {
         "min": [
-          -24.0,
+          -27.0,
           -42.0,
           0.0
         ],
@@ -260,7 +281,8 @@
       "standard": "2x 7001-B (O-Pair) + KM0",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 11152,
+      "solids": 31,
+      "triangles": 33888,
       "volume_cm3": 11.6,
       "mass_g": 90.6,
       "bbox": {
@@ -282,10 +304,11 @@
       "name": "Floating Bearing Housing",
       "file": "models/pla100_floating_bearing.stl",
       "material": "EN AW-6082 T6",
-      "standard": "BF10-style (+0.5 mm float)",
+      "standard": "PLA-100-10-03 (+0.5 mm float)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 1712,
+      "solids": 1,
+      "triangles": 3092,
       "volume_cm3": 78.62,
       "mass_g": 212.3,
       "bbox": {
@@ -310,43 +333,45 @@
       "standard": "DIN 625 6001 + DIN 471",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 4436,
+      "solids": 13,
+      "triangles": 13768,
       "volume_cm3": 3.05,
       "mass_g": 23.8,
       "bbox": {
         "min": [
           244.05,
-          -13.95,
+          -13.94,
           16.05
         ],
         "max": [
           253.1,
-          13.95,
-          43.95
+          13.94,
+          43.92
         ]
       }
     },
     {
       "key": "lantern",
       "pos": 13,
-      "name": "Motor Lantern Housing",
+      "name": "Left Sandwich Motor Carrier",
       "file": "models/pla100_lantern.stl",
       "material": "EN AW-6082 T6",
-      "standard": "PLA-100-10-04 (NEMA 23)",
+      "standard": "PLA-100-10-04 (NEMA 23, 88 mm)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 1730,
-      "volume_cm3": 61.25,
-      "mass_g": 165.4,
+      "solids": 1,
+      "triangles": 3552,
+      "volume_cm3": 103.39,
+      "mass_g": 279.2,
       "bbox": {
         "min": [
           -64.0,
-          -32.0,
+          -44.0,
           0.0
         ],
         "max": [
           -24.0,
-          32.0,
+          44.0,
           60.0
         ]
       }
@@ -360,7 +385,8 @@
       "standard": "D25 L30 Zero-Backlash",
       "isCarriage": false,
       "rotAxis": true,
-      "triangles": 1168,
+      "solids": 2,
+      "triangles": 2078,
       "volume_cm3": 11.59,
       "mass_g": 31.3,
       "bbox": {
@@ -385,19 +411,20 @@
       "standard": "D25 6-Lobe Elastomer",
       "isCarriage": false,
       "rotAxis": true,
-      "triangles": 872,
+      "solids": 7,
+      "triangles": 1608,
       "volume_cm3": 0.67,
       "mass_g": 0.8,
       "bbox": {
         "min": [
           -46.2,
-          -10.12,
-          18.65
+          -11.35,
+          19.84
         ],
         "max": [
           -41.8,
-          10.12,
-          41.35
+          11.35,
+          40.16
         ]
       }
     },
@@ -410,7 +437,8 @@
       "standard": "NEMA 23 (56.4x56.4x56)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 1100,
+      "solids": 1,
+      "triangles": 1684,
       "volume_cm3": 166.21,
       "mass_g": 822.7,
       "bbox": {
@@ -435,7 +463,8 @@
       "standard": "\u00d810x6 Shore 70A",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 432,
+      "solids": 4,
+      "triangles": 800,
       "volume_cm3": 1.87,
       "mass_g": 2.3,
       "bbox": {
@@ -447,7 +476,7 @@
         "max": [
           239.95,
           37.0,
-          58.0
+          57.99
         ]
       }
     },
@@ -460,18 +489,19 @@
       "standard": "2x M8x1 Inductive (X=70/170)",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 1784,
-      "volume_cm3": 5.9,
-      "mass_g": 36.6,
+      "solids": 4,
+      "triangles": 3048,
+      "volume_cm3": 8.67,
+      "mass_g": 53.8,
       "bbox": {
         "min": [
-          62.0,
-          42.05,
+          51.0,
+          42.0,
           12.0
         ],
         "max": [
-          178.0,
-          56.0,
+          189.0,
+          58.0,
           42.0
         ]
       }
@@ -485,18 +515,19 @@
       "standard": "DIN EN 10130 (2 mm bent)",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 260,
-      "volume_cm3": 0.6,
-      "mass_g": 4.7,
+      "solids": 1,
+      "triangles": 448,
+      "volume_cm3": 0.72,
+      "mass_g": 5.7,
       "bbox": {
         "min": [
           -10.0,
-          48.05,
+          47.5,
           44.0
         ],
         "max": [
           10.0,
-          54.0,
+          56.5,
           56.0
         ]
       }
@@ -505,43 +536,51 @@
       "key": "fasteners_stator",
       "pos": 20,
       "name": "Stator Fasteners & Dowels",
-      "file": "models/pla100_fasteners_stator.stl",
       "material": "Steel 8.8 / A2-70",
-      "standard": "DIN 912 M3/M4/M5 + ISO 2338",
+      "standard": "DIN 912 M3-M6 + ISO 2338",
       "isCarriage": false,
       "rotAxis": false,
-      "triangles": 10584,
-      "volume_cm3": 12.42,
-      "mass_g": 97.5,
+      "solids": 42,
+      "triangles": 14808,
+      "volume_cm3": 17.6,
+      "mass_g": 138.2,
       "bbox": {
         "min": [
           -73.95,
-          -36.2,
+          -41.19,
           1.8
         ],
         "max": [
-          256.3,
-          49.75,
+          256.4,
+          51.8,
           57.77
         ]
-      }
+      },
+      "files": [
+        "models/pla100_fasteners_rails.stl",
+        "models/pla100_fasteners_fixed.stl",
+        "models/pla100_fasteners_float.stl",
+        "models/pla100_fasteners_sandwich.stl",
+        "models/pla100_fasteners_motor.stl",
+        "models/pla100_fasteners_sensors.stl"
+      ]
     },
     {
       "key": "fasteners_carriage",
       "pos": 21,
       "name": "Carriage Fasteners",
-      "file": "models/pla100_fasteners_carriage.stl",
       "material": "Steel 8.8 / A2-70",
       "standard": "DIN 912 M3/M4 (26 pcs)",
       "isCarriage": true,
       "rotAxis": false,
-      "triangles": 6296,
+      "solids": 26,
+      "triangles": 9208,
       "volume_cm3": 4.72,
       "mass_g": 37.1,
       "bbox": {
         "min": [
           -36.7,
-          -43.7,
+          -45.69,
           18.55
         ],
         "max": [
@@ -549,7 +588,12 @@
           52.6,
           57.5
         ]
-      }
+      },
+      "files": [
+        "models/pla100_fasteners_table.stl",
+        "models/pla100_fasteners_nut.stl",
+        "models/pla100_fasteners_flag.stl"
+      ]
     }
   ]
 }
