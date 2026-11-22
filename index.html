@@ -996,6 +996,85 @@
             </div>
           </article>
 
+          <!-- Project: Open-Source Car Models · 3D Plate Atlas -->
+          <article class="project-card" style="--card-accent:#ff7d61; --card-sec:#38bdf8;">
+            <div class="project-media has-art">
+              <div class="card-serial-strip">
+                <span class="serial-code">SIM-05 · AUTOMOTIVE ATLAS</span>
+                <span class="preview-badge" style="background: rgba(255, 125, 97, 0.16); color: #ff7d61; border-color: rgba(255, 125, 97, 0.55);">New · 6 3D Plates · Live</span>
+              </div>
+              <div class="art-scene" aria-hidden="true">
+                <svg viewBox="0 0 360 190" class="art-svg-bg">
+                  <defs>
+                    <radialGradient id="carAtlasGlow" cx="50%" cy="48%" r="58%">
+                      <stop offset="0%" stop-color="#ff7d61" stop-opacity="0.22"/>
+                      <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.11"/>
+                      <stop offset="100%" stop-color="#060a14" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="360" height="190" fill="url(#carAtlasGlow)"/>
+                  <!-- Ground & drafting grid baseline -->
+                  <line x1="34" y1="132" x2="326" y2="132" stroke="#7f8b9f" stroke-width="0.9" stroke-dasharray="6 4" opacity="0.55"/>
+                  <line x1="180" y1="26" x2="180" y2="144" stroke="#7f8b9f" stroke-width="0.7" stroke-dasharray="4 6" opacity="0.35"/>
+                  <!-- CFD airflow streamlines -->
+                  <path d="M40,94 C92,90 120,56 172,50 C226,44 264,58 318,74" fill="none" stroke="#38bdf8" stroke-width="1.25" stroke-dasharray="5 3" opacity="0.82"/>
+                  <path d="M36,108 C88,104 114,72 174,64 C232,58 268,72 322,88" fill="none" stroke="#38bdf8" stroke-width="1.0" opacity="0.48"/>
+                  <path d="M46,78 C102,72 132,38 182,36 C234,34 274,48 316,60" fill="none" stroke="#58b691" stroke-width="0.95" stroke-dasharray="3 4" opacity="0.55"/>
+                  <!-- Wireframe car silhouette -->
+                  <path d="M74,118 L86,98 L122,90 L156,70 L216,70 L254,90 L284,97 L292,118 L272,118 A20,20 0 0 0 232,118 L134,118 A20,20 0 0 0 94,118 Z" fill="rgba(255,125,97,0.10)" stroke="#e9edf5" stroke-width="1.75" stroke-linejoin="round"/>
+                  <!-- Cabin & structural FEM mesh ribs -->
+                  <path d="M132,90 L158,74 L212,74 L240,90 Z" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1.15"/>
+                  <line x1="184" y1="74" x2="184" y2="118" stroke="#a8b3c5" stroke-width="0.9" opacity="0.65"/>
+                  <line x1="122" y1="90" x2="254" y2="90" stroke="#ff7d61" stroke-width="0.9" stroke-dasharray="3 3" opacity="0.75"/>
+                  <!-- Wheels -->
+                  <circle cx="114" cy="118" r="14" fill="rgba(17,23,34,0.85)" stroke="#ff7d61" stroke-width="1.9"/>
+                  <circle cx="114" cy="118" r="5" fill="none" stroke="#e9edf5" stroke-width="1.1"/>
+                  <circle cx="252" cy="118" r="14" fill="rgba(17,23,34,0.85)" stroke="#ff7d61" stroke-width="1.9"/>
+                  <circle cx="252" cy="118" r="5" fill="none" stroke="#e9edf5" stroke-width="1.1"/>
+                  <!-- LiDAR roof dome + CAN / sensor nodes -->
+                  <rect x="176" y="62" width="16" height="7" rx="3" fill="#ff7d61" opacity="0.9"/>
+                  <path d="M192,65 L298,42 M192,65 L306,66" stroke="#ff7d61" stroke-width="0.95" stroke-dasharray="3 3" opacity="0.7"/>
+                  <circle cx="152" cy="103" r="3" fill="#58b691"/>
+                  <circle cx="212" cy="103" r="3" fill="#38bdf8"/>
+                  <line x1="152" y1="103" x2="212" y2="103" stroke="#58b691" stroke-width="1" stroke-dasharray="2 2"/>
+                  <text x="180" y="166" fill="#ff7d61" font-family="Iosevka Charon Mono, monospace" font-size="10" text-anchor="middle">6 PLATES · 44 VERIFIED MODELS · 3D ATLAS</text>
+                </svg>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="card-head-row">
+                <div>
+                  <h3 class="card-title" data-tab-title="Open-Source Car Models">Open-Source Car Models · 3D Plate Atlas</h3>
+                  <div class="card-kicker">Crash FEM, CFD Datasets, Vehicle CAD, CAN/DBC &amp; Open AD AI</div>
+                </div>
+                <span class="card-crest-gem" aria-hidden="true"></span>
+              </div>
+              <div class="card-tags">
+                <span class="tag">Three.js 3D</span>
+                <span class="tag">44 Verified Models</span>
+                <span class="tag">FEM / CFD / CAD</span>
+                <span class="tag">SVG Export</span>
+              </div>
+              <p class="card-text">
+                Interactive 3D plate atlas and engineering comparator spanning 6 automotive plates: NHTSA/CCSA crash FEMs (up to 3.24M elements), DrivAerML &amp; DrivAerNet++ CFD datasets (up to 39 TB), Chrono/CARLA/AWSIM vehicle dynamics, Vhélio/Tabby EVO/foxBMS 2 open hardware, openpilot/OVMS production CAN ecosystems, and NVIDIA Alpamayo 2 Super (34B) &amp; Autoware 2.0—with Guided Tour, Scale &amp; License Lab, and ISO 128 print SVG export.
+              </p>
+              <div class="card-metrics-strip">
+                <div class="metric-cell"><span>6 3D PLATES</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                <div class="metric-cell"><span>44 MODELS</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+                <div class="metric-cell"><span>10 TESTS</span><div class="m-track"><div class="m-fill" style="width:100%"></div></div></div>
+              </div>
+              <div class="card-actions">
+                <a href="https://xallace.github.io/open-source-car-models/" target="_blank" rel="noopener noreferrer" class="card-btn primary">
+                  <span>Open Live Atlas</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+                <a href="https://github.com/xallace/open-source-car-models" target="_blank" rel="noopener noreferrer" class="card-btn secondary">
+                  <span>Source Code</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
         </div>
 
         <!-- More Projects: Learning Apps, Tools, Experiments -->
