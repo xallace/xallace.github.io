@@ -1,0 +1,63 @@
+/* App-specific rules only. Tokens and components come from /design/xallace-ui.css. */
+
+/* ---------- video and current stop ---------- */
+.tour-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--draw-paper); }
+.now-strip { padding: 12px 14px 14px; border-top: 1px solid var(--border-soft); }
+.now-head { display: flex; justify-content: space-between; gap: 10px; }
+.now-stop, .now-clock { font-family: var(--font-small); font-size: 0.7rem; letter-spacing: 0.07em; color: var(--accent); text-transform: uppercase; }
+.now-clock { color: var(--text-dim); }
+.now-title { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; margin: 2px 0 4px; }
+.now-parts { font-family: var(--font-sub); font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+.now-text { font-family: var(--font-ui); font-size: 0.86rem; line-height: 1.5; color: var(--text-main); margin-bottom: 10px; }
+.now-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.now-nav .pill-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+.tour-note { font-family: var(--font-ui); font-size: 0.78rem; line-height: 1.5; color: var(--text-dim); margin: 2px 2px 12px; }
+
+/* ---------- chapter list ---------- */
+.chapter-panel { padding: 14px 12px; }
+.chapter-list { list-style: none; display: flex; flex-direction: column; gap: 4px; max-height: min(78vh, 860px); overflow-y: auto; padding-right: 4px; }
+.chapter-btn {
+  display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: center;
+  width: 100%; padding: 6px; text-align: left; cursor: pointer;
+  background: transparent; color: var(--text-main);
+  border: 1px solid transparent; border-radius: var(--radius-md);
+}
+.chapter-btn:hover { background: var(--bg-hover); border-color: var(--border); }
+.chapter-btn[aria-current] { background: var(--accent-soft); border-color: var(--accent-line); }
+.chapter-btn img { width: 112px; height: 63px; object-fit: cover; border-radius: 5px; display: block; }
+.ch-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ch-meta { display: flex; justify-content: space-between; gap: 6px; font-family: var(--font-small); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--text-dim); text-transform: uppercase; }
+.chapter-btn[aria-current] .ch-meta { color: var(--accent); }
+.ch-title { font-family: var(--font-sub); font-size: 0.84rem; font-weight: 600; }
+.ch-parts { font-family: var(--font-sub); font-size: 0.72rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- parts and making-of ---------- */
+.plate-img { display: block; width: 100%; height: auto; }
+.fig-caption { font-family: var(--font-ui); font-size: 0.8rem; line-height: 1.5; color: var(--text-muted); padding: 10px 14px 12px; }
+.bom-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.bom-table tr { border-bottom: 1px solid var(--border-soft); }
+.bom-table thead th { font-family: var(--font-small); font-size: 0.68rem; letter-spacing: 0.07em; color: var(--text-dim); text-transform: uppercase; text-align: left; padding: 0 8px 6px 0; }
+.bom-table tbody th { font-family: var(--font-sub); font-weight: 600; color: var(--accent); text-align: left; vertical-align: top; padding: 7px 10px 7px 0; white-space: nowrap; }
+.bom-table td { font-family: var(--font-ui); line-height: 1.45; padding: 7px 0; color: var(--text-main); }
+.plate-prose.small { font-size: 0.78rem; margin-bottom: 0; }
+.step-list { list-style: none; counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+.step-list li { counter-increment: step; position: relative; padding-left: 34px; font-family: var(--font-ui); font-size: 0.86rem; line-height: 1.55; color: var(--text-muted); }
+.step-list li::before {
+  content: counter(step); position: absolute; left: 0; top: 1px; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.78rem; color: var(--on-accent); background: var(--accent);
+}
+.step-list strong { font-family: var(--font-sub); color: var(--text-main); }
+.control-col .sources-footer-box a { word-break: break-word; }
+
+@media (max-width: 1060px) {
+  .chapter-list { max-height: 60vh; }
+}
+@media (max-width: 640px) {
+  .chapter-btn { grid-template-columns: 88px minmax(0, 1fr); }
+  .chapter-btn img { width: 88px; height: 50px; }
+  .bom-table tbody th { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-list { scroll-behavior: auto; }
+}

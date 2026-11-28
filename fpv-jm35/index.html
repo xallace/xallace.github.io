@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="ochre">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/fonts/xallace-type.css">
+  <link rel="stylesheet" href="/design/xallace-ui.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JM3.5 FPV Quad · CAD recreation and build tour</title>
+  <meta name="description" content="CAD recreation of a 3.5-inch FPV quadcopter (RotorBuilds build 37682) in FreeCAD and Autodesk Fusion, with a rendered 17-stop build tour." />
+  <meta property="og:title" content="JM3.5 FPV Quad · CAD recreation and build tour" />
+  <meta property="og:description" content="FreeCAD model, Fusion motion assembly and a rendered 17-stop build tour of a 3.5-inch FPV quad." />
+  <meta property="og:image" content="https://xallace.github.io/fpv-jm35/media/studio-render.jpg" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23111722%22/><path d=%22M30 30L70 70M70 30L30 70%22 stroke=%22%23ed864b%22 stroke-width=%227%22/><circle cx=%2230%22 cy=%2230%22 r=%2211%22 fill=%22none%22 stroke=%22%23ed864b%22 stroke-width=%225%22/><circle cx=%2270%22 cy=%2230%22 r=%2211%22 fill=%22none%22 stroke=%22%23ed864b%22 stroke-width=%225%22/><circle cx=%2230%22 cy=%2270%22 r=%2211%22 fill=%22none%22 stroke=%22%23ed864b%22 stroke-width=%225%22/><circle cx=%2270%22 cy=%2270%22 r=%2211%22 fill=%22none%22 stroke=%22%23ed864b%22 stroke-width=%225%22/></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="header-left">
+        <a href="https://xallace.github.io/#hero" class="pill-btn back-chip" title="Back to the portfolio">← Portfolio</a>
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 7l10 10M17 7L7 17"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>JM3.5 FPV Quad <span class="sub-tag">CAD RECREATION</span></h1>
+          <p class="source-ref">3.5-inch FPV quadcopter · FreeCAD 1.1 + Autodesk Fusion · after RotorBuilds build 37682</p>
+        </div>
+      </div>
+      <nav class="main-tabs" role="tablist" aria-label="Views">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="view-tour" data-view="tour">1 · Build tour</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="view-parts" data-view="parts">2 · Parts</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="view-making" data-view="making">3 · How it was made</button>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <!-- 1 · Build tour -->
+      <section class="view active" id="view-tour" role="tabpanel">
+        <div class="split-layout">
+          <div class="stage-col">
+            <div class="plate-card">
+              <div class="plate-card-head">
+                <span class="plate-fig-label">FIG. 1 · HOVER BUILD TOUR</span>
+                <span class="plate-fig-note">1:32 · 1920 × 1080 · 24 fps · no sound</span>
+              </div>
+              <video id="tour" class="tour-video" controls playsinline preload="metadata" poster="media/poster.jpg">
+                <source src="media/jm35-build-tour.mp4" type="video/mp4">
+                Your browser cannot play this video. <a href="media/jm35-build-tour.mp4">Download the MP4 (24.5 MB)</a>.
+              </video>
+              <div class="now-strip" aria-live="polite">
+                <div class="now-head">
+                  <span class="now-stop" id="now-stop">Overview</span>
+                  <span class="now-clock" id="now-clock">0:00</span>
+                </div>
+                <h2 class="now-title" id="now-title">Flight-style overview</h2>
+                <p class="now-parts" id="now-parts"></p>
+                <p class="now-text" id="now-text"></p>
+                <div class="now-nav">
+                  <button class="pill-btn" id="btn-prev" type="button">← Previous stop</button>
+                  <button class="pill-btn accent" id="btn-next" type="button">Next stop →</button>
+                </div>
+              </div>
+            </div>
+            <p class="tour-note">The airframe pitches and rolls gently above a fixed studio floor. Rotor speed is illustrative, not a measured flight state. Callouts appear once the camera has arrived at a stop.</p>
+          </div>
+
+          <aside class="control-col">
+            <div class="panel-card chapter-panel">
+              <div class="section-label">Stops · click to jump</div>
+              <ol class="chapter-list" id="chapters" aria-label="Tour chapters"></ol>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 2 · Parts -->
+      <section class="view" id="view-parts" role="tabpanel">
+        <div class="split-layout">
+          <div class="stage-col">
+            <div class="plate-card">
+              <div class="plate-card-head">
+                <span class="plate-fig-label">FIG. 2 · STUDIO RENDER, AUTODESK FUSION</span>
+                <span class="plate-fig-note">4S pack not installed</span>
+              </div>
+              <img class="plate-img" src="media/studio-render.jpg" width="1280" height="720" alt="Studio render of the JM3.5 quad: black carbon frame, orange TPU guards and GPS cradle, white motors, lime-green tri-blade propellers, DJI O4 camera in a carbon cage." loading="lazy">
+            </div>
+          </div>
+          <aside class="control-col">
+            <div class="panel-card">
+              <div class="control-section">
+                <div class="section-label">Parts in the model</div>
+                <div class="table-scroll">
+                  <table class="bom-table">
+                    <thead><tr><th>Group</th><th>Modelled as</th></tr></thead>
+                    <tbody>
+                      <tr><th>Frame</th><td>JM3.5 carbon frame: lower keel, forward saddle, slotted battery deck, 4 arms, spacers, camera cage with alloy crossbars</td></tr>
+                      <tr><th>TPU parts</th><td>Tip shoes ×4, GPS cradle, antenna carrier (orange, the builder's own designs)</td></tr>
+                      <tr><th>Motors</th><td>P1604 ×4: stator base, rotating bell, 4 flange screws each</td></tr>
+                      <tr><th>Propellers</th><td>Gemfan Hurricane 3520 tri-blade, 2 × CW + 2 × CCW, T-mount screws</td></tr>
+                      <tr><th>Flight control</th><td>JHEMCU GHF405AIO (flight controller + ESC) on isolators</td></tr>
+                      <tr><th>Video</th><td>DJI O4 Lite air unit and camera, Flywoo wide-angle lens, video antenna</td></tr>
+                      <tr><th>Receiver</th><td>SpeedyBee Nano 2.4 GHz ELRS with T antenna</td></tr>
+                      <tr><th>GNSS</th><td>SoloGood M10-180 GPS module</td></tr>
+                      <tr><th>Power</th><td>Ovonic 850 mAh 4S pack with strap, XT30 pigtail</td></tr>
+                      <tr><th>Wiring</th><td>Motor phase looms, camera, GPS and receiver leads</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="control-section">
+                <p class="plate-prose small">Part names follow the build listing and its description. Dimensions are estimated from the build photos; component envelopes and the TPU contours are approximate, not measured.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 3 · How it was made -->
+      <section class="view" id="view-making" role="tabpanel">
+        <div class="split-layout">
+          <div class="stage-col">
+            <article class="panel-card">
+              <h2 class="plate-heading large">From build photos to a rendered tour</h2>
+              <p class="plate-prose">The reference is a public build listing: photos and a parts list of a refurbished 3.5-inch quad. There were no drawings and no CAD data, so every part is a recreation from the photos and the named components.</p>
+              <ol class="step-list">
+                <li><strong>Reference.</strong> RotorBuilds build 37682, “3.5 inch ebay rescue” by chrismaddahl: JM3.5 frame, P1604 motors, DJI O4 Lite, ELRS receiver, M10 GPS and the builder's own TPU parts.</li>
+                <li><strong>FreeCAD 1.1, by an AI coding agent.</strong> An agent generated the base model by script: PartDesign bodies and sketches for the carbon parts, assembly containers per group (chassis, motors and propellers, avionics and power, TPU and hardware) and a build register sheet listing the components and fit checks. Axes: front is −Y, +Z is up.</li>
+                <li><strong>STEP to Autodesk Fusion.</strong> The reference modules went to Fusion as STEP.</li>
+                <li><strong>My work in Fusion.</strong> I checked the model, corrected the lens retaining ring (Fig. 3), set up the motion assembly and rendered the studio image and the build tour.</li>
+              </ol>
+            </article>
+          </div>
+          <aside class="control-col">
+            <div class="plate-card">
+              <div class="plate-card-head">
+                <span class="plate-fig-label">FIG. 3 · RETAINING RING AT 25° CAMERA TILT</span>
+                <span class="plate-fig-note">before · after</span>
+              </div>
+              <img class="plate-img" src="media/ring-fix.jpg" width="748" height="400" alt="Before and after at 25 degrees camera tilt: before, the lens retaining ring sits off-centre from the lens; after, ring and lens are coaxial." loading="lazy">
+              <p class="fig-caption">Before the fix the ring stayed in place while the camera tilted, so it sat off the lens axis. After the fix it moves with the camera and stays coaxial.</p>
+            </div>
+            <div class="sources-footer-box">
+              <strong>Sources and credits.</strong>
+              Build and photos: <a href="https://rotorbuilds.com/build/37682/" target="_blank" rel="noopener noreferrer">RotorBuilds build 37682</a> by chrismaddahl.
+              Frame design: JM3.5 by Riley Entropy. Orange TPU parts: designed by the builder.
+              This page shows my own model and renders only; no photos from the listing and no CAD files are published.
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Checks: <code>node tests/verify.mjs</code> (chapter data and media files, not the CAD geometry)</span>
+      <span>JM3.5 build tour · <a href="https://xallace.github.io" target="_blank" rel="noopener noreferrer">xallace.github.io</a></span>
+    </footer>
+  </div>
+
+  <script src="model.js"></script>
+  <script src="app.js"></script>
+  <script src="/fonts/xallace-type.js" defer></script>
+</body>
+</html>
